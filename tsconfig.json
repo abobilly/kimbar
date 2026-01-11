@@ -11,6 +11,12 @@
         "skipLibCheck": true,
         /* Bundler mode */
         "moduleResolution": "bundler",
+        /* Path aliases */
+        "baseUrl": "src",
+        "paths": {
+            "@content/*": ["content/*"],
+            "@game/*": ["game/*"]
+        },
         "allowImportingTsExtensions": true,
         "isolatedModules": true,
         "moduleDetection": "force",

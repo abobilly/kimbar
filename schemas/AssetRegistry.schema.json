@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "AssetRegistry.schema.json",
+  "title": "AssetRegistry",
+  "description": "Central registry of all game assets and their metadata",
+  "type": "object",
+  "required": ["tileSize", "entities", "outfits", "tags"],
+  "properties": {
+    "tileSize": {
+      "type": "integer",
+      "enum": [16, 32, 64],
+      "description": "Tile size in pixels (must be consistent)"
+    },
+    "scale": {
+      "type": "number",
+      "default": 1,
+      "description": "Global render scale"
+    },
+    "entities": {
+      "type": "object",
+      "description": "Entity type definitions",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["required"],
+        "properties": {
+          "required": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Required property names"
+          },
+          "optional": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Optional property names"
+          }
+        }
+      }
+    },
+    "outfits": {
+      "type": "object",
+      "description": "Available outfits with buffs",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["id", "name", "buffs"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sprite": {
+            "type": "string"
+          },
+          "buffs": {
+            "type": "object",
+            "properties": {
+              "hints": { "type": "integer", "minimum": 0, "maximum": 5 },
+              "strike": { "type": "integer", "minimum": 0, "maximum": 3 },
+              "extraTime": { "type": "integer", "minimum": 0, "maximum": 30 },
+              "skipCard": { "type": "boolean" },
+              "citationBonus": { "type": "integer", "minimum": 0, "maximum": 50 }
+            }
+          }
+        }
+      }
+    },
+    "tags": {
+      "type": "object",
+      "description": "Tag taxonomy for content organization",
+      "required": ["subjects"],
+      "properties": {
+        "subjects": {
+          "type": "array",
+          "description": "Bar exam subject tags (snake_case)",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "minItems": 1
+        },
+        "topicTags": {
+          "type": "array",
+          "description": "Finer-grained topic tags for filtering",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          }
+        }
+      }
+    },
+    "sprites": {
+      "type": "object",
+      "description": "Sprite definitions",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["atlas", "key"],
+        "properties": {
+          "atlas": { "type": "string" },
+          "key": { "type": "string" }
+        }
+      }
+    }
+  }
+}

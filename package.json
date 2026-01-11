@@ -1,7 +1,8 @@
 {
-    "name": "template-vite-ts",
-    "description": "A Phaser 3 TypeScript template using Vite.",
-    "version": "1.4.0",
+    "name": "kimbar",
+    "description": "Kim Bar - A flashcard battle adventure game for bar exam prep",
+    "version": "0.1.0",
+    "type": "module",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/phaserjs/template-vite-ts.git"
@@ -17,13 +18,27 @@
         "dev": "node log.js dev & vite --config vite/config.dev.mjs",
         "build": "node log.js build & vite build --config vite/config.prod.mjs",
         "dev-nolog": "vite --config vite/config.dev.mjs",
-        "build-nolog": "vite build --config vite/config.prod.mjs"
+        "build-nolog": "vite build --config vite/config.prod.mjs",
+        "build:chars": "node scripts/build-characters.js",
+        "build:levels": "node scripts/build-levels.js",
+        "build:content": "npm run build:chars && npm run build:levels",
+        "validate": "node scripts/validate.js",
+        "check-boundaries": "node scripts/check-boundaries.js",
+        "verify": "node scripts/verify.js",
+        "prebuild": "npm run validate",
+        "fetch-vendor": "node scripts/fetch-vendor.mjs",
+        "build:asset-index": "node scripts/build-asset-index.mjs",
+        "search:assets": "node scripts/search-assets.mjs",
+        "gen:sprites": "node scripts/generate-sprites.mjs"
     },
     "devDependencies": {
+        "sharp": "^0.34.5",
         "typescript": "~5.7.2",
         "vite": "^6.3.1"
     },
     "dependencies": {
+        "ajv": "^8.17.1",
+        "inkjs": "^2.3.2",
         "phaser": "^3.90.0",
         "terser": "^5.39.0"
     }

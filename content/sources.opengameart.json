@@ -1,0 +1,31 @@
+{
+  "$comment": "Curated sources for LPC assets - agent may propose additions",
+  "version": "1.0.0",
+  "sources": [
+    {
+      "id": "lpc-base",
+      "name": "LPC Base Assets",
+      "description": "Liberated Pixel Cup base asset pack - characters, tiles, props",
+      "url": "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles",
+      "downloadUrl": "https://opengameart.org/sites/default/files/lpc_base_assets.zip",
+      "indexUrl": "https://lpc.opengameart.org/static/lpc-style-guide/assets.html",
+      "license": "CC-BY-SA 3.0 / GPL 3.0",
+      "type": "zip",
+      "categories": ["characters", "tiles", "props"]
+    },
+    {
+      "id": "ulpc-generator",
+      "name": "Universal LPC Spritesheet Character Generator",
+      "description": "Web-based character generator with extensive layer library",
+      "url": "https://sanderfrenken.github.io/Universal-LPC-Spritesheet-Character-Generator/",
+      "repoUrl": "https://github.com/sanderfrenken/Universal-LPC-Spritesheet-Character-Generator",
+      "license": "CC-BY-SA 3.0 / GPL 3.0",
+      "type": "git",
+      "categories": ["characters", "layers"]
+    }
+  ],
+  "styleGuide": {
+    "url": "https://lpc.opengameart.org/static/lpc-style-guide/styleguide.html",
+    "assetDirectory": "https://lpc.opengameart.org/static/lpc-style-guide/assets.html"
+  }
+}

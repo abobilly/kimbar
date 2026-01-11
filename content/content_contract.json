@@ -1,0 +1,162 @@
+{
+  "$schema": "../schemas/content_contract.schema.json",
+  "version": "1.1.0",
+  
+  "tiles": {
+    "tileSize": 32,
+    "subTileSize": 16,
+    "allowedTilesetWidths": [128, 256, 512, 1024],
+    "allowedTilesetHeights": [128, 256, 512, 1024, 2048]
+  },
+  
+  "characters": {
+    "frameWidth": 64,
+    "frameHeight": 64,
+    "strictFrameSize": true,
+    "maxFrameSize": 64,
+    "oversizeAllowed": false,
+    "directions": ["down", "left", "right", "up"],
+    "requiredAnimations": [
+      "idle_down", "idle_left", "idle_right", "idle_up",
+      "walk_down", "walk_left", "walk_right", "walk_up"
+    ],
+    "allowedFrameCounts": {
+      "idle": 1,
+      "walk": 9
+    },
+    "anchor": "bottomCenter",
+    "boundingBoxes": {
+      "base": { "w": 32, "h": 48 },
+      "clothing": { "w": 48, "h": 64 }
+    },
+    "sheetRowOrder": ["back", "left", "front", "right"],
+    "directionMap": {
+      "up": "back",
+      "down": "front",
+      "left": "left",
+      "right": "right"
+    }
+  },
+  
+  "style": {
+    "lpc": {
+      "grid": {
+        "tileSize": 32,
+        "subTileSize": 16
+      },
+      "render": {
+        "cameraAngleDeg": 60,
+        "projection": "orthographic"
+      },
+      "lighting": {
+        "primary": "top",
+        "bias": "slight_left"
+      },
+      "shadows": {
+        "dropShadow": {
+          "hex": "#322125",
+          "opacity": 0.6
+        }
+      },
+      "pixel": {
+        "dithering": "disallow"
+      },
+      "outlines": {
+        "tilesAndProps": "no_pure_black",
+        "characters": "near_black_no_selective"
+      }
+    }
+  },
+  
+  "compositing": {
+    "layerOrder": [
+      "body",
+      "hair",
+      "shirt",
+      "pants",
+      "shoes",
+      "accessories",
+      "outerwear",
+      "held_item"
+    ]
+  },
+  
+  "naming": {
+    "patterns": {
+      "character": "^char\\.[a-z0-9_]+$",
+      "npc": "^npc\\.[a-z0-9_]+$",
+      "outfit": "^outfit\\.[a-z0-9_]+$",
+      "tile": "^tile\\.[a-z0-9_]+\\.[a-z0-9_]+$",
+      "prop": "^prop\\.[a-z0-9_]+$",
+      "room": "^room\\.[a-z0-9_]+$"
+    },
+    "fileNaming": "snake_case",
+    "tagFormat": "snake_case"
+  },
+  
+  "tags": {
+    "subjects": [
+      "agency",
+      "business_associations",
+      "civil_procedure",
+      "community_property",
+      "conflict_of_laws",
+      "constitutional_law",
+      "contracts",
+      "criminal_law",
+      "criminal_procedure",
+      "evidence",
+      "family_law",
+      "federal_income_tax",
+      "oil_gas",
+      "property",
+      "torts",
+      "trusts_and_estates"
+    ],
+    "topicTags": []
+  },
+  
+  "agentBoundaries": {
+    "editable": [
+      "content/",
+      "docs/",
+      "scripts/",
+      "src/content/",
+      "src/game/"
+    ],
+    "forbidden": [
+      "generated/",
+      "vendor/",
+      "node_modules/",
+      "public/content/art/"
+    ],
+    "forbiddenNote": "Humans/agents must not hand-edit forbidden paths. Build scripts may write there.",
+    "enforcementMethod": "git-diff-tracked-only",
+    "requireValidation": [
+      "content/**/*.json",
+      "public/content/registry.json"
+    ]
+  },
+  
+  "ldtk": {
+    "requiredEntityFields": {
+      "PlayerSpawn": ["x", "y"],
+      "NPC": ["x", "y", "inkKnot"],
+      "EncounterTrigger": ["x", "y", "deckTag", "count"],
+      "Door": ["x", "y", "targetLevel"],
+      "OutfitChest": ["x", "y", "outfitId"]
+    },
+    "optionalEntityFields": {
+      "NPC": ["sprite", "name"],
+      "EncounterTrigger": ["rewardId"],
+      "Door": ["locked", "requiredItem"]
+    }
+  },
+  
+  "policySkips": {
+    "flashcards": {
+      "skipIdPrefixes": ["mpt-"],
+      "reason": "MPT cards excluded from game deck - different format"
+    }
+  }
+}

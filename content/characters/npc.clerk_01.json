@@ -1,0 +1,31 @@
+{
+  "$schema": "../../schemas/CharacterSpec.schema.json",
+  "id": "npc.clerk_01",
+  "name": "Court Clerk",
+  "description": "The helpful clerk at the Supreme Court entrance",
+  
+  "ulpcArgs": {
+    "body": "male",
+    "skin": "light",
+    "hair": "short",
+    "hairColor": "brown",
+    "torso": "formal_white",
+    "legs": "slacks_black",
+    "feet": "dress_black"
+  },
+  
+  "animations": [
+    "idle_down", "idle_left", "idle_right", "idle_up",
+    "walk_down", "walk_left", "walk_right", "walk_up"
+  ],
+  
+  "dialogueKnot": "court_clerk_intro",
+  
+  "variants": [],
+  
+  "metadata": {
+    "role": "tutorial_npc",
+    "location": "scotus_lobby",
+    "subjects": ["civil_procedure"]
+  }
+}

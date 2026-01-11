@@ -1,0 +1,42 @@
+{
+  "$schema": "../../schemas/CharacterSpec.schema.json",
+  "id": "char.kim",
+  "name": "Kim",
+  "description": "Our protagonist - aspiring lawyer turned Supreme Court champion",
+  "ulpcArgs": {
+    "body": "female",
+    "skin": "olive",
+    "hair": "long_straight",
+    "hairColor": "black",
+    "eyes": "brown",
+    "torso": "formal_blouse",
+    "legs": "pencil_skirt",
+    "feet": "heels"
+  },
+  "animations": [
+    "idle_down", "idle_up", "idle_left", "idle_right",
+    "walk_down", "walk_up", "walk_left", "walk_right"
+  ],
+  "scale": 1,
+  "variants": [
+    {
+      "variantId": "blazer",
+      "ulpcOverrides": {
+        "torso": "blazer"
+      }
+    },
+    {
+      "variantId": "power_suit",
+      "ulpcOverrides": {
+        "torso": "power_jacket",
+        "legs": "dress_pants"
+      }
+    },
+    {
+      "variantId": "robe",
+      "ulpcOverrides": {
+        "torso": "judicial_robe"
+      }
+    }
+  ]
+}

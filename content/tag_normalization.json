@@ -1,0 +1,72 @@
+{
+  "$comment": "Maps various tag formats to canonical snake_case subjects",
+  "rules": {
+    "lowercase": true,
+    "stripPunctuation": true,
+    "trimWhitespace": true,
+    "replaceHyphens": "_",
+    "replaceSpaces": "_"
+  },
+  "synonyms": {
+    "civpro": "civil_procedure",
+    "civ_pro": "civil_procedure",
+    "civ-pro": "civil_procedure",
+    "civil-procedure": "civil_procedure",
+    "civil procedure": "civil_procedure",
+    
+    "conlaw": "constitutional_law",
+    "con_law": "constitutional_law",
+    "con-law": "constitutional_law",
+    "constitutional-law": "constitutional_law",
+    "constitutional law": "constitutional_law",
+    
+    "crimlaw": "criminal_law",
+    "crim_law": "criminal_law",
+    "crim-law": "criminal_law",
+    "criminal-law": "criminal_law",
+    "criminal law": "criminal_law",
+    
+    "crimpro": "criminal_procedure",
+    "crim_pro": "criminal_procedure",
+    "crim-pro": "criminal_procedure",
+    "criminal-procedure": "criminal_procedure",
+    "criminal procedure": "criminal_procedure",
+    
+    "bus_assoc": "business_associations",
+    "business-associations": "business_associations",
+    "business associations": "business_associations",
+    "corps": "business_associations",
+    "corporations": "business_associations",
+    
+    "trusts_estates": "trusts_and_estates",
+    "trusts-and-estates": "trusts_and_estates",
+    "trusts and estates": "trusts_and_estates",
+    "wills": "trusts_and_estates",
+    "wills_trusts": "trusts_and_estates",
+    
+    "conflict_of_laws": "conflict_of_laws",
+    "conflicts": "conflict_of_laws",
+    "conflict-of-laws": "conflict_of_laws",
+    
+    "community_property": "community_property",
+    "community-property": "community_property",
+    "comm_prop": "community_property",
+    
+    "family_law": "family_law",
+    "family-law": "family_law",
+    "fam_law": "family_law",
+    
+    "federal_income_tax": "federal_income_tax",
+    "federal-income-tax": "federal_income_tax",
+    "tax": "federal_income_tax",
+    "income_tax": "federal_income_tax",
+    
+    "oil_gas": "oil_gas",
+    "oil-gas": "oil_gas",
+    "oil_and_gas": "oil_gas",
+    "oil-and-gas": "oil_gas",
+    
+    "real_property": "property",
+    "real-property": "property"
+  }
+}

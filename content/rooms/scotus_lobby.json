@@ -1,0 +1,71 @@
+{
+  "$schema": "../../schemas/RoomSpec.schema.json",
+  "id": "scotus_lobby",
+  "name": "Supreme Court Lobby",
+  "description": "The grand entrance hall of the Supreme Court building",
+  "width": 20,
+  "height": 15,
+  "tileset": "courthouse",
+  "background": "#1a1a2e",
+  "music": "lobby_ambient",
+  "entities": [
+    {
+      "type": "PlayerSpawn",
+      "x": 10,
+      "y": 13,
+      "id": "spawn_main"
+    },
+    {
+      "type": "NPC",
+      "x": 5,
+      "y": 7,
+      "id": "npc_clerk",
+      "properties": {
+        "name": "Court Clerk",
+        "inkKnot": "court_clerk_intro",
+        "sprite": "npc.clerk"
+      }
+    },
+    {
+      "type": "EncounterTrigger",
+      "x": 15,
+      "y": 7,
+      "id": "encounter_thomas",
+      "properties": {
+        "justiceId": "justice_thomas",
+        "name": "Justice Thomas",
+        "deckTag": "evidence",
+        "count": 3,
+        "rewardId": "evidence_blazer"
+      }
+    },
+    {
+      "type": "OutfitChest",
+      "x": 18,
+      "y": 12,
+      "id": "chest_starter",
+      "properties": {
+        "outfitId": "civpro_suit"
+      }
+    },
+    {
+      "type": "Door",
+      "x": 10,
+      "y": 1,
+      "id": "door_courtroom",
+      "properties": {
+        "targetLevel": "courtroom_main",
+        "locked": true,
+        "requiredItem": "all_justice_victories"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "direction": "north",
+      "targetRoom": "courtroom_main",
+      "locked": true,
+      "requiredItem": "all_justice_victories"
+    }
+  ]
+}

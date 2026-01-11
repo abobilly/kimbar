@@ -1,4 +1,8 @@
 import { defineConfig } from 'vite';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const phasermsg = () => {
     return {
@@ -36,6 +40,12 @@ export default defineConfig({
             format: {
                 comments: false
             }
+        }
+    },
+    resolve: {
+        alias: {
+            '@content': path.resolve(__dirname, '../src/content'),
+            '@game': path.resolve(__dirname, '../src/game')
         }
     },
     server: {

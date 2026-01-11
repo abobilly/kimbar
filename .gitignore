@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Generated outputs (never commit)
+generated/*
+!generated/README.md
+
+# Vendor assets (downloaded on demand, except README)
+vendor/**
+!vendor/lpc/
+!vendor/lpc/README.md

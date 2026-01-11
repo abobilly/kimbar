@@ -1,0 +1,25 @@
+{
+  "inkVersion": 21,
+  "root": [
+    ["^Welcome to the Supreme Court, counselor.", "\n", ["ev", "str", "^clerk_intro", "/str", "/ev", {"*": ".^.c-0", "flg": 20}, {"c-0": ["\n", {"->": "clerk_intro"}]}], {"#n": "g-0"}],
+    ["done", {"#n": "g-1"}],
+    null
+  ],
+  "listDefs": {},
+  "clerk_intro": [
+    ["^The Court Clerk adjusts her glasses and looks you over.", "\n", "^\"You must be here about the... situation. The Justices have changed. Something dark has taken hold of them.\"", "\n", "^\"To restore order, you'll need to prove your legal knowledge. Each Justice guards a chamber filled with bar exam challenges.\"", "\n", 
+      ["ev", "str", "^\"I'm ready. Tell me more.\"", "/str", "/ev", {"*": ".^.c-0", "flg": 20}, {"c-0": ["\n", "^\"Brave words. Start with the Evidence Wing - Justice Hearsay awaits. Answer correctly, and you'll earn outfits that grant special powers.\"", "\n", "->", "done", "\n"]}],
+      ["ev", "str", "^\"This sounds dangerous...\"", "/str", "/ev", {"*": ".^.c-1", "flg": 20}, {"c-1": ["\n", "^\"It is. But someone must restore justice to... Justice. Good luck, counselor.\"", "\n", "->", "done", "\n"]}],
+      {"#n": "g-0"}
+    ],
+    null
+  ],
+  "court_clerk_intro": [
+    ["^The Court Clerk greets you warmly.", "\n", "^\"Welcome to the Supreme Court! I'm here to help you navigate the halls of justice.\"", "\n", "^\"The Justices await your legal challenges. Are you prepared?\"", "\n", 
+      ["ev", "str", "^\"Yes, I'm ready!\"", "/str", "/ev", {"*": ".^.c-0", "flg": 20}, {"c-0": ["\n", "^\"Excellent! Head through the main doors to begin your journey.\"", "\n", "->", "done", "\n"]}],
+      ["ev", "str", "^\"Not quite yet.\"", "/str", "/ev", {"*": ".^.c-1", "flg": 20}, {"c-1": ["\n", "^\"Take your time. I'll be here when you're ready.\"", "\n", "->", "done", "\n"]}],
+      {"#n": "g-0"}
+    ],
+    null
+  ]
+}

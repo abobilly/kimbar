@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "RoomSpec.schema.json",
+  "title": "RoomSpec",
+  "description": "Specification for generating a level/room in the game",
+  "type": "object",
+  "required": ["id", "name", "width", "height", "tileset", "entities"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_.]+$",
+      "description": "Unique identifier for this room (lowercase, underscores, dots allowed)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name for the room"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description for context"
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 5,
+      "maximum": 50,
+      "description": "Room width in tiles (32px each)"
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 5,
+      "maximum": 50,
+      "description": "Room height in tiles (32px each)"
+    },
+    "tileset": {
+      "type": "string",
+      "description": "Tileset ID to use for this room"
+    },
+    "background": {
+      "type": "string",
+      "description": "Background color or image"
+    },
+    "music": {
+      "type": "string",
+      "description": "Background music track ID"
+    },
+    "entities": {
+      "type": "array",
+      "description": "All entities in the room",
+      "items": {
+        "type": "object",
+        "required": ["type", "x", "y"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["PlayerSpawn", "NPC", "EncounterTrigger", "Door", "OutfitChest", "Prop"],
+            "description": "Entity type (must match registry.json entities)"
+          },
+          "x": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "X position in tiles"
+          },
+          "y": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Y position in tiles"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique ID for this entity instance"
+          },
+          "properties": {
+            "type": "object",
+            "description": "Entity-specific properties",
+            "properties": {
+              "inkKnot": {
+                "type": "string",
+                "description": "Ink story knot name for NPC dialogue"
+              },
+              "name": {
+                "type": "string",
+                "description": "Display name for NPC"
+              },
+              "sprite": {
+                "type": "string",
+                "description": "Sprite key override"
+              },
+              "deckTag": {
+                "type": "string",
+                "description": "Flashcard deck tag for encounters"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10,
+                "description": "Number of flashcards in encounter"
+              },
+              "rewardId": {
+                "type": "string",
+                "description": "Outfit ID to reward on victory"
+              },
+              "targetLevel": {
+                "type": "string",
+                "description": "Level ID for door destination"
+              },
+              "outfitId": {
+                "type": "string",
+                "description": "Outfit ID in chest"
+              },
+              "justiceId": {
+                "type": "string",
+                "description": "Which justice this encounter represents"
+              }
+            }
+          }
+        }
+      }
+    },
+    "connections": {
+      "type": "array",
+      "description": "Connections to other rooms",
+      "items": {
+        "type": "object",
+        "required": ["direction", "targetRoom"],
+        "properties": {
+          "direction": {
+            "type": "string",
+            "enum": ["north", "south", "east", "west"]
+          },
+          "targetRoom": {
+            "type": "string",
+            "description": "Room ID to connect to"
+          },
+          "locked": {
+            "type": "boolean",
+            "default": false
+          },
+          "requiredItem": {
+            "type": "string",
+            "description": "Item needed to unlock"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "$schema": "../../schemas/RoomSpec.schema.json",
+  "id": "room.scotus_hall_01",
+  "name": "Supreme Court Hall",
+  "description": "The main hallway of the Supreme Court",
+  
+  "width": 20,
+  "height": 15,
+  "tileSize": 32,
+  
+  "tileset": "tile.scotus.marble",
+  
+  "layers": {
+    "floor": "auto",
+    "walls": "auto",
+    "decor": "manual"
+  },
+  
+  "entities": [
+    {
+      "type": "PlayerSpawn",
+      "x": 5,
+      "y": 12,
+      "properties": {}
+    },
+    {
+      "type": "NPC",
+      "x": 10,
+      "y": 8,
+      "properties": {
+        "sprite": "npc.clerk",
+        "name": "Court Clerk",
+        "inkKnot": "court_clerk_intro"
+      }
+    },
+    {
+      "type": "EncounterTrigger",
+      "x": 15,
+      "y": 5,
+      "properties": {
+        "deckTag": "civil_procedure",
+        "count": 3,
+        "rewardId": "civpro_suit"
+      }
+    },
+    {
+      "type": "OutfitChest",
+      "x": 3,
+      "y": 3,
+      "properties": {
+        "outfitId": "evidence_blazer"
+      }
+    },
+    {
+      "type": "Door",
+      "x": 10,
+      "y": 1,
+      "properties": {
+        "targetLevel": "room.scotus_courtroom",
+        "locked": true,
+        "requiredItem": "clerk_key"
+      }
+    }
+  ],
+  
+  "connections": [
+    {
+      "direction": "south",
+      "targetRoom": "room.scotus_lobby",
+      "x": 10,
+      "y": 14
+    },
+    {
+      "direction": "north",
+      "targetRoom": "room.scotus_courtroom",
+      "x": 10,
+      "y": 1,
+      "locked": true
+    }
+  ],
+  
+  "metadata": {
+    "theme": "marble",
+    "lighting": "bright",
+    "ambientSound": "courthouse_echo"
+  }
+}

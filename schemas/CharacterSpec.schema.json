@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "CharacterSpec.schema.json",
+  "title": "CharacterSpec",
+  "description": "Specification for generating a character sprite sheet using ULPC generator",
+  "type": "object",
+  "required": ["id", "name", "ulpcArgs", "animations"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_.]+$",
+      "description": "Unique identifier for this character (lowercase, underscores, dots allowed)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name for the character"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of the character"
+    },
+    "ulpcArgs": {
+      "type": "object",
+      "description": "Arguments passed to ULPC cli.js",
+      "required": ["body"],
+      "properties": {
+        "body": {
+          "type": "string",
+          "enum": ["male", "female", "muscular", "child", "pregnant"],
+          "description": "Base body type"
+        },
+        "skin": {
+          "type": "string",
+          "description": "Skin tone variant"
+        },
+        "hair": {
+          "type": "string",
+          "description": "Hair style"
+        },
+        "hairColor": {
+          "type": "string",
+          "description": "Hair color"
+        },
+        "eyes": {
+          "type": "string",
+          "description": "Eye style"
+        },
+        "nose": {
+          "type": "string",
+          "description": "Nose style"
+        },
+        "ears": {
+          "type": "string",
+          "description": "Ear style"
+        },
+        "torso": {
+          "type": "string",
+          "description": "Torso/shirt clothing"
+        },
+        "legs": {
+          "type": "string",
+          "description": "Leg/pants clothing"
+        },
+        "feet": {
+          "type": "string",
+          "description": "Footwear"
+        },
+        "hands": {
+          "type": "string",
+          "description": "Hand accessories (gloves, etc)"
+        },
+        "accessory": {
+          "type": "string",
+          "description": "Accessories (glasses, jewelry, etc)"
+        }
+      }
+    },
+    "animations": {
+      "type": "array",
+      "description": "Which animations to extract from the sheet",
+      "items": {
+        "type": "string",
+        "enum": [
+          "idle_down", "idle_up", "idle_left", "idle_right",
+          "walk_down", "walk_up", "walk_left", "walk_right",
+          "cast_down", "cast_up", "cast_left", "cast_right",
+          "thrust_down", "thrust_up", "thrust_left", "thrust_right",
+          "slash_down", "slash_up", "slash_left", "slash_right",
+          "shoot_down", "shoot_up", "shoot_left", "shoot_right",
+          "hurt", "climb"
+        ]
+      },
+      "minItems": 1
+    },
+    "scale": {
+      "type": "number",
+      "default": 1,
+      "minimum": 0.5,
+      "maximum": 4,
+      "description": "Scale multiplier for output"
+    },
+    "variants": {
+      "type": "array",
+      "description": "Outfit variants (for the same character with different clothes)",
+      "items": {
+        "type": "object",
+        "required": ["variantId", "ulpcOverrides"],
+        "properties": {
+          "variantId": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_.]+$"
+          },
+          "ulpcOverrides": {
+            "type": "object",
+            "description": "ULPC args that differ from base"
+          }
+        }
+      }
+    }
+  }
+}
