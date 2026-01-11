@@ -26,6 +26,10 @@ dist-ssr
 # Generated outputs (never commit)
 generated/*
 !generated/README.md
+public/generated/**
+
+# Local environment
+.env.local
 
 # Vendor assets (downloaded on demand, except README)
 vendor/**

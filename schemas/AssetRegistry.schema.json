@@ -95,10 +95,33 @@
       "description": "Sprite definitions",
       "additionalProperties": {
         "type": "object",
-        "required": ["atlas", "key"],
+        "required": ["key", "url"],
         "properties": {
-          "atlas": { "type": "string" },
-          "key": { "type": "string" }
+          "atlas": { "type": "string", "description": "Atlas/spritesheet key for Phaser" },
+          "key": { "type": "string", "description": "Texture key for Phaser" },
+          "url": { "type": "string", "description": "Runtime URL for Phaser loader" },
+          "portraitUrl": { "type": "string", "description": "Portrait image URL for dialogue UI" },
+          "frameWidth": { "type": "integer", "minimum": 1, "description": "Frame width for spritesheets" },
+          "frameHeight": { "type": "integer", "minimum": 1, "description": "Frame height for spritesheets" },
+          "kind": { 
+            "type": "string", 
+            "enum": ["image", "spritesheet", "atlas"],
+            "default": "spritesheet",
+            "description": "Asset type for loader selection"
+          }
+        }
+      }
+    },
+    "characters": {
+      "type": "array",
+      "description": "Compiled character definitions",
+      "items": {
+        "type": "object",
+        "required": ["id", "spriteKey"],
+        "properties": {
+          "id": { "type": "string", "description": "Character ID matching spec filename" },
+          "specUrl": { "type": "string", "description": "URL to compiled character spec JSON" },
+          "spriteKey": { "type": "string", "description": "Key into sprites object" }
         }
       }
     }

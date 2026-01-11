@@ -1,13 +1,25 @@
 // Content Registry Loader
 import { GameState, DEFAULT_GAME_STATE, Flashcard, Outfit } from './types';
 
+export interface SpriteEntry {
+  url: string;
+  portraitUrl?: string;
+  frameWidth?: number;
+  frameHeight?: number;
+  kind?: 'spritesheet' | 'image' | 'atlas';
+  // Legacy fields for backwards compat
+  atlas?: string;
+  key?: string;
+}
+
 export interface Registry {
   tileSize: number;
   scale: number;
   entities: Record<string, { required: string[]; optional?: string[] }>;
   outfits: Record<string, Outfit>;
   deckTags: string[];
-  sprites: Record<string, { atlas: string; key: string }>;
+  sprites: Record<string, SpriteEntry>;
+  characters?: Array<{ id: string; name: string; spriteKey: string }>;
 }
 
 let registry: Registry | null = null;
@@ -17,7 +29,7 @@ let gameState: GameState = { ...DEFAULT_GAME_STATE };
 export async function loadRegistry(): Promise<Registry> {
   if (registry) return registry;
   
-  const response = await fetch('/content/registry.json');
+  const response = await fetch('/generated/registry.json');
   registry = await response.json();
   return registry!;
 }

@@ -68,13 +68,20 @@ export class DialogueSystem {
     ).setStrokeStyle(3, 0x4a90a4);
     this.container.add(bg);
 
-    // Speaker name plate
-    const namePlate = this.scene.add.rectangle(100, boxY + 10, 160, 30, 0x2a4858)
+    // Portrait placeholder (will be updated when speaker changes)
+    const portrait = this.scene.add.image(50, boxY + 50, '__DEFAULT');
+    portrait.setName('portrait');
+    portrait.setOrigin(0.5, 0.5);
+    portrait.setVisible(false);
+    this.container.add(portrait);
+
+    // Speaker name plate (shifted right to accommodate portrait)
+    const namePlate = this.scene.add.rectangle(140, boxY + 10, 160, 30, 0x2a4858)
       .setStrokeStyle(2, 0xFFD700);
     namePlate.setName('namePlate');
     this.container.add(namePlate);
 
-    const nameText = this.scene.add.text(100, boxY + 10, '', {
+    const nameText = this.scene.add.text(140, boxY + 10, '', {
       fontSize: '16px',
       color: '#FFD700',
       fontStyle: 'bold'
@@ -138,13 +145,32 @@ export class DialogueSystem {
       }
     }
 
-    // Update speaker name
+    // Update speaker name and portrait
     const nameText = this.container.getByName('nameText') as Phaser.GameObjects.Text;
     const namePlate = this.container.getByName('namePlate') as Phaser.GameObjects.Rectangle;
+    const portrait = this.container.getByName('portrait') as Phaser.GameObjects.Image;
+    
     if (nameText && namePlate) {
       nameText.setText(speaker);
       namePlate.setVisible(speaker.length > 0);
       nameText.setVisible(speaker.length > 0);
+    }
+    
+    // Try to show portrait for speaker
+    if (portrait) {
+      // Map speaker name to portrait key (e.g., "Court Clerk" -> "portrait.npc.clerk_01")
+      const speakerPortraitMap: Record<string, string> = {
+        'Court Clerk': 'portrait.npc.clerk_01',
+        'Kim': 'portrait.char.kim'
+      };
+      
+      const portraitKey = speakerPortraitMap[speaker];
+      if (portraitKey && this.scene.textures.exists(portraitKey)) {
+        portrait.setTexture(portraitKey);
+        portrait.setVisible(true);
+      } else {
+        portrait.setVisible(false);
+      }
     }
 
     // Update dialogue text with typewriter effect

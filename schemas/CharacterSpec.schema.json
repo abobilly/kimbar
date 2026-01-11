@@ -92,6 +92,32 @@
       },
       "minItems": 1
     },
+    "anims": {
+      "type": "object",
+      "description": "Phaser animation configs with absolute frame indices (optional - derived from ULPC layout if omitted)",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["frames", "frameRate"],
+        "properties": {
+          "frames": {
+            "type": "array",
+            "items": { "type": "integer", "minimum": 0 },
+            "description": "Absolute frame indices in the spritesheet"
+          },
+          "frameRate": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 60,
+            "description": "Frames per second"
+          },
+          "repeat": {
+            "type": "integer",
+            "default": -1,
+            "description": "-1 for infinite loop, 0 for once, N for N repeats"
+          }
+        }
+      }
+    },
     "scale": {
       "type": "number",
       "default": 1,

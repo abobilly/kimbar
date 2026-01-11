@@ -9,12 +9,13 @@ export class Boot extends Scene
 
     preload ()
     {
-        //  Boot Scene - minimal loading for preloader assets
-        //  No external images needed for Kim Bar - using procedural graphics
+        // Load registry for dynamic asset discovery
+        this.load.json('registry', '/generated/registry.json');
     }
 
     create ()
     {
-        this.scene.start('Preloader');
+        const registry = this.cache.json.get('registry');
+        this.scene.start('Preloader', { registry });
     }
 }

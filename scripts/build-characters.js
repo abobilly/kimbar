@@ -1,6 +1,13 @@
 #!/usr/bin/env node
 /**
- * Build Characters - Reads character specs and generates sprite sheets using ULPC
+ * Build Characters - Compiles character specs and generates registry.json
+ * 
+ * This script:
+ * - Reads character specs from content/characters/
+ * - Copies compiled specs to generated/characters/
+ * - Generates generated/registry.json with sprite/character entries
+ * 
+ * PNG generation is handled by gen:sprites (generate-sprites.mjs)
  * 
  * Usage: node scripts/build-characters.js [--character=<id>]
  */
@@ -8,11 +15,11 @@
 import { readdir, readFile, writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join, basename } from 'path';
-import { spawn } from 'child_process';
 
 const CONTENT_DIR = './content/characters';
-const OUTPUT_DIR = './public/assets/chars';
-const ULPCG_CLI = './tools/ulpcg/cli.js';
+const GENERATED_DIR = './generated';
+const CHARS_OUTPUT_DIR = './generated/characters';
+const BASE_REGISTRY_PATH = './public/content/registry.json';
 
 async function loadCharacterSpecs() {
   const specs = [];
@@ -38,83 +45,69 @@ async function loadCharacterSpecs() {
   return specs;
 }
 
-function buildUlpcArgs(ulpcArgs) {
-  const args = [];
-  
-  for (const [key, value] of Object.entries(ulpcArgs)) {
-    if (value !== null && value !== undefined && value !== '') {
-      args.push(`--${key}=${value}`);
-    }
-  }
-  
-  return args;
-}
-
-async function runUlpcGenerator(outputPath, ulpcArgs) {
-  return new Promise((resolve, reject) => {
-    const args = [ULPCG_CLI, outputPath, ...buildUlpcArgs(ulpcArgs)];
-    
-    console.log(`  Running: node ${args.join(' ')}`);
-    
-    const proc = spawn('node', args, { stdio: 'inherit' });
-    
-    proc.on('close', (code) => {
-      if (code === 0) {
-        resolve();
-      } else {
-        reject(new Error(`ULPC generator exited with code ${code}`));
-      }
-    });
-    
-    proc.on('error', reject);
-  });
-}
-
-async function buildCharacter(file, spec) {
-  console.log(`\n🎨 Building character: ${spec.id} (${spec.name})`);
-  
-  // Ensure output directory exists
-  await mkdir(OUTPUT_DIR, { recursive: true });
-  
-  // Build base character
-  const outputPath = join(OUTPUT_DIR, `${spec.id}.png`);
-  
+async function loadBaseRegistry() {
   try {
-    await runUlpcGenerator(outputPath, spec.ulpcArgs);
-    console.log(`  ✅ Generated: ${outputPath}`);
+    const content = await readFile(BASE_REGISTRY_PATH, 'utf-8');
+    return JSON.parse(content);
   } catch (e) {
-    console.error(`  ❌ Failed: ${e.message}`);
-    return false;
+    console.warn(`⚠️ Base registry not found at ${BASE_REGISTRY_PATH}, creating new`);
+    return {
+      tileSize: 32,
+      scale: 2,
+      entities: {},
+      outfits: {},
+      tags: { subjects: [], topicTags: [] },
+      sprites: {},
+      characters: []
+    };
   }
+}
+
+async function compileCharacter(file, spec) {
+  const charId = spec.id || basename(file, '.json');
+  console.log(`  📋 Compiling: ${charId} (${spec.name || 'unnamed'})`);
   
-  // Build variants if any
-  if (spec.variants && spec.variants.length > 0) {
-    for (const variant of spec.variants) {
-      const variantArgs = { ...spec.ulpcArgs, ...variant.ulpcOverrides };
-      const variantPath = join(OUTPUT_DIR, `${spec.id}_${variant.variantId}.png`);
-      
-      try {
-        await runUlpcGenerator(variantPath, variantArgs);
-        console.log(`  ✅ Generated variant: ${variantPath}`);
-      } catch (e) {
-        console.error(`  ❌ Variant failed: ${e.message}`);
-      }
-    }
-  }
+  // Compiled spec includes original data plus derived fields
+  const compiled = {
+    ...spec,
+    id: charId,
+    compiledAt: new Date().toISOString()
+  };
   
-  return true;
+  // Write compiled spec
+  const outputPath = join(CHARS_OUTPUT_DIR, `${charId}.json`);
+  await writeFile(outputPath, JSON.stringify(compiled, null, 2));
+  console.log(`    ✅ Wrote: ${outputPath}`);
+  
+  return {
+    id: charId,
+    spec: compiled
+  };
+}
+
+function buildSpriteEntry(charId) {
+  return {
+    key: charId,
+    atlas: charId,
+    url: `/generated/sprites/${charId}.png`,
+    portraitUrl: `/generated/portraits/${charId}.png`,
+    frameWidth: 64,
+    frameHeight: 64,
+    kind: 'spritesheet'
+  };
+}
+
+function buildCharacterEntry(charId) {
+  return {
+    id: charId,
+    specUrl: `/generated/characters/${charId}.json`,
+    spriteKey: charId
+  };
 }
 
 async function main() {
-  console.log('🎭 Kim Bar Character Builder\n');
-  console.log('=' .repeat(50));
-  
-  // Check if ULPC generator exists
-  if (!existsSync(ULPCG_CLI)) {
-    console.error(`❌ ULPC generator not found at ${ULPCG_CLI}`);
-    console.log('  Run: git clone https://github.com/basxto/Universal-Spritesheet-Character-Generator.git tools/ulpcg');
-    process.exit(1);
-  }
+  console.log('🎭 Kim Bar Character Compiler\n');
+  console.log('='.repeat(50));
   
   // Parse command line args
   const args = process.argv.slice(2);
@@ -133,26 +126,50 @@ async function main() {
   console.log(`\n📋 Found ${specs.length} character spec(s)`);
   
   // Filter if specific character requested
-  const toBuild = targetChar 
-    ? specs.filter(s => s.spec.id === targetChar)
+  const toCompile = targetChar 
+    ? specs.filter(s => s.spec.id === targetChar || basename(s.file, '.json') === targetChar)
     : specs;
   
-  if (targetChar && toBuild.length === 0) {
+  if (targetChar && toCompile.length === 0) {
     console.error(`❌ Character '${targetChar}' not found`);
     process.exit(1);
   }
   
-  // Build each character
-  let success = 0;
-  let failed = 0;
+  // Ensure output directories exist
+  await mkdir(GENERATED_DIR, { recursive: true });
+  await mkdir(CHARS_OUTPUT_DIR, { recursive: true });
   
-  for (const { file, spec } of toBuild) {
-    const ok = await buildCharacter(file, spec);
-    if (ok) success++; else failed++;
+  // Compile each character
+  console.log('\n📦 Compiling characters...');
+  const compiled = [];
+  for (const { file, spec } of toCompile) {
+    try {
+      const result = await compileCharacter(file, spec);
+      compiled.push(result);
+    } catch (e) {
+      console.error(`  ❌ Failed to compile ${file}:`, e.message);
+    }
   }
   
-  console.log('\n' + '=' .repeat(50));
-  console.log(`✨ Done! ${success} built, ${failed} failed`);
+  // Build registry
+  console.log('\n📝 Building registry...');
+  const registry = await loadBaseRegistry();
+  
+  // Add/update sprite entries
+  for (const { id } of compiled) {
+    registry.sprites[id] = buildSpriteEntry(id);
+  }
+  
+  // Build characters array
+  registry.characters = compiled.map(({ id }) => buildCharacterEntry(id));
+  
+  // Write registry
+  const registryPath = join(GENERATED_DIR, 'registry.json');
+  await writeFile(registryPath, JSON.stringify(registry, null, 2));
+  console.log(`  ✅ Wrote: ${registryPath}`);
+  
+  console.log('\n' + '='.repeat(50));
+  console.log(`✨ Done! ${compiled.length} character(s) compiled`);
 }
 
 main().catch(console.error);

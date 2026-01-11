@@ -144,25 +144,41 @@ async function main() {
   
   // Scan vendor directory
   console.log('\n📁 Scanning vendor/ for assets...');
-  const files = await scanDirectory(VENDOR_DIR);
+  const vendorFiles = await scanDirectory(VENDOR_DIR);
+  console.log(`   Found ${vendorFiles.length} image file(s) in vendor/`);
   
-  if (files.length === 0) {
-    console.log('\n⚠️ No image files found in vendor/');
+  // Scan generated directory (sprites, portraits)
+  console.log('\n📁 Scanning generated/ for assets...');
+  const generatedFiles = await scanDirectory(GENERATED_DIR);
+  console.log(`   Found ${generatedFiles.length} image file(s) in generated/`);
+  
+  const allFiles = [...vendorFiles, ...generatedFiles];
+  
+  if (allFiles.length === 0) {
+    console.log('\n⚠️ No image files found');
     console.log('   Run: npm run fetch-vendor to download assets');
+    console.log('   Run: npm run gen:sprites to generate sprites');
     return;
   }
-  
-  console.log(`   Found ${files.length} image file(s)`);
   
   // Process each file
   const passing = [];
   const failing = [];
   
-  for (const filePath of files) {
+  for (const filePath of allFiles) {
     const kind = classifyAsset(filePath, contract);
     const id = generateId(filePath, kind);
     const { compliance, notes } = validateAsset(filePath, kind, contract);
     const provenance = getProvenance(filePath);
+    
+    // Determine runtime URL
+    const normalizedPath = filePath.replace(/\\/g, '/');
+    let url = normalizedPath;
+    if (normalizedPath.startsWith('generated/')) {
+      url = '/' + normalizedPath;
+    } else if (normalizedPath.startsWith('./generated/')) {
+      url = normalizedPath.replace('./generated/', '/generated/');
+    }
     
     const entry = {
       id,
@@ -170,11 +186,19 @@ async function main() {
       source: provenance.source,
       packId: provenance.packId,
       license: provenance.license,
-      path: filePath.replace(/\\/g, '/'),
+      path: normalizedPath,
+      url,
       kind,
+      type: kind, // Alias for compatibility
+      tags: extractTags(filePath, kind),
+      frameWidth: kind === 'character_sheet' ? 64 : undefined,
+      frameHeight: kind === 'character_sheet' ? 64 : undefined,
       compliance,
       notes
     };
+    
+    // Remove undefined fields
+    Object.keys(entry).forEach(k => entry[k] === undefined && delete entry[k]);
     
     if (compliance === 'pass') {
       passing.push(entry);
@@ -196,6 +220,19 @@ async function main() {
   console.log(`   ⚠️ Pending/Failed: ${failing.length}`);
   console.log(`\n   Index: ${indexPath}`);
   console.log(`   Quarantine: ${quarantinePath}`);
+}
+
+function extractTags(filePath, kind) {
+  const tags = [kind];
+  const path = filePath.toLowerCase();
+  
+  if (path.includes('char.') || path.includes('character')) tags.push('character');
+  if (path.includes('npc.')) tags.push('npc');
+  if (path.includes('portrait')) tags.push('portrait');
+  if (path.includes('lpc') || path.includes('ulpc')) tags.push('lpc');
+  if (path.includes('sprites')) tags.push('spritesheet');
+  
+  return tags;
 }
 
 main().catch(e => {
