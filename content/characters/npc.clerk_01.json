@@ -7,11 +7,14 @@
   "ulpcArgs": {
     "body": "male",
     "skin": "light",
-    "hair": "short",
+    "hair": "plain",
     "hairColor": "brown",
-    "torso": "formal_white",
-    "legs": "slacks_black",
-    "feet": "dress_black"
+    "torso": "longsleeve",
+    "torsoColor": "white",
+    "legs": "pants",
+    "legsColor": "charcoal",
+    "feet": "shoes",
+    "feetColor": "black"
   },
   
   "animations": [

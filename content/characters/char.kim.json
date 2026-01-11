@@ -9,9 +9,12 @@
     "hair": "long_straight",
     "hairColor": "black",
     "eyes": "brown",
-    "torso": "formal_blouse",
-    "legs": "pencil_skirt",
-    "feet": "heels"
+    "torso": "blouse",
+    "torsoColor": "white",
+    "legs": "straight",
+    "legsColor": "charcoal",
+    "feet": "shoes",
+    "feetColor": "black"
   },
   "animations": [
     "idle_down", "idle_up", "idle_left", "idle_right",

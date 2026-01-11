@@ -150,7 +150,7 @@ async function resolveUlpcLayer(ref) {
 // LAYER RESOLUTION BY TYPE
 // ============================================================================
 
-async function findLayerAsset(layerType, variant, bodyType = 'male') {
+async function findLayerAsset(layerType, variant, bodyType = 'male', color = null) {
   // Try various path patterns common in ULPC structure
   const patterns = [];
   
@@ -161,28 +161,68 @@ async function findLayerAsset(layerType, variant, bodyType = 'male') {
       `body/${variant}.png`
     );
   } else if (layerType === 'hair') {
+    // Pattern: hair/{style}/{bodyType}/{color}.png or hair/{style}/adult/{color}.png
+    if (color) {
+      patterns.push(
+        `hair/${variant}/${bodyType}/${color}.png`,
+        `hair/${variant}/adult/${color}.png`,
+        `hair/${variant}/female/${color}.png`,
+        `hair/${variant}/male/${color}.png`
+      );
+    }
     patterns.push(
       `hair/${variant}/${bodyType}.png`,
+      `hair/${variant}/adult.png`,
       `hair/${variant}/male.png`,
       `hair/${variant}.png`
     );
   } else if (layerType === 'torso') {
+    // Pattern: torso/clothes/{type}/{bodyType}/{color}.png or torso/clothes/{type}/formal/{bodyType}/{color}.png
+    if (color) {
+      patterns.push(
+        `torso/clothes/${variant}/${bodyType}/${color}.png`,
+        `torso/clothes/${variant}/formal/${bodyType}/${color}.png`,
+        `torso/clothes/longsleeve/formal/${bodyType}/${color}.png`,
+        `torso/clothes/${variant}/female/${color}.png`,
+        `torso/clothes/${variant}/male/${color}.png`,
+        `torso/${variant}/${bodyType}/${color}.png`
+      );
+    }
     patterns.push(
-      `torso/shirts/${variant}/${bodyType}.png`,
+      `torso/clothes/${variant}/${bodyType}.png`,
       `torso/${variant}/${bodyType}.png`,
       `torso/${variant}/male.png`,
       `torso/${variant}.png`
     );
   } else if (layerType === 'legs') {
+    // Pattern: legs/{type}/{style}/{bodyType}/{color}.png  
+    if (color) {
+      patterns.push(
+        `legs/skirts/${variant}/${bodyType}/${color}.png`,
+        `legs/pants/${variant}/${bodyType}/${color}.png`,
+        `legs/${variant}/${bodyType}/${color}.png`,
+        `legs/skirts/${variant}/female/${color}.png`,
+        `legs/pants/${variant}/male/${color}.png`
+      );
+    }
     patterns.push(
+      `legs/skirts/${variant}/${bodyType}.png`,
       `legs/pants/${variant}/${bodyType}.png`,
       `legs/${variant}/${bodyType}.png`,
       `legs/${variant}.png`
     );
   } else if (layerType === 'feet') {
+    // Pattern: feet/{type}/{bodyType}/{color}.png
+    if (color) {
+      patterns.push(
+        `feet/${variant}/${bodyType}/${color}.png`,
+        `feet/shoes/${bodyType}/${color}.png`,
+        `feet/boots/${bodyType}/${color}.png`
+      );
+    }
     patterns.push(
-      `feet/shoes/${variant}/${bodyType}.png`,
       `feet/${variant}/${bodyType}.png`,
+      `feet/shoes/${bodyType}.png`,
       `feet/${variant}.png`
     );
   } else {
@@ -218,8 +258,9 @@ async function generateCharacter(specFile) {
     const ulpcArgs = spec.ulpcArgs || {};
     
     const layers = [];
+    const missing = [];
     
-    // Body layer
+    // Body layer (required)
     const bodyVariant = ulpcArgs.body || 'male';
     const skinVariant = ulpcArgs.skin || 'light';
     const bodyPath = await findLayerAsset('body', skinVariant, bodyVariant);
@@ -227,43 +268,65 @@ async function generateCharacter(specFile) {
       layers.push({ input: bodyPath, top: 0, left: 0 });
       info(`  + body: ${bodyPath}`);
     } else {
-      warn(`  - body layer not found for ${bodyVariant}/${skinVariant}`);
+      missing.push(`body (${bodyVariant}/${skinVariant})`);
+      warn(`  ✗ body layer not found for ${bodyVariant}/${skinVariant}`);
     }
     
     // Hair layer
     if (ulpcArgs.hair) {
-      const hairPath = await findLayerAsset('hair', ulpcArgs.hair, bodyVariant);
+      const hairColor = ulpcArgs.hairColor || 'brown';
+      const hairPath = await findLayerAsset('hair', ulpcArgs.hair, bodyVariant, hairColor);
       if (hairPath) {
         layers.push({ input: hairPath, top: 0, left: 0 });
         info(`  + hair: ${hairPath}`);
+      } else {
+        missing.push(`hair (${ulpcArgs.hair}/${hairColor})`);
+        warn(`  ✗ hair layer not found: ${ulpcArgs.hair}/${bodyVariant}/${hairColor}`);
       }
     }
     
     // Torso layer
     if (ulpcArgs.torso) {
-      const torsoPath = await findLayerAsset('torso', ulpcArgs.torso, bodyVariant);
+      const torsoColor = ulpcArgs.torsoColor || 'white';
+      const torsoPath = await findLayerAsset('torso', ulpcArgs.torso, bodyVariant, torsoColor);
       if (torsoPath) {
         layers.push({ input: torsoPath, top: 0, left: 0 });
         info(`  + torso: ${torsoPath}`);
+      } else {
+        missing.push(`torso (${ulpcArgs.torso}/${torsoColor})`);
+        warn(`  ✗ torso layer not found: ${ulpcArgs.torso}/${bodyVariant}/${torsoColor}`);
       }
     }
     
     // Legs layer
     if (ulpcArgs.legs) {
-      const legsPath = await findLayerAsset('legs', ulpcArgs.legs, bodyVariant);
+      const legsColor = ulpcArgs.legsColor || 'charcoal';
+      const legsPath = await findLayerAsset('legs', ulpcArgs.legs, bodyVariant, legsColor);
       if (legsPath) {
         layers.push({ input: legsPath, top: 0, left: 0 });
         info(`  + legs: ${legsPath}`);
+      } else {
+        missing.push(`legs (${ulpcArgs.legs}/${legsColor})`);
+        warn(`  ✗ legs layer not found: ${ulpcArgs.legs}/${bodyVariant}/${legsColor}`);
       }
     }
     
     // Feet layer
     if (ulpcArgs.feet) {
-      const feetPath = await findLayerAsset('feet', ulpcArgs.feet, bodyVariant);
+      const feetColor = ulpcArgs.feetColor || 'black';
+      const feetPath = await findLayerAsset('feet', ulpcArgs.feet, bodyVariant, feetColor);
       if (feetPath) {
         layers.push({ input: feetPath, top: 0, left: 0 });
         info(`  + feet: ${feetPath}`);
+      } else {
+        missing.push(`feet (${ulpcArgs.feet}/${feetColor})`);
+        warn(`  ✗ feet layer not found: ${ulpcArgs.feet}/${bodyVariant}/${feetColor}`);
       }
+    }
+    
+    // Report missing layers
+    if (missing.length > 0) {
+      warn(`  ⚠ Missing ${missing.length} layer(s): ${missing.join(', ')}`);
     }
     
     if (layers.length === 0) {
@@ -286,34 +349,79 @@ async function generateCharacter(specFile) {
       return { success: true, placeholder: true, path: outputPath };
     }
     
-    // Get dimensions from first layer
-    const firstLayerMeta = await sharp(layers[0].input).metadata();
-    const sheetWidth = firstLayerMeta.width || DEFAULT_SHEET_WIDTH;
-    const sheetHeight = firstLayerMeta.height || DEFAULT_SHEET_HEIGHT;
-    info(`  Sheet size: ${sheetWidth}×${sheetHeight}`);
+    // Standard LPC sheet size (21 rows × 64px = 1344, 13 cols × 64px = 832)
+    const STANDARD_WIDTH = 832;
+    const STANDARD_HEIGHT = 1344;
     
-    // Composite all layers (filter to matching sizes)
-    const compatibleLayers = [];
-    for (const layer of layers) {
-      const meta = await sharp(layer.input).metadata();
-      if (meta.width === sheetWidth && meta.height === sheetHeight) {
-        compatibleLayers.push(layer);
+    // Determine target size - use standard size if any layer matches it
+    let targetWidth = STANDARD_WIDTH;
+    let targetHeight = STANDARD_HEIGHT;
+    
+    // Get all layer metadata
+    const layerMetas = await Promise.all(
+      layers.map(async (layer) => ({
+        ...layer,
+        meta: await sharp(layer.input).metadata()
+      }))
+    );
+    
+    // Check if we have standard-sized layers
+    const hasStandardSize = layerMetas.some(
+      l => l.meta.width === STANDARD_WIDTH && l.meta.height === STANDARD_HEIGHT
+    );
+    
+    if (hasStandardSize) {
+      info(`  Using standard sheet size: ${STANDARD_WIDTH}×${STANDARD_HEIGHT}`);
+    } else {
+      // Fall back to first layer's size
+      targetWidth = layerMetas[0].meta.width;
+      targetHeight = layerMetas[0].meta.height;
+      info(`  Using extended sheet size: ${targetWidth}×${targetHeight}`);
+    }
+    
+    // Normalize all layers to target size
+    const normalizedLayers = [];
+    for (const layerData of layerMetas) {
+      const { input, meta } = layerData;
+      
+      if (meta.width === targetWidth && meta.height === targetHeight) {
+        // Already correct size
+        normalizedLayers.push({ input, top: 0, left: 0 });
+      } else if (meta.width === targetWidth && meta.height > targetHeight) {
+        // Extended sheet - crop to standard size
+        const cropped = await sharp(input)
+          .extract({ left: 0, top: 0, width: targetWidth, height: targetHeight })
+          .toBuffer();
+        normalizedLayers.push({ input: cropped, top: 0, left: 0 });
+        info(`  Cropped ${basename(input)} from ${meta.height} to ${targetHeight}px height`);
+      } else if (meta.width === targetWidth && meta.height < targetHeight) {
+        // Smaller sheet - extend with transparency
+        const extended = await sharp(input)
+          .extend({
+            top: 0, bottom: targetHeight - meta.height, left: 0, right: 0,
+            background: { r: 0, g: 0, b: 0, alpha: 0 }
+          })
+          .toBuffer();
+        normalizedLayers.push({ input: extended, top: 0, left: 0 });
+        info(`  Extended ${basename(input)} from ${meta.height} to ${targetHeight}px height`);
       } else {
-        warn(`  Skipping layer (size mismatch: ${meta.width}×${meta.height}): ${layer.input}`);
+        warn(`  Skipping layer (width mismatch: ${meta.width}×${meta.height}): ${input}`);
       }
     }
     
-    if (compatibleLayers.length === 0) {
+    if (normalizedLayers.length === 0) {
       error(`  No compatible layers for ${charId}`);
       return { success: false, error: 'No compatible layers' };
     }
     
+    info(`  Compositing ${normalizedLayers.length} layers...`);
+    
     // Start with first layer as base
-    let composite = sharp(compatibleLayers[0].input);
+    let composite = sharp(normalizedLayers[0].input);
     
     // Composite remaining layers
-    if (compatibleLayers.length > 1) {
-      composite = composite.composite(compatibleLayers.slice(1));
+    if (normalizedLayers.length > 1) {
+      composite = composite.composite(normalizedLayers.slice(1));
     }
     
     await mkdir(OUTPUT_DIR, { recursive: true });
