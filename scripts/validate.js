@@ -20,7 +20,8 @@ const CONTENT_DIRS = {
   rooms: './content/rooms',
   dialogue: './content/dialogue'
 };
-const REGISTRY_PATH = './public/content/registry.json';
+// Validate against the generated registry (single source of truth)
+const REGISTRY_PATH = './generated/registry.json';
 const FLASHCARDS_PATH = './public/content/cards/flashcards.json';
 const INK_DIR = './public/content/ink';
 const CONTRACT_PATH = './content/content_contract.json';

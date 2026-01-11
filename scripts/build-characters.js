@@ -19,7 +19,29 @@ import { join, basename } from 'path';
 const CONTENT_DIR = './content/characters';
 const GENERATED_DIR = './generated';
 const CHARS_OUTPUT_DIR = './generated/characters';
-const BASE_REGISTRY_PATH = './public/content/registry.json';
+// Base registry template - do NOT load from public/content/registry.json (stale)
+const BASE_REGISTRY_TEMPLATE = {
+  tileSize: 32,
+  scale: 2,
+  entities: {
+    PlayerSpawn: { required: ['x', 'y'] },
+    NPC: { required: ['x', 'y', 'inkKnot'], optional: ['sprite', 'name'] },
+    EncounterTrigger: { required: ['x', 'y', 'deckTag', 'count'], optional: ['rewardId'] },
+    Door: { required: ['x', 'y', 'targetLevel'], optional: ['locked', 'requiredItem'] },
+    OutfitChest: { required: ['x', 'y', 'outfitId'] }
+  },
+  outfits: {
+    default: { id: 'default', name: 'Street Clothes', sprite: 'player_default', buffs: {} },
+    evidence_blazer: { id: 'evidence_blazer', name: 'Evidence Blazer', sprite: 'player_blazer', buffs: { hints: 1 } },
+    civpro_suit: { id: 'civpro_suit', name: 'Civ Pro Power Suit', sprite: 'player_suit', buffs: { strike: 1 } },
+    conlaw_robe: { id: 'conlaw_robe', name: 'Con Law Robe', sprite: 'player_robe', buffs: { extraTime: 5 } },
+    court_blazer: { id: 'court_blazer', name: 'Court Blazer', sprite: 'player_court', buffs: { citationBonus: 10 } },
+    power_suit: { id: 'power_suit', name: 'Power Suit', sprite: 'player_power', buffs: { hints: 1, citationBonus: 5 } }
+  },
+  tags: { subjects: [], topicTags: [] },
+  sprites: {},
+  characters: []
+};
 
 async function loadCharacterSpecs() {
   const specs = [];
@@ -46,21 +68,8 @@ async function loadCharacterSpecs() {
 }
 
 async function loadBaseRegistry() {
-  try {
-    const content = await readFile(BASE_REGISTRY_PATH, 'utf-8');
-    return JSON.parse(content);
-  } catch (e) {
-    console.warn(`⚠️ Base registry not found at ${BASE_REGISTRY_PATH}, creating new`);
-    return {
-      tileSize: 32,
-      scale: 2,
-      entities: {},
-      outfits: {},
-      tags: { subjects: [], topicTags: [] },
-      sprites: {},
-      characters: []
-    };
-  }
+  // Return a fresh copy of the template - never load stale public/content/registry.json
+  return JSON.parse(JSON.stringify(BASE_REGISTRY_TEMPLATE));
 }
 
 async function compileCharacter(file, spec) {

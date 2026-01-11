@@ -11,7 +11,8 @@ import { join } from 'path';
 
 const CONTENT_DIR = './content/rooms';
 const OUTPUT_DIR = './public/content/ldtk';
-const REGISTRY_PATH = './public/content/registry.json';
+// Use generated registry (single source of truth)
+const REGISTRY_PATH = './generated/registry.json';
 
 async function loadRegistry() {
   const content = await readFile(REGISTRY_PATH, 'utf-8');
