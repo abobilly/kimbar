@@ -15,6 +15,7 @@ export class WorldScene extends Scene {
   private player!: Phaser.GameObjects.Sprite;
   private playerTarget: { x: number; y: number } | null = null;
   private moveSpeed = 200;
+  private lastDirection: string = 'down';  // Track facing direction for idle
 
   // Level data
   private levelData: LevelData | null = null;
@@ -558,18 +559,13 @@ export class WorldScene extends Scene {
     const hasPhysics = this.player.body && 'setVelocity' in this.player.body;
     
     if (!this.playerTarget) {
-      // No target - stop moving and play idle
+      // No target - stop moving and play idle in last known direction
       if (hasPhysics) {
         (this.player.body as Phaser.Physics.Arcade.Body).setVelocity(0, 0);
-        // Play idle animation (default to down)
-        const currentAnim = this.player.anims?.currentAnim?.key || '';
-        if (currentAnim.includes('walk_')) {
-          // Switch to idle in same direction
-          const dir = currentAnim.split('walk_')[1] || 'down';
-          const idleKey = `char.kim.idle_${dir}`;
-          if (this.anims.exists(idleKey)) {
-            this.player.play(idleKey);
-          }
+        // Switch to idle animation in lastDirection
+        const idleKey = `char.kim.idle_${this.lastDirection}`;
+        if (this.anims.exists(idleKey) && this.player.anims?.currentAnim?.key !== idleKey) {
+          this.player.play(idleKey);
         }
       }
       return;
@@ -591,6 +587,10 @@ export class WorldScene extends Scene {
       return;
     }
     
+    // Compute direction from velocity delta
+    const animDir = this.getAnimDirection(dx, dy);
+    this.lastDirection = animDir;  // Remember for idle
+    
     // Move toward target
     if (hasPhysics) {
       // Velocity-based movement for physics sprites
@@ -598,7 +598,6 @@ export class WorldScene extends Scene {
       (this.player.body as Phaser.Physics.Arcade.Body).setVelocity(velocity.x, velocity.y);
       
       // Play walk animation based on direction
-      const animDir = this.getAnimDirection(dx, dy);
       const animKey = `char.kim.walk_${animDir}`;
       if (this.anims.exists(animKey) && this.player.anims?.currentAnim?.key !== animKey) {
         this.player.play(animKey);
