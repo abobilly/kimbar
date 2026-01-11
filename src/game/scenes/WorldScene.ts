@@ -24,6 +24,10 @@ export class WorldScene extends Scene {
   // UI
   private statsText!: Phaser.GameObjects.Text;
 
+  // Keyboard controls
+  private wasdKeys!: { W: Phaser.Input.Keyboard.Key; A: Phaser.Input.Keyboard.Key; S: Phaser.Input.Keyboard.Key; D: Phaser.Input.Keyboard.Key };
+  private cursorKeys!: Phaser.Types.Input.Keyboard.CursorKeys;
+
   constructor() {
     super('WorldScene');
   }
@@ -334,6 +338,12 @@ export class WorldScene extends Scene {
   }
 
   private setupInput(): void {
+    // Keyboard controls (WASD + arrow keys)
+    if (this.input.keyboard) {
+      this.wasdKeys = this.input.keyboard.addKeys('W,A,S,D') as { W: Phaser.Input.Keyboard.Key; A: Phaser.Input.Keyboard.Key; S: Phaser.Input.Keyboard.Key; D: Phaser.Input.Keyboard.Key };
+      this.cursorKeys = this.input.keyboard.createCursorKeys();
+    }
+    
     // Tap-to-move
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       // Don't move if UI is active
@@ -558,11 +568,61 @@ export class WorldScene extends Scene {
     // Check if player has physics body (real sprite) or is placeholder container
     const hasPhysics = this.player.body && 'setVelocity' in this.player.body;
     
-    if (!this.playerTarget) {
-      // No target - stop moving and play idle in last known direction
+    // Check keyboard input (WASD + arrows) - keyboard overrides tap-to-move
+    let keyboardDx = 0;
+    let keyboardDy = 0;
+    
+    if (this.wasdKeys) {
+      if (this.wasdKeys.W?.isDown || this.cursorKeys?.up?.isDown) keyboardDy = -1;
+      if (this.wasdKeys.S?.isDown || this.cursorKeys?.down?.isDown) keyboardDy = 1;
+      if (this.wasdKeys.A?.isDown || this.cursorKeys?.left?.isDown) keyboardDx = -1;
+      if (this.wasdKeys.D?.isDown || this.cursorKeys?.right?.isDown) keyboardDx = 1;
+    }
+    
+    const usingKeyboard = keyboardDx !== 0 || keyboardDy !== 0;
+    
+    // If using keyboard, cancel any tap-to-move target
+    if (usingKeyboard) {
+      this.playerTarget = null;
+    }
+    
+    // Determine movement direction
+    let dx = 0;
+    let dy = 0;
+    
+    if (usingKeyboard) {
+      // Keyboard movement: direct velocity from key presses
+      dx = keyboardDx;
+      dy = keyboardDy;
+    } else if (this.playerTarget) {
+      // Tap-to-move: direction toward target
+      dx = this.playerTarget.x - this.player.x;
+      dy = this.playerTarget.y - this.player.y;
+      
+      const distSq = dx * dx + dy * dy;
+      
+      // Check if arrived at target
+      if (distSq <= this.ARRIVE_DIST * this.ARRIVE_DIST) {
+        if (hasPhysics) {
+          (this.player.body as Phaser.Physics.Arcade.Body).setVelocity(0, 0);
+        }
+        this.player.setPosition(this.playerTarget.x, this.playerTarget.y);
+        this.playerTarget = null;
+        this.player.setDepth(this.player.y);
+        
+        // Play idle in last direction
+        const idleKey = `char.kim.idle_${this.lastDirection}`;
+        if (hasPhysics && this.anims.exists(idleKey) && this.player.anims?.currentAnim?.key !== idleKey) {
+          this.player.play(idleKey);
+        }
+        return;
+      }
+    }
+    
+    // No movement input - idle
+    if (dx === 0 && dy === 0) {
       if (hasPhysics) {
         (this.player.body as Phaser.Physics.Arcade.Body).setVelocity(0, 0);
-        // Switch to idle animation in lastDirection
         const idleKey = `char.kim.idle_${this.lastDirection}`;
         if (this.anims.exists(idleKey) && this.player.anims?.currentAnim?.key !== idleKey) {
           this.player.play(idleKey);
@@ -571,40 +631,23 @@ export class WorldScene extends Scene {
       return;
     }
     
-    const dx = this.playerTarget.x - this.player.x;
-    const dy = this.playerTarget.y - this.player.y;
-    const distSq = dx * dx + dy * dy;
-    
-    // Check if arrived
-    if (distSq <= this.ARRIVE_DIST * this.ARRIVE_DIST) {
-      if (hasPhysics) {
-        (this.player.body as Phaser.Physics.Arcade.Body).setVelocity(0, 0);
-      }
-      // Snap to target position
-      this.player.setPosition(this.playerTarget.x, this.playerTarget.y);
-      this.playerTarget = null;
-      this.player.setDepth(this.player.y);
-      return;
-    }
-    
-    // Compute direction from velocity delta
+    // Compute direction for animation
     const animDir = this.getAnimDirection(dx, dy);
-    this.lastDirection = animDir;  // Remember for idle
+    this.lastDirection = animDir;
     
-    // Move toward target
+    // Apply movement
     if (hasPhysics) {
-      // Velocity-based movement for physics sprites
       const velocity = new Phaser.Math.Vector2(dx, dy).normalize().scale(this.PLAYER_SPEED);
       (this.player.body as Phaser.Physics.Arcade.Body).setVelocity(velocity.x, velocity.y);
       
-      // Play walk animation based on direction
+      // Play walk animation
       const animKey = `char.kim.walk_${animDir}`;
       if (this.anims.exists(animKey) && this.player.anims?.currentAnim?.key !== animKey) {
         this.player.play(animKey);
       }
     } else {
-      // Position-based fallback for placeholder containers
-      const dist = Math.sqrt(distSq);
+      // Position-based fallback for placeholder
+      const dist = Math.sqrt(dx * dx + dy * dy);
       const speed = this.moveSpeed * (_delta / 1000);
       const ratio = Math.min(speed / dist, 1);
       this.player.x += dx * ratio;
