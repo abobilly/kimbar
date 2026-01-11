@@ -1,0 +1,3 @@
+[submodule "tools/ulpcg"]
+	path = tools/ulpcg
+	url = https://github.com/basxto/Universal-Spritesheet-Character-Generator.git
