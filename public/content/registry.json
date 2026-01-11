@@ -43,11 +43,11 @@
     "topicTags": []
   },
   "sprites": {
-    "player": { "atlas": "chars", "key": "kim_idle" },
-    "npc.clerk": { "atlas": "chars", "key": "clerk_idle" },
-    "npc.justice": { "atlas": "chars", "key": "justice_idle" },
-    "prop.podium": { "atlas": "props", "key": "podium" },
-    "prop.bench": { "atlas": "props", "key": "bench" },
-    "prop.chest": { "atlas": "props", "key": "chest" }
+    "player": { "key": "char.kim", "url": "/generated/sprites/char.kim.png", "frameWidth": 64, "frameHeight": 64 },
+    "npc.clerk": { "key": "npc.clerk_01", "url": "/generated/sprites/npc.clerk_01.png", "frameWidth": 64, "frameHeight": 64 },
+    "npc.justice": { "key": "npc.justice", "url": "/generated/sprites/npc.justice.png", "frameWidth": 64, "frameHeight": 64 },
+    "prop.podium": { "key": "prop.podium", "url": "/assets/props/podium.png" },
+    "prop.bench": { "key": "prop.bench", "url": "/assets/props/bench.png" },
+    "prop.chest": { "key": "prop.chest", "url": "/assets/props/chest.png" }
   }
 }
