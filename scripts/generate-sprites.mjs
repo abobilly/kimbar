@@ -248,7 +248,9 @@ async function findLayerAsset(layerType, variant, bodyType = 'male', color = nul
   }
   
   // Try each pattern
+  const triedPatterns = [];
   for (const pattern of patterns) {
+    triedPatterns.push(pattern);
     try {
       return await resolveUlpcLayer(pattern);
     } catch {
@@ -257,9 +259,16 @@ async function findLayerAsset(layerType, variant, bodyType = 'male', color = nul
   }
   
   // Last resort: try just the variant name as a basename
+  const lastResort = `${variant}.png`;
+  triedPatterns.push(lastResort);
   try {
-    return await resolveUlpcLayer(`${variant}.png`);
+    return await resolveUlpcLayer(lastResort);
   } catch {
+    // Log all attempted patterns for debugging
+    if (process.env.DEBUG_LAYERS) {
+      console.log(`[DEBUG] Layer ${layerType}/${variant} not found. Tried:`);
+      triedPatterns.forEach(p => console.log(`  - ${p}`));
+    }
     return null;
   }
 }
@@ -354,6 +363,24 @@ async function generateCharacter(specFile) {
     // Report missing layers
     if (missing.length > 0) {
       warn(`  ⚠ Missing ${missing.length} layer(s): ${missing.join(', ')}`);
+    }
+    
+    // FAIL-FAST: body layer is absolutely required
+    if (!layers.some(l => l.input.includes('body'))) {
+      const msg = `Body layer is required but missing for ${charId}. ` +
+        `Tried: body/${bodyVariant}/${skinVariant}`;
+      error(msg);
+      throw new Error(msg);
+    }
+    
+    // FAIL-FAST: at least 3 layers required for a valid character
+    // (body + any 2 of: eyes, hair, torso, legs, feet)
+    const MINIMUM_LAYERS = 3;
+    if (layers.length < MINIMUM_LAYERS) {
+      const msg = `${charId} has only ${layers.length} layer(s), need at least ${MINIMUM_LAYERS}. ` +
+        `Missing: ${missing.join(', ')}`;
+      error(msg);
+      throw new Error(msg);
     }
     
     if (layers.length === 0) {
@@ -455,7 +482,16 @@ async function generateCharacter(specFile) {
     const outputPath = join(OUTPUT_DIR, `${charId}.png`);
     await composite.png().toFile(outputPath);
     
-    info(`  ✅ Generated: ${outputPath}`);
+    // Validate output dimensions
+    const outputMeta = await sharp(outputPath).metadata();
+    if (outputMeta.width !== STANDARD_WIDTH || outputMeta.height !== STANDARD_HEIGHT) {
+      const msg = `Generated ${charId}.png has wrong dimensions: ${outputMeta.width}×${outputMeta.height}, ` +
+        `expected ${STANDARD_WIDTH}×${STANDARD_HEIGHT}`;
+      error(msg);
+      throw new Error(msg);
+    }
+    
+    info(`  ✅ Generated: ${outputPath} (${outputMeta.width}×${outputMeta.height})`);
     
     // Generate portrait (crop frame 0,0 at 64×64)
     // TODO: Add portraitFrame and portraitCrop fields to CharacterSpec for customization
