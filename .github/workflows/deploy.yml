@@ -31,6 +31,8 @@ jobs:
 
             - name: Build content pipeline
               run: npm run prepare:content
+              env:
+                  GITHUB_SHA: ${{ github.sha }}
 
             - name: Build Vite app
               run: npm run build-nolog
