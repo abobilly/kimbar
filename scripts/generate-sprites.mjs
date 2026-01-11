@@ -160,6 +160,21 @@ async function findLayerAsset(layerType, variant, bodyType = 'male', color = nul
       `body/${bodyType}/${variant}.png`,
       `body/${variant}.png`
     );
+  } else if (layerType === 'eyes') {
+    // Pattern: eyes/{type}/{bodyType}/{color}.png
+    if (color) {
+      patterns.push(
+        `eyes/${variant}/${bodyType}/${color}.png`,
+        `eyes/${variant}/adult/${color}.png`,
+        `eyes/human/${bodyType}/${color}.png`,
+        `eyes/human/adult/${color}.png`
+      );
+    }
+    patterns.push(
+      `eyes/${variant}/${bodyType}.png`,
+      `eyes/${variant}/adult.png`,
+      `eyes/human/${bodyType}.png`
+    );
   } else if (layerType === 'hair') {
     // Pattern: hair/{style}/{bodyType}/{color}.png or hair/{style}/adult/{color}.png
     if (color) {
@@ -270,6 +285,18 @@ async function generateCharacter(specFile) {
     } else {
       missing.push(`body (${bodyVariant}/${skinVariant})`);
       warn(`  ✗ body layer not found for ${bodyVariant}/${skinVariant}`);
+    }
+    
+    // Eyes layer (after body, before hair)
+    if (ulpcArgs.eyes) {
+      const eyesPath = await findLayerAsset('eyes', 'human', 'adult', ulpcArgs.eyes);
+      if (eyesPath) {
+        layers.push({ input: eyesPath, top: 0, left: 0 });
+        info(`  + eyes: ${eyesPath}`);
+      } else {
+        missing.push(`eyes (${ulpcArgs.eyes})`);
+        warn(`  ✗ eyes layer not found: human/adult/${ulpcArgs.eyes}`);
+      }
     }
     
     // Hair layer
