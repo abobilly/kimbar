@@ -28,6 +28,9 @@ export class Preloader extends Scene
     init (data: { registry?: Registry })
     {
         this.registryData = data.registry || null;
+    }
+
+    preload ()
     {
         const { width, height } = this.scale;
 
@@ -57,10 +60,7 @@ export class Preloader extends Scene
             bar.width = 4 + (460 * progress);
             loadingText.setText(`Loading... ${Math.floor(progress * 100)}%`);
         });
-    }
 
-    preload ()
-    {
         // Registry-driven asset loading
         if (this.registryData?.sprites) {
             for (const [id, sprite] of Object.entries(this.registryData.sprites)) {
