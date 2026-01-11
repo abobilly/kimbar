@@ -38,7 +38,15 @@ const BASE_REGISTRY_TEMPLATE = {
     court_blazer: { id: 'court_blazer', name: 'Court Blazer', sprite: 'player_court', buffs: { citationBonus: 10 } },
     power_suit: { id: 'power_suit', name: 'Power Suit', sprite: 'player_power', buffs: { hints: 1, citationBonus: 5 } }
   },
-  tags: { subjects: [], topicTags: [] },
+  tags: { 
+    subjects: [
+      'agency', 'business_associations', 'civil_procedure', 'community_property',
+      'conflict_of_laws', 'constitutional_law', 'contracts', 'criminal_law',
+      'criminal_procedure', 'evidence', 'family_law', 'federal_income_tax',
+      'oil_gas', 'property', 'torts', 'trusts_and_estates'
+    ], 
+    topicTags: [] 
+  },
   sprites: {},
   characters: []
 };
