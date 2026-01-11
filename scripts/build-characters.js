@@ -164,6 +164,12 @@ async function main() {
   console.log('\n📝 Building registry...');
   const registry = await loadBaseRegistry();
   
+  // Add buildId for cache-busting (from env or generate timestamp)
+  registry.buildId = process.env.GITHUB_SHA 
+    || process.env.BUILD_ID 
+    || `dev-${Date.now()}`;
+  console.log(`  🔖 buildId: ${registry.buildId}`);
+  
   // Add/update sprite entries
   for (const { id } of compiled) {
     registry.sprites[id] = buildSpriteEntry(id);

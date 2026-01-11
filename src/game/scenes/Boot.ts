@@ -10,7 +10,9 @@ export class Boot extends Scene
     preload ()
     {
         // Load registry for dynamic asset discovery
-        this.load.json('registry', '/generated/registry.json');
+        // Use timestamp to avoid stale cached registry
+        const cacheBust = `?t=${Date.now()}`;
+        this.load.json('registry', `/generated/registry.json${cacheBust}`);
     }
 
     create ()

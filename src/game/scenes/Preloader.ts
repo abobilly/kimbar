@@ -66,11 +66,17 @@ export class Preloader extends Scene
 
         // Registry-driven asset loading
         if (this.registryData?.sprites) {
+            // Cache-busting via buildId
+            const buildId = (this.registryData as { buildId?: string }).buildId ?? 'dev';
+            const cacheBust = `?v=${encodeURIComponent(buildId)}`;
+            
             if (DEBUG_ASSETS) {
-                console.log('[Preloader] Loading from registry, sprites:', Object.keys(this.registryData.sprites));
+                console.log('[Preloader] Loading from registry, buildId:', buildId);
+                console.log('[Preloader] Sprites:', Object.keys(this.registryData.sprites));
             }
             for (const [id, sprite] of Object.entries(this.registryData.sprites)) {
-                const url = sprite.url || `/generated/sprites/${id}.png`;
+                const baseUrl = sprite.url || `/generated/sprites/${id}.png`;
+                const url = baseUrl + cacheBust;
                 const frameWidth = sprite.frameWidth ?? 64;
                 const frameHeight = sprite.frameHeight ?? 64;
                 
@@ -83,7 +89,7 @@ export class Preloader extends Scene
                 
                 // Load portrait if available
                 if (sprite.portraitUrl) {
-                    this.load.image(`portrait.${id}`, sprite.portraitUrl);
+                    this.load.image(`portrait.${id}`, sprite.portraitUrl + cacheBust);
                 }
             }
         } else {

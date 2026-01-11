@@ -15,6 +15,7 @@ export interface SpriteEntry {
 export interface Registry {
   tileSize: number;
   scale: number;
+  buildId?: string;  // Cache-busting identifier (commit SHA or timestamp)
   entities: Record<string, { required: string[]; optional?: string[] }>;
   outfits: Record<string, Outfit>;
   deckTags: string[];
