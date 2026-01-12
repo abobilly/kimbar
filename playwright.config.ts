@@ -10,7 +10,7 @@ export default defineConfig({
   timeout: 60000,  // 60s per test
   
   use: {
-    baseURL: 'http://localhost:8081',
+    baseURL: 'http://localhost:8080',
     trace: 'on-first-retry',
     video: 'retain-on-failure',
   },
@@ -25,7 +25,7 @@ export default defineConfig({
   // Run dev server before tests
   webServer: {
     command: 'npm run dev-nolog',
-    url: 'http://localhost:8081',
+    url: 'http://localhost:8080',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
   },

@@ -68,6 +68,12 @@ export class DialogueSystem {
     this.container = this.scene.add.container(0, 0);
     this.container.setDepth(DEPTH_OVERLAY);
     
+    // Add container to UI layer if available (camera isolation from world zoom)
+    const worldScene = this.scene as unknown as { getUILayer?: () => Phaser.GameObjects.Layer };
+    if (worldScene.getUILayer) {
+      worldScene.getUILayer().add(this.container);
+    }
+    
     // Store layout for other methods
     this.container.setData('layout', layout);
 

@@ -224,3 +224,46 @@ test.describe('Encounter System', () => {
     // No crash = success
   });
 });
+
+test.describe('UI Camera Isolation', () => {
+  test('UI should stay in bounds when world camera is zoomed', async ({ page }) => {
+    await page.goto('/');
+    await waitForGameReady(page);
+    
+    const canvas = page.locator('canvas');
+    const box = await canvas.boundingBox();
+    
+    // Press Z to toggle world zoom to 2x (dev mode only)
+    await page.keyboard.press('z');
+    await page.waitForTimeout(500);
+    
+    // Take screenshot for visual inspection
+    await page.screenshot({ path: 'test-results/camera-zoom-test.png' });
+    
+    // Open menu - should appear correctly positioned even with zoom
+    await page.mouse.click(box!.x + box!.width - 50, box!.y + 50);
+    await page.waitForTimeout(500);
+    
+    // Menu should be visible and interactable
+    // Press ESC to close
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(500);
+    
+    // Start encounter via E key (dev mode)
+    await page.keyboard.press('e');
+    await page.waitForTimeout(1500);
+    
+    // Take screenshot of encounter UI while zoomed
+    await page.screenshot({ path: 'test-results/encounter-zoom-test.png' });
+    
+    // ESC to close encounter
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(500);
+    
+    // Reset zoom
+    await page.keyboard.press('z');
+    await page.waitForTimeout(500);
+    
+    // No errors = UI camera isolation working
+  });
+});

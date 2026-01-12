@@ -29,6 +29,11 @@ export class WorldScene extends Scene {
   private statsPanel!: Phaser.GameObjects.Rectangle;
   private statsText!: Phaser.GameObjects.Text;
   private menuBtn!: Phaser.GameObjects.Text;
+  
+  // Camera system: separate world and UI cameras
+  private worldCam!: Phaser.Cameras.Scene2D.Camera;
+  private uiCam!: Phaser.Cameras.Scene2D.Camera;
+  private uiLayer!: Phaser.GameObjects.Layer;
 
   // Keyboard controls
   private wasdKeys!: { W: Phaser.Input.Keyboard.Key; A: Phaser.Input.Keyboard.Key; S: Phaser.Input.Keyboard.Key; D: Phaser.Input.Keyboard.Key };
@@ -39,7 +44,10 @@ export class WorldScene extends Scene {
   }
 
   async create(): Promise<void> {
-    // Initialize systems
+    // Set up camera system: world camera + UI camera
+    this.setupCameras();
+    
+    // Initialize systems - pass uiLayer for UI rendering
     this.encounterSystem = new EncounterSystem(this);
     this.dialogueSystem = new DialogueSystem(this);
 
@@ -53,16 +61,20 @@ export class WorldScene extends Scene {
     // Load level (this also creates the player at spawn point)
     await this.loadLevel('scotus_lobby');
 
-    // Create UI
+    // Create UI (on uiLayer)
     this.createUI();
+    
+    // CRITICAL: Tell uiCam to ignore all world objects created so far
+    // This prevents duplicates - world objects only render on worldCam
+    this.syncCameraIgnoreList();
 
     // Setup input (includes ESC key via exitManager)
     this.setupInput();
     initExitManager(this);
 
-    // Camera follows player with pixel rounding preserved
-    this.cameras.main.startFollow(this.player, true, 0.08, 0.08);
-    this.cameras.main.setRoundPixels(true);  // Ensure pixel rounding after follow
+    // World camera follows player with pixel rounding preserved
+    this.worldCam.startFollow(this.player, true, 0.08, 0.08);
+    this.worldCam.setRoundPixels(true);
     
     // Register cleanup on scene shutdown
     this.events.on('shutdown', this.onShutdown, this);
@@ -70,6 +82,95 @@ export class WorldScene extends Scene {
     // Handle resize
     this.scale.on('resize', this.onResize, this);
   }
+  
+  /**
+   * Synchronize camera ignore lists.
+   * - uiCam ignores all scene children except uiLayer and its children
+   * - worldCam ignores uiLayer
+   * 
+   * INVARIANT: No object is rendered by both cameras (no duplicates).
+   */
+  private syncCameraIgnoreList(): void {
+    // Get all scene display list children
+    const children = this.children.list;
+    
+    // Cast uiLayer to unknown for identity check (Phaser's Layer extends GameObject at runtime)
+    const uiLayerRef = this.uiLayer as unknown;
+    
+    for (const child of children) {
+      // uiLayer should NOT be ignored by uiCam - use identity check
+      if ((child as unknown) === uiLayerRef) {
+        continue;
+      }
+      // Everything else should be ignored by uiCam (world objects)
+      this.uiCam.ignore(child);
+    }
+    
+    if (import.meta.env?.DEV) {
+      console.log('[WorldScene] Camera ignore list synced:', {
+        totalChildren: children.length,
+        uiCamIgnoring: children.length - 1  // All except uiLayer
+      });
+    }
+  }
+  
+  /**
+   * Set up dual camera system:
+   * - worldCam: follows player, may zoom, renders everything EXCEPT uiLayer
+   * - uiCam: fixed at zoom=1, scroll=(0,0), renders ONLY uiLayer
+   * 
+   * INVARIANT: UI is always in screen-space, unaffected by world camera.
+   * INVARIANT: World objects are never duplicated across cameras.
+   */
+  private setupCameras(): void {
+    const { width, height } = this.scale;
+    
+    // Create UI layer for camera isolation
+    this.uiLayer = this.add.layer();
+    this.uiLayer.setDepth(1000);  // UI always on top
+    
+    // World objects are added directly to scene (default behavior)
+    
+    // Configure main camera as world camera
+    this.worldCam = this.cameras.main;
+    this.worldCam.setName('worldCam');
+    this.worldCam.ignore(this.uiLayer);  // World cam ignores UI layer only
+    
+    // Create dedicated UI camera that ONLY renders uiLayer
+    this.uiCam = this.cameras.add(0, 0, width, height, false, 'uiCam');
+    this.uiCam.setScroll(0, 0);
+    
+    // UI camera must ignore everything in the scene except uiLayer
+    // We'll update this dynamically as objects are created
+    // For now, set up the layer reference for later use
+    
+    // Log camera setup in dev mode
+    if (import.meta.env?.DEV) {
+      console.log('[WorldScene] Camera setup complete:', {
+        worldCam: { zoom: this.worldCam.zoom, name: this.worldCam.name },
+        uiCam: { zoom: this.uiCam.zoom, scroll: { x: this.uiCam.scrollX, y: this.uiCam.scrollY } }
+      });
+    }
+  }
+  
+  /**
+   * Get the UI layer for modal systems to add their containers to.
+   * INVARIANT: All UI elements added to this layer are camera-isolated from world zoom.
+   * INVARIANT: Objects added to uiLayer are automatically visible to uiCam only.
+   */
+  getUILayer(): Phaser.GameObjects.Layer {
+    return this.uiLayer;
+  }
+  
+  /**
+   * Get the UI camera reference.
+   * Used by systems that need to ensure their objects are visible to uiCam.
+   */
+  getUICam(): Phaser.Cameras.Scene2D.Camera {
+    return this.uiCam;
+  }
+
+  // Removed registerWorldObject - use syncCameraIgnoreList instead for bulk ignore
 
   private async loadLevel(levelId: string): Promise<void> {
     try {
@@ -425,20 +526,20 @@ export class WorldScene extends Scene {
     const { width, height } = this.scale;
     const layout = layoutHUD(width, height);
 
-    // Stats panel (top-left)
+    // Stats panel (top-left) - added to uiLayer for camera isolation
     this.statsPanel = this.add.rectangle(layout.statsX, layout.statsY, layout.statsWidth, layout.statsHeight, 0x1a1a2e, 0.9)
       .setStrokeStyle(2, 0x4a90a4)
       .setOrigin(0, 0)
-      .setScrollFactor(0)
       .setDepth(800);
+    this.uiLayer.add(this.statsPanel);
 
     this.statsText = this.add.text(layout.statsX + 10, layout.statsY + 10, '', {
       fontSize: '14px',
       color: '#FFFFFF',
       lineSpacing: 4
     })
-      .setScrollFactor(0)
       .setDepth(801);
+    this.uiLayer.add(this.statsText);
 
     this.updateUI();
 
@@ -448,9 +549,9 @@ export class WorldScene extends Scene {
       color: '#FFD700'
     })
       .setOrigin(1, 0)
-      .setScrollFactor(0)
       .setDepth(801)
       .setInteractive({ useHandCursor: true });
+    this.uiLayer.add(this.menuBtn);
 
     this.menuBtn.on('pointerdown', () => this.showMenu());
   }
@@ -458,6 +559,12 @@ export class WorldScene extends Scene {
   private onResize(): void {
     const { width, height } = this.scale;
     const layout = layoutHUD(width, height);
+
+    // Update UI camera viewport
+    if (this.uiCam) {
+      this.uiCam.setSize(width, height);
+      this.uiCam.setScroll(0, 0);  // Ensure UI cam stays fixed
+    }
 
     if (this.statsPanel) {
       this.statsPanel.setPosition(layout.statsX, layout.statsY);
@@ -491,13 +598,20 @@ export class WorldScene extends Scene {
       this.wasdKeys = this.input.keyboard.addKeys('W,A,S,D') as { W: Phaser.Input.Keyboard.Key; A: Phaser.Input.Keyboard.Key; S: Phaser.Input.Keyboard.Key; D: Phaser.Input.Keyboard.Key };
       this.cursorKeys = this.input.keyboard.createCursorKeys();
 
-      // Interaction: Press E to start a quick flashcard encounter (dev-only DEBUG key)
-      // Only enabled in development builds
+      // Debug keys (dev-only)
       if (import.meta.env && import.meta.env.DEV) {
+        // Press E to start a quick flashcard encounter
         this.input.keyboard.on('keydown-E', () => {
           if (isModalOpen()) return;
           const config: EncounterConfig = { deckTag: 'evidence', count: 1 };
           this.startEncounter(config);
+        });
+        
+        // Press Z to toggle world camera zoom (test UI camera isolation)
+        this.input.keyboard.on('keydown-Z', () => {
+          const newZoom = this.worldCam.zoom === 1 ? 2 : 1;
+          this.worldCam.setZoom(newZoom);
+          console.log('[DEV] World camera zoom:', newZoom);
         });
       }
     }
@@ -650,8 +764,8 @@ export class WorldScene extends Scene {
       padding: { x: 20, y: 10 }
     })
       .setOrigin(0.5)
-      .setScrollFactor(0)
       .setDepth(1000);
+    this.uiLayer.add(notification);
 
     this.tweens.add({
       targets: notification,
@@ -671,13 +785,13 @@ export class WorldScene extends Scene {
     const { width, height } = this.scale;
 
     const overlay = this.add.rectangle(width / 2, height / 2, width, height, 0x000000, 0.8)
-      .setScrollFactor(0)
       .setDepth(1100)
       .setInteractive();
+    this.uiLayer.add(overlay);
 
     const menu = this.add.container(width / 2, height / 2)
-      .setScrollFactor(0)
       .setDepth(1101);
+    this.uiLayer.add(menu);
     
     // Store references for cleanup
     (this as any)._menuOverlay = overlay;

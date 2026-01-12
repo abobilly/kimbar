@@ -57,6 +57,12 @@ export class EncounterSystem {
     // Create overlay container
     this.container = this.scene.add.container(0, 0);
     this.container.setDepth(DEPTH_MODAL);
+    
+    // Add container to UI layer if available (camera isolation from world zoom)
+    const worldScene = this.scene as unknown as { getUILayer?: () => Phaser.GameObjects.Layer };
+    if (worldScene.getUILayer) {
+      worldScene.getUILayer().add(this.container);
+    }
 
     // Dark overlay - make interactive to block clicks to world
     const overlay = this.scene.add.rectangle(layout.centerX, height / 2, width, height, 0x000000, 0.85);
