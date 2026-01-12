@@ -160,6 +160,20 @@ async function findLayerAsset(layerType, variant, bodyType = 'male', color = nul
       `body/${bodyType}/${variant}.png`,
       `body/${variant}.png`
     );
+  } else if (layerType === 'head') {
+    // Pattern: head/heads/human/{bodyType}/{color}.png - this is the FACE layer
+    if (color) {
+      patterns.push(
+        `head/heads/human/${bodyType}/${color}.png`,
+        `head/heads/human/adult/${color}.png`,
+        `head/heads/${bodyType}/${color}.png`
+      );
+    }
+    patterns.push(
+      `head/heads/human/${bodyType}.png`,
+      `head/heads/human/adult.png`,
+      `head/heads/${bodyType}.png`
+    );
   } else if (layerType === 'eyes') {
     // Pattern: eyes/{type}/{bodyType}/{color}.png
     if (color) {
@@ -296,7 +310,18 @@ async function generateCharacter(specFile) {
       warn(`  ✗ body layer not found for ${bodyVariant}/${skinVariant}`);
     }
     
-    // Eyes layer (after body, before hair)
+    // Head layer (FACE - required, after body, contains the nose/face features)
+    // The body layer is just the body shape; head layer is the actual face
+    const headPath = await findLayerAsset('head', 'human', bodyVariant, skinVariant);
+    if (headPath) {
+      layers.push({ input: headPath, top: 0, left: 0 });
+      info(`  + head: ${headPath}`);
+    } else {
+      missing.push(`head (${bodyVariant}/${skinVariant})`);
+      warn(`  ✗ head layer not found: head/heads/human/${bodyVariant}/${skinVariant}`);
+    }
+    
+    // Eyes layer (after head, before hair)
     if (ulpcArgs.eyes) {
       const eyesPath = await findLayerAsset('eyes', 'human', 'adult', ulpcArgs.eyes);
       if (eyesPath) {

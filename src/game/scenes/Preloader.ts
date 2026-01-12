@@ -4,19 +4,19 @@ import type { Registry } from '../../content/registry';
 // Debug flag: log asset loading info to console
 const DEBUG_ASSETS = true;
 
-// ULPC animation layout: 13 columns, rows defined in custom-animations.js
-// walk-n (up): row 7, walk-w (left): row 8, walk-s (down): row 9, walk-e (right): row 10
+// ULPC animation layout: 13 columns × 21 rows (832×1344)
+// Standard LPC walk rows (0-indexed): up=8, left=9, down=10, right=11
 // Each walk has 9 frames (0-8), with frame 0 being the idle/standing frame
 const ULPC_COLS = 13;
 const ULPC_ANIMS = {
-    walk_up:    { row: 7, frames: 9, frameRate: 10, repeat: -1 },
-    walk_left:  { row: 8, frames: 9, frameRate: 10, repeat: -1 },
-    walk_down:  { row: 9, frames: 9, frameRate: 10, repeat: -1 },
-    walk_right: { row: 10, frames: 9, frameRate: 10, repeat: -1 },
-    idle_up:    { row: 7, frames: 1, frameRate: 1, repeat: 0 },
-    idle_left:  { row: 8, frames: 1, frameRate: 1, repeat: 0 },
-    idle_down:  { row: 9, frames: 1, frameRate: 1, repeat: 0 },
-    idle_right: { row: 10, frames: 1, frameRate: 1, repeat: 0 },
+    walk_up:    { row: 8, frames: 9, frameRate: 10, repeat: -1 },
+    walk_left:  { row: 9, frames: 9, frameRate: 10, repeat: -1 },
+    walk_down:  { row: 10, frames: 9, frameRate: 10, repeat: -1 },
+    walk_right: { row: 11, frames: 9, frameRate: 10, repeat: -1 },
+    idle_up:    { row: 8, frames: 1, frameRate: 1, repeat: 0 },
+    idle_left:  { row: 9, frames: 1, frameRate: 1, repeat: 0 },
+    idle_down:  { row: 10, frames: 1, frameRate: 1, repeat: 0 },
+    idle_right: { row: 11, frames: 1, frameRate: 1, repeat: 0 },
 };
 
 export class Preloader extends Scene
