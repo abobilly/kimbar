@@ -164,12 +164,13 @@ export class WorldScene extends Scene {
   }
 
   private createEntity(id: string, entity: EntityData): void {
-    // Use real sprite for clerk if texture exists
-    if (entity.id === 'npc.clerk_01' && this.textures.exists('npc.clerk_01')) {
-      const npc = this.add.sprite(entity.x, entity.y, 'npc.clerk_01', 0)
+    // Prefer explicit characterId/sprite property to select real sprite
+    const spriteKey = entity.properties?.characterId || entity.properties?.sprite || entity.id;
+    if (spriteKey && this.textures.exists(spriteKey)) {
+      const npc = this.add.sprite(entity.x, entity.y, spriteKey, 0)
         .setOrigin(0.5, 1)
         .setDepth(entity.y);
-      
+
       // Name tag
       if (entity.properties?.name) {
         const nameTag = this.add.text(entity.x, entity.y - 70, entity.properties.name, {
@@ -180,7 +181,7 @@ export class WorldScene extends Scene {
         }).setOrigin(0.5).setDepth(entity.y + 1);
         void nameTag; // Used for display
       }
-      
+
       // Make interactive
       npc.setInteractive({ useHandCursor: true });
       npc.on('pointerdown', () => {
@@ -188,7 +189,7 @@ export class WorldScene extends Scene {
           this.handleEntityInteraction(id, entity);
         }
       });
-      
+
       this.entities.set(id, { ...entity, sprite: npc });
       return;
     }
@@ -249,9 +250,114 @@ export class WorldScene extends Scene {
   private renderLevel(): void {
     if (!this.levelData) return;
 
-    // Render tilemap from LDtk data
-    // This would parse the actual LDtk format
-    // For now, we use the placeholder
+    // Detect if the loaded level is LDtk JSON (has layerInstances)
+    const raw = this.levelData as unknown as any;
+    if (raw && raw.layerInstances) {
+      // Convert simplified LDtk level export into internal LevelData format
+      const layer = raw.layerInstances.find((l: any) => l.__identifier === 'Entities');
+      const tileSize = layer?.__gridSize || 32;
+
+      const level: LevelData = {
+        id: raw.identifier || 'level',
+        width: raw.pxWid || (layer?.__cWid * tileSize) || this.scale.width,
+        height: raw.pxHei || (layer?.__cHei * tileSize) || this.scale.height,
+        tileSize,
+        entities: [],
+        playerSpawn: undefined
+      };
+
+      const triggersToCreate: Array<any> = [];
+
+      for (const inst of layer.entityInstances) {
+        const props: Record<string, any> = {};
+        for (const f of inst.fieldInstances || []) {
+          props[f.__identifier] = f.__value;
+        }
+
+        // Normalize property names expected by the game
+        if (props.inkKnot && !props.storyKnot) {
+          props.storyKnot = props.inkKnot;
+        }
+        if (props.knot && !props.storyKnot) {
+          props.storyKnot = props.knot;
+        }
+
+        const entity: EntityData = {
+          id: inst.iid || `${inst.__identifier}_${inst.defUid}`,
+          type: inst.__identifier,
+          x: inst.__worldX || (inst.px ? inst.px[0] + tileSize / 2 : 0),
+          y: inst.__worldY || (inst.px ? inst.px[1] + tileSize : 0),
+          properties: props
+        };
+
+        if (inst.__identifier === 'PlayerSpawn') {
+          level.playerSpawn = { x: entity.x, y: entity.y };
+        } else {
+          level.entities.push(entity);
+
+          // Collect encounter triggers to create later (after player exists)
+          if (inst.__identifier === 'EncounterTrigger') {
+            triggersToCreate.push({ entity, tileSize });
+          }
+        }
+      }
+
+      // Replace levelData with converted format
+      this.levelData = level;
+
+      // Clean up any existing entities
+      this.entities.forEach((e) => {
+        if (e.sprite) e.sprite.destroy();
+      });
+      this.entities.clear();
+
+      // Create entities
+      for (const entity of level.entities) {
+        this.createEntity(entity.id, entity);
+      }
+
+      // Create player AFTER entities so overlap checks can be set up
+      this.createPlayer();
+
+      // Create overlap triggers (after player exists)
+      for (const t of triggersToCreate) {
+        const e = t.entity as EntityData;
+        const centerX = e.x; // __worldX is centered horizontally
+        const centerY = (e.y - (t.tileSize / 2)); // convert bottom-based y to center y
+
+        const zone = this.add.zone(centerX, centerY, t.tileSize, t.tileSize).setOrigin(0.5);
+        this.physics.add.existing(zone);
+        const body = zone.body as Phaser.Physics.Arcade.Body;
+        body.setAllowGravity(false);
+        body.setImmovable(true);
+
+        // Debug visual (only in dev)
+        if (import.meta.env.DEV) {
+          const debugRect = this.add.rectangle(centerX, centerY, t.tileSize, t.tileSize, 0x00ff00, 0.2);
+          debugRect.setDepth(900);
+        }
+
+        this.physics.add.overlap(this.player, zone, () => {
+          if (this.dialogueSystem.isActive() || this.inEncounter) return;
+
+          const cfg: EncounterConfig = {
+            deckTag: e.properties.deckTag || 'evidence',
+            count: e.properties.count ?? 1,
+            rewardId: e.properties.rewardId
+          };
+
+          this.startEncounter(cfg);
+
+          const once = e.properties.once === true || e.properties.once === 'true';
+          if (once) zone.destroy();
+        }, undefined, this);
+      }
+
+      // Done rendering LDtk level
+      return;
+    }
+
+    // Fallback: legacy placeholder
     this.createPlaceholderLevel();
   }
 
@@ -344,12 +450,15 @@ export class WorldScene extends Scene {
       this.wasdKeys = this.input.keyboard.addKeys('W,A,S,D') as { W: Phaser.Input.Keyboard.Key; A: Phaser.Input.Keyboard.Key; S: Phaser.Input.Keyboard.Key; D: Phaser.Input.Keyboard.Key };
       this.cursorKeys = this.input.keyboard.createCursorKeys();
 
-      // Interaction: Press E to start a quick flashcard encounter (deckTag: 'evidence', count: 1)
-      this.input.keyboard.on('keydown-E', () => {
-        if (this.dialogueSystem.isActive() || this.inEncounter) return;
-        const config: EncounterConfig = { deckTag: 'evidence', count: 1 };
-        this.startEncounter(config);
-      });
+      // Interaction: Press E to start a quick flashcard encounter (dev-only DEBUG key)
+      // Only enabled in development builds
+      if (import.meta.env && import.meta.env.DEV) {
+        this.input.keyboard.on('keydown-E', () => {
+          if (this.dialogueSystem.isActive() || this.inEncounter) return;
+          const config: EncounterConfig = { deckTag: 'evidence', count: 1 };
+          this.startEncounter(config);
+        });
+      }
     }
     
     // Tap-to-move

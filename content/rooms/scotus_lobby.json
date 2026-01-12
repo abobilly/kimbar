@@ -22,8 +22,8 @@
       "id": "npc_clerk",
       "properties": {
         "name": "Court Clerk",
-        "inkKnot": "court_clerk_intro",
-        "sprite": "npc.clerk"
+        "characterId": "npc.clerk_01",
+        "storyKnot": "court_clerk_intro"
       }
     },
     {
@@ -35,8 +35,9 @@
         "justiceId": "justice_thomas",
         "name": "Justice Thomas",
         "deckTag": "evidence",
-        "count": 3,
-        "rewardId": "evidence_blazer"
+        "count": 1,
+        "rewardId": "evidence_blazer",
+        "once": true
       }
     },
     {
