@@ -5,6 +5,7 @@ import { DialogueSystem } from '@game/systems/DialogueSystem';
 import { OutfitSystem } from '@game/systems/OutfitSystem';
 import { isModalOpen, openModal, closeModal, clearAllModals } from '@game/ui/modal';
 import { initExitManager, registerExit, unregisterExit, clearExitManager } from '@game/ui/exitManager';
+import { layoutHUD } from '@game/ui/layout';
 import { loadRegistry, loadFlashcards, getGameState, saveGameState } from '@content/registry';
 import { EntityData, LevelData, EncounterConfig } from '@content/types';
 
@@ -25,7 +26,9 @@ export class WorldScene extends Scene {
   private entities: Map<string, EntityData & { sprite?: Phaser.GameObjects.Sprite }> = new Map();
 
   // UI
+  private statsPanel!: Phaser.GameObjects.Rectangle;
   private statsText!: Phaser.GameObjects.Text;
+  private menuBtn!: Phaser.GameObjects.Text;
 
   // Keyboard controls
   private wasdKeys!: { W: Phaser.Input.Keyboard.Key; A: Phaser.Input.Keyboard.Key; S: Phaser.Input.Keyboard.Key; D: Phaser.Input.Keyboard.Key };
@@ -63,6 +66,9 @@ export class WorldScene extends Scene {
     
     // Register cleanup on scene shutdown
     this.events.on('shutdown', this.onShutdown, this);
+    
+    // Handle resize
+    this.scale.on('resize', this.onResize, this);
   }
 
   private async loadLevel(levelId: string): Promise<void> {
@@ -416,14 +422,17 @@ export class WorldScene extends Scene {
   }
 
   private createUI(): void {
+    const { width, height } = this.scale;
+    const layout = layoutHUD(width, height);
+
     // Stats panel (top-left)
-    const panel = this.add.rectangle(120, 50, 220, 80, 0x1a1a2e, 0.9)
+    this.statsPanel = this.add.rectangle(layout.statsX, layout.statsY, layout.statsWidth, layout.statsHeight, 0x1a1a2e, 0.9)
       .setStrokeStyle(2, 0x4a90a4)
+      .setOrigin(0, 0)
       .setScrollFactor(0)
       .setDepth(800);
-    void panel; // Panel renders automatically
 
-    this.statsText = this.add.text(20, 20, '', {
+    this.statsText = this.add.text(layout.statsX + 10, layout.statsY + 10, '', {
       fontSize: '14px',
       color: '#FFFFFF',
       lineSpacing: 4
@@ -434,7 +443,7 @@ export class WorldScene extends Scene {
     this.updateUI();
 
     // Menu button (top-right)
-    const menuBtn = this.add.text(this.scale.width - 20, 20, '☰', {
+    this.menuBtn = this.add.text(layout.menuX, layout.menuY, '☰', {
       fontSize: '32px',
       color: '#FFD700'
     })
@@ -443,7 +452,25 @@ export class WorldScene extends Scene {
       .setDepth(801)
       .setInteractive({ useHandCursor: true });
 
-    menuBtn.on('pointerdown', () => this.showMenu());
+    this.menuBtn.on('pointerdown', () => this.showMenu());
+  }
+
+  private onResize(): void {
+    const { width, height } = this.scale;
+    const layout = layoutHUD(width, height);
+
+    if (this.statsPanel) {
+      this.statsPanel.setPosition(layout.statsX, layout.statsY);
+      this.statsPanel.setSize(layout.statsWidth, layout.statsHeight);
+    }
+
+    if (this.statsText) {
+      this.statsText.setPosition(layout.statsX + 10, layout.statsY + 10);
+    }
+
+    if (this.menuBtn) {
+      this.menuBtn.setPosition(layout.menuX, layout.menuY);
+    }
   }
 
   private updateUI(): void {
@@ -689,7 +716,7 @@ export class WorldScene extends Scene {
       button.on('pointerover', () => button.setColor('#FFD700'));
       button.on('pointerout', () => button.setColor('#FFFFFF'));
       // Stop propagation on button clicks to prevent overlay close
-      button.on('pointerdown', (pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Types.Input.EventData) => {
+      button.on('pointerdown', (_pointer: Phaser.Input.Pointer, _localX: number, _localY: number, event: Phaser.Types.Input.EventData) => {
         event.stopPropagation();
         btn.action();
       });
@@ -729,6 +756,7 @@ export class WorldScene extends Scene {
    * INVARIANT: No stale modal state persists across scene transitions.
    */
   private onShutdown(): void {
+    this.scale.off('resize', this.onResize, this);
     clearAllModals();
     clearExitManager();
   }

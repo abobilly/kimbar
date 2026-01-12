@@ -113,6 +113,8 @@ export interface MenuLayout {
  * Calculate dialogue box layout for given viewport.
  */
 export function layoutDialogue(width: number, height: number): DialogueLayout {
+  const isSmallHeight = height < 600;
+
   const boxHeight = Math.min(
     DIALOGUE_BOX_MAX_HEIGHT,
     Math.max(DIALOGUE_BOX_MIN_HEIGHT, Math.floor(height * DIALOGUE_BOX_HEIGHT_RATIO))
@@ -120,8 +122,9 @@ export function layoutDialogue(width: number, height: number): DialogueLayout {
   const boxY = height - boxHeight;
   const boxWidth = width - UI_MARGIN * 2;
   
-  const choiceHeight = MIN_CHOICE_HEIGHT;
-  const choiceSpacing = UI_GAP;
+  // Compact choices for small screens to ensure they fit in the box
+  const choiceHeight = isSmallHeight ? 32 : MIN_CHOICE_HEIGHT;
+  const choiceSpacing = isSmallHeight ? 5 : UI_GAP;
   const choiceBottomPadding = 35;
   
   return {
@@ -150,24 +153,37 @@ export function layoutDialogue(width: number, height: number): DialogueLayout {
  * Calculate encounter UI layout for given viewport.
  */
 export function layoutEncounter(width: number, height: number): EncounterLayout {
-  const buttonHeight = 55;
-  const buttonSpacing = Math.min(65, Math.max(50, height * 0.07));
-  const feedbackHeight = 100;
+  const isSmallHeight = height < 600;
+  
+  const buttonHeight = isSmallHeight ? 42 : 55;
+  const feedbackHeight = isSmallHeight ? 80 : 100;
+  
+  // Ensure buttons don't overlap (min spacing > button height)
+  const minButtonSpacing = buttonHeight + 5;
+  const buttonSpacing = Math.min(65, Math.max(minButtonSpacing, height * 0.08));
   
   // Use percentage-based margins for better scaling
   const sideMargin = Math.max(40, width * 0.05);  // At least 40px or 5% of width
   const contentWidth = width - sideMargin * 2;
   
-  // Question starts at ~18% from top, clamped for small screens
-  const questionY = Math.max(140, height * 0.18);
+  // Compact vertical layout for small screens
+  const titleY = isSmallHeight ? 30 : 60;
+  const progressY = isSmallHeight ? 60 : 100;
   
-  // Buttons start below question with room for 4 buttons + feedback
-  const buttonStartY = Math.max(questionY + 80, height * 0.32);
+  // Question position
+  const questionY = isSmallHeight 
+    ? 90 
+    : Math.max(125, height * 0.15);
+  
+  // Button start position
+  const buttonStartY = isSmallHeight
+    ? questionY + 50
+    : Math.max(questionY + 60, height * 0.30);
   
   return {
     centerX: width / 2,
-    titleY: 60,
-    progressY: 100,
+    titleY,
+    progressY,
     questionY,
     questionWrapWidth: contentWidth - 40,  // Extra padding for text
     buttonStartY,
@@ -175,13 +191,13 @@ export function layoutEncounter(width: number, height: number): EncounterLayout 
     buttonWidth: contentWidth,
     buttonHeight,
     cancelX: width - 50,
-    cancelY: 50,
-    feedbackY: height - feedbackHeight - 60,
+    cancelY: isSmallHeight ? 30 : 50,
+    feedbackY: height - feedbackHeight - (isSmallHeight ? 20 : 60),
     feedbackHeight,
     feedbackWidth: contentWidth,
     continueY: height - 30,
     hintX: width - sideMargin - 30,
-    hintY: 60
+    hintY: isSmallHeight ? 30 : 60
   };
 }
 

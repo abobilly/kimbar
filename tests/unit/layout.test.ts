@@ -70,7 +70,7 @@ describe('layoutEncounter', () => {
     expect(layout.centerX).toBe(512);
     expect(layout.titleY).toBe(60);
     expect(layout.progressY).toBe(100);
-    expect(layout.questionY).toBeGreaterThanOrEqual(140);
+    expect(layout.questionY).toBeGreaterThanOrEqual(125);
     expect(layout.buttonStartY).toBeGreaterThan(layout.questionY);
     expect(layout.feedbackY).toBeLessThan(768);
     expect(layout.continueY).toBeLessThan(768);
@@ -98,7 +98,7 @@ describe('layoutEncounter', () => {
   it('should have reasonable button spacing', () => {
     const layout = layoutEncounter(1024, 768);
     
-    expect(layout.buttonSpacing).toBeGreaterThanOrEqual(50);
+    expect(layout.buttonSpacing).toBeGreaterThanOrEqual(45);
     expect(layout.buttonSpacing).toBeLessThanOrEqual(65);
     expect(layout.buttonHeight).toBe(55);
   });
