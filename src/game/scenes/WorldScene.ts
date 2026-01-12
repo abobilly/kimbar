@@ -6,7 +6,7 @@ import { OutfitSystem } from '@game/systems/OutfitSystem';
 import { isModalOpen, openModal, closeModal, clearAllModals } from '@game/ui/modal';
 import { initExitManager, registerExit, unregisterExit, clearExitManager } from '@game/ui/exitManager';
 import { layoutHUD } from '@game/ui/layout';
-import { loadRegistry, loadFlashcards, getGameState, saveGameState } from '@content/registry';
+import { loadRegistry, loadFlashcards, getGameState, saveGameState, getRoom, getInkStory } from '@content/registry';
 import { EntityData, LevelData, EncounterConfig } from '@content/types';
 
 export class WorldScene extends Scene {
@@ -55,8 +55,13 @@ export class WorldScene extends Scene {
     await loadRegistry();
     await loadFlashcards();
 
-    // Load story
-    await this.dialogueSystem.loadStory('/content/ink/story.json');
+    // Load story (registry-driven)
+    const storyEntry = getInkStory('story');
+    if (storyEntry) {
+      await this.dialogueSystem.loadStory(storyEntry.url);
+    } else {
+      console.warn('No ink story found in registry, dialogue will be unavailable');
+    }
 
     // Load level (this also creates the player at spawn point)
     await this.loadLevel('scotus_lobby');
@@ -174,8 +179,15 @@ export class WorldScene extends Scene {
 
   private async loadLevel(levelId: string): Promise<void> {
     try {
-      // Try to load LDtk level data
-      const response = await fetch(`/content/ldtk/${levelId}.json`);
+      // Get room URL from registry (registry-driven routing)
+      const room = getRoom(levelId);
+      if (!room) {
+        console.warn(`Room '${levelId}' not found in registry, creating placeholder`);
+        this.createPlaceholderLevel();
+        return;
+      }
+
+      const response = await fetch(room.ldtkUrl);
       if (response.ok) {
         this.levelData = await response.json();
         this.renderLevel();

@@ -1,5 +1,13 @@
 // Content Registry Loader
-import { GameState, DEFAULT_GAME_STATE, Flashcard, Outfit } from './types';
+import {
+  GameState,
+  DEFAULT_GAME_STATE,
+  Flashcard,
+  Outfit,
+  RoomEntry,
+  FlashcardPackEntry,
+  InkEntry
+} from './types';
 
 export interface SpriteEntry {
   url: string;
@@ -12,38 +20,65 @@ export interface SpriteEntry {
   key?: string;
 }
 
-export interface Registry {
+export interface ContentRegistry {
   tileSize: number;
   scale: number;
   buildId?: string;  // Cache-busting identifier (commit SHA or timestamp)
   entities: Record<string, { required: string[]; optional?: string[] }>;
   outfits: Record<string, Outfit>;
-  deckTags: string[];
+  tags: {
+    subjects: string[];
+    topicTags: string[];
+  };
   sprites: Record<string, SpriteEntry>;
-  characters?: Array<{ id: string; name: string; spriteKey: string }>;
+  characters?: Array<{ id: string; name?: string; spriteKey: string; specUrl?: string }>;
+  rooms: RoomEntry[];
+  flashcardPacks: FlashcardPackEntry[];
+  ink: InkEntry[];
+  // Legacy field for backwards compat
+  deckTags?: string[];
 }
 
-let registry: Registry | null = null;
+// Legacy alias for backwards compatibility
+export type Registry = ContentRegistry;
+
+let registry: ContentRegistry | null = null;
 let flashcards: Flashcard[] = [];
 let gameState: GameState = { ...DEFAULT_GAME_STATE };
 
-export async function loadRegistry(): Promise<Registry> {
+// Content cache for loaded data
+const contentCache: Map<string, unknown> = new Map();
+
+export async function loadRegistry(): Promise<ContentRegistry> {
   if (registry) return registry;
-  
+
   const response = await fetch('/generated/registry.json');
   registry = await response.json();
+
+  // Backwards compat: populate deckTags from tags.subjects if missing
+  if (!registry!.deckTags && registry!.tags?.subjects) {
+    registry!.deckTags = registry!.tags.subjects;
+  }
+
   return registry!;
 }
 
 export async function loadFlashcards(): Promise<Flashcard[]> {
   if (flashcards.length > 0) return flashcards;
-  
+
   try {
-    const response = await fetch('/content/cards/flashcards.json');
+    // Use registry-driven URL if registry is loaded
+    let url = '/content/cards/flashcards.json'; // fallback
+    if (registry?.flashcardPacks?.length) {
+      const pack = registry.flashcardPacks[0]; // Default to first pack
+      url = pack.url;
+    }
+
+    const response = await fetch(url);
     const data = await response.json();
     // Handle both array format and object with 'cards' array
     flashcards = Array.isArray(data) ? data : (data.cards || []);
-    console.log(`Loaded ${flashcards.length} flashcards`);
+    console.log(`Loaded ${flashcards.length} flashcards from ${url}`);
   } catch (e) {
     console.warn('No flashcards.json found, using sample cards');
     flashcards = getSampleCards();
@@ -51,18 +86,158 @@ export async function loadFlashcards(): Promise<Flashcard[]> {
   return flashcards;
 }
 
-export function getRegistry(): Registry {
+export function getRegistry(): ContentRegistry {
   if (!registry) throw new Error('Registry not loaded');
   return registry;
 }
+
+// ============================================
+// REGISTRY-DRIVEN ACCESSORS
+// ============================================
+
+/**
+ * Get room entry by ID from registry.
+ * @throws Error if registry not loaded
+ */
+export function getRoom(id: string): RoomEntry | undefined {
+  const reg = getRegistry();
+  return reg.rooms?.find(r => r.id === id);
+}
+
+/**
+ * Get all room entries from registry.
+ */
+export function getAllRooms(): RoomEntry[] {
+  const reg = getRegistry();
+  return reg.rooms || [];
+}
+
+/**
+ * Get flashcard pack entry by ID from registry.
+ */
+export function getFlashcardPack(id: string): FlashcardPackEntry | undefined {
+  const reg = getRegistry();
+  return reg.flashcardPacks?.find(p => p.id === id);
+}
+
+/**
+ * Get all flashcard pack entries from registry.
+ */
+export function getAllFlashcardPacks(): FlashcardPackEntry[] {
+  const reg = getRegistry();
+  return reg.flashcardPacks || [];
+}
+
+/**
+ * Get ink story entry by ID from registry.
+ */
+export function getInkStory(id: string): InkEntry | undefined {
+  const reg = getRegistry();
+  return reg.ink?.find(i => i.id === id);
+}
+
+/**
+ * Get all ink story entries from registry.
+ */
+export function getAllInkStories(): InkEntry[] {
+  const reg = getRegistry();
+  return reg.ink || [];
+}
+
+/**
+ * Load flashcards from a specific pack with caching.
+ * Uses registry-driven URL resolution.
+ */
+export async function loadFlashcardsFromPack(packId: string): Promise<Flashcard[]> {
+  const cacheKey = `flashcards:${packId}`;
+  if (contentCache.has(cacheKey)) {
+    return contentCache.get(cacheKey) as Flashcard[];
+  }
+
+  const pack = getFlashcardPack(packId);
+  if (!pack) {
+    throw new Error(`Flashcard pack not found: ${packId}`);
+  }
+
+  const response = await fetch(pack.url);
+  if (!response.ok) {
+    throw new Error(`Failed to load flashcards from ${pack.url}: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const cards = Array.isArray(data) ? data : (data.cards || []) as Flashcard[];
+  contentCache.set(cacheKey, cards);
+  return cards;
+}
+
+/**
+ * Load room LDtk data with caching.
+ * Uses registry-driven URL resolution.
+ */
+export async function loadRoomData(roomId: string): Promise<unknown> {
+  const cacheKey = `room:${roomId}`;
+  if (contentCache.has(cacheKey)) {
+    return contentCache.get(cacheKey);
+  }
+
+  const room = getRoom(roomId);
+  if (!room) {
+    throw new Error(`Room not found: ${roomId}`);
+  }
+
+  const response = await fetch(room.ldtkUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to load room from ${room.ldtkUrl}: ${response.status}`);
+  }
+
+  const data = await response.json();
+  contentCache.set(cacheKey, data);
+  return data;
+}
+
+/**
+ * Load ink story JSON with caching.
+ * Uses registry-driven URL resolution.
+ */
+export async function loadInkStory(storyId: string): Promise<unknown> {
+  const cacheKey = `ink:${storyId}`;
+  if (contentCache.has(cacheKey)) {
+    return contentCache.get(cacheKey);
+  }
+
+  const story = getInkStory(storyId);
+  if (!story) {
+    throw new Error(`Ink story not found: ${storyId}`);
+  }
+
+  const response = await fetch(story.url);
+  if (!response.ok) {
+    throw new Error(`Failed to load ink story from ${story.url}: ${response.status}`);
+  }
+
+  const data = await response.json();
+  contentCache.set(cacheKey, data);
+  return data;
+}
+
+/**
+ * Clear content cache (useful for hot reload in development).
+ */
+export function clearContentCache(): void {
+  contentCache.clear();
+}
+
+// ============================================
+// FLASHCARD HELPERS
+// ============================================
 
 export function getFlashcards(): Flashcard[] {
   return flashcards;
 }
 
 export function getCardsByTag(tag: string): Flashcard[] {
-  return flashcards.filter(card => 
-    card.tagsNormalized?.includes(tag) || 
+  return flashcards.filter(card =>
+    card.tagsNormalized?.includes(tag) ||
     card.tagsNormalized?.some(t => t.toLowerCase().includes(tag.toLowerCase()))
   );
 }
@@ -77,6 +252,10 @@ export function getRandomCards(tag: string, count: number): Flashcard[] {
   const shuffled = [...tagCards].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
 }
+
+// ============================================
+// GAME STATE MANAGEMENT
+// ============================================
 
 export function getGameState(): GameState {
   return gameState;
@@ -104,6 +283,10 @@ export function resetGameState(): void {
   localStorage.removeItem('kimbar_save');
 }
 
+// ============================================
+// SAMPLE DATA
+// ============================================
+
 function getSampleCards(): Flashcard[] {
   return [
     {
@@ -120,7 +303,7 @@ function getSampleCards(): Flashcard[] {
       confusableWith: ['present sense impression', 'excited utterance']
     },
     {
-      id: 'sample_2', 
+      id: 'sample_2',
       frontPrompt: 'What are the elements of negligence?',
       cloze: 'Duty, {{Breach}}, Causation (actual and proximate), and Damages',
       easyContent: 'Did they owe you a duty? Did they break it? Did that cause your harm?',

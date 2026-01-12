@@ -49,6 +49,30 @@ export interface EncounterConfig {
   rewardId?: string;
 }
 
+// Registry entry types (from generated/registry.json)
+
+export interface RoomEntry {
+  id: string;
+  ldtkUrl: string;
+  displayName?: string;
+  spawns?: string[];
+}
+
+export interface FlashcardPackEntry {
+  id: string;
+  url: string;
+  schemaVersion: number;
+  count?: number;
+  contentHash?: string;
+  subjects?: string[];
+  title?: string;
+}
+
+export interface InkEntry {
+  id: string;
+  url: string;
+}
+
 export interface EntityData {
   id: string;
   type: string;

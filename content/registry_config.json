@@ -1,4 +1,5 @@
 {
+  "$schema": "../schemas/registry_config.schema.json",
   "tileSize": 32,
   "scale": 2,
   "entities": {
@@ -13,11 +14,6 @@
     "evidence_blazer": { "id": "evidence_blazer", "name": "Evidence Blazer", "sprite": "player_blazer", "buffs": { "hints": 1 } },
     "civpro_suit": { "id": "civpro_suit", "name": "Civ Pro Power Suit", "sprite": "player_suit", "buffs": { "strike": 1 } },
     "conlaw_robe": { "id": "conlaw_robe", "name": "Con Law Robe", "sprite": "player_robe", "buffs": { "extraTime": 5 } },
-    "contracts_dress": { "id": "contracts_dress", "name": "Contracts Cocktail Dress", "sprite": "player_dress", "buffs": { "hints": 1 } },
-    "property_pantsuit": { "id": "property_pantsuit", "name": "Property Pantsuit", "sprite": "player_pantsuit", "buffs": { "strike": 1 } },
-    "torts_tux": { "id": "torts_tux", "name": "Torts Tuxedo", "sprite": "player_tux", "buffs": { "extraTime": 5 } },
-    "crimlaw_cape": { "id": "crimlaw_cape", "name": "Criminal Law Cape", "sprite": "player_cape", "buffs": { "hints": 2 } },
-    "crimpro_coat": { "id": "crimpro_coat", "name": "Crim Pro Trench Coat", "sprite": "player_coat", "buffs": { "skipCard": true } },
     "court_blazer": { "id": "court_blazer", "name": "Court Blazer", "sprite": "player_court", "buffs": { "citationBonus": 10 } },
     "power_suit": { "id": "power_suit", "name": "Power Suit", "sprite": "player_power", "buffs": { "hints": 1, "citationBonus": 5 } }
   },
@@ -41,13 +37,5 @@
       "trusts_and_estates"
     ],
     "topicTags": []
-  },
-  "sprites": {
-    "player": { "key": "char.kim", "url": "/generated/sprites/char.kim.png", "frameWidth": 64, "frameHeight": 64 },
-    "npc.clerk": { "key": "npc.clerk_01", "url": "/generated/sprites/npc.clerk_01.png", "frameWidth": 64, "frameHeight": 64 },
-    "npc.justice": { "key": "npc.justice", "url": "/generated/sprites/npc.justice.png", "frameWidth": 64, "frameHeight": 64 },
-    "prop.podium": { "key": "prop.podium", "url": "/assets/props/podium.png" },
-    "prop.bench": { "key": "prop.bench", "url": "/assets/props/bench.png" },
-    "prop.chest": { "key": "prop.chest", "url": "/assets/props/chest.png" }
   }
 }

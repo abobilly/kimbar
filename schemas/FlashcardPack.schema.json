@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "FlashcardPack.schema.json",
+  "title": "FlashcardPack",
+  "description": "Registry entry for a flashcard pack",
+  "type": "object",
+  "required": ["id", "url", "schemaVersion"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-_]*$",
+      "description": "Unique identifier for this flashcard pack"
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^/content/",
+      "description": "URL path to the flashcards JSON file"
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Schema version of the flashcards file"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of cards in the pack (for validation)"
+    },
+    "contentHash": {
+      "type": "string",
+      "description": "SHA256 hash of file contents (for cache invalidation)"
+    },
+    "subjects": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Bar exam subjects covered"
+    },
+    "title": {
+      "type": "string",
+      "description": "Human-readable title for the pack"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the pack contents"
+    }
+  },
+  "additionalProperties": false
+}

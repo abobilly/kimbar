@@ -39,10 +39,15 @@
         "test:unit:watch": "vitest",
         "test:e2e": "playwright test",
         "test:e2e:headed": "playwright test --headed",
-        "test": "npm run test:unit && npm run test:e2e"
+        "test": "npm run test:unit && npm run test:e2e",
+        "check": "npm run prepare:content && npm run verify && npm run check-boundaries && npm run test && npm run build-nolog",
+        "check:fast": "npm run prepare:content && npm run verify && npm run check-boundaries && npm run test:unit && npm run build-nolog",
+        "precommit": "npm run check-boundaries && node scripts/check-no-hardcoded-paths.mjs",
+        "prepare": "husky"
     },
     "devDependencies": {
         "@playwright/test": "^1.57.0",
+        "husky": "^9.1.7",
         "sharp": "^0.34.5",
         "typescript": "~5.7.2",
         "vite": "^6.3.1",

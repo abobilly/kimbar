@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "FlashcardsFile.schema.json",
+  "title": "FlashcardsFile",
+  "description": "A flashcard pack file containing quiz cards",
+  "type": "object",
+  "required": ["cards"],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Schema version for this file format"
+    },
+    "source": {
+      "type": "string",
+      "description": "Source identifier for this card set"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version string for this card set"
+    },
+    "totalCards": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total number of cards (for validation)"
+    },
+    "subjects": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of subjects covered"
+    },
+    "cards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique card identifier"
+          },
+          "seq": {
+            "type": "integer",
+            "description": "Sequence number within the deck"
+          },
+          "subject": {
+            "type": "string",
+            "description": "Primary subject category"
+          },
+          "topic": {
+            "type": "string",
+            "description": "Specific topic within subject"
+          },
+          "front": {
+            "type": "string",
+            "description": "Front/question text (basic format)"
+          },
+          "frontPrompt": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Question prompt (enhanced format)"
+          },
+          "backPlain": {
+            "type": "string",
+            "description": "Plain text answer"
+          },
+          "cloze": {
+            "type": "string",
+            "description": "Cloze deletion format with {{answer}}"
+          },
+          "clozeLite": {
+            "type": "string",
+            "description": "Simplified cloze format"
+          },
+          "easyContent": {
+            "type": "string",
+            "description": "Easy difficulty explanation"
+          },
+          "mediumContent": {
+            "type": "string",
+            "description": "Medium difficulty explanation"
+          },
+          "hardContent": {
+            "type": "string",
+            "description": "Hard difficulty explanation"
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Topic tags (original case)"
+          },
+          "tagsNormalized": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Normalized lowercase tags"
+          },
+          "difficulty": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Difficulty rating 1-5"
+          },
+          "priority": {
+            "oneOf": [
+              { "type": "integer", "minimum": 1 },
+              { "type": "string", "enum": ["high", "medium", "low"] }
+            ],
+            "description": "Priority for study ordering"
+          },
+          "mnemonic": {
+            "type": "string",
+            "description": "Memory aid or hint"
+          },
+          "confusableWith": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "IDs of cards commonly confused with this one"
+          },
+          "parentId": {
+            "type": ["string", "null"],
+            "description": "Parent card ID for hierarchical organization"
+          },
+          "childIds": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Child card IDs"
+          },
+          "cardRole": {
+            "type": ["string", "null"],
+            "description": "Role in card hierarchy (e.g., parent, child, standalone)"
+          },
+          "enhanced": {
+            "type": "boolean",
+            "description": "Whether card has been enhanced"
+          },
+          "source": {
+            "type": "string",
+            "description": "Citation or source reference"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

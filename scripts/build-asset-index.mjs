@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
  * Build Asset Index - Scans vendor/ and creates searchable asset index
- * 
+ *
  * Usage: node scripts/build-asset-index.mjs
- * 
+ *
  * Outputs:
  *   - generated/asset_index.ndjson (passing assets)
  *   - generated/quarantine.ndjson (failing assets)
@@ -17,6 +17,14 @@ const VENDOR_DIR = './vendor';
 const GENERATED_DIR = './generated';
 const CONTRACT_PATH = './content/content_contract.json';
 
+// Try to load sharp for image dimension checking
+let sharp = null;
+try {
+  sharp = (await import('sharp')).default;
+} catch (e) {
+  console.warn('Sharp not available - dimension validation will be skipped');
+}
+
 async function loadContract() {
   if (!existsSync(CONTRACT_PATH)) {
     return null;
@@ -27,12 +35,12 @@ async function loadContract() {
 
 async function scanDirectory(dir, files = []) {
   if (!existsSync(dir)) return files;
-  
+
   const entries = await readdir(dir, { withFileTypes: true });
-  
+
   for (const entry of entries) {
     const fullPath = join(dir, entry.name);
-    
+
     if (entry.isDirectory()) {
       await scanDirectory(fullPath, files);
     } else if (entry.isFile()) {
@@ -42,14 +50,14 @@ async function scanDirectory(dir, files = []) {
       }
     }
   }
-  
+
   return files;
 }
 
 function classifyAsset(filePath, contract) {
   const name = basename(filePath, extname(filePath)).toLowerCase();
   const dir = dirname(filePath).toLowerCase();
-  
+
   // Simple classification based on path/name patterns
   if (dir.includes('character') || dir.includes('char') || name.includes('character')) {
     return 'character_sheet';
@@ -63,7 +71,7 @@ function classifyAsset(filePath, contract) {
   if (dir.includes('ui') || dir.includes('interface')) {
     return 'ui';
   }
-  
+
   return 'unknown';
 }
 
@@ -72,7 +80,7 @@ function generateId(filePath, kind) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_|_$/g, '');
-  
+
   const prefix = {
     'character_sheet': 'char',
     'tileset': 'tile',
@@ -80,7 +88,7 @@ function generateId(filePath, kind) {
     'ui': 'ui',
     'unknown': 'asset'
   }[kind] || 'asset';
-  
+
   return `${prefix}.${name}`;
 }
 
@@ -88,10 +96,10 @@ function getProvenance(filePath) {
   // Extract pack/source info from path
   // e.g., vendor/lpc/Universal-LPC-Spritesheet-Character-Generator/spritesheets/body/...
   const parts = filePath.replace(/\\/g, '/').split('/');
-  
+
   if (parts[0] === 'vendor' || parts[0] === './vendor') {
     const vendorParts = parts.slice(1);
-    
+
     // Check for known sources
     if (vendorParts[0] === 'lpc' && vendorParts[1]?.includes('Universal-LPC')) {
       return {
@@ -100,7 +108,7 @@ function getProvenance(filePath) {
         license: 'CC-BY-SA 3.0 / GPL 3.0'
       };
     }
-    
+
     // Generic vendor source
     return {
       source: vendorParts[0] || 'unknown',
@@ -108,7 +116,7 @@ function getProvenance(filePath) {
       license: 'unknown'
     };
   }
-  
+
   return {
     source: 'local',
     packId: 'custom',
@@ -116,105 +124,181 @@ function getProvenance(filePath) {
   };
 }
 
-function validateAsset(filePath, kind, contract) {
+/**
+ * Validate asset dimensions and compliance.
+ * Uses sharp to read actual PNG dimensions.
+ */
+async function validateAsset(filePath, kind, contract) {
   const notes = [];
-  
-  // TODO: Add actual PNG dimension checking with sharp
-  // For now, just mark as pending validation
-  notes.push('dimensions not verified (TODO: implement image analysis)');
-  
+  let dimensions = null;
+
+  // Try to get actual dimensions using sharp
+  if (sharp) {
+    try {
+      const metadata = await sharp(filePath).metadata();
+      dimensions = {
+        width: metadata.width,
+        height: metadata.height
+      };
+
+      // Validate character sheets
+      if (kind === 'character_sheet') {
+        const expectedWidth = 832; // 13 columns x 64px
+        const expectedHeight = 1344; // 21 rows x 64px
+        const maxFrameSize = contract?.characters?.maxFrameSize || 64;
+
+        // Check if dimensions are compatible with LPC format
+        if (dimensions.width !== expectedWidth) {
+          // Allow alternative widths that are multiples of 64
+          if (dimensions.width % 64 !== 0) {
+            notes.push(`width ${dimensions.width}px not multiple of 64`);
+          }
+        }
+
+        // Height can vary, but should be multiple of 64
+        if (dimensions.height % 64 !== 0) {
+          notes.push(`height ${dimensions.height}px not multiple of 64`);
+        }
+      }
+
+      // Validate generated sprites
+      if (filePath.includes('generated/sprites/')) {
+        const expectedWidth = 832;
+        const expectedHeight = 1344;
+
+        if (dimensions.width !== expectedWidth || dimensions.height !== expectedHeight) {
+          notes.push(`expected ${expectedWidth}x${expectedHeight}, got ${dimensions.width}x${dimensions.height}`);
+        }
+      }
+
+      // Validate portraits
+      if (filePath.includes('generated/portraits/')) {
+        const expectedSize = 64;
+        if (dimensions.width !== expectedSize || dimensions.height !== expectedSize) {
+          notes.push(`portrait expected ${expectedSize}x${expectedSize}, got ${dimensions.width}x${dimensions.height}`);
+        }
+      }
+    } catch (e) {
+      notes.push(`failed to read dimensions: ${e.message}`);
+    }
+  } else {
+    notes.push('sharp not available, dimensions not verified');
+  }
+
   return {
     compliance: notes.length === 0 ? 'pass' : 'pending',
-    notes
+    notes,
+    dimensions
   };
 }
 
 async function main() {
   console.log('🗂️ Build Asset Index\n');
-  console.log('=' .repeat(50));
-  
+  console.log('='.repeat(50));
+
   // Load contract
   const contract = await loadContract();
   if (contract) {
     console.log(`\n✅ Loaded contract v${contract.version}`);
   }
-  
+
   // Ensure generated directory exists
   await mkdir(GENERATED_DIR, { recursive: true });
-  
+
   // Scan vendor directory
   console.log('\n📁 Scanning vendor/ for assets...');
   const vendorFiles = await scanDirectory(VENDOR_DIR);
   console.log(`   Found ${vendorFiles.length} image file(s) in vendor/`);
-  
+
   // Scan generated directory (sprites, portraits)
   console.log('\n📁 Scanning generated/ for assets...');
   const generatedFiles = await scanDirectory(GENERATED_DIR);
   console.log(`   Found ${generatedFiles.length} image file(s) in generated/`);
-  
+
   const allFiles = [...vendorFiles, ...generatedFiles];
-  
+
   if (allFiles.length === 0) {
     console.log('\n⚠️ No image files found');
     console.log('   Run: npm run fetch-vendor to download assets');
     console.log('   Run: npm run gen:sprites to generate sprites');
     return;
   }
-  
+
   // Process each file
   const passing = [];
   const failing = [];
-  
-  for (const filePath of allFiles) {
-    const kind = classifyAsset(filePath, contract);
-    const id = generateId(filePath, kind);
-    const { compliance, notes } = validateAsset(filePath, kind, contract);
-    const provenance = getProvenance(filePath);
-    
-    // Determine runtime URL
-    const normalizedPath = filePath.replace(/\\/g, '/');
-    let url = normalizedPath;
-    if (normalizedPath.startsWith('generated/')) {
-      url = '/' + normalizedPath;
-    } else if (normalizedPath.startsWith('./generated/')) {
-      url = normalizedPath.replace('./generated/', '/generated/');
+
+  // Process in batches to avoid memory issues with large sets
+  const batchSize = 100;
+  let processed = 0;
+
+  for (let i = 0; i < allFiles.length; i += batchSize) {
+    const batch = allFiles.slice(i, i + batchSize);
+
+    for (const filePath of batch) {
+      const kind = classifyAsset(filePath, contract);
+      const id = generateId(filePath, kind);
+      const { compliance, notes, dimensions } = await validateAsset(filePath, kind, contract);
+      const provenance = getProvenance(filePath);
+
+      // Determine runtime URL
+      const normalizedPath = filePath.replace(/\\/g, '/');
+      let url = normalizedPath;
+      if (normalizedPath.startsWith('generated/')) {
+        url = '/' + normalizedPath;
+      } else if (normalizedPath.startsWith('./generated/')) {
+        url = normalizedPath.replace('./generated/', '/generated/');
+      }
+
+      const entry = {
+        id,
+        label: basename(filePath, extname(filePath)),
+        source: provenance.source,
+        packId: provenance.packId,
+        license: provenance.license,
+        path: normalizedPath,
+        url,
+        kind,
+        type: kind, // Alias for compatibility
+        tags: extractTags(filePath, kind),
+        frameWidth: kind === 'character_sheet' ? 64 : undefined,
+        frameHeight: kind === 'character_sheet' ? 64 : undefined,
+        width: dimensions?.width,
+        height: dimensions?.height,
+        compliance,
+        notes: notes.length > 0 ? notes : undefined
+      };
+
+      // Remove undefined fields
+      Object.keys(entry).forEach(k => entry[k] === undefined && delete entry[k]);
+
+      if (compliance === 'pass') {
+        passing.push(entry);
+      } else {
+        failing.push(entry);
+      }
+
+      processed++;
     }
-    
-    const entry = {
-      id,
-      label: basename(filePath, extname(filePath)),
-      source: provenance.source,
-      packId: provenance.packId,
-      license: provenance.license,
-      path: normalizedPath,
-      url,
-      kind,
-      type: kind, // Alias for compatibility
-      tags: extractTags(filePath, kind),
-      frameWidth: kind === 'character_sheet' ? 64 : undefined,
-      frameHeight: kind === 'character_sheet' ? 64 : undefined,
-      compliance,
-      notes
-    };
-    
-    // Remove undefined fields
-    Object.keys(entry).forEach(k => entry[k] === undefined && delete entry[k]);
-    
-    if (compliance === 'pass') {
-      passing.push(entry);
-    } else {
-      failing.push(entry);
+
+    // Progress indicator for large sets
+    if (allFiles.length > 1000) {
+      process.stdout.write(`\r   Processing: ${processed}/${allFiles.length}`);
     }
   }
-  
+
+  if (allFiles.length > 1000) {
+    console.log(''); // Newline after progress
+  }
+
   // Write outputs
   const indexPath = join(GENERATED_DIR, 'asset_index.ndjson');
   const quarantinePath = join(GENERATED_DIR, 'quarantine.ndjson');
-  
+
   await writeFile(indexPath, passing.map(e => JSON.stringify(e)).join('\n') + '\n');
   await writeFile(quarantinePath, failing.map(e => JSON.stringify(e)).join('\n') + '\n');
-  
-  console.log('\n' + '=' .repeat(50));
+
+  console.log('\n' + '='.repeat(50));
   console.log('\n📊 Index Summary:');
   console.log(`   ✅ Passing: ${passing.length}`);
   console.log(`   ⚠️ Pending/Failed: ${failing.length}`);
@@ -225,13 +309,13 @@ async function main() {
 function extractTags(filePath, kind) {
   const tags = [kind];
   const path = filePath.toLowerCase();
-  
+
   if (path.includes('char.') || path.includes('character')) tags.push('character');
   if (path.includes('npc.')) tags.push('npc');
   if (path.includes('portrait')) tags.push('portrait');
   if (path.includes('lpc') || path.includes('ulpc')) tags.push('lpc');
   if (path.includes('sprites')) tags.push('spritesheet');
-  
+
   return tags;
 }
 
