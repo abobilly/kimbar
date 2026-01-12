@@ -1,8 +1,8 @@
 # Kim Bar - Agent Handoff Document
-**Date**: January 12, 2026
-**Last Update**: Asset Pipeline Hardening Complete
+**Last Update**: January 12, 2026
 
-> **DELETE THIS FILE after reading and acting on it. Do not commit to repository.**
+> **This is the canonical handoff document.** Update it at the end of each session.
+> Keep it concise but complete. New agents should read this first.
 
 ---
 
@@ -98,29 +98,66 @@ The registry now contains all content routing information:
 
 ## 4. How to Add New Content
 
-### Adding a New Room/Level
-1. Create LDtk file, export to `public/content/ldtk/{id}.json`
-2. Run `npm run prepare:content` (room auto-registered)
-3. Access in code: `getRoom('{id}').ldtkUrl`
+### Adding Flashcards
 
-### Adding a New Flashcard Pack
-1. Create flashcards at `public/content/cards/{id}.json`:
+1. **Create or edit** `public/content/cards/{pack-id}.json`:
    ```json
-   { "schemaVersion": 1, "cards": [...] }
+   {
+     "schemaVersion": 1,
+     "cards": [
+       {
+         "id": "unique-card-id",
+         "question": "What is hearsay?",
+         "answer": "An out-of-court statement offered for the truth of the matter asserted.",
+         "subject": "evidence",
+         "tags": ["hearsay", "fre"]
+       }
+     ]
+   }
    ```
-2. Run `npm run prepare:content` (pack auto-registered)
-3. Run `npm run validate` to verify
-4. Access: `await loadFlashcardsFromPack('{id}')`
+2. **Run**: `npm run prepare:content`
+3. **Verify**: `npm run validate` — confirms pack registered with correct count
+4. **Access in code**: `await loadFlashcardsFromPack('{pack-id}')`
 
-### Adding a New Character Sprite
-1. Create spec in `content/characters/{id}.json`
-2. Run `npm run prepare:content`
-3. Access: `registry.sprites['{id}']`
+### Adding a Room/Level
 
-### Adding a New Ink Dialogue
-1. Create ink file at `content/ink/{id}.ink`
-2. Run `npm run prepare:content`
-3. Access: `getInkStory('{id}').url`
+1. **Create LDtk level** and export JSON to `public/content/ldtk/{room-id}.json`
+2. **Create room spec** at `content/rooms/{room-id}.json`:
+   ```json
+   {
+     "id": "{room-id}",
+     "displayName": "Hall of Justice",
+     "ldtkFile": "{room-id}.json"
+   }
+   ```
+3. **Run**: `npm run prepare:content` — room auto-registered
+4. **Verify**: Check `generated/registry.json` has the room entry
+5. **Access in code**: `getRoom('{room-id}').ldtkUrl`
+
+### Adding a Character/NPC
+
+1. **Create spec** at `content/characters/{char-id}.json`:
+   ```json
+   {
+     "id": "{char-id}",
+     "name": "Justice Thomas",
+     "ulpcArgs": {
+       "body": "male/dark",
+       "hair": "short/gray",
+       "torso": "robes/black"
+     }
+   }
+   ```
+2. **Run**: `npm run prepare:content` — sprite generated + registered
+3. **Verify**: `generated/sprites/{char-id}.png` exists
+4. **Access in code**: `registry.sprites['{char-id}']`
+
+### Adding Ink Dialogue
+
+1. **Create ink file** at `content/ink/{story-id}.ink`
+2. **Run**: `npm run prepare:content` — compiles to `generated/ink/{story-id}.json`
+3. **Verify**: `npm run validate` shows ink story registered
+4. **Access in code**: `getInkStory('{story-id}').url`
 
 ---
 
@@ -259,4 +296,4 @@ npm run build            # Should build successfully
 
 ---
 
-**DELETE this file after reading. Do not commit.**
+*End of handoff document.*
