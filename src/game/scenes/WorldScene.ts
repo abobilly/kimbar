@@ -3,6 +3,8 @@ import { Scene } from 'phaser';
 import { EncounterSystem } from '@game/systems/EncounterSystem';
 import { DialogueSystem } from '@game/systems/DialogueSystem';
 import { OutfitSystem } from '@game/systems/OutfitSystem';
+import { isModalOpen, openModal, closeModal, clearAllModals } from '@game/ui/modal';
+import { initExitManager, registerExit, unregisterExit, clearExitManager } from '@game/ui/exitManager';
 import { loadRegistry, loadFlashcards, getGameState, saveGameState } from '@content/registry';
 import { EntityData, LevelData, EncounterConfig } from '@content/types';
 
@@ -45,20 +47,22 @@ export class WorldScene extends Scene {
     // Load story
     await this.dialogueSystem.loadStory('/content/ink/story.json');
 
-    // Load level
-    await this.loadLevel('lobby');
-
-    // Create player
-    this.createPlayer();
+    // Load level (this also creates the player at spawn point)
+    await this.loadLevel('scotus_lobby');
 
     // Create UI
     this.createUI();
 
-    // Setup input
+    // Setup input (includes ESC key via exitManager)
     this.setupInput();
+    initExitManager(this);
 
-    // Camera follows player
+    // Camera follows player with pixel rounding preserved
     this.cameras.main.startFollow(this.player, true, 0.08, 0.08);
+    this.cameras.main.setRoundPixels(true);  // Ensure pixel rounding after follow
+    
+    // Register cleanup on scene shutdown
+    this.events.on('shutdown', this.onShutdown, this);
   }
 
   private async loadLevel(levelId: string): Promise<void> {
@@ -170,6 +174,8 @@ export class WorldScene extends Scene {
       const npc = this.add.sprite(entity.x, entity.y, spriteKey, 0)
         .setOrigin(0.5, 1)
         .setDepth(entity.y);
+
+      console.log('[WorldScene] Spawned NPC', id, 'spriteKey=', spriteKey, 'pos=', entity.x, entity.y, 'props=', entity.properties);
 
       // Name tag
       if (entity.properties?.name) {
@@ -304,6 +310,7 @@ export class WorldScene extends Scene {
 
       // Replace levelData with converted format
       this.levelData = level;
+      console.log('[WorldScene] Loaded LDtk level', level.id, 'entities:', level.entities.length, 'playerSpawn:', level.playerSpawn);
 
       // Clean up any existing entities
       this.entities.forEach((e) => {
@@ -337,6 +344,8 @@ export class WorldScene extends Scene {
           debugRect.setDepth(900);
         }
 
+        console.log('[WorldScene] Created EncounterTrigger zone', e.id, 'at', centerX, centerY, 'props=', e.properties);
+
         this.physics.add.overlap(this.player, zone, () => {
           if (this.dialogueSystem.isActive() || this.inEncounter) return;
 
@@ -362,6 +371,11 @@ export class WorldScene extends Scene {
   }
 
   private createPlayer(): void {
+    // Destroy existing player if any (prevents two Kims bug)
+    if (this.player) {
+      this.player.destroy();
+    }
+    
     const spawn = this.levelData?.playerSpawn || { x: this.scale.width / 2, y: this.scale.height / 2 };
 
     // Create physics sprite with real texture (fallback to placeholder if missing)
@@ -454,7 +468,7 @@ export class WorldScene extends Scene {
       // Only enabled in development builds
       if (import.meta.env && import.meta.env.DEV) {
         this.input.keyboard.on('keydown-E', () => {
-          if (this.dialogueSystem.isActive() || this.inEncounter) return;
+          if (isModalOpen()) return;
           const config: EncounterConfig = { deckTag: 'evidence', count: 1 };
           this.startEncounter(config);
         });
@@ -463,8 +477,8 @@ export class WorldScene extends Scene {
     
     // Tap-to-move
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-      // Don't move if UI is active
-      if (this.dialogueSystem.isActive()) return;
+      // Don't move if any modal UI is open
+      if (isModalOpen()) return;
 
       // Get world position
       const worldPoint = this.cameras.main.getWorldPoint(pointer.x, pointer.y);
@@ -503,6 +517,8 @@ export class WorldScene extends Scene {
     switch (entity.type) {
       case 'NPC':
         if (entity.properties?.storyKnot) {
+          // Cancel any queued movement when entering dialogue
+          this.playerTarget = null;
           this.dialogueSystem.start(entity.properties.storyKnot, () => {
             console.log('Dialogue complete');
             this.updateUI();
@@ -573,19 +589,26 @@ export class WorldScene extends Scene {
 
   private startEncounter(config: EncounterConfig): void {
     if (this.inEncounter) return;
+    
+    // Cancel any queued movement before entering encounter
+    this.playerTarget = null;
     this.inEncounter = true;
 
     this.encounterSystem.start(config, (result) => {
       console.log('Encounter result:', result);
       this.updateUI();
 
-      if (result.won) {
-        this.showNotification(`🎉 Victory! +${result.correctCount * 10} citations`);
-      } else {
-        this.showNotification('⚠️ Better luck next time...');
+      // Handle result (aborted encounters show no notification)
+      if (!result.aborted) {
+        if (result.won) {
+          this.showNotification(`🎉 Victory! +${result.correctCount * 10} citations`);
+        } else {
+          this.showNotification('⚠️ Better luck next time...');
+        }
       }
 
-      // Clear encounter state
+      // Clear encounter state and any queued movement
+      this.playerTarget = null;
       this.inEncounter = false;
     });
   }
@@ -614,6 +637,9 @@ export class WorldScene extends Scene {
   }
 
   private showMenu(): void {
+    // Register menu as modal to block world input
+    openModal('menu');
+    
     // Simple pause menu
     const { width, height } = this.scale;
 
@@ -625,6 +651,16 @@ export class WorldScene extends Scene {
     const menu = this.add.container(width / 2, height / 2)
       .setScrollFactor(0)
       .setDepth(1101);
+    
+    // Store references for cleanup
+    (this as any)._menuOverlay = overlay;
+    (this as any)._menuContainer = menu;
+
+    // Click outside menu content to close (overlay click)
+    overlay.on('pointerdown', () => this.closeMenuIfOpen());
+    
+    // Register ESC to close menu
+    registerExit('menu', () => this.closeMenuIfOpen());
 
     const title = this.add.text(0, -150, '⚖️ MENU ⚖️', {
       fontSize: '36px',
@@ -633,7 +669,7 @@ export class WorldScene extends Scene {
     }).setOrigin(0.5);
 
     const buttons = [
-      { text: '📝 Resume', action: () => this.closeMenu(overlay, menu) },
+      { text: '📝 Resume', action: () => this.closeMenuIfOpen() },
       { text: '👗 Outfits', action: () => this.showOutfits() },
       { text: '💾 Save', action: () => { saveGameState(); this.showNotification('💾 Saved!'); } },
       { text: '🚪 Main Menu', action: () => this.scene.start('MainMenu') }
@@ -652,17 +688,33 @@ export class WorldScene extends Scene {
 
       button.on('pointerover', () => button.setColor('#FFD700'));
       button.on('pointerout', () => button.setColor('#FFFFFF'));
-      button.on('pointerdown', btn.action);
+      // Stop propagation on button clicks to prevent overlay close
+      button.on('pointerdown', (pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Types.Input.EventData) => {
+        event.stopPropagation();
+        btn.action();
+      });
 
       buttonElements.push(button);
     });
 
     menu.add([title, ...buttonElements]);
   }
+  
+  private closeMenuIfOpen(): void {
+    const overlay = (this as any)._menuOverlay as Phaser.GameObjects.Rectangle | undefined;
+    const menu = (this as any)._menuContainer as Phaser.GameObjects.Container | undefined;
+    if (overlay && menu) {
+      this.closeMenu(overlay, menu);
+    }
+  }
 
   private closeMenu(overlay: Phaser.GameObjects.Rectangle, menu: Phaser.GameObjects.Container): void {
+    unregisterExit('menu');
+    closeModal('menu');
     overlay.destroy();
     menu.destroy();
+    (this as any)._menuOverlay = undefined;
+    (this as any)._menuContainer = undefined;
   }
 
   private showOutfits(): void {
@@ -670,6 +722,15 @@ export class WorldScene extends Scene {
     const unlocked = OutfitSystem.getUnlockedOutfits();
     console.log('Unlocked outfits:', unlocked);
     this.showNotification(`You have ${unlocked.length} outfits`);
+  }
+  
+  /**
+   * Scene shutdown cleanup - clears modal state and exit manager.
+   * INVARIANT: No stale modal state persists across scene transitions.
+   */
+  private onShutdown(): void {
+    clearAllModals();
+    clearExitManager();
   }
 
   // Movement constants
@@ -679,8 +740,8 @@ export class WorldScene extends Scene {
   update(_time: number, _delta: number): void {
     if (!this.player) return;
     
-    // Bail if dialogue is open or an encounter is active
-    if (this.dialogueSystem.isActive() || this.inEncounter) {
+    // Bail if any modal UI is open
+    if (isModalOpen()) {
       // Stop player if using physics
       if (this.player.body) {
         (this.player.body as Phaser.Physics.Arcade.Body).setVelocity(0, 0);

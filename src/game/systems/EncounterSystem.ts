@@ -2,12 +2,18 @@
 import { Scene } from 'phaser';
 import { Flashcard, EncounterConfig } from '@content/types';
 import { getRandomCards, getGameState, updateGameState, getRegistry } from '@content/registry';
+import { openModal, closeModal } from '@game/ui/modal';
+import { registerExit, unregisterExit } from '@game/ui/exitManager';
+import { layoutEncounter } from '@game/ui/layout';
+import { DEPTH_MODAL } from '@game/constants/depth';
+import { FONT_LG, FONT_TITLE } from '@game/constants';
 
 export interface EncounterResult {
   won: boolean;
   correctCount: number;
   totalCount: number;
   reward?: string;
+  aborted?: boolean;  // True if user cancelled via ESC/X
 }
 
 export class EncounterSystem {
@@ -18,6 +24,7 @@ export class EncounterSystem {
   private correctCount: number = 0;
   private config: EncounterConfig | null = null;
   private onComplete: ((result: EncounterResult) => void) | null = null;
+  private isEvaluating: boolean = false;  // True while showing feedback, blocks cancel
 
   constructor(scene: Scene) {
     this.scene = scene;
@@ -41,37 +48,65 @@ export class EncounterSystem {
   }
 
   private showEncounterUI(): void {
+    // Register as modal to block world input
+    openModal('encounter');
+    
     const { width, height } = this.scene.scale;
+    const layout = layoutEncounter(width, height);
     
     // Create overlay container
     this.container = this.scene.add.container(0, 0);
-    this.container.setDepth(1000);
+    this.container.setDepth(DEPTH_MODAL);
 
-    // Dark overlay
-    const overlay = this.scene.add.rectangle(width / 2, height / 2, width, height, 0x000000, 0.85);
+    // Dark overlay - make interactive to block clicks to world
+    const overlay = this.scene.add.rectangle(layout.centerX, height / 2, width, height, 0x000000, 0.85);
+    overlay.setInteractive();  // Swallows pointer events
+    overlay.setName('overlay');
     this.container.add(overlay);
 
     // Title
-    const title = this.scene.add.text(width / 2, 60, '⚖️ LEGAL ENCOUNTER ⚖️', {
-      fontSize: '32px',
+    const title = this.scene.add.text(layout.centerX, layout.titleY, '⚖️ LEGAL ENCOUNTER ⚖️', {
+      fontSize: `${FONT_TITLE}px`,
       color: '#FFD700',
       fontFamily: 'Georgia, serif'
     }).setOrigin(0.5);
+    title.setName('title');
     this.container.add(title);
 
+    // Cancel button (X) in top-right corner
+    const cancelBtn = this.scene.add.text(layout.cancelX, layout.cancelY, '✕', {
+      fontSize: '28px',
+      color: '#888888'
+    }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+    cancelBtn.setName('cancel_btn');
+    cancelBtn.on('pointerover', () => cancelBtn.setColor('#FFFFFF'));
+    cancelBtn.on('pointerout', () => cancelBtn.setColor('#888888'));
+    cancelBtn.on('pointerdown', () => this.cancelEncounter());
+    this.container.add(cancelBtn);
+
+    // Register ESC to cancel via exitManager
+    registerExit('encounter', () => this.cancelEncounter());
+
     // Progress
-    const progress = this.scene.add.text(width / 2, 100, '', {
-      fontSize: '18px',
+    const progress = this.scene.add.text(layout.centerX, layout.progressY, '', {
+      fontSize: `${FONT_LG}px`,
       color: '#FFFFFF'
     }).setOrigin(0.5);
     progress.setName('progress');
     this.container.add(progress);
+    
+    // Store layout for later use
+    this.container.setData('layout', layout);
+    
+    // Subscribe to resize events
+    this.scene.scale.on('resize', this.onResize, this);
   }
 
   private showQuestion(): void {
     if (!this.container || !this.config) return;
 
     const { width, height } = this.scene.scale;
+    const layout = layoutEncounter(width, height);
     const card = this.currentCards[this.currentIndex];
 
     // Update progress
@@ -87,29 +122,30 @@ export class EncounterSystem {
       }
     });
 
-    // Question text
-    const questionText = this.scene.add.text(width / 2, 180, card.frontPrompt, {
-      fontSize: '24px',
+    // Question text - use layout for positioning and width
+    const questionText = this.scene.add.text(layout.centerX, layout.questionY, card.frontPrompt, {
+      fontSize: '20px',
       color: '#FFFFFF',
-      wordWrap: { width: width - 100 },
+      wordWrap: { width: layout.questionWrapWidth },
       align: 'center',
       fontFamily: 'Arial'
     }).setOrigin(0.5, 0);
     questionText.setName('q_text');
     this.container.add(questionText);
 
-    // Generate answer choices
+    // Generate answer choices - use layout for button sizing
     const choices = this.generateChoices(card);
-    const buttonY = 380;
-    const buttonSpacing = 70;
+    const questionHeight = questionText.height;
+    const buttonStartY = layout.questionY + questionHeight + 30;
 
     choices.forEach((choice, index) => {
       const button = this.createAnswerButton(
-        width / 2,
-        buttonY + index * buttonSpacing,
+        layout.centerX,
+        buttonStartY + index * layout.buttonSpacing,
         choice.text,
         choice.correct,
-        card
+        card,
+        layout
       );
       button.setName('q_button_' + index);
       this.container!.add(button);
@@ -120,7 +156,7 @@ export class EncounterSystem {
     const registry = getRegistry();
     const outfit = registry.outfits[state.equippedOutfit];
     if (outfit?.buffs?.hints && outfit.buffs.hints > 0 && card.mnemonic) {
-      const hintBtn = this.createHintButton(width - 80, 60, card.mnemonic);
+      const hintBtn = this.createHintButton(layout.hintX, layout.hintY, card.mnemonic);
       hintBtn.setName('q_hint');
       this.container.add(hintBtn);
     }
@@ -181,30 +217,31 @@ export class EncounterSystem {
     y: number, 
     text: string, 
     correct: boolean,
-    card: Flashcard
+    card: Flashcard,
+    layout: ReturnType<typeof layoutEncounter>
   ): Phaser.GameObjects.Container {
     const container = this.scene.add.container(x, y);
-    const { width } = this.scene.scale;
 
-    const bg = this.scene.add.rectangle(0, 0, width - 80, 55, 0x2a4858, 1)
+    const bg = this.scene.add.rectangle(0, 0, layout.buttonWidth, layout.buttonHeight, 0x2a4858, 1)
       .setStrokeStyle(2, 0x4a90a4);
     
     const label = this.scene.add.text(0, 0, text, {
       fontSize: '18px',
       color: '#FFFFFF',
-      wordWrap: { width: width - 120 },
+      wordWrap: { width: layout.buttonWidth - 40 },
       align: 'center'
     }).setOrigin(0.5);
 
     container.add([bg, label]);
-    container.setSize(width - 80, 55);
+    container.setSize(layout.buttonWidth, layout.buttonHeight);
     container.setInteractive({ useHandCursor: true });
 
     container.on('pointerover', () => bg.setFillStyle(0x3a5868));
     container.on('pointerout', () => bg.setFillStyle(0x2a4858));
     
     container.on('pointerdown', () => {
-      // Disable all buttons
+      // Disable all buttons and mark as evaluating (blocks cancel)
+      this.isEvaluating = true;
       this.container?.each((child: Phaser.GameObjects.GameObject) => {
         if (child.name?.startsWith('q_button_')) {
           (child as Phaser.GameObjects.Container).disableInteractive();
@@ -240,9 +277,11 @@ export class EncounterSystem {
     container.setInteractive({ useHandCursor: true });
 
     container.on('pointerdown', () => {
-      // Show hint popup
-      const { width, height } = this.scene.scale;
-      const hintPopup = this.scene.add.container(width / 2, height / 2);
+      // Show hint popup - use stored layout
+      const layout = this.container?.getData('layout') as ReturnType<typeof layoutEncounter>;
+      if (!layout) return;
+      
+      const hintPopup = this.scene.add.container(layout.centerX, this.scene.scale.height / 2);
       hintPopup.setName('q_hintpopup');
       
       const hintBg = this.scene.add.rectangle(0, 0, 400, 150, 0x1a1a2e, 0.95)
@@ -272,45 +311,52 @@ export class EncounterSystem {
   private showFeedback(card: Flashcard, correct: boolean): void {
     if (!this.container) return;
 
-    const { width, height } = this.scene.scale;
+    // Use stored layout from container
+    const layout = this.container.getData('layout') as ReturnType<typeof layoutEncounter>;
+    if (!layout) return;
     
-    // Feedback popup
-    const feedbackY = height - 180;
     const explanation = card.easyContent || card.mediumContent || 'No explanation available.';
     
-    const feedbackBg = this.scene.add.rectangle(width / 2, feedbackY, width - 60, 120, 0x1a1a2e, 0.95)
-      .setStrokeStyle(2, correct ? 0x4CAF50 : 0xF44336);
+    const feedbackBg = this.scene.add.rectangle(
+      layout.centerX, 
+      layout.feedbackY, 
+      layout.feedbackWidth, 
+      layout.feedbackHeight, 
+      0x1a1a2e, 
+      0.95
+    ).setStrokeStyle(2, correct ? 0x4CAF50 : 0xF44336);
     feedbackBg.setName('q_feedback_bg');
     
-    const feedbackTitle = this.scene.add.text(width / 2, feedbackY - 40, 
+    const feedbackTitle = this.scene.add.text(layout.centerX, layout.feedbackY - 30, 
       correct ? '✅ CORRECT!' : '❌ INCORRECT', {
-      fontSize: '20px',
+      fontSize: '18px',
       color: correct ? '#4CAF50' : '#F44336',
       fontStyle: 'bold'
     }).setOrigin(0.5);
     feedbackTitle.setName('q_feedback_title');
 
-    const feedbackText = this.scene.add.text(width / 2, feedbackY + 10, explanation, {
-      fontSize: '14px',
+    const feedbackText = this.scene.add.text(layout.centerX, layout.feedbackY + 5, explanation, {
+      fontSize: '12px',
       color: '#CCCCCC',
-      wordWrap: { width: width - 100 },
+      wordWrap: { width: layout.feedbackWidth - 40 },
       align: 'center'
     }).setOrigin(0.5, 0);
     feedbackText.setName('q_feedback_text');
 
     this.container.add([feedbackBg, feedbackTitle, feedbackText]);
 
-    // Continue button
-    const continueBtn = this.scene.add.text(width / 2, height - 40, 'TAP TO CONTINUE', {
-      fontSize: '18px',
+    // Continue button - always visible at bottom
+    const continueBtn = this.scene.add.text(layout.centerX, layout.continueY, 'TAP TO CONTINUE', {
+      fontSize: '16px',
       color: '#FFD700',
       backgroundColor: '#2a4858',
-      padding: { x: 20, y: 10 }
+      padding: { x: 16, y: 8 }
     }).setOrigin(0.5).setInteractive({ useHandCursor: true });
     continueBtn.setName('q_continue');
     this.container.add(continueBtn);
 
     continueBtn.on('pointerdown', () => {
+      this.isEvaluating = false;  // Allow cancel again
       this.currentIndex++;
       if (this.currentIndex < this.currentCards.length) {
         this.showQuestion();
@@ -354,6 +400,8 @@ export class EncounterSystem {
     if (!this.container) return;
 
     const { width, height } = this.scene.scale;
+    const layout = layoutEncounter(width, height);
+    const centerY = height / 2;
 
     // Clear question elements
     this.container.each((child: Phaser.GameObjects.GameObject) => {
@@ -363,14 +411,14 @@ export class EncounterSystem {
     });
 
     // Result display
-    const resultTitle = this.scene.add.text(width / 2, height / 2 - 100,
+    const resultTitle = this.scene.add.text(layout.centerX, centerY - 100,
       result.won ? '🎉 OBJECTION SUSTAINED! 🎉' : '⚠️ MOTION DENIED ⚠️', {
       fontSize: '36px',
       color: result.won ? '#4CAF50' : '#F44336',
       fontFamily: 'Georgia, serif'
     }).setOrigin(0.5);
 
-    const scoreText = this.scene.add.text(width / 2, height / 2,
+    const scoreText = this.scene.add.text(layout.centerX, centerY,
       `Score: ${result.correctCount} / ${result.totalCount}`, {
       fontSize: '28px',
       color: '#FFFFFF'
@@ -381,7 +429,7 @@ export class EncounterSystem {
     if (result.reward) {
       const registry = getRegistry();
       const outfit = registry.outfits[result.reward];
-      const rewardText = this.scene.add.text(width / 2, height / 2 + 60,
+      const rewardText = this.scene.add.text(layout.centerX, centerY + 60,
         `🎁 Unlocked: ${outfit?.name || result.reward}!`, {
         fontSize: '24px',
         color: '#FFD700'
@@ -389,7 +437,7 @@ export class EncounterSystem {
       elements.push(rewardText);
     }
 
-    const continueBtn = this.scene.add.text(width / 2, height / 2 + 140,
+    const continueBtn = this.scene.add.text(layout.centerX, centerY + 140,
       'RETURN TO COURT', {
       fontSize: '22px',
       color: '#FFFFFF',
@@ -401,9 +449,82 @@ export class EncounterSystem {
     this.container.add(elements);
 
     continueBtn.on('pointerdown', () => {
-      this.container?.destroy();
-      this.container = null;
+      this.cleanup();
       this.onComplete?.(result);
     });
+  }
+
+  /**
+   * Handle viewport resize - reflow overlay and key UI elements.
+   */
+  private onResize(): void {
+    if (!this.container) return;
+    
+    const { width, height } = this.scene.scale;
+    const layout = layoutEncounter(width, height);
+    
+    // Update stored layout for other methods
+    this.container.setData('layout', layout);
+    
+    // Reposition overlay to cover full viewport
+    const overlay = this.container.getByName('overlay') as Phaser.GameObjects.Rectangle;
+    if (overlay) {
+      overlay.setPosition(layout.centerX, height / 2);
+      overlay.setSize(width, height);
+    }
+    
+    // Reposition title
+    const title = this.container.getByName('title') as Phaser.GameObjects.Text;
+    if (title) {
+      title.setPosition(layout.centerX, layout.titleY);
+    }
+    
+    // Reposition cancel button
+    const cancelBtn = this.container.getByName('cancel_btn') as Phaser.GameObjects.Text;
+    if (cancelBtn) {
+      cancelBtn.setPosition(layout.cancelX, layout.cancelY);
+    }
+    
+    // Reposition progress
+    const progress = this.container.getByName('progress') as Phaser.GameObjects.Text;
+    if (progress) {
+      progress.setPosition(layout.centerX, layout.progressY);
+    }
+  }
+
+  /**
+   * Cancel the encounter (ESC or X button).
+   * Returns to world with no reward, no penalty.
+   * Blocked during answer evaluation.
+   */
+  private cancelEncounter(): void {
+    // Don't allow cancel while evaluating an answer
+    if (this.isEvaluating) return;
+    if (!this.container || !this.onComplete) return;
+
+    const result: EncounterResult = {
+      won: false,
+      correctCount: this.correctCount,
+      totalCount: this.currentCards.length,
+      aborted: true
+    };
+
+    this.cleanup();
+    this.onComplete(result);
+  }
+
+  /**
+   * Clean up encounter UI and keyboard listeners.
+   */
+  private cleanup(): void {
+    // Unregister modal and exit handler, remove resize listener
+    unregisterExit('encounter');
+    closeModal('encounter');
+    this.scene.scale.off('resize', this.onResize, this);
+    
+    // Destroy UI container
+    this.container?.destroy();
+    this.container = null;
+    this.isEvaluating = false;
   }
 }

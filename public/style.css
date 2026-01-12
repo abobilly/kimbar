@@ -13,3 +13,15 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+#game-container {
+    width: 100%;
+    height: 100%;
+}
+
+/* Prevent blur under Scale.FIT - ensures crisp pixel art */
+#game-container canvas {
+    image-rendering: pixelated;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}

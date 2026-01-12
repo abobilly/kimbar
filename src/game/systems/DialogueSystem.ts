@@ -1,6 +1,10 @@
 // Dialogue System - inkjs Integration
 import { Scene } from 'phaser';
 import { Story } from 'inkjs';
+import { openModal, closeModal } from '@game/ui/modal';
+import { registerExit, unregisterExit } from '@game/ui/exitManager';
+import { layoutDialogue } from '@game/ui/layout';
+import { DEPTH_OVERLAY } from '@game/constants/depth';
 
 export interface DialogueChoice {
   text: string;
@@ -13,6 +17,8 @@ export class DialogueSystem {
   private container: Phaser.GameObjects.Container | null = null;
   private onComplete: (() => void) | null = null;
   private onTag: ((tag: string) => void) | null = null;
+  private typewriterTimer: Phaser.Time.TimerEvent | null = null;
+  private isAdvancing: boolean = false;  // Guard against double-click on choices
 
   constructor(scene: Scene) {
     this.scene = scene;
@@ -51,37 +57,42 @@ export class DialogueSystem {
   }
 
   private showDialogueUI(): void {
+    // Register as modal to block world input
+    openModal('dialogue');
+    // Register ESC to close dialogue
+    registerExit('dialogue', () => this.close());
+    
     const { width, height } = this.scene.scale;
+    const layout = layoutDialogue(width, height);
 
     this.container = this.scene.add.container(0, 0);
-    this.container.setDepth(900);
-
-    // Dialogue box at bottom of screen
-    const boxHeight = 200;
-    const boxY = height - boxHeight;
+    this.container.setDepth(DEPTH_OVERLAY);
+    
+    // Store layout for other methods
+    this.container.setData('layout', layout);
 
     // Background
     const bg = this.scene.add.rectangle(
-      width / 2, boxY + boxHeight / 2,
-      width - 40, boxHeight - 20,
+      layout.boxCenterX, layout.boxCenterY,
+      layout.boxWidth, layout.boxHeight - 20,
       0x1a1a2e, 0.95
     ).setStrokeStyle(3, 0x4a90a4);
     this.container.add(bg);
 
     // Portrait placeholder (will be updated when speaker changes)
-    const portrait = this.scene.add.image(50, boxY + 50, '__DEFAULT');
+    const portrait = this.scene.add.image(layout.portraitX, layout.portraitY, '__DEFAULT');
     portrait.setName('portrait');
     portrait.setOrigin(0.5, 0.5);
     portrait.setVisible(false);
     this.container.add(portrait);
 
     // Speaker name plate (shifted right to accommodate portrait)
-    const namePlate = this.scene.add.rectangle(140, boxY + 10, 160, 30, 0x2a4858)
+    const namePlate = this.scene.add.rectangle(layout.namePlateX, layout.namePlateY, 160, 30, 0x2a4858)
       .setStrokeStyle(2, 0xFFD700);
     namePlate.setName('namePlate');
     this.container.add(namePlate);
 
-    const nameText = this.scene.add.text(140, boxY + 10, '', {
+    const nameText = this.scene.add.text(layout.namePlateX, layout.namePlateY, '', {
       fontSize: '16px',
       color: '#FFD700',
       fontStyle: 'bold'
@@ -89,12 +100,12 @@ export class DialogueSystem {
     nameText.setName('nameText');
     this.container.add(nameText);
 
-    // Dialogue text area
-    const dialogueText = this.scene.add.text(40, boxY + 40, '', {
-      fontSize: '20px',
+    // Dialogue text area (limited height to leave room for choices)
+    const dialogueText = this.scene.add.text(layout.textX, layout.textY, '', {
+      fontSize: '18px',
       color: '#FFFFFF',
-      wordWrap: { width: width - 100 },
-      lineSpacing: 8
+      wordWrap: { width: layout.textWrapWidth },
+      lineSpacing: 6
     });
     dialogueText.setName('dialogueText');
     this.container.add(dialogueText);
@@ -106,13 +117,22 @@ export class DialogueSystem {
 
     // Continue indicator
     const continueIndicator = this.scene.add.text(
-      width - 60, height - 30, '▼', {
+      layout.continueX, layout.continueY, '▼', {
       fontSize: '24px',
       color: '#FFD700'
     }).setOrigin(0.5);
     continueIndicator.setName('continueIndicator');
     continueIndicator.setVisible(false);
     this.container.add(continueIndicator);
+
+    // Full-screen scrim behind dialogue to block world clicks
+    const scrim = this.scene.add.rectangle(width / 2, height / 2, width, height, 0x000000, 0);
+    scrim.setInteractive();  // Swallows pointer events
+    scrim.setName('scrim');
+    this.container.addAt(scrim, 0);  // Add at bottom of container
+
+    // Subscribe to resize events for responsive layout
+    this.scene.scale.on('resize', this.onResize, this);
 
     // Animate continue indicator
     this.scene.tweens.add({
@@ -135,7 +155,7 @@ export class DialogueSystem {
       text += this.story.Continue() || '';
       
       // Process tags
-      const tags = this.story.currentTags;
+      const tags = this.story.currentTags ?? [];
       for (const tag of tags) {
         if (tag.startsWith('speaker:')) {
           speaker = tag.substring(8).trim();
@@ -195,17 +215,31 @@ export class DialogueSystem {
   }
 
   private typewriterEffect(textObject: Phaser.GameObjects.Text, fullText: string): void {
+    // Cancel any existing typewriter
+    if (this.typewriterTimer) {
+      this.typewriterTimer.destroy();
+      this.typewriterTimer = null;
+    }
+    
     let charIndex = 0;
     textObject.setText('');
     
-    const typeTimer = this.scene.time.addEvent({
+    this.typewriterTimer = this.scene.time.addEvent({
       delay: 30,
       callback: () => {
+        // Guard: container may have been destroyed
+        if (!this.container || !textObject.scene) {
+          this.typewriterTimer?.destroy();
+          this.typewriterTimer = null;
+          return;
+        }
+        
         charIndex++;
         textObject.setText(fullText.substring(0, charIndex));
         
         if (charIndex >= fullText.length) {
-          typeTimer.destroy();
+          this.typewriterTimer?.destroy();
+          this.typewriterTimer = null;
           // Show choices or continue prompt after typing
           if (this.story?.currentChoices.length === 0) {
             this.showContinuePrompt(this.story.canContinue || false);
@@ -215,17 +249,22 @@ export class DialogueSystem {
       repeat: fullText.length - 1
     });
 
-    // Allow skipping typewriter
+    // Allow skipping typewriter by clicking
     this.container?.setInteractive(
       new Phaser.Geom.Rectangle(0, 0, this.scene.scale.width, this.scene.scale.height),
       Phaser.Geom.Rectangle.Contains
     );
     
     const skipHandler = () => {
-      if (charIndex < fullText.length) {
-        typeTimer.destroy();
+      if (charIndex < fullText.length && this.typewriterTimer) {
+        this.typewriterTimer.destroy();
+        this.typewriterTimer = null;
         textObject.setText(fullText);
         charIndex = fullText.length;
+        // Show choices or continue prompt after skip
+        if (this.story?.currentChoices.length === 0) {
+          this.showContinuePrompt(this.story.canContinue || false);
+        }
       }
     };
     
@@ -235,29 +274,35 @@ export class DialogueSystem {
   private showChoices(): void {
     if (!this.story || !this.container) return;
 
-    const { width, height } = this.scene.scale;
+    const layout = this.container.getData('layout') as ReturnType<typeof layoutDialogue>;
+    if (!layout) return;
+    
     const choicesContainer = this.container.getByName('choicesContainer') as Phaser.GameObjects.Container;
     if (!choicesContainer) return;
 
     const choices = this.story.currentChoices;
-    const startY = height - 180;
-    const spacing = 45;
+    
+    // Use layout-based choice positioning
+    const baseY = layout.choiceBaseY;
 
     choices.forEach((choice, index) => {
-      const y = startY + index * spacing;
+      // Stack from bottom up: last choice at bottom, first at top
+      const reverseIndex = choices.length - 1 - index;
+      const y = baseY - reverseIndex * (layout.choiceHeight + layout.choiceSpacing);
       
-      const choiceBtn = this.scene.add.container(width / 2, y);
+      const choiceBtn = this.scene.add.container(layout.boxCenterX, y);
       
-      const bg = this.scene.add.rectangle(0, 0, width - 100, 35, 0x2a4858)
+      const bg = this.scene.add.rectangle(0, 0, layout.choiceWidth, layout.choiceHeight, 0x2a4858)
         .setStrokeStyle(2, 0x4a90a4);
       
       const text = this.scene.add.text(0, 0, `${index + 1}. ${choice.text}`, {
-        fontSize: '18px',
-        color: '#FFFFFF'
+        fontSize: '16px',
+        color: '#FFFFFF',
+        wordWrap: { width: layout.choiceWidth - 40 }
       }).setOrigin(0.5);
 
       choiceBtn.add([bg, text]);
-      choiceBtn.setSize(width - 100, 35);
+      choiceBtn.setSize(layout.choiceWidth, layout.choiceHeight);
       choiceBtn.setInteractive({ useHandCursor: true });
 
       choiceBtn.on('pointerover', () => {
@@ -271,8 +316,22 @@ export class DialogueSystem {
       });
 
       choiceBtn.on('pointerdown', () => {
+        // Guard against double-click
+        if (this.isAdvancing) return;
+        this.isAdvancing = true;
+        
+        // Disable all choice buttons
+        choicesContainer.each((child: Phaser.GameObjects.GameObject) => {
+          if (child instanceof Phaser.GameObjects.Container) {
+            child.disableInteractive();
+          }
+        });
+        
         this.story?.ChooseChoiceIndex(index);
         this.continueStory();
+        
+        // Reset after story advances
+        this.isAdvancing = false;
       });
 
       choicesContainer.add(choiceBtn);
@@ -293,10 +352,11 @@ export class DialogueSystem {
     }
 
     // Make dialogue box clickable to continue
+    const layout = this.container.getData('layout') as ReturnType<typeof layoutDialogue>;
     const { width, height } = this.scene.scale;
     
     const clickZone = this.scene.add.rectangle(
-      width / 2, height - 100,
+      layout?.boxCenterX || width / 2, height - 100,
       width, 200, 0x000000, 0
     ).setInteractive({ useHandCursor: true });
     
@@ -315,9 +375,78 @@ export class DialogueSystem {
   }
 
   close(): void {
+    // Cancel typewriter timer to prevent crash
+    if (this.typewriterTimer) {
+      this.typewriterTimer.destroy();
+      this.typewriterTimer = null;
+    }
+    
+    // Unregister modal, exit handler, and resize listener
+    unregisterExit('dialogue');
+    closeModal('dialogue');
+    this.scene.scale.off('resize', this.onResize, this);
+    
     this.container?.destroy();
     this.container = null;
     this.onComplete?.();
+  }
+
+  /**
+   * Handle viewport resize - reflow UI elements.
+   */
+  private onResize(): void {
+    if (!this.container) return;
+    
+    const { width, height } = this.scene.scale;
+    const layout = layoutDialogue(width, height);
+    
+    // Update stored layout
+    this.container.setData('layout', layout);
+    
+    // Reposition scrim
+    const scrim = this.container.getByName('scrim') as Phaser.GameObjects.Rectangle;
+    if (scrim) {
+      scrim.setPosition(width / 2, height / 2);
+      scrim.setSize(width, height);
+    }
+    
+    // Reposition background
+    const bg = this.container.list[1] as Phaser.GameObjects.Rectangle;  // After scrim
+    if (bg && bg.type === 'Rectangle') {
+      bg.setPosition(layout.boxCenterX, layout.boxCenterY);
+      bg.setSize(layout.boxWidth, layout.boxHeight - 20);
+    }
+    
+    // Reposition portrait
+    const portrait = this.container.getByName('portrait') as Phaser.GameObjects.Image;
+    if (portrait) {
+      portrait.setPosition(layout.portraitX, layout.portraitY);
+    }
+    
+    // Reposition name plate
+    const namePlate = this.container.getByName('namePlate') as Phaser.GameObjects.Rectangle;
+    if (namePlate) {
+      namePlate.setPosition(layout.namePlateX, layout.namePlateY);
+    }
+    
+    // Reposition name text
+    const nameText = this.container.getByName('nameText') as Phaser.GameObjects.Text;
+    if (nameText) {
+      nameText.setPosition(layout.namePlateX, layout.namePlateY);
+    }
+    
+    // Reposition dialogue text
+    const dialogueText = this.container.getByName('dialogueText') as Phaser.GameObjects.Text;
+    if (dialogueText) {
+      dialogueText.setPosition(layout.textX, layout.textY);
+      dialogueText.setWordWrapWidth(layout.textWrapWidth);
+    }
+    
+    // Reposition continue indicator
+    const continueIndicator = this.container.getByName('continueIndicator') as Phaser.GameObjects.Text;
+    if (continueIndicator) {
+      continueIndicator.setPosition(layout.continueX, layout.continueY);
+    }
   }
 
   // Get/set story variables
