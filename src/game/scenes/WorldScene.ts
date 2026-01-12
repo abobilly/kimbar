@@ -16,6 +16,7 @@ export class WorldScene extends Scene {
   private playerTarget: { x: number; y: number } | null = null;
   private moveSpeed = 200;
   private lastDirection: string = 'down';  // Track facing direction for idle
+  private inEncounter: boolean = false; // Whether an encounter is active
 
   // Level data
   private levelData: LevelData | null = null;
@@ -342,6 +343,13 @@ export class WorldScene extends Scene {
     if (this.input.keyboard) {
       this.wasdKeys = this.input.keyboard.addKeys('W,A,S,D') as { W: Phaser.Input.Keyboard.Key; A: Phaser.Input.Keyboard.Key; S: Phaser.Input.Keyboard.Key; D: Phaser.Input.Keyboard.Key };
       this.cursorKeys = this.input.keyboard.createCursorKeys();
+
+      // Interaction: Press E to start a quick flashcard encounter (deckTag: 'evidence', count: 1)
+      this.input.keyboard.on('keydown-E', () => {
+        if (this.dialogueSystem.isActive() || this.inEncounter) return;
+        const config: EncounterConfig = { deckTag: 'evidence', count: 1 };
+        this.startEncounter(config);
+      });
     }
     
     // Tap-to-move
@@ -455,6 +463,9 @@ export class WorldScene extends Scene {
   }
 
   private startEncounter(config: EncounterConfig): void {
+    if (this.inEncounter) return;
+    this.inEncounter = true;
+
     this.encounterSystem.start(config, (result) => {
       console.log('Encounter result:', result);
       this.updateUI();
@@ -464,6 +475,9 @@ export class WorldScene extends Scene {
       } else {
         this.showNotification('⚠️ Better luck next time...');
       }
+
+      // Clear encounter state
+      this.inEncounter = false;
     });
   }
 
@@ -556,8 +570,8 @@ export class WorldScene extends Scene {
   update(_time: number, _delta: number): void {
     if (!this.player) return;
     
-    // Bail if dialogue is open
-    if (this.dialogueSystem.isActive()) {
+    // Bail if dialogue is open or an encounter is active
+    if (this.dialogueSystem.isActive() || this.inEncounter) {
       // Stop player if using physics
       if (this.player.body) {
         (this.player.body as Phaser.Physics.Arcade.Body).setVelocity(0, 0);
