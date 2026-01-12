@@ -1,0 +1,34 @@
+# Kimbar Cursor Rules
+
+## Project
+
+TypeScript + Phaser 3 + Vite game for bar exam prep.
+
+## Sacred Invariants
+
+1. **UI isolation**: All UI on UI layer (`WorldScene.getUILayer()`), rendered via UI camera. No `scrollFactor` hacks.
+
+2. **Registry-first**: No hardcoded `/content/...` paths in runtime. Use registry lookups + central loader.
+
+3. **Deterministic**: Generated files use stable sort order, formatting, IDs.
+
+4. **Agent-friendly**: All ops via npm scripts. Update `NEXT_SESSION.md` on changes.
+
+## Never
+
+- Hardcode content paths in runtime code
+- Add UI to world display list
+- Bypass schemas
+- Commit to `generated/` or `public/generated/`
+
+## Commands
+
+- `npm run check` — full validation gate
+- `npm run check:fast` — quick unit tests
+- `npm run prepare:content` — rebuild content pipeline
+
+## Key Files
+
+- `docs/INVARIANTS.md` — full invariant docs
+- `NEXT_SESSION.md` — handoff state
+- `schemas/*.schema.json` — content schemas
