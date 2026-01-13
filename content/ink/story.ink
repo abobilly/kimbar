@@ -1,20 +1,51 @@
 // Kim Bar - Main Story
 // Compiled with: npm run compile:ink
+//
+// Tag Reference:
+//   speaker:Name           - Set speaker name in dialogue box
+//   portrait:id            - Set portrait image (e.g., portrait:npc.clerk_01)
+//   portrait:id:emotion    - Set portrait with emotion (e.g., portrait:npc.clerk_01:happy)
+//   sfx:sound_name         - Play sound effect
+//   quest:set flag=value   - Set a story flag
+//   quest:get flag         - Log flag value (debug)
+//   encounter:deckTag=X count=N rewardId=Y  - Start encounter
+//   give:item_id           - Give item/outfit
+//   save                   - Save game
 
 === court_clerk_intro ===
-Court Clerk: Welcome. Are you here to suffer… I mean, study?
+# speaker:Court Clerk
+# portrait:npc.clerk_01
+# sfx:paper_shuffle
+Welcome to the Supreme Court, counselor. Are you here to suffer… I mean, study?
 *   [Yes. Hit me.] -> clerk_ready
 *   [Not today.] -> clerk_later
 
 === clerk_ready ===
-Court Clerk: Excellent! The Justices await in their chambers. Each one guards a domain of legal knowledge.
-Court Clerk: Defeat them in flashcard combat to earn powerful outfits. Good luck, counselor.
+# speaker:Court Clerk
+# portrait:npc.clerk_01
+# quest:set court_intro=true
+Excellent! The Justices await in their chambers. Each one guards a domain of legal knowledge.
+# sfx:gavel_tap
+Defeat them in flashcard combat to earn powerful outfits. Good luck, counselor.
 -> END
 
 === clerk_later ===
-Court Clerk: Take your time. The law isn't going anywhere... unfortunately.
+# speaker:Court Clerk
+# portrait:npc.clerk_01
+Take your time. The law isn't going anywhere... unfortunately.
 -> END
 
 === clerk_intro ===
 // Alias for backwards compatibility
 -> court_clerk_intro
+
+=== evidence_challenge ===
+# speaker:Court Clerk
+# portrait:npc.clerk_01
+Ready to test your knowledge of Evidence?
+*   [Bring it on!]
+    # encounter:deckTag=evidence count=3 rewardId=evidence_blazer
+    -> END
+*   [Not yet...]
+    Come back when you're ready.
+    -> END

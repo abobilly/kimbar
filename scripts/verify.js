@@ -38,8 +38,13 @@ function runCommand(command, args) {
 async function main() {
   console.log('🔒 Kim Bar Verification Suite');
   console.log('=' .repeat(50));
-  
+
   try {
+    // Check Phaser types are correctly configured
+    await runCommand('node', ['scripts/check-phaser-types.mjs']);
+
+    console.log('\n' + '=' .repeat(50));
+
     // Run validate
     await runCommand('npm', ['run', 'validate']);
     

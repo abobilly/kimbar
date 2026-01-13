@@ -8,6 +8,8 @@ import { initExitManager, registerExit, unregisterExit, clearExitManager } from 
 import { layoutHUD } from '@game/ui/layout';
 import { loadRegistry, loadFlashcards, getGameState, saveGameState, getRoom, getInkStory } from '@content/registry';
 import { EntityData, LevelData, EncounterConfig } from '@content/types';
+import { isLdtkLevel, normalizeLdtkLevel } from '@content/ldtk-normalizer';
+import { validateLdtkLevel, formatValidationErrors } from '@content/ldtk-validator';
 
 export class WorldScene extends Scene {
   // Systems
@@ -375,61 +377,37 @@ export class WorldScene extends Scene {
   private renderLevel(): void {
     if (!this.levelData) return;
 
-    // Detect if the loaded level is LDtk JSON (has layerInstances)
-    const raw = this.levelData as unknown as any;
-    if (raw && raw.layerInstances) {
-      // Convert simplified LDtk level export into internal LevelData format
-      const layer = raw.layerInstances.find((l: any) => l.__identifier === 'Entities');
-      const tileSize = layer?.__gridSize || 32;
+    // Detect if the loaded level is LDtk JSON and normalize it
+    const raw = this.levelData as unknown;
+    if (isLdtkLevel(raw)) {
+      // Use normalizer module to convert LDtk format to internal LevelData
+      const level = normalizeLdtkLevel(raw);
 
-      const level: LevelData = {
-        id: raw.identifier || 'level',
-        width: raw.pxWid || (layer?.__cWid * tileSize) || this.scale.width,
-        height: raw.pxHei || (layer?.__cHei * tileSize) || this.scale.height,
-        tileSize,
-        entities: [],
-        playerSpawn: undefined
-      };
-
-      const triggersToCreate: Array<any> = [];
-
-      for (const inst of layer.entityInstances) {
-        const props: Record<string, any> = {};
-        for (const f of inst.fieldInstances || []) {
-          props[f.__identifier] = f.__value;
-        }
-
-        // Normalize property names expected by the game
-        if (props.inkKnot && !props.storyKnot) {
-          props.storyKnot = props.inkKnot;
-        }
-        if (props.knot && !props.storyKnot) {
-          props.storyKnot = props.knot;
-        }
-
-        const entity: EntityData = {
-          id: inst.iid || `${inst.__identifier}_${inst.defUid}`,
-          type: inst.__identifier,
-          x: inst.__worldX || (inst.px ? inst.px[0] + tileSize / 2 : 0),
-          y: inst.__worldY || (inst.px ? inst.px[1] + tileSize : 0),
-          properties: props
-        };
-
-        if (inst.__identifier === 'PlayerSpawn') {
-          level.playerSpawn = { x: entity.x, y: entity.y };
-        } else {
-          level.entities.push(entity);
-
-          // Collect encounter triggers to create later (after player exists)
-          if (inst.__identifier === 'EncounterTrigger') {
-            triggersToCreate.push({ entity, tileSize });
-          }
-        }
+      // Validate the normalized level
+      const validation = validateLdtkLevel(level);
+      if (!validation.valid) {
+        console.error('[WorldScene] Level validation failed:');
+        console.error(formatValidationErrors(validation));
+        // Continue with placeholder if validation fails
+        this.createPlaceholderLevel();
+        return;
+      }
+      if (validation.warnings.length > 0 && import.meta.env?.DEV) {
+        console.warn('[WorldScene] Level validation warnings:');
+        console.warn(formatValidationErrors(validation));
       }
 
-      // Replace levelData with converted format
+      // Replace levelData with normalized format
       this.levelData = level;
       console.log('[WorldScene] Loaded LDtk level', level.id, 'entities:', level.entities.length, 'playerSpawn:', level.playerSpawn);
+
+      // Collect encounter triggers for physics zone creation
+      const triggersToCreate: Array<{ entity: EntityData; tileSize: number }> = [];
+      for (const entity of level.entities) {
+        if (entity.type === 'EncounterTrigger') {
+          triggersToCreate.push({ entity, tileSize: level.tileSize || 32 });
+        }
+      }
 
       // Clean up any existing entities
       this.entities.forEach((e) => {
@@ -715,29 +693,89 @@ export class WorldScene extends Scene {
   private handleDialogueTag(tag: string): void {
     console.log('Dialogue tag:', tag);
 
+    // encounter:deckTag=evidence count=3 rewardId=court_blazer once=true
+    // OR legacy format: encounter:evidence,3,court_blazer
     if (tag.startsWith('encounter:')) {
-      const encounterData = tag.substring(10);
-      // Parse encounter config from tag
-      // e.g., "encounter:evidence,3,court_blazer"
-      const parts = encounterData.split(',');
-      const config: EncounterConfig = {
-        deckTag: parts[0] || 'general',
-        count: parseInt(parts[1]) || 3,
-        rewardId: parts[2]
-      };
-      this.startEncounter(config);
+      const encounterData = tag.substring(10).trim();
+
+      // Check if using key=value format
+      if (encounterData.includes('=')) {
+        const params = this.parseTagParams(encounterData);
+        const config: EncounterConfig = {
+          deckTag: params.deckTag || 'general',
+          count: parseInt(params.count || '3', 10),
+          rewardId: params.rewardId,
+        };
+        this.startEncounter(config);
+      } else {
+        // Legacy comma-separated format
+        const parts = encounterData.split(',');
+        const config: EncounterConfig = {
+          deckTag: parts[0] || 'general',
+          count: parseInt(parts[1]) || 3,
+          rewardId: parts[2],
+        };
+        this.startEncounter(config);
+      }
     }
 
+    // quest:set flag_name=true OR quest:get flag_name
+    if (tag.startsWith('quest:')) {
+      const questData = tag.substring(6).trim();
+      const state = getGameState();
+
+      if (questData.startsWith('set ')) {
+        // Parse: set flag_name=value
+        const setPart = questData.substring(4).trim();
+        const [flagName, flagValue] = setPart.split('=');
+        if (flagName) {
+          const value = flagValue === 'false' ? false : Boolean(flagValue || 'true');
+          state.storyFlags[flagName.trim()] = value;
+          saveGameState();
+          console.log(`[Quest] Set ${flagName} = ${value}`);
+        }
+      } else if (questData.startsWith('get ')) {
+        // For debugging: log flag value
+        const flagName = questData.substring(4).trim();
+        console.log(`[Quest] ${flagName} = ${state.storyFlags[flagName]}`);
+      }
+    }
+
+    // sfx:sound_name - play sound effect (log for now, no audio system yet)
+    if (tag.startsWith('sfx:')) {
+      const soundName = tag.substring(4).trim();
+      console.log(`[SFX] Would play: ${soundName}`);
+      // TODO: Implement when audio system is added
+      // this.sound.play(soundName);
+    }
+
+    // give:item_id - give item (outfit)
     if (tag.startsWith('give:')) {
-      const itemId = tag.substring(5);
+      const itemId = tag.substring(5).trim();
       OutfitSystem.unlockOutfit(itemId);
       this.showNotification(`Received: ${itemId}`);
     }
 
+    // save - save game state
     if (tag === 'save') {
       saveGameState();
       this.showNotification('💾 Game saved!');
     }
+  }
+
+  /**
+   * Parse key=value pairs from a tag string
+   * e.g., "deckTag=evidence count=3 rewardId=blazer" -> { deckTag: 'evidence', count: '3', rewardId: 'blazer' }
+   */
+  private parseTagParams(data: string): Record<string, string> {
+    const params: Record<string, string> = {};
+    // Match key=value pairs (value can contain letters, numbers, underscores)
+    const regex = /(\w+)=([^\s]+)/g;
+    let match;
+    while ((match = regex.exec(data)) !== null) {
+      params[match[1]] = match[2];
+    }
+    return params;
   }
 
   private startEncounter(config: EncounterConfig): void {

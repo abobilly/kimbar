@@ -1,5 +1,5 @@
 # Kim Bar - Agent Handoff Document
-**Last Update**: January 12, 2026
+**Last Update**: January 13, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
@@ -27,11 +27,36 @@
 
 ---
 
-## 2. Recent Changes: Asset Pipeline Hardening
+## 2. Recent Changes: LDtk Normalizer + Ink Tag Enhancement + Semantic Layer
 
-### What Was Done
+### What Was Done (January 13, 2026)
 
-The asset pipeline has been hardened to enforce registry-driven content routing:
+This session added typing improvements, LDtk normalization, enhanced Ink tag handling, and a semantic layer extension point.
+
+**New Files Created:**
+- `src/content/ldtk-normalizer.ts` - Converts raw LDtk JSON to internal LevelData format
+- `src/content/ldtk-validator.ts` - Validates level data (checks PlayerSpawn exists, field types)
+- `src/services/semantic-service.ts` - Provider-agnostic embedding service interface (feature flag OFF by default)
+- `src/services/transformers-backend.ts` - Transformers.js backend stub (lazy-loaded when enabled)
+- `scripts/check-phaser-types.mjs` - Sentinel check ensuring Phaser types resolve from node_modules
+- `tests/unit/ldtk-normalizer.test.ts` - 16 unit tests for LDtk normalization + validation
+- `docs/SEMANTIC_LAYER.md` - Documentation for enabling semantic features
+
+**Files Modified:**
+- `scripts/verify.js` - Added Phaser types check to verification suite
+- `src/game/scenes/WorldScene.ts` - Now uses ldtk-normalizer module, enhanced tag handling
+- `src/game/systems/DialogueSystem.ts` - Added portrait tag support (`portrait:id:emotion`)
+- `src/vite-env.d.ts` - Added `VITE_ENABLE_SEMANTIC` feature flag type
+- `content/ink/story.ink` - Added tag reference docs and demo tags
+
+### Key Improvements
+
+1. **LDtk Normalization**: Level parsing extracted from WorldScene to reusable module with validation
+2. **Ink Tag Grammar**: Expanded to support `speaker:`, `portrait:`, `sfx:`, `quest:`, `encounter:` (key=value format)
+3. **Semantic Layer**: Opt-in embedding service with WebGPU support (disabled by default, zero bundle cost)
+4. **Phaser Types**: Sentinel check ensures official types used, no custom d.ts conflicts
+
+### Previous Changes: Asset Pipeline Hardening (January 12)
 
 **New Files Created:**
 - `docs/INVARIANTS.md` - 7 sacred rules that must be followed
@@ -247,6 +272,9 @@ npm run validate    # Content validation
 | Main game scene | `src/game/scenes/WorldScene.ts` |
 | Registry loader | `src/content/registry.ts` |
 | Content types | `src/content/types.ts` |
+| LDtk normalizer | `src/content/ldtk-normalizer.ts` |
+| LDtk validator | `src/content/ldtk-validator.ts` |
+| Semantic service | `src/services/semantic-service.ts` |
 | Sacred rules | `docs/INVARIANTS.md` |
 | Registry config | `content/registry_config.json` |
 | Build registry | `scripts/build-characters.js` |
@@ -254,6 +282,7 @@ npm run validate    # Content validation
 | NPC dialogue | `src/game/systems/DialogueSystem.ts` |
 | Responsive layout | `src/game/ui/layout.ts` |
 | Schema validation | `scripts/validate.js` |
+| Phaser types check | `scripts/check-phaser-types.mjs` |
 
 ---
 
@@ -272,14 +301,15 @@ npm run test          # Run all tests
 
 ## 10. Suggested Next Steps
 
-Now that the pipeline is hardened, consider these features:
+Now that LDtk normalization and Ink tag handling are enhanced, consider:
 
-1. **Outfit System UI** - Wardrobe screen, visual preview, buff display
-2. **Room Transitions** - LDtk triggers, scene transitions, spawn management
-3. **Save/Load System** - Persist progress to LocalStorage/IndexedDB
-4. **More Flashcard Subjects** - 6 remaining subjects need cards
-5. **Sound/Music** - Ambient sounds, UI feedback
+1. **Sound System** - Wire up `sfx:` tags to actual audio playback
+2. **Outfit System UI** - Wardrobe screen, visual preview, buff display
+3. **Room Transitions** - Door entity handling, scene transitions, spawn management
+4. **Quest System** - UI for tracking story flags set by `quest:set` tags
+5. **Semantic Search** - Enable `VITE_ENABLE_SEMANTIC=true`, add "Related Cards" panel
 6. **Mobile Touch Controls** - Virtual D-pad, touch-friendly UI
+7. **More Ink Content** - Expand story.ink with more knots and dialogue branches
 
 ---
 

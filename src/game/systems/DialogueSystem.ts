@@ -156,15 +156,22 @@ export class DialogueSystem {
     // Get next text
     let text = '';
     let speaker = '';
+    let portraitOverride: string | null = null;
+    let portraitEmotion: string | null = null;
 
     while (this.story.canContinue) {
       text += this.story.Continue() || '';
-      
+
       // Process tags
       const tags = this.story.currentTags ?? [];
       for (const tag of tags) {
         if (tag.startsWith('speaker:')) {
           speaker = tag.substring(8).trim();
+        } else if (tag.startsWith('portrait:')) {
+          // Format: portrait:npc.clerk_01 or portrait:npc.clerk_01:neutral
+          const portraitParts = tag.substring(9).split(':');
+          portraitOverride = portraitParts[0]?.trim() || null;
+          portraitEmotion = portraitParts[1]?.trim() || null;
         } else if (this.onTag) {
           this.onTag(tag);
         }
@@ -184,14 +191,39 @@ export class DialogueSystem {
     
     // Try to show portrait for speaker
     if (portrait) {
-      // Map speaker name to portrait key (e.g., "Court Clerk" -> "portrait.npc.clerk_01")
-      const speakerPortraitMap: Record<string, string> = {
-        'Court Clerk': 'portrait.npc.clerk_01',
-        'Kim': 'portrait.char.kim'
-      };
-      
-      const portraitKey = speakerPortraitMap[speaker];
-      if (portraitKey && this.scene.textures.exists(portraitKey)) {
+      let portraitKey: string | null = null;
+
+      // Priority 1: Explicit portrait tag override
+      if (portraitOverride) {
+        // Try portrait.{id} first, then just {id}
+        const withPrefix = `portrait.${portraitOverride}`;
+        if (this.scene.textures.exists(withPrefix)) {
+          portraitKey = withPrefix;
+        } else if (this.scene.textures.exists(portraitOverride)) {
+          portraitKey = portraitOverride;
+        }
+        // Emotion variants: portrait.npc.clerk_01.neutral, etc.
+        if (portraitEmotion && portraitKey) {
+          const emotionKey = `${portraitKey}.${portraitEmotion}`;
+          if (this.scene.textures.exists(emotionKey)) {
+            portraitKey = emotionKey;
+          }
+        }
+      }
+
+      // Priority 2: Speaker name mapping (fallback)
+      if (!portraitKey && speaker) {
+        const speakerPortraitMap: Record<string, string> = {
+          'Court Clerk': 'portrait.npc.clerk_01',
+          'Kim': 'portrait.char.kim',
+        };
+        const mappedKey = speakerPortraitMap[speaker];
+        if (mappedKey && this.scene.textures.exists(mappedKey)) {
+          portraitKey = mappedKey;
+        }
+      }
+
+      if (portraitKey) {
         portrait.setTexture(portraitKey);
         portrait.setVisible(true);
       } else {
