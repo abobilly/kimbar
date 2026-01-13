@@ -27,6 +27,7 @@ const REGISTRY_CONFIG_PATH = './content/registry_config.json';
 const LDTK_DIR = './public/content/ldtk';
 const FLASHCARDS_DIR = './public/content/cards';
 const INK_SOURCE_DIR = './content/ink';
+const AI_MANIFEST_PATH = './generated/ai-manifest.json';
 
 async function loadRegistryConfig() {
   if (!existsSync(REGISTRY_CONFIG_PATH)) {
@@ -290,6 +291,25 @@ async function scanInkStories() {
   return stories;
 }
 
+/**
+ * Load AI-generated assets from generated/ai-manifest.json if it exists.
+ * Merges AI sprite entries into the registry sprites object.
+ */
+async function loadAiManifest() {
+  if (!existsSync(AI_MANIFEST_PATH)) {
+    return { entries: [] };
+  }
+
+  try {
+    const content = await readFile(AI_MANIFEST_PATH, 'utf-8');
+    const manifest = JSON.parse(content);
+    return manifest;
+  } catch (e) {
+    console.error(`⚠️ Failed to parse AI manifest: ${e.message}`);
+    return { entries: [] };
+  }
+}
+
 async function main() {
   console.log('🎭 Kim Bar Character Compiler\n');
   console.log('='.repeat(50));
@@ -369,6 +389,32 @@ async function main() {
   registry.ink = await scanInkStories();
   console.log(`  ✅ Found ${registry.ink.length} ink story(ies)`);
 
+  // Load AI-generated assets
+  console.log('\n🤖 Loading AI-generated assets...');
+  const aiManifest = await loadAiManifest();
+  let aiSpriteCount = 0;
+  if (aiManifest.entries && aiManifest.entries.length > 0) {
+    for (const entry of aiManifest.entries) {
+      // Skip dry-run entries
+      if (entry.source?.dryRun) continue;
+
+      // Add sprite entry to registry
+      registry.sprites[entry.id] = {
+        key: entry.id,
+        url: entry.url,
+        frameWidth: entry.frameWidth || 64,
+        frameHeight: entry.frameHeight || 64,
+        kind: entry.kind || 'sprite',
+        anchor: entry.anchor,
+        tags: entry.tags,
+        source: entry.source
+      };
+      aiSpriteCount++;
+      console.log(`  🎨 Added AI sprite: ${entry.id}`);
+    }
+  }
+  console.log(`  ✅ Loaded ${aiSpriteCount} AI-generated sprite(s)`);
+
   // Write registry with stable key order
   console.log('\n📝 Building registry...');
   const registryPath = join(GENERATED_DIR, 'registry.json');
@@ -397,6 +443,7 @@ async function main() {
   console.log(`   - ${registry.rooms?.length || 0} room(s)`);
   console.log(`   - ${registry.flashcardPacks?.length || 0} flashcard pack(s)`);
   console.log(`   - ${registry.ink?.length || 0} ink story(ies)`);
+  console.log(`   - ${aiSpriteCount} AI-generated sprite(s)`);
 }
 
 main().catch(console.error);

@@ -1,0 +1,44 @@
+{
+  "$schema": "../../schemas/AiJobSpec.schema.json",
+  "setId": "tiles.courthouse_v1",
+  "workflow": "wf_tile_seamless_v1",
+  "defaults": {
+    "style": "top-down RPG tileset, pixel art style, seamless texture, game asset",
+    "negativePrompt": "blurry, watermark, text, photo-realistic, 3d render, gradient",
+    "size": 32,
+    "paletteColors": 16,
+    "anchor": [0.5, 0.5]
+  },
+  "items": [
+    {
+      "id": "tile.marble_white",
+      "prompt": "white marble floor texture, polished stone, subtle veining, courthouse floor",
+      "tags": ["tile", "floor", "court"],
+      "seed": 1001
+    },
+    {
+      "id": "tile.marble_checkered",
+      "prompt": "black and white checkered marble floor, chess pattern, courtroom tiles",
+      "tags": ["tile", "floor", "court"],
+      "seed": 1002
+    },
+    {
+      "id": "tile.wood_parquet",
+      "prompt": "wooden parquet floor, herringbone pattern, polished oak, courtroom",
+      "tags": ["tile", "floor", "court"],
+      "seed": 1003
+    },
+    {
+      "id": "tile.carpet_red",
+      "prompt": "red carpet texture, plush velvet, courtroom carpet, rich color",
+      "tags": ["tile", "floor", "court"],
+      "seed": 1004
+    },
+    {
+      "id": "tile.wall_paneling",
+      "prompt": "wood panel wall texture, wainscoting, dark oak, courthouse wall",
+      "tags": ["tile", "wall", "court"],
+      "seed": 1005
+    }
+  ]
+}

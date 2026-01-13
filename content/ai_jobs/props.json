@@ -1,0 +1,62 @@
+{
+  "$schema": "../../schemas/AiJobSpec.schema.json",
+  "setId": "props.courtroom_v1",
+  "workflow": "wf_prop_pixelize_v1",
+  "defaults": {
+    "style": "top-down RPG sprite, clean readable shapes, limited color palette, soft shading, transparent background, centered, isolated object",
+    "negativePrompt": "blurry, watermark, text, ui, border, frame, shadow on floor, multiple objects, background",
+    "size": 64,
+    "paletteColors": 24,
+    "anchor": [0.5, 1.0]
+  },
+  "items": [
+    {
+      "id": "prop.gavel_wood",
+      "prompt": "wooden judge's gavel, legal hammer, polished wood, brass band",
+      "tags": ["prop", "court", "judge"],
+      "seed": 42
+    },
+    {
+      "id": "prop.lawbook_open",
+      "prompt": "open law book, thick leather bound book with text pages, legal tome",
+      "tags": ["prop", "court", "book"],
+      "seed": 123
+    },
+    {
+      "id": "prop.lawbook_closed",
+      "prompt": "closed leather law book, thick legal tome, gold lettering on spine",
+      "tags": ["prop", "court", "book"],
+      "seed": 124
+    },
+    {
+      "id": "prop.scales_justice",
+      "prompt": "scales of justice, balanced golden scales, legal symbol",
+      "tags": ["prop", "court", "symbol"],
+      "seed": 200
+    },
+    {
+      "id": "prop.evidence_folder",
+      "prompt": "manila evidence folder with documents, legal papers, case file",
+      "tags": ["prop", "court", "evidence"],
+      "seed": 300
+    },
+    {
+      "id": "prop.witness_stand",
+      "prompt": "wooden witness stand podium, courtroom furniture, elevated platform",
+      "tags": ["prop", "court", "furniture"],
+      "seed": 400
+    },
+    {
+      "id": "prop.briefcase_leather",
+      "prompt": "leather briefcase, lawyer's bag, professional carry case, brown leather",
+      "tags": ["prop", "court", "lawyer"],
+      "seed": 500
+    },
+    {
+      "id": "prop.quill_inkwell",
+      "prompt": "quill pen in inkwell, feather pen, writing instrument, legal signing",
+      "tags": ["prop", "court", "writing"],
+      "seed": 600
+    }
+  ]
+}

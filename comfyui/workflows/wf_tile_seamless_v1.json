@@ -1,0 +1,82 @@
+{
+  "_meta": {
+    "name": "wf_tile_seamless_v1",
+    "description": "Seamless texture generation → pixel quantization → 32×32 tile",
+    "version": "1.0.0",
+    "placeholders": {
+      "{{POSITIVE_PROMPT}}": "Main generation prompt with style suffix",
+      "{{NEGATIVE_PROMPT}}": "Negative prompt",
+      "{{SEED}}": "Generation seed (integer)",
+      "{{OUTPUT_FILENAME}}": "Output filename without extension",
+      "{{CHECKPOINT}}": "Model checkpoint name"
+    },
+    "notes": "Uses tiled sampling for seamless output. Adjust sampler settings for best results."
+  },
+  "3": {
+    "class_type": "KSampler",
+    "inputs": {
+      "cfg": 7,
+      "denoise": 1,
+      "latent_image": ["5", 0],
+      "model": ["4", 0],
+      "negative": ["7", 0],
+      "positive": ["6", 0],
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "seed": "{{SEED}}",
+      "steps": 20
+    }
+  },
+  "4": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "{{CHECKPOINT}}"
+    }
+  },
+  "5": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "batch_size": 1,
+      "height": 256,
+      "width": 256
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["4", 1],
+      "text": "{{POSITIVE_PROMPT}}, seamless texture, tileable pattern, repeating"
+    }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["4", 1],
+      "text": "{{NEGATIVE_PROMPT}}, border, edge, frame, vignette"
+    }
+  },
+  "8": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["3", 0],
+      "vae": ["4", 2]
+    }
+  },
+  "10": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "crop": "disabled",
+      "height": 32,
+      "image": ["8", 0],
+      "upscale_method": "nearest-exact",
+      "width": 32
+    }
+  },
+  "11": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "{{OUTPUT_FILENAME}}",
+      "images": ["10", 0]
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "_meta": {
+    "name": "wf_prop_pixelize_v1",
+    "description": "HD generation → pixel quantization → 64×64 prop sprite with alpha",
+    "version": "1.0.0",
+    "placeholders": {
+      "{{POSITIVE_PROMPT}}": "Main generation prompt with style suffix",
+      "{{NEGATIVE_PROMPT}}": "Negative prompt",
+      "{{SEED}}": "Generation seed (integer)",
+      "{{OUTPUT_FILENAME}}": "Output filename without extension",
+      "{{CHECKPOINT}}": "Model checkpoint name"
+    }
+  },
+  "3": {
+    "class_type": "KSampler",
+    "inputs": {
+      "cfg": 7,
+      "denoise": 1,
+      "latent_image": ["5", 0],
+      "model": ["4", 0],
+      "negative": ["7", 0],
+      "positive": ["6", 0],
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "seed": "{{SEED}}",
+      "steps": 20
+    }
+  },
+  "4": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "{{CHECKPOINT}}"
+    }
+  },
+  "5": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "batch_size": 1,
+      "height": 512,
+      "width": 512
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["4", 1],
+      "text": "{{POSITIVE_PROMPT}}"
+    }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["4", 1],
+      "text": "{{NEGATIVE_PROMPT}}"
+    }
+  },
+  "8": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["3", 0],
+      "vae": ["4", 2]
+    }
+  },
+  "10": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "crop": "disabled",
+      "height": 64,
+      "image": ["8", 0],
+      "upscale_method": "nearest-exact",
+      "width": 64
+    }
+  },
+  "11": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "{{OUTPUT_FILENAME}}",
+      "images": ["10", 0]
+    }
+  }
+}

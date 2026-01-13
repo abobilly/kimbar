@@ -86,12 +86,28 @@
       "character": "^char\\.[a-z0-9_]+$",
       "npc": "^npc\\.[a-z0-9_]+$",
       "outfit": "^outfit\\.[a-z0-9_]+$",
-      "tile": "^tile\\.[a-z0-9_]+\\.[a-z0-9_]+$",
+      "tile": "^tile\\.[a-z0-9_]+$",
       "prop": "^prop\\.[a-z0-9_]+$",
+      "icon": "^icon\\.[a-z0-9_]+$",
+      "portrait": "^portrait\\.[a-z0-9_]+$",
       "room": "^room\\.[a-z0-9_]+$"
     },
     "fileNaming": "snake_case",
     "tagFormat": "snake_case"
+  },
+
+  "aiAssets": {
+    "outputDir": "generated/ai-sprites",
+    "manifestPath": "generated/ai-manifest.json",
+    "allowedKinds": ["sprite", "tile", "portrait", "icon"],
+    "sizeConstraints": {
+      "prop": { "max": 64 },
+      "tile": { "exact": 32 },
+      "icon": { "max": 64 },
+      "portrait": { "min": 64, "max": 1024 }
+    },
+    "requireSeed": true,
+    "requirePromptHash": true
   },
   
   "tags": {

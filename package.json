@@ -35,6 +35,8 @@
         "search:assets": "node scripts/search-assets.mjs",
         "assets:search": "node scripts/assets-search.mjs",
         "gen:sprites": "node scripts/generate-sprites.mjs",
+        "gen:ai": "node scripts/generate-ai-assets.mjs",
+        "gen:ai:dry": "node scripts/generate-ai-assets.mjs --dry-run",
         "test:unit": "vitest run",
         "test:unit:watch": "vitest",
         "test:e2e": "playwright test",

@@ -1,0 +1,72 @@
+{
+  "_meta": {
+    "name": "wf_portrait_v1",
+    "description": "HD character portrait generation (no pixelization)",
+    "version": "1.0.0",
+    "placeholders": {
+      "{{POSITIVE_PROMPT}}": "Main generation prompt with style suffix",
+      "{{NEGATIVE_PROMPT}}": "Negative prompt",
+      "{{SEED}}": "Generation seed (integer)",
+      "{{OUTPUT_FILENAME}}": "Output filename without extension",
+      "{{CHECKPOINT}}": "Model checkpoint name"
+    },
+    "notes": "Outputs HD portrait suitable for dialogue UI. Can be scaled by game engine."
+  },
+  "3": {
+    "class_type": "KSampler",
+    "inputs": {
+      "cfg": 7,
+      "denoise": 1,
+      "latent_image": ["5", 0],
+      "model": ["4", 0],
+      "negative": ["7", 0],
+      "positive": ["6", 0],
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "seed": "{{SEED}}",
+      "steps": 25
+    }
+  },
+  "4": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "{{CHECKPOINT}}"
+    }
+  },
+  "5": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "batch_size": 1,
+      "height": 768,
+      "width": 768
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["4", 1],
+      "text": "{{POSITIVE_PROMPT}}, portrait, character bust, centered face, clean background"
+    }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["4", 1],
+      "text": "{{NEGATIVE_PROMPT}}, deformed, ugly, blurry, low quality"
+    }
+  },
+  "8": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["3", 0],
+      "vae": ["4", 2]
+    }
+  },
+  "11": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "{{OUTPUT_FILENAME}}",
+      "images": ["8", 0]
+    }
+  }
+}

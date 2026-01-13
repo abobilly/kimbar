@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell:*)",
+      "Bash(npm run prepare:content:*)",
+      "Bash(npm run test:unit:*)",
+      "Bash(npm run verify:*)",
+      "Bash(npm run build-nolog:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ]
+  },
+  "outputStyle": "default"
+}
