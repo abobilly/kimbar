@@ -1,0 +1,21 @@
+name = "flashcard-api"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+# R2 bucket binding
+[[r2_buckets]]
+binding = "FLASHCARD_BUCKET"
+bucket_name = "kimbar-flashcards"
+
+[vars]
+# Allowed origins for CORS (comma-separated in production, set via secrets)
+# ALLOWED_ORIGINS = "https://badgey.org,https://flashcards.badgey.org,https://kimbar.badgey.org"
+
+# For local development
+[env.dev]
+[env.dev.vars]
+ALLOWED_ORIGINS = "http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173"
+
+# Production environment
+[env.production]
+# Set ALLOWED_ORIGINS via `wrangler secret put ALLOWED_ORIGINS`

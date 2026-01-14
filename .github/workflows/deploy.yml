@@ -36,6 +36,8 @@ jobs:
 
             - name: Build Vite app
               run: npm run build-nolog
+              env:
+                  VITE_FLASHCARD_API_URL: ${{ secrets.VITE_FLASHCARD_API_URL }}
 
             - name: Deploy to Cloudflare Pages
               if: github.event_name == 'push' && github.ref == 'refs/heads/main'

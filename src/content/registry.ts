@@ -67,20 +67,31 @@ export async function loadFlashcards(): Promise<Flashcard[]> {
   if (flashcards.length > 0) return flashcards;
 
   try {
-    // Use registry-driven URL if registry is loaded
+    // Priority for URL resolution:
+    // 1. Environment variable (for production with external API)
+    // 2. Registry-driven URL (if registry loaded)
+    // 3. Local fallback (for development)
     let url = '/content/cards/flashcards.json'; // fallback
-    if (registry?.flashcardPacks?.length) {
+
+    // Check for external API URL (set in production builds)
+    const apiUrl = import.meta.env.VITE_FLASHCARD_API_URL;
+    if (apiUrl) {
+      url = apiUrl;
+    } else if (registry?.flashcardPacks?.length) {
       const pack = registry.flashcardPacks[0]; // Default to first pack
       url = pack.url;
     }
 
     const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
     const data = await response.json();
     // Handle both array format and object with 'cards' array
     flashcards = Array.isArray(data) ? data : (data.cards || []);
     console.log(`Loaded ${flashcards.length} flashcards from ${url}`);
   } catch (e) {
-    console.warn('No flashcards.json found, using sample cards');
+    console.warn('No flashcards.json found, using sample cards', e);
     flashcards = getSampleCards();
   }
   return flashcards;

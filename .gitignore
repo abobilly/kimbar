@@ -35,3 +35,6 @@ public/generated/**
 vendor/**
 !vendor/lpc/
 !vendor/lpc/README.md
+
+# Flashcard data (stored externally, not in public repo)
+public/content/cards/flashcards.json
