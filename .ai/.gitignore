@@ -1,0 +1,3 @@
+# Keep plans and reviews, ignore transient state
+current.json
+*.tmp

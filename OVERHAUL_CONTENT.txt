@@ -1,0 +1,97 @@
+Implement the "Content Expansion Roadmap for Kimbar" from kimbar/.ai/specs/content-expansion-roadmap.md.
+
+IMPORTANT: Phase 4 must be the revised version that uses VITE_FLASHCARD_API_URL (Cloudflare Worker + R2). The earlier "public/content/cards/*.json" assumption is wrong. Use Option A now (single master dataset, client-side filtering by deckTag/subject), and only scaffold Option B for later.
+
+SCOPE FOR THIS RUN (do these now)
+PHASE 1 — Characters (generate JSON specs)
+1) Create these character files in content/characters/ using npc.clerk_01.json as template:
+   - npc.justice_thomas.json
+   - npc.justice_roberts.json
+   - npc.justice_sotomayor.json
+   - npc.justice_kagan.json
+   - npc.justice_gorsuch.json
+   - npc.justice_kavanaugh.json
+   - npc.justice_barrett.json
+   - npc.justice_alito.json
+   - npc.justice_jackson.json
+   - npc.librarian.json
+   - npc.bailiff.json
+   - npc.reporter.json
+2) Each file must have:
+   - id exactly as listed (npc.justice_thomas, etc.)
+   - a distinct display name
+   - metadata.subjects (or equivalent) wired to the correct subject/deckTag per the roadmap table
+   - dialogue knot names consistent with the roadmap (e.g., justice_thomas_intro, etc.)
+   - ulpcArgs populated with reasonable distinct variations (hair/clothes/colors) but do not add new assets in this run
+
+PHASE 2 — Rooms (scaffold room specs)
+3) Create minimal room specs in content/rooms/ for:
+   - courtroom_main.json
+   - chambers_thomas.json
+   - chambers_roberts.json
+   - chambers_sotomayor.json
+   - chambers_kagan.json
+   - chambers_gorsuch.json
+   - chambers_kavanaugh.json
+   - chambers_barrett.json
+   - chambers_alito.json
+   - chambers_jackson.json
+   - library.json
+   - press_room.json
+   - robing_room.json
+   - records_vault.json
+   - cafeteria.json
+4) These room specs should be valid per existing content contracts, reference LDtk level ids/paths if that's how the engine works, but you may use placeholders where LDtk exports don't exist yet. Do NOT break build/verify. Do NOT invent large LDtk JSON; just wire the room registry and add TODO notes in the room files.
+
+PHASE 3 — Dialogue Expansion (Ink)
+5) Split Ink into:
+   - content/ink/story.ink (hub / includes)
+   - content/ink/justices.ink (all justice intro/victory/defeat knots)
+   - content/ink/tutorial.ink (librarian tutorial knots)
+   - content/ink/rewards.ink (reward/outfit acquisition knots)
+6) Ensure the build/compile pipeline (whatever compiles Ink now) still works. Update include/import wiring accordingly.
+7) Implement per-justice dialogue pattern (intro/victory/defeat) using the existing tag conventions used by the game:
+   - encounter tag that triggers Encounter/flashcards with deckTag and count
+   - rewardId hooks for outfit rewards
+   - quest/set flags (defeated_*)
+
+PHASE 4 — Flashcards via Worker API (Option A now)
+8) Confirm client fetches flashcards from VITE_FLASHCARD_API_URL (Cloudflare Worker). Ensure EncounterSystem (or loader) robustly:
+   - requests the master flashcards JSON once (cache/memoize)
+   - filters by deckTag/subject reliably against card tags (tags.subjects)
+   - handles missing/unknown deckTag gracefully (clear error + fallback behavior)
+9) Add a validation script:
+   - scripts/validate-flashcard-subjects.mjs
+   It should fetch from VITE_FLASHCARD_API_URL (or accept a URL arg), and verify:
+   - every card has tags.subjects array
+   - subjects are in the allowed subject list in registry_config.json
+   - output a useful summary and nonzero exit on failures
+10) Add/adjust tests for deckTag filtering and caching behavior if a test harness exists; otherwise add a small deterministic unit test around the filter function(s).
+
+PHASE 5 — Outfits & Rewards (scaffold)
+11) Update registry_config.json (or wherever outfits live) to add at least:
+   - evidence_blazer, conlaw_robe, civpro_suit, property_vest
+   - plus placeholders for the remaining justice rewards and supreme_robe
+   Keep buffs/unlocks as metadata; do not implement new gameplay math unless a system already supports it.
+12) Wire justice victory knots to "give" the correct reward ids.
+
+DELIVERABLES (write these files)
+A) kimbar/.ai/plans/content-expansion-implementation.md
+   - step list (max 12)
+   - explicit mapping of character ids ↔ subjects ↔ dialogue knots ↔ room ids
+   - what is implemented now vs scaffolded later
+B) kimbar/.ai/reviews/content-expansion-implementation.md
+   - what changed
+   - risks / TODOs
+   - commands run
+
+ACCEPTANCE GATES (must run and pass)
+- npm run verify
+- npm test (or repo's test command; if none, say so in the review and run the closest equivalent)
+- ensure no TypeScript build errors
+
+HARD RULES
+- Do not reintroduce "public/content/cards/*.json" as the source of truth.
+- No new dependencies unless absolutely necessary.
+- Keep changes minimal but complete; prefer adding small helpers over large rewrites.
+- Leave repo clean; no unguarded debug logs.
