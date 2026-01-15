@@ -45,6 +45,8 @@ export interface DialogueLayout {
   choiceSpacing: number;
   /** Y position for bottom-most choice (stack upward from here) */
   choiceBaseY: number;
+  /** Whether the box is positioned at the top of the screen */
+  isTop: boolean;
 }
 
 export interface EncounterLayout {
@@ -112,21 +114,21 @@ export interface MenuLayout {
 /**
  * Calculate dialogue box layout for given viewport.
  */
-export function layoutDialogue(width: number, height: number): DialogueLayout {
+export function layoutDialogue(width: number, height: number, isTop: boolean = false): DialogueLayout {
   const isSmallHeight = height < 600;
 
   const boxHeight = Math.min(
     DIALOGUE_BOX_MAX_HEIGHT,
     Math.max(DIALOGUE_BOX_MIN_HEIGHT, Math.floor(height * DIALOGUE_BOX_HEIGHT_RATIO))
   );
-  const boxY = height - boxHeight;
+  const boxY = isTop ? UI_MARGIN : height - boxHeight;
   const boxWidth = width - UI_MARGIN * 2;
-  
+
   // Compact choices for small screens to ensure they fit in the box
   const choiceHeight = isSmallHeight ? 32 : MIN_CHOICE_HEIGHT;
   const choiceSpacing = isSmallHeight ? 5 : UI_GAP;
   const choiceBottomPadding = 35;
-  
+
   return {
     boxY,
     boxHeight,
@@ -141,11 +143,12 @@ export function layoutDialogue(width: number, height: number): DialogueLayout {
     textY: boxY + UI_PADDING * 2,
     textWrapWidth: width - UI_MARGIN * 4,
     continueX: width - UI_MARGIN * 3,
-    continueY: height - UI_PADDING * 2,
+    continueY: isTop ? boxY + boxHeight - UI_PADDING : height - UI_PADDING * 2,
     choiceWidth: width - 100,
     choiceHeight,
     choiceSpacing,
-    choiceBaseY: height - choiceBottomPadding
+    choiceBaseY: height - choiceBottomPadding,
+    isTop
   };
 }
 
@@ -154,32 +157,32 @@ export function layoutDialogue(width: number, height: number): DialogueLayout {
  */
 export function layoutEncounter(width: number, height: number): EncounterLayout {
   const isSmallHeight = height < 600;
-  
+
   const buttonHeight = isSmallHeight ? 42 : 55;
   const feedbackHeight = isSmallHeight ? 80 : 100;
-  
+
   // Ensure buttons don't overlap (min spacing > button height)
   const minButtonSpacing = buttonHeight + 5;
   const buttonSpacing = Math.min(65, Math.max(minButtonSpacing, height * 0.08));
-  
+
   // Use percentage-based margins for better scaling
   const sideMargin = Math.max(40, width * 0.05);  // At least 40px or 5% of width
   const contentWidth = width - sideMargin * 2;
-  
+
   // Compact vertical layout for small screens
   const titleY = isSmallHeight ? 30 : 60;
   const progressY = isSmallHeight ? 60 : 100;
-  
+
   // Question position
-  const questionY = isSmallHeight 
-    ? 90 
+  const questionY = isSmallHeight
+    ? 90
     : Math.max(125, height * 0.15);
-  
+
   // Button start position
   const buttonStartY = isSmallHeight
     ? questionY + 50
     : Math.max(questionY + 60, height * 0.30);
-  
+
   return {
     centerX: width / 2,
     titleY,

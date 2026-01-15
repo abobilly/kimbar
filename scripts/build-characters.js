@@ -164,9 +164,28 @@ async function scanRooms() {
   }
 
   const files = await readdir(LDTK_DIR);
+  const groupedFiles = new Map();
+
   for (const file of files) {
     if (file.startsWith('_')) continue;
     if (!file.endsWith('.json') && !file.endsWith('.ldtk')) continue;
+
+    const ext = extname(file);
+    const base = basename(file, ext);
+    const entry = groupedFiles.get(base) || { ldtk: null, json: null };
+
+    if (ext === '.ldtk') entry.ldtk = file;
+    if (ext === '.json') entry.json = file;
+
+    groupedFiles.set(base, entry);
+  }
+
+  const selectedFiles = Array.from(groupedFiles.values())
+    .map(entry => entry.ldtk || entry.json)
+    .filter(Boolean)
+    .sort();
+
+  for (const file of selectedFiles) {
 
     try {
       const filePath = join(LDTK_DIR, file);

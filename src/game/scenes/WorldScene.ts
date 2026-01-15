@@ -752,6 +752,10 @@ export class WorldScene extends Scene {
   private handleEntityInteraction(id: string, entity: EntityData): void {
     console.log('Interacting with:', id, entity.type);
 
+    // Retrieve live entity wrapper (with sprite) if available
+    const liveEntity = this.entities.get(id);
+    const targetSprite = liveEntity?.sprite;
+
     switch (entity.type) {
       case 'NPC':
         if (entity.properties?.storyKnot) {
@@ -762,7 +766,7 @@ export class WorldScene extends Scene {
             this.updateUI();
           }, (tag) => {
             this.handleDialogueTag(tag);
-          });
+          }, targetSprite);  // Pass target sprite for smart UI positioning
         }
         break;
 

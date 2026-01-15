@@ -35,9 +35,10 @@ export class DialogueSystem {
   }
 
   start(
-    knotName?: string, 
+    knotName?: string,
     onComplete?: () => void,
-    onTag?: (tag: string) => void
+    onTag?: (tag: string) => void,
+    targetEntity?: Phaser.GameObjects.Components.Transform
   ): void {
     if (!this.story) {
       console.error('No story loaded!');
@@ -52,28 +53,47 @@ export class DialogueSystem {
       this.story.ChoosePathString(knotName);
     }
 
-    this.showDialogueUI();
+    this.showDialogueUI(targetEntity);
     this.continueStory();
   }
 
-  private showDialogueUI(): void {
+  private showDialogueUI(target?: Phaser.GameObjects.Components.Transform): void {
     // Register as modal to block world input
     openModal('dialogue');
     // Register ESC to close dialogue
     registerExit('dialogue', () => this.close());
-    
+
     const { width, height } = this.scene.scale;
-    const layout = layoutDialogue(width, height);
+
+    // Check target position to avoid covering face
+    let isTop = false;
+    if (target) {
+      // Get screen position of the target
+      // Note: Assumes world camera is main camera
+      const camera = this.scene.cameras.main;
+
+      // worldToScreen gives position relative to viewport
+      // If target is a Container or Sprite, it has x,y
+      // We assume it's in world space
+      const screenPos = camera.worldToScreen(target.x as number, target.y as number);
+
+      // If target is in the bottom ~35% of screen, put box at TOP
+      if (screenPos.y > height * 0.65) {
+        isTop = true;
+      }
+    }
+
+    const layout = layoutDialogue(width, height, isTop);
 
     this.container = this.scene.add.container(0, 0);
     this.container.setDepth(DEPTH_OVERLAY);
-    
+
     // Add container to UI layer if available (camera isolation from world zoom)
     const worldScene = this.scene as unknown as { getUILayer?: () => Phaser.GameObjects.Layer };
     if (worldScene.getUILayer) {
       worldScene.getUILayer().add(this.container);
     }
-    
+
     // Store layout for other methods
     this.container.setData('layout', layout);
 
@@ -182,13 +202,13 @@ export class DialogueSystem {
     const nameText = this.container.getByName('nameText') as Phaser.GameObjects.Text;
     const namePlate = this.container.getByName('namePlate') as Phaser.GameObjects.Rectangle;
     const portrait = this.container.getByName('portrait') as Phaser.GameObjects.Image;
-    
+
     if (nameText && namePlate) {
       nameText.setText(speaker);
       namePlate.setVisible(speaker.length > 0);
       nameText.setVisible(speaker.length > 0);
     }
-    
+
     // Try to show portrait for speaker
     if (portrait) {
       let portraitKey: string | null = null;
@@ -258,10 +278,10 @@ export class DialogueSystem {
       this.typewriterTimer.destroy();
       this.typewriterTimer = null;
     }
-    
+
     let charIndex = 0;
     textObject.setText('');
-    
+
     this.typewriterTimer = this.scene.time.addEvent({
       delay: 30,
       callback: () => {
@@ -271,10 +291,10 @@ export class DialogueSystem {
           this.typewriterTimer = null;
           return;
         }
-        
+
         charIndex++;
         textObject.setText(fullText.substring(0, charIndex));
-        
+
         if (charIndex >= fullText.length) {
           this.typewriterTimer?.destroy();
           this.typewriterTimer = null;
@@ -292,7 +312,7 @@ export class DialogueSystem {
       new Phaser.Geom.Rectangle(0, 0, this.scene.scale.width, this.scene.scale.height),
       Phaser.Geom.Rectangle.Contains
     );
-    
+
     const skipHandler = () => {
       if (charIndex < fullText.length && this.typewriterTimer) {
         this.typewriterTimer.destroy();
@@ -305,7 +325,7 @@ export class DialogueSystem {
         }
       }
     };
-    
+
     this.container?.once('pointerdown', skipHandler);
   }
 
@@ -314,25 +334,37 @@ export class DialogueSystem {
 
     const layout = this.container.getData('layout') as ReturnType<typeof layoutDialogue>;
     if (!layout) return;
-    
+
     const choicesContainer = this.container.getByName('choicesContainer') as Phaser.GameObjects.Container;
     if (!choicesContainer) return;
 
     const choices = this.story.currentChoices;
-    
+
     // Use layout-based choice positioning
-    const baseY = layout.choiceBaseY;
+    const step = layout.choiceHeight + layout.choiceSpacing;
+    let startY: number;
+
+    if (layout.isTop) {
+      // Stack downwards from below the top-box
+      // boxY + boxHeight is the bottom edge of the box
+      // Add small gap + half height (since button anchors center)
+      startY = (layout.boxY + layout.boxHeight + 10) + (layout.choiceHeight / 2);
+    } else {
+      // Stack upwards from bottom of screen (default)
+      // choiceBaseY is center of bottom-most choice
+      const bottomY = layout.choiceBaseY;
+      startY = bottomY - (choices.length - 1) * step;
+    }
 
     choices.forEach((choice, index) => {
-      // Stack from bottom up: last choice at bottom, first at top
-      const reverseIndex = choices.length - 1 - index;
-      const y = baseY - reverseIndex * (layout.choiceHeight + layout.choiceSpacing);
-      
+      // Index 0 is first choice (top of list), Index N is last choice (bottom of list)
+      const y = startY + index * step;
+
       const choiceBtn = this.scene.add.container(layout.boxCenterX, y);
-      
+
       const bg = this.scene.add.rectangle(0, 0, layout.choiceWidth, layout.choiceHeight, 0x2a4858)
         .setStrokeStyle(2, 0x4a90a4);
-      
+
       const text = this.scene.add.text(0, 0, `${index + 1}. ${choice.text}`, {
         fontSize: '16px',
         color: '#FFFFFF',
@@ -357,17 +389,17 @@ export class DialogueSystem {
         // Guard against double-click
         if (this.isAdvancing) return;
         this.isAdvancing = true;
-        
+
         // Disable all choice buttons
         choicesContainer.each((child: Phaser.GameObjects.GameObject) => {
           if (child instanceof Phaser.GameObjects.Container) {
             child.disableInteractive();
           }
         });
-        
+
         this.story?.ChooseChoiceIndex(index);
         this.continueStory();
-        
+
         // Reset after story advances
         this.isAdvancing = false;
       });
@@ -392,18 +424,18 @@ export class DialogueSystem {
     // Make dialogue box clickable to continue
     const layout = this.container.getData('layout') as ReturnType<typeof layoutDialogue>;
     const { width, height } = this.scene.scale;
-    
+
     const clickZone = this.scene.add.rectangle(
       layout?.boxCenterX || width / 2, height - 100,
       width, 200, 0x000000, 0
     ).setInteractive({ useHandCursor: true });
-    
+
     clickZone.setName('clickZone');
     this.container.add(clickZone);
 
     clickZone.once('pointerdown', () => {
       clickZone.destroy();
-      
+
       if (hasMore && this.story?.canContinue) {
         this.continueStory();
       } else {
@@ -418,12 +450,12 @@ export class DialogueSystem {
       this.typewriterTimer.destroy();
       this.typewriterTimer = null;
     }
-    
+
     // Unregister modal, exit handler, and resize listener
     unregisterExit('dialogue');
     closeModal('dialogue');
     this.scene.scale.off('resize', this.onResize, this);
-    
+
     this.container?.destroy();
     this.container = null;
     this.onComplete?.();
@@ -434,52 +466,52 @@ export class DialogueSystem {
    */
   private onResize(): void {
     if (!this.container) return;
-    
+
     const { width, height } = this.scene.scale;
     const layout = layoutDialogue(width, height);
-    
+
     // Update stored layout
     this.container.setData('layout', layout);
-    
+
     // Reposition scrim
     const scrim = this.container.getByName('scrim') as Phaser.GameObjects.Rectangle;
     if (scrim) {
       scrim.setPosition(width / 2, height / 2);
       scrim.setSize(width, height);
     }
-    
+
     // Reposition background
     const bg = this.container.list[1] as Phaser.GameObjects.Rectangle;  // After scrim
     if (bg && bg.type === 'Rectangle') {
       bg.setPosition(layout.boxCenterX, layout.boxCenterY);
       bg.setSize(layout.boxWidth, layout.boxHeight - 20);
     }
-    
+
     // Reposition portrait
     const portrait = this.container.getByName('portrait') as Phaser.GameObjects.Image;
     if (portrait) {
       portrait.setPosition(layout.portraitX, layout.portraitY);
     }
-    
+
     // Reposition name plate
     const namePlate = this.container.getByName('namePlate') as Phaser.GameObjects.Rectangle;
     if (namePlate) {
       namePlate.setPosition(layout.namePlateX, layout.namePlateY);
     }
-    
+
     // Reposition name text
     const nameText = this.container.getByName('nameText') as Phaser.GameObjects.Text;
     if (nameText) {
       nameText.setPosition(layout.namePlateX, layout.namePlateY);
     }
-    
+
     // Reposition dialogue text
     const dialogueText = this.container.getByName('dialogueText') as Phaser.GameObjects.Text;
     if (dialogueText) {
       dialogueText.setPosition(layout.textX, layout.textY);
       dialogueText.setWordWrapWidth(layout.textWrapWidth);
     }
-    
+
     // Reposition continue indicator
     const continueIndicator = this.container.getByName('continueIndicator') as Phaser.GameObjects.Text;
     if (continueIndicator) {

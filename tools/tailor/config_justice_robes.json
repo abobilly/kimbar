@@ -1,0 +1,73 @@
+{
+    "name": "Justice Robes Pipeline",
+    "description": "Generate male and female judicial robe layers for LPC sprites",
+    "workspace_dir": "workspace/frames",
+    "sheets": [
+        {
+            "path": "../../vendor/lpc/justice_robes.png",
+            "label": "robe_source",
+            "description": "Source justice robe sheet (may be male template)"
+        },
+        {
+            "path": "../../vendor/lpc/Universal-LPC-Spritesheet-Character-Generator/spritesheets/torso/clothes/robe/female/black.png",
+            "label": "robe_female_ref",
+            "description": "Reference female robe from ULPC"
+        }
+    ],
+    "body_refs": {
+        "male": "../../vendor/lpc/Universal-LPC-Spritesheet-Character-Generator/spritesheets/body/male/light.png",
+        "female": "../../vendor/lpc/Universal-LPC-Spritesheet-Character-Generator/spritesheets/body/female/light.png"
+    },
+    "tailor_jobs": [
+        {
+            "name": "Male Justice Robe",
+            "body_label": "body_male",
+            "robe_label": "robe_source",
+            "output_label": "male_robe"
+        },
+        {
+            "name": "Female Justice Robe",
+            "body_label": "body_female",
+            "robe_label": "robe_female_ref",
+            "output_label": "female_robe"
+        }
+    ],
+    "outputs": [
+        {
+            "label": "male_robe",
+            "path": "../../vendor/lpc/custom/torso_robe_judge_male_black.png",
+            "rows": 21,
+            "cols": 13
+        },
+        {
+            "label": "female_robe",
+            "path": "../../vendor/lpc/custom/torso_robe_judge_female_black.png",
+            "rows": 21,
+            "cols": 13
+        }
+    ],
+    "validation": {
+        "critical_rows": [
+            7,
+            8,
+            9,
+            10
+        ],
+        "chest_box": [
+            24,
+            28,
+            42,
+            48
+        ],
+        "skin_leak_tolerance": 5
+    },
+    "palette": {
+        "name": "Judge Robe Navy",
+        "colors": {
+            "outline": "#1a1a2e",
+            "shadow": "#353545",
+            "base": "#28283a",
+            "highlight": "#404055"
+        }
+    }
+}

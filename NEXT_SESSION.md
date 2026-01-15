@@ -38,6 +38,8 @@
 - Added schema + validation: `schemas/PlacementDraft.schema.json` and placement checks in `scripts/validate.js`.
 - Expanded AI job schema IDs to allow dotted namespaces in `schemas/AiJobSpec.schema.json`.
 - Updated `scripts/generate-ldtk-levels.mjs` to merge placement drafts into Prop entities (adds `propId` field definition).
+- Updated `scripts/build-levels.js` to merge placement drafts and include Floor/Collisions layers so `.json` exports render floors.
+- Updated `scripts/build-characters.js` to prefer `.ldtk` over `.json` when both exist (prevents duplicate room entries).
 
 ---
 

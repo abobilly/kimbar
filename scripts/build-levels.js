@@ -13,6 +13,7 @@ const CONTENT_DIR = './content/rooms';
 const OUTPUT_DIR = './public/content/ldtk';
 // Use generated registry (single source of truth)
 const REGISTRY_PATH = './generated/registry.json';
+const PLACEMENT_DRAFT_PATH = './content/placement_drafts/prop_placements.json';
 
 async function loadRegistry() {
   const content = await readFile(REGISTRY_PATH, 'utf-8');
@@ -43,13 +44,57 @@ async function loadRoomSpecs() {
   return specs;
 }
 
-function convertToLdtkLevel(spec, registry) {
+async function loadPlacementDrafts() {
+  if (!existsSync(PLACEMENT_DRAFT_PATH)) {
+    return null;
+  }
+
+  try {
+    const content = await readFile(PLACEMENT_DRAFT_PATH, 'utf-8');
+    const draft = JSON.parse(content);
+    return draft.placements || null;
+  } catch (e) {
+    console.warn(`⚠️ Failed to load placement drafts: ${e.message}`);
+    return null;
+  }
+}
+
+function buildPlacementEntities(roomId, drafts) {
+  if (!drafts || !drafts[roomId]) return [];
+  const entries = drafts[roomId] || [];
+
+  return entries.map((entry, idx) => {
+    const zoneToken = (entry.zone || 'zone').toLowerCase().replace(/[^a-z0-9_]+/g, '_');
+    const baseId = (entry.id || 'prop').replace(/^prop\./, 'prop_');
+    const uniqueId = `${baseId}__${zoneToken}__${idx + 1}`;
+    const spriteKey = entry.properties?.sprite || entry.id;
+
+    const properties = {};
+    if (spriteKey) properties.sprite = spriteKey;
+    if (typeof entry.properties?.collision === 'boolean') {
+      properties.collision = entry.properties.collision;
+    }
+    if (entry.id) properties.propId = entry.id;
+
+    return {
+      type: entry.type || 'Prop',
+      x: entry.x,
+      y: entry.y,
+      id: uniqueId,
+      properties
+    };
+  });
+}
+
+function convertToLdtkLevel(spec, registry, placementDrafts) {
   const tileSize = registry.tileSize || 32;
   const pixelWidth = spec.width * tileSize;
   const pixelHeight = spec.height * tileSize;
+  const placementEntities = buildPlacementEntities(spec.id, placementDrafts);
+  const allEntities = (spec.entities || []).concat(placementEntities);
   
   // Convert entities to LDtk format
-  const entityInstances = spec.entities.map((entity, index) => ({
+  const entityInstances = allEntities.map((entity, index) => ({
     __identifier: entity.type,
     __grid: [entity.x, entity.y],
     __pivot: [0.5, 1],
@@ -62,14 +107,23 @@ function convertToLdtkLevel(spec, registry) {
     width: tileSize,
     height: tileSize,
     px: [entity.x * tileSize, entity.y * tileSize],
-    fieldInstances: Object.entries(entity.properties || {}).map(([key, value]) => ({
-      __identifier: key,
-      __type: typeof value === 'number' ? 'Int' : 'String',
-      __value: value,
-      defUid: 0,
-      realEditorValues: []
-    }))
+    fieldInstances: Object.entries(entity.properties || {}).map(([key, value]) => {
+      let fieldType = 'String';
+      if (typeof value === 'number') fieldType = 'Int';
+      if (typeof value === 'boolean') fieldType = 'Bool';
+      return {
+        __identifier: key,
+        __type: fieldType,
+        __value: value,
+        defUid: 0,
+        realEditorValues: []
+      };
+    })
   }));
+
+  const gridCount = spec.width * spec.height;
+  const collisionsCsv = new Array(gridCount).fill(0);
+  const floorCsv = new Array(gridCount).fill(1);
 
   // Simplified LDtk level export format (Super Simple Export compatible)
   return {
@@ -90,6 +144,28 @@ function convertToLdtkLevel(spec, registry) {
         __cHei: spec.height,
         __gridSize: tileSize,
         entityInstances: entityInstances
+      },
+      {
+        __identifier: 'Collisions',
+        __type: 'IntGrid',
+        __cWid: spec.width,
+        __cHei: spec.height,
+        __gridSize: tileSize,
+        intGridCsv: collisionsCsv,
+        autoLayerTiles: [],
+        gridTiles: [],
+        entityInstances: []
+      },
+      {
+        __identifier: 'Floor',
+        __type: 'IntGrid',
+        __cWid: spec.width,
+        __cHei: spec.height,
+        __gridSize: tileSize,
+        intGridCsv: floorCsv,
+        autoLayerTiles: [],
+        gridTiles: [],
+        entityInstances: []
       }
     ],
     // Kim Bar specific metadata
@@ -103,14 +179,14 @@ function convertToLdtkLevel(spec, registry) {
   };
 }
 
-async function buildLevel(file, spec, registry) {
+async function buildLevel(file, spec, registry, placementDrafts) {
   console.log(`\n🏛️ Building level: ${spec.id} (${spec.name})`);
   
   // Ensure output directory exists
   await mkdir(OUTPUT_DIR, { recursive: true });
   
   // Convert to LDtk format
-  const ldtkLevel = convertToLdtkLevel(spec, registry);
+  const ldtkLevel = convertToLdtkLevel(spec, registry, placementDrafts);
   
   // Write output
   const outputPath = join(OUTPUT_DIR, `${spec.id}.json`);
@@ -118,7 +194,7 @@ async function buildLevel(file, spec, registry) {
   
   console.log(`  ✅ Generated: ${outputPath}`);
   console.log(`  📐 Size: ${spec.width}x${spec.height} tiles (${ldtkLevel.pxWid}x${ldtkLevel.pxHei}px)`);
-  console.log(`  🎯 Entities: ${spec.entities.length}`);
+  console.log(`  🎯 Entities: ${ldtkLevel.layerInstances?.[0]?.entityInstances?.length || 0}`);
   
   return true;
 }
@@ -142,6 +218,7 @@ async function main() {
   
   // Load specs
   const specs = await loadRoomSpecs();
+  const placementDrafts = await loadPlacementDrafts();
   
   if (specs.length === 0) {
     console.log('\n📝 No room specs found.');
@@ -168,7 +245,7 @@ async function main() {
   
   for (const { file, spec } of toBuild) {
     try {
-      await buildLevel(file, spec, registry);
+      await buildLevel(file, spec, registry, placementDrafts);
       success++;
     } catch (e) {
       console.error(`  ❌ Failed: ${e.message}`);
