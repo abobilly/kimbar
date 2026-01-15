@@ -41,3 +41,6 @@ public/content/cards/flashcards.json
 
 .bounce.*
 .ai.patch
+
+.gemini/
+gha-creds-*.json

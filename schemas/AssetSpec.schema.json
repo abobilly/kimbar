@@ -1,0 +1,248 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "AssetSpec.schema.json",
+    "title": "AssetSpec",
+    "description": "Contract for sourcing game assets (tiles, props) with strict validation rules",
+    "type": "object",
+    "required": [
+        "version",
+        "specId",
+        "globalConstraints",
+        "tiles",
+        "props"
+    ],
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "$comment": {
+            "type": "string"
+        },
+        "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "specId": {
+            "type": "string",
+            "description": "Unique identifier for this asset spec"
+        },
+        "globalConstraints": {
+            "type": "object",
+            "required": [
+                "tileSize",
+                "propSize",
+                "style",
+                "licenseAllowlist"
+            ],
+            "properties": {
+                "tileSize": {
+                    "type": "integer",
+                    "enum": [
+                        16,
+                        32,
+                        64
+                    ]
+                },
+                "propSize": {
+                    "type": "integer",
+                    "enum": [
+                        32,
+                        64,
+                        128
+                    ]
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "description": {
+                            "type": "string"
+                        },
+                        "keywords": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "antiKeywords": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "licenseAllowlist": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Allowed license identifiers in priority order"
+                },
+                "licenseDenylist": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "requiredMetadata": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "dimensionValidation": {
+                    "type": "string",
+                    "enum": [
+                        "exact",
+                        "minimum",
+                        "any"
+                    ]
+                },
+                "allowUpscale": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "fromSize": {
+                            "type": "integer"
+                        },
+                        "toSize": {
+                            "type": "integer"
+                        },
+                        "method": {
+                            "type": "string",
+                            "enum": [
+                                "nearest-neighbor",
+                                "none"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "candidateRequirements": {
+            "type": "object",
+            "properties": {
+                "minCandidatesPerAsset": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "maxCandidatesPerAsset": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "requiredFields": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "rejectIf": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "tiles": {
+            "type": "object",
+            "required": [
+                "outputDir",
+                "items"
+            ],
+            "properties": {
+                "outputDir": {
+                    "type": "string"
+                },
+                "atlasName": {
+                    "type": "string"
+                },
+                "atlasLayout": {
+                    "type": "object",
+                    "properties": {
+                        "columns": {
+                            "type": "integer"
+                        },
+                        "tileSize": {
+                            "type": "integer"
+                        },
+                        "padding": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/assetItem"
+                    }
+                }
+            }
+        },
+        "props": {
+            "type": "object",
+            "required": [
+                "outputDir",
+                "items"
+            ],
+            "properties": {
+                "outputDir": {
+                    "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/assetItem"
+                    }
+                }
+            }
+        },
+        "futureHooks": {
+            "type": "object",
+            "description": "Hooks for future AI-generated pack swap"
+        }
+    },
+    "definitions": {
+        "assetItem": {
+            "type": "object",
+            "required": [
+                "id",
+                "description",
+                "sizePx",
+                "tileable",
+                "transparentBg"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "pattern": "^(tile|prop)\\.[a-z_]+$"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "sizePx": {
+                    "type": "integer"
+                },
+                "tileable": {
+                    "type": "boolean"
+                },
+                "transparentBg": {
+                    "type": "boolean"
+                },
+                "allowedSubstitutes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "priority": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 3
+                }
+            }
+        }
+    }
+}

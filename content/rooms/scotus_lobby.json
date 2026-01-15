@@ -16,6 +16,15 @@
       "id": "spawn_main"
     },
     {
+      "type": "PlayerSpawn",
+      "x": 10,
+      "y": 14,
+      "id": "spawn_exterior",
+      "properties": {
+        "_comment": "Spawn point when entering from courthouse steps"
+      }
+    },
+    {
       "type": "NPC",
       "x": 5,
       "y": 7,
@@ -67,6 +76,11 @@
       "targetRoom": "courtroom_main",
       "locked": true,
       "requiredItem": "all_justice_victories"
+    },
+    {
+      "direction": "south",
+      "targetRoom": "courthouse_exterior",
+      "spawnId": "spawn_street"
     }
   ]
 }

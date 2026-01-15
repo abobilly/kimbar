@@ -1,0 +1,275 @@
+{
+    "$schema": "../../schemas/AssetSpec.schema.json",
+    "$comment": "MVP asset contract for courthouse tileset. Scouts/auditors must follow this exactly.",
+    "version": "1.0.0",
+    "specId": "courthouse_mvp",
+    "globalConstraints": {
+        "tileSize": 32,
+        "propSize": 64,
+        "style": {
+            "description": "LPC-compatible top-down pixel art, limited palette, no gradients, no outlines",
+            "keywords": [
+                "LPC",
+                "liberated pixel cup",
+                "top-down",
+                "RPG",
+                "pixel art"
+            ],
+            "antiKeywords": [
+                "isometric",
+                "3D",
+                "realistic",
+                "hand-drawn",
+                "sketch"
+            ]
+        },
+        "licenseAllowlist": [
+            "CC0",
+            "CC-BY 3.0",
+            "CC-BY 4.0",
+            "CC-BY-SA 3.0",
+            "CC-BY-SA 4.0",
+            "GPL 2.0",
+            "GPL 3.0",
+            "OGA-BY 3.0"
+        ],
+        "licenseDenylist": [
+            "CC-BY-NC",
+            "CC-BY-ND",
+            "CC-BY-NC-SA",
+            "CC-BY-NC-ND",
+            "All Rights Reserved",
+            "Unknown"
+        ],
+        "requiredMetadata": [
+            "author",
+            "licenseId",
+            "licenseEvidence",
+            "sourceUrl",
+            "dimensions"
+        ],
+        "dimensionValidation": "exact",
+        "allowUpscale": {
+            "enabled": true,
+            "fromSize": 16,
+            "toSize": 32,
+            "method": "nearest-neighbor",
+            "note": "Only if no 32×32 alternative exists"
+        }
+    },
+    "candidateRequirements": {
+        "minCandidatesPerAsset": 2,
+        "maxCandidatesPerAsset": 5,
+        "requiredFields": [
+            "assetId",
+            "candidateName",
+            "sourceUrl",
+            "downloadUrl",
+            "licenseId",
+            "licenseEvidence",
+            "author",
+            "dimensions",
+            "dimensionProof",
+            "tileable",
+            "transparentBg",
+            "matchScore",
+            "notes"
+        ],
+        "rejectIf": [
+            "licenseEvidence is empty or 'unknown'",
+            "dimensions do not match spec (unless upscale allowed)",
+            "isometric perspective",
+            "blurry or upscaled with interpolation",
+            "watermarked"
+        ]
+    },
+    "tiles": {
+        "outputDir": "vendor/tiles/courthouse_mvp",
+        "atlasName": "courthouse_tiles.png",
+        "atlasLayout": {
+            "columns": 4,
+            "tileSize": 32,
+            "padding": 0
+        },
+        "items": [
+            {
+                "id": "tile.marble_white",
+                "description": "White/cream marble floor, polished, subtle veining",
+                "sizePx": 32,
+                "tileable": true,
+                "transparentBg": false,
+                "allowedSubstitutes": [
+                    "light stone floor",
+                    "cream tile",
+                    "white granite"
+                ],
+                "priority": 1
+            },
+            {
+                "id": "tile.marble_checkered",
+                "description": "Black and white checkered marble, chess/courthouse pattern",
+                "sizePx": 32,
+                "tileable": true,
+                "transparentBg": false,
+                "allowedSubstitutes": [
+                    "checkerboard floor",
+                    "two-tone tile"
+                ],
+                "priority": 1
+            },
+            {
+                "id": "tile.wood_parquet",
+                "description": "Wooden parquet floor, herringbone or plank pattern, oak/brown",
+                "sizePx": 32,
+                "tileable": true,
+                "transparentBg": false,
+                "allowedSubstitutes": [
+                    "wood floor",
+                    "hardwood",
+                    "oak planks"
+                ],
+                "priority": 1
+            },
+            {
+                "id": "tile.carpet_red",
+                "description": "Red carpet/velvet texture, rich color, plush",
+                "sizePx": 32,
+                "tileable": true,
+                "transparentBg": false,
+                "allowedSubstitutes": [
+                    "red rug",
+                    "burgundy carpet",
+                    "crimson floor"
+                ],
+                "priority": 2
+            },
+            {
+                "id": "tile.wall_wood_panel",
+                "description": "Dark wood wainscoting/paneling wall texture",
+                "sizePx": 32,
+                "tileable": true,
+                "transparentBg": false,
+                "allowedSubstitutes": [
+                    "wood wall",
+                    "oak paneling",
+                    "brown wall"
+                ],
+                "priority": 1
+            },
+            {
+                "id": "tile.wall_bookshelf",
+                "description": "Bookshelf wall for library room",
+                "sizePx": 32,
+                "tileable": true,
+                "transparentBg": false,
+                "allowedSubstitutes": [
+                    "books",
+                    "library shelves"
+                ],
+                "priority": 2
+            }
+        ]
+    },
+    "props": {
+        "outputDir": "vendor/props/courthouse_mvp",
+        "items": [
+            {
+                "id": "prop.gavel_wood",
+                "description": "Wooden judge's gavel, legal hammer",
+                "sizePx": 64,
+                "tileable": false,
+                "transparentBg": true,
+                "allowedSubstitutes": [
+                    "hammer",
+                    "mallet"
+                ],
+                "priority": 1
+            },
+            {
+                "id": "prop.lawbook_stack",
+                "description": "Stack of leather-bound law books",
+                "sizePx": 64,
+                "tileable": false,
+                "transparentBg": true,
+                "allowedSubstitutes": [
+                    "book stack",
+                    "books",
+                    "tomes"
+                ],
+                "priority": 1
+            },
+            {
+                "id": "prop.scales_justice",
+                "description": "Scales of justice, balanced golden scales",
+                "sizePx": 64,
+                "tileable": false,
+                "transparentBg": true,
+                "allowedSubstitutes": [
+                    "balance scale",
+                    "weighing scale"
+                ],
+                "priority": 2
+            },
+            {
+                "id": "prop.document_folder",
+                "description": "Legal documents, folder, case file",
+                "sizePx": 64,
+                "tileable": false,
+                "transparentBg": true,
+                "allowedSubstitutes": [
+                    "papers",
+                    "scroll",
+                    "parchment",
+                    "folder"
+                ],
+                "priority": 1
+            },
+            {
+                "id": "prop.podium_wood",
+                "description": "Wooden podium/lectern for witness stand",
+                "sizePx": 64,
+                "tileable": false,
+                "transparentBg": true,
+                "allowedSubstitutes": [
+                    "lectern",
+                    "stand",
+                    "desk"
+                ],
+                "priority": 2
+            },
+            {
+                "id": "prop.briefcase",
+                "description": "Leather briefcase",
+                "sizePx": 64,
+                "tileable": false,
+                "transparentBg": true,
+                "allowedSubstitutes": [
+                    "bag",
+                    "satchel",
+                    "case"
+                ],
+                "priority": 2
+            }
+        ]
+    },
+    "futureHooks": {
+        "$comment": "Hooks for swapping in AI-generated pack later without changing level semantics",
+        "aiPackId": "courthouse_pack_v2",
+        "tileIdMapping": {
+            "$comment": "Keep tile IDs stable. AI pack uses same IDs, different source.",
+            "example": "tile.marble_white in MVP → tile.marble_white in v2"
+        },
+        "generationSpecs": {
+            "workflow": "comfyui/workflows/wf_tile_seamless_v1.json",
+            "checkpoint": "sd_xl_base_1.0.safetensors",
+            "jobFile": "content/ai_jobs/tiles.json"
+        },
+        "swapProcedure": [
+            "1. Generate AI tiles with same IDs",
+            "2. Replace PNGs in vendor/tiles/courthouse_v2/",
+            "3. Rebuild atlas: npm run pack:tiles -- --pack=courthouse_v2",
+            "4. Update registry.json tilesetPack reference",
+            "5. No LDtk changes needed (IDs unchanged)"
+        ]
+    }
+}

@@ -1,0 +1,122 @@
+{
+    "$schema": "../../schemas/RoomSpec.schema.json",
+    "id": "courthouse_exterior",
+    "name": "Supreme Court Steps",
+    "description": "The iconic marble steps leading to the Supreme Court - the ultimate destination for every aspiring lawyer",
+    "width": 25,
+    "height": 20,
+    "tileset": "scotus_exterior",
+    "background": "#87CEEB",
+    "music": "exterior_ambient",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 12,
+            "y": 18,
+            "id": "spawn_street"
+        },
+        {
+            "type": "NPC",
+            "x": 6,
+            "y": 16,
+            "id": "npc.reporter",
+            "properties": {
+                "name": "Court Reporter",
+                "storyKnot": "reporter_intro",
+                "sprite": "reporter"
+            }
+        },
+        {
+            "type": "NPC",
+            "x": 20,
+            "y": 14,
+            "id": "npc.tourist",
+            "properties": {
+                "name": "Excited Tourist",
+                "storyKnot": "tourist_intro",
+                "sprite": "tourist"
+            }
+        },
+        {
+            "type": "Prop",
+            "x": 3,
+            "y": 17,
+            "id": "lamp_left",
+            "properties": {
+                "sprite": "lamp_post"
+            }
+        },
+        {
+            "type": "Prop",
+            "x": 22,
+            "y": 17,
+            "id": "lamp_right",
+            "properties": {
+                "sprite": "lamp_post"
+            }
+        },
+        {
+            "type": "Prop",
+            "x": 1,
+            "y": 14,
+            "id": "tree_left",
+            "properties": {
+                "sprite": "tree"
+            }
+        },
+        {
+            "type": "Prop",
+            "x": 24,
+            "y": 14,
+            "id": "tree_right",
+            "properties": {
+                "sprite": "tree"
+            }
+        },
+        {
+            "type": "Prop",
+            "x": 4,
+            "y": 18,
+            "id": "bench_left",
+            "properties": {
+                "sprite": "bench"
+            }
+        },
+        {
+            "type": "Prop",
+            "x": 21,
+            "y": 18,
+            "id": "bench_right",
+            "properties": {
+                "sprite": "bench"
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "north",
+            "targetRoom": "scotus_lobby",
+            "spawnId": "spawn_exterior"
+        }
+    ],
+    "layout": {
+        "_comment": "Building facade using modular SCOTUS pieces",
+        "sky": "top 4 rows - gradient background",
+        "pediment": "row 4-5, columns 8-17 - triangular roof",
+        "entablature": "row 5, full width of columns - horizontal beam",
+        "columns": "rows 6-9, every 2 tiles from col 6-19 - 8 columns total",
+        "stairs": "rows 10-18, cols 4-21 - wide marble staircase",
+        "ground": "row 19-20 - street level with props"
+    },
+    "ldtkFile": "public/content/ldtk/courthouse_exterior.ldtk",
+    "_designNotes": {
+        "symbolism": "The marble steps represent the barrier to entry - literally and metaphorically. Walking up these stairs to the exam is environmental storytelling.",
+        "assets": [
+            "scotus_column.png (32x96) - repeat 8x across facade",
+            "scotus_stairs.png (32x32) - tile horizontally for wide staircase",
+            "scotus_pediment.png (64x32) - triangular roof centerpiece",
+            "scotus_entablature.png (64x16) - horizontal piece above columns",
+            "lamp_post.png, bench.png, tree.png, bush.png, flagpole.png, planter.png - street props"
+        ]
+    }
+}

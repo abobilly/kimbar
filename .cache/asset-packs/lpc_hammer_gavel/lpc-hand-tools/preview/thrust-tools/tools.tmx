@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="6" height="4" tilewidth="64" tileheight="63" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="watering-can" tilewidth="64" tileheight="64" tilecount="273" columns="13">
+  <image source="watering-can.png" trans="ff00ff" width="832" height="1344"/>
+  <tile id="104">
+   <animation>
+    <frame tileid="104" duration="150"/>
+    <frame tileid="53" duration="150"/>
+    <frame tileid="56" duration="150"/>
+    <frame tileid="57" duration="300"/>
+    <frame tileid="56" duration="150"/>
+    <frame tileid="53" duration="150"/>
+   </animation>
+  </tile>
+  <tile id="105">
+   <animation>
+    <frame tileid="105" duration="150"/>
+    <frame tileid="106" duration="150"/>
+    <frame tileid="107" duration="150"/>
+    <frame tileid="108" duration="150"/>
+    <frame tileid="109" duration="150"/>
+    <frame tileid="110" duration="150"/>
+    <frame tileid="111" duration="150"/>
+    <frame tileid="112" duration="150"/>
+   </animation>
+  </tile>
+  <tile id="117">
+   <animation>
+    <frame tileid="117" duration="150"/>
+    <frame tileid="66" duration="150"/>
+    <frame tileid="69" duration="150"/>
+    <frame tileid="70" duration="300"/>
+    <frame tileid="69" duration="150"/>
+    <frame tileid="66" duration="150"/>
+   </animation>
+  </tile>
+  <tile id="118">
+   <animation>
+    <frame tileid="118" duration="150"/>
+    <frame tileid="119" duration="150"/>
+    <frame tileid="120" duration="150"/>
+    <frame tileid="121" duration="150"/>
+    <frame tileid="122" duration="150"/>
+    <frame tileid="123" duration="150"/>
+    <frame tileid="124" duration="150"/>
+    <frame tileid="125" duration="150"/>
+   </animation>
+  </tile>
+  <tile id="130">
+   <animation>
+    <frame tileid="130" duration="150"/>
+    <frame tileid="79" duration="150"/>
+    <frame tileid="82" duration="150"/>
+    <frame tileid="83" duration="300"/>
+    <frame tileid="82" duration="150"/>
+    <frame tileid="79" duration="150"/>
+   </animation>
+  </tile>
+  <tile id="131">
+   <animation>
+    <frame tileid="131" duration="150"/>
+    <frame tileid="132" duration="150"/>
+    <frame tileid="133" duration="150"/>
+    <frame tileid="134" duration="150"/>
+    <frame tileid="135" duration="150"/>
+    <frame tileid="136" duration="150"/>
+    <frame tileid="137" duration="150"/>
+    <frame tileid="138" duration="150"/>
+   </animation>
+  </tile>
+ </tileset>
+ <tileset firstgid="274" name="hoe" tilewidth="64" tileheight="64" tilecount="273" columns="13">
+  <image source="hoe.png" trans="ff00ff" width="832" height="1344"/>
+  <tile id="52">
+   <animation>
+    <frame tileid="52" duration="300"/>
+    <frame tileid="53" duration="100"/>
+    <frame tileid="54" duration="100"/>
+    <frame tileid="55" duration="100"/>
+    <frame tileid="56" duration="100"/>
+    <frame tileid="57" duration="100"/>
+    <frame tileid="58" duration="200"/>
+    <frame tileid="59" duration="200"/>
+    <frame tileid="53" duration="200"/>
+   </animation>
+  </tile>
+  <tile id="65">
+   <animation>
+    <frame tileid="65" duration="300"/>
+    <frame tileid="66" duration="100"/>
+    <frame tileid="67" duration="100"/>
+    <frame tileid="68" duration="100"/>
+    <frame tileid="69" duration="100"/>
+    <frame tileid="70" duration="100"/>
+    <frame tileid="71" duration="200"/>
+    <frame tileid="72" duration="200"/>
+    <frame tileid="66" duration="200"/>
+   </animation>
+  </tile>
+  <tile id="78">
+   <animation>
+    <frame tileid="78" duration="300"/>
+    <frame tileid="79" duration="100"/>
+    <frame tileid="80" duration="100"/>
+    <frame tileid="81" duration="100"/>
+    <frame tileid="82" duration="100"/>
+    <frame tileid="83" duration="100"/>
+    <frame tileid="84" duration="200"/>
+    <frame tileid="85" duration="200"/>
+    <frame tileid="79" duration="200"/>
+   </animation>
+  </tile>
+  <tile id="104">
+   <animation>
+    <frame tileid="105" duration="150"/>
+    <frame tileid="106" duration="150"/>
+    <frame tileid="107" duration="150"/>
+    <frame tileid="108" duration="150"/>
+    <frame tileid="109" duration="150"/>
+    <frame tileid="110" duration="150"/>
+    <frame tileid="111" duration="150"/>
+    <frame tileid="112" duration="150"/>
+   </animation>
+  </tile>
+  <tile id="117">
+   <animation>
+    <frame tileid="118" duration="150"/>
+    <frame tileid="119" duration="150"/>
+    <frame tileid="120" duration="150"/>
+    <frame tileid="121" duration="150"/>
+    <frame tileid="122" duration="150"/>
+    <frame tileid="123" duration="150"/>
+    <frame tileid="124" duration="150"/>
+    <frame tileid="125" duration="150"/>
+   </animation>
+  </tile>
+  <tile id="130">
+   <animation>
+    <frame tileid="131" duration="150"/>
+    <frame tileid="132" duration="150"/>
+    <frame tileid="133" duration="150"/>
+    <frame tileid="134" duration="150"/>
+    <frame tileid="135" duration="150"/>
+    <frame tileid="136" duration="150"/>
+    <frame tileid="137" duration="150"/>
+    <frame tileid="138" duration="150"/>
+   </animation>
+  </tile>
+  <tile id="143">
+   <animation>
+    <frame tileid="144" duration="150"/>
+    <frame tileid="145" duration="150"/>
+    <frame tileid="146" duration="150"/>
+    <frame tileid="147" duration="150"/>
+    <frame tileid="148" duration="150"/>
+    <frame tileid="149" duration="150"/>
+    <frame tileid="150" duration="150"/>
+    <frame tileid="151" duration="150"/>
+   </animation>
+  </tile>
+ </tileset>
+ <tileset firstgid="547" name="shovel" tilewidth="64" tileheight="64" tilecount="273" columns="13">
+  <image source="shovel.png" trans="ff00ff" width="832" height="1344"/>
+  <tile id="52">
+   <animation>
+    <frame tileid="52" duration="300"/>
+    <frame tileid="53" duration="100"/>
+    <frame tileid="54" duration="100"/>
+    <frame tileid="55" duration="100"/>
+    <frame tileid="56" duration="100"/>
+    <frame tileid="57" duration="100"/>
+    <frame tileid="58" duration="100"/>
+    <frame tileid="59" duration="100"/>
+   </animation>
+  </tile>
+  <tile id="65">
+   <animation>
+    <frame tileid="65" duration="300"/>
+    <frame tileid="66" duration="100"/>
+    <frame tileid="67" duration="100"/>
+    <frame tileid="68" duration="100"/>
+    <frame tileid="69" duration="100"/>
+    <frame tileid="70" duration="100"/>
+    <frame tileid="71" duration="100"/>
+    <frame tileid="72" duration="100"/>
+   </animation>
+  </tile>
+  <tile id="72">
+   <animation>
+    <frame tileid="65" duration="100"/>
+    <frame tileid="66" duration="100"/>
+    <frame tileid="67" duration="100"/>
+    <frame tileid="68" duration="100"/>
+    <frame tileid="69" duration="100"/>
+    <frame tileid="70" duration="100"/>
+    <frame tileid="71" duration="100"/>
+    <frame tileid="72" duration="100"/>
+   </animation>
+  </tile>
+  <tile id="78">
+   <animation>
+    <frame tileid="78" duration="300"/>
+    <frame tileid="79" duration="100"/>
+    <frame tileid="80" duration="100"/>
+    <frame tileid="81" duration="100"/>
+    <frame tileid="82" duration="100"/>
+    <frame tileid="83" duration="100"/>
+    <frame tileid="84" duration="100"/>
+    <frame tileid="85" duration="100"/>
+   </animation>
+  </tile>
+  <tile id="91">
+   <animation>
+    <frame tileid="91" duration="300"/>
+    <frame tileid="92" duration="100"/>
+    <frame tileid="93" duration="100"/>
+    <frame tileid="94" duration="100"/>
+    <frame tileid="95" duration="100"/>
+    <frame tileid="96" duration="100"/>
+    <frame tileid="97" duration="100"/>
+    <frame tileid="98" duration="100"/>
+   </animation>
+  </tile>
+  <tile id="105">
+   <animation>
+    <frame tileid="105" duration="150"/>
+    <frame tileid="106" duration="150"/>
+    <frame tileid="107" duration="150"/>
+    <frame tileid="108" duration="150"/>
+    <frame tileid="109" duration="150"/>
+    <frame tileid="110" duration="150"/>
+    <frame tileid="111" duration="150"/>
+    <frame tileid="112" duration="150"/>
+   </animation>
+  </tile>
+  <tile id="118">
+   <animation>
+    <frame tileid="118" duration="150"/>
+    <frame tileid="119" duration="150"/>
+    <frame tileid="120" duration="150"/>
+    <frame tileid="121" duration="150"/>
+    <frame tileid="122" duration="150"/>
+    <frame tileid="123" duration="150"/>
+    <frame tileid="124" duration="150"/>
+    <frame tileid="125" duration="150"/>
+   </animation>
+  </tile>
+  <tile id="131">
+   <animation>
+    <frame tileid="131" duration="150"/>
+    <frame tileid="132" duration="150"/>
+    <frame tileid="133" duration="150"/>
+    <frame tileid="134" duration="150"/>
+    <frame tileid="135" duration="150"/>
+    <frame tileid="136" duration="150"/>
+    <frame tileid="137" duration="150"/>
+    <frame tileid="138" duration="150"/>
+   </animation>
+  </tile>
+  <tile id="144">
+   <animation>
+    <frame tileid="144" duration="150"/>
+    <frame tileid="145" duration="150"/>
+    <frame tileid="146" duration="150"/>
+    <frame tileid="147" duration="150"/>
+    <frame tileid="148" duration="150"/>
+    <frame tileid="149" duration="150"/>
+    <frame tileid="150" duration="150"/>
+    <frame tileid="151" duration="150"/>
+   </animation>
+  </tile>
+ </tileset>
+ <layer id="1" name="Tile Layer 1" width="6" height="4">
+  <data encoding="base64" compression="zlib">
+   eJzLZGBgyAJiN0YGhiogDmdiYOgB4jKgWDkQBwPF2oE4BSg2E4ibgWItQJwAFJsCxIVAsWVAjAsAAPQlCF8=
+  </data>
+ </layer>
+</map>
