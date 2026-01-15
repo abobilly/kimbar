@@ -27,6 +27,7 @@ dist-ssr
 generated/*
 !generated/README.md
 public/generated/**
+public/assets/props/**
 
 # Local environment
 .env.local

@@ -20,6 +20,9 @@ RED = [(80, 20, 20), (180, 40, 40), (220, 60, 60), (255, 100, 100)] # Outline, D
 CARDBOARD = [(50, 35, 25), (160, 120, 80), (190, 150, 100), (210, 170, 120)] # Outline, Dark, Mid, Light
 BLACK = [(10, 10, 10), (40, 40, 40), (80, 80, 80), (120, 120, 120)] # Outline, Dark, Mid, Light
 
+# Deliberation Room Palettes
+MAHOGANY = [(20, 8, 5), (45, 20, 15), (85, 40, 25), (115, 55, 35), (145, 75, 50)] # Outline, Dark, Mid, Light, Highlight
+
 # SCOTUS Exterior Palettes
 MARBLE = [(20, 20, 30), (245, 245, 250), (200, 200, 210), (160, 160, 175), (255, 255, 255)] # Outline, Main, Mid, Shadow, Highlight
 BRONZE = [(30, 20, 10), (80, 50, 30), (140, 100, 50), (180, 140, 70), (220, 180, 100)] # Outline, Dark, Mid, Light, Highlight
@@ -400,6 +403,46 @@ def draw_quill_pen_crossed(d, w, h):
     d.polygon([(28, 14), (24, 10), (26, 12)], fill=(255, 255, 255), outline=QUILL[0])  # Feather base
     d.polygon([(4, 4), (2, 2), (4, 2), (6, 4)], fill=QUILL[3], outline=QUILL[0])  # Gold nib
 
+def draw_conference_table(d, w, h):
+    """64x48 oval mahogany conference table for Justice deliberation room"""
+    cx, cy = w // 2, h // 2
+    
+    # Table dimensions
+    rx, ry = 30, 20  # Radii for oval
+    
+    # === Table shadow (offset slightly for 3/4 view depth) ===
+    d.ellipse([cx-rx+2, cy-ry+4, cx+rx+2, cy+ry+4], fill=MAHOGANY[0])
+    
+    # === Table edge/apron (visible rim in 3/4 view) ===
+    # Bottom edge visible
+    d.ellipse([cx-rx, cy-ry+3, cx+rx, cy+ry+3], fill=MAHOGANY[1], outline=MAHOGANY[0])
+    
+    # === Main table surface ===
+    d.ellipse([cx-rx, cy-ry, cx+rx, cy+ry], fill=MAHOGANY[2], outline=MAHOGANY[0])
+    
+    # === Wood grain/panel details ===
+    # Center darker inset panel (formal table detail)
+    d.ellipse([cx-rx+6, cy-ry+4, cx+rx-6, cy+ry-4], fill=MAHOGANY[1])
+    d.ellipse([cx-rx+8, cy-ry+5, cx+rx-8, cy+ry-5], fill=MAHOGANY[2])
+    
+    # Wood grain lines (subtle, following oval curve)
+    for offset in [-12, -4, 4, 12]:
+        # Horizontal grain lines
+        x1 = cx - int((rx-10) * (1 - (offset/20)**2)**0.5)
+        x2 = cx + int((rx-10) * (1 - (offset/20)**2)**0.5)
+        if x2 > x1:
+            d.line([x1, cy + offset, x2, cy + offset], fill=MAHOGANY[1], width=1)
+    
+    # === Highlight along top edge (light source from top-left) ===
+    # Arc highlight on upper portion
+    d.arc([cx-rx+1, cy-ry+1, cx+rx-1, cy+ry-1], 200, 340, fill=MAHOGANY[4], width=1)
+    
+    # Additional highlight spots
+    d.ellipse([cx-16, cy-12, cx-8, cy-6], fill=MAHOGANY[3])
+    
+    # === Subtle reflection/polish ===
+    d.ellipse([cx-12, cy-10, cx-6, cy-4], fill=MAHOGANY[4])
+
 # =============================================================================
 # SCOTUS EXTERIOR CONSTRUCTION KIT
 # Modular pieces to build the Supreme Court facade
@@ -630,6 +673,9 @@ if __name__ == "__main__":
     save_to("pewter_mug_proc", (16, 16), draw_pewter_mug)
     save_to("argument_lectern_proc", (32, 32), draw_argument_lectern)
     save_to("quill_pen_crossed_proc", (32, 16), draw_quill_pen_crossed)
+    
+    # Round 6 - Deliberation Room
+    save_to("conference_table_proc", (64, 48), draw_conference_table)
     
     # Round 4 - SCOTUS Exterior Construction Kit
     exterior_dir = "vendor/props/exterior"
