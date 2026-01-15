@@ -334,7 +334,9 @@ roomFiles.forEach(file => {
     entityInstances: []
   });
 
-  // 3. Floor (IntGrid)
+  // 3. Floor (IntGrid) - fill with tile value 1 (Ground) for all cells
+  const floorCsv = new Array(gridCount).fill(1);
+
   level.layerInstances.push({
     __identifier: "Floor",
     __type: "IntGrid",
@@ -353,7 +355,7 @@ roomFiles.forEach(file => {
     pxOffsetY: 0,
     visible: true,
     optionalRules: [],
-    intGridCsv: collisionsCsv, // Reusing empty array
+    intGridCsv: floorCsv,
     autoLayerTiles: [],
     seed: 0,
     overrideTilesetUid: null,

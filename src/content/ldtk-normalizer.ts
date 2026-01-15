@@ -50,6 +50,7 @@ interface LdtkLayerInstance {
   __cHei?: number;
   __gridSize?: number;
   entityInstances?: LdtkEntityInstance[];
+  intGridCsv?: number[];
 }
 
 /**
@@ -190,7 +191,12 @@ export function normalizeLdtkLevel(rawJson: LdtkLevelJson | any): LevelData {
     (layer: any) => layer.__identifier === 'Entities'
   );
 
-  const gridSize = entitiesLayer?.__gridSize || 32;
+  // Find Floor layer for tilemap data
+  const floorLayer = levelData.layerInstances?.find(
+    (layer: any) => layer.__identifier === 'Floor'
+  );
+
+  const gridSize = entitiesLayer?.__gridSize || floorLayer?.__gridSize || 32;
 
   const level: LevelData = {
     id: levelData.identifier || levelData.iid || 'unknown',
@@ -199,6 +205,10 @@ export function normalizeLdtkLevel(rawJson: LdtkLevelJson | any): LevelData {
     tileSize: gridSize,
     entities: [],
     playerSpawn: undefined,
+    // Floor tile data
+    floorGrid: floorLayer?.intGridCsv,
+    gridWidth: floorLayer?.__cWid,
+    gridHeight: floorLayer?.__cHei,
   };
 
   // Process entities

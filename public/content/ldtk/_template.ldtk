@@ -72,36 +72,23 @@
         ]
       },
       {
-        "__type": "Tiles",
+        "__type": "IntGrid",
         "identifier": "Floor",
-        "type": "Tiles",
+        "type": "IntGrid",
         "uid": 102,
         "gridSize": 32,
         "displayOpacity": 1,
         "pxOffsetX": 0,
         "pxOffsetY": 0,
         "requiredTags": [],
-        "doc": "Visual floor tiles - uses LPC_Floors tileset",
-        "tilesetDefUid": 500,
-        "tilePivotX": 0,
-        "tilePivotY": 0,
-        "intGridValues": []
-      },
-      {
-        "__type": "Tiles",
-        "identifier": "Walls",
-        "type": "Tiles",
-        "uid": 103,
-        "gridSize": 32,
-        "displayOpacity": 1,
-        "pxOffsetX": 0,
-        "pxOffsetY": 0,
-        "requiredTags": [],
-        "doc": "Visual wall tiles - uses LPC_Walls tileset",
-        "tilesetDefUid": 501,
-        "tilePivotX": 0,
-        "tilePivotY": 0,
-        "intGridValues": []
+        "doc": "Visual floor tiles",
+        "intGridValues": [
+          {
+            "value": 1,
+            "identifier": "Ground",
+            "color": "#7f7f7f"
+          }
+        ]
       }
     ],
     "entities": [
@@ -234,65 +221,7 @@
         ]
       }
     ],
-    "tilesets": [
-      {
-        "__cWid": 16,
-        "__cHei": 32,
-        "identifier": "LPC_Floors",
-        "uid": 500,
-        "relPath": "../../../vendor/tilesets/lpc/floors.png",
-        "embedAtlas": null,
-        "pxWid": 512,
-        "pxHei": 1024,
-        "tileGridSize": 32,
-        "spacing": 0,
-        "padding": 0,
-        "tags": ["floor", "interior"],
-        "tagsSourceEnumUid": null,
-        "enumTags": [],
-        "customData": [],
-        "savedSelections": [],
-        "cachedPixelData": null
-      },
-      {
-        "__cWid": 16,
-        "__cHei": 32,
-        "identifier": "LPC_Walls",
-        "uid": 501,
-        "relPath": "../../../vendor/tilesets/lpc/walls.png",
-        "embedAtlas": null,
-        "pxWid": 512,
-        "pxHei": 1024,
-        "tileGridSize": 32,
-        "spacing": 0,
-        "padding": 0,
-        "tags": ["wall", "interior"],
-        "tagsSourceEnumUid": null,
-        "enumTags": [],
-        "customData": [],
-        "savedSelections": [],
-        "cachedPixelData": null
-      },
-      {
-        "__cWid": 8,
-        "__cHei": 8,
-        "identifier": "LPC_Castle",
-        "uid": 502,
-        "relPath": "../../../vendor/tilesets/lpc/castle.png",
-        "embedAtlas": null,
-        "pxWid": 256,
-        "pxHei": 256,
-        "tileGridSize": 32,
-        "spacing": 0,
-        "padding": 0,
-        "tags": ["castle", "interior"],
-        "tagsSourceEnumUid": null,
-        "enumTags": [],
-        "customData": [],
-        "savedSelections": [],
-        "cachedPixelData": null
-      }
-    ],
+    "tilesets": [],
     "enums": [],
     "externalEnums": [],
     "levelFields": []

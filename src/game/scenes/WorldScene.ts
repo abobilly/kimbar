@@ -427,6 +427,11 @@ export class WorldScene extends Scene {
       });
       this.entities.clear();
 
+      // Render floor tilemap if floor data exists
+      if (level.floorGrid && level.gridWidth && level.gridHeight) {
+        this.renderFloorTilemap(level);
+      }
+
       // Create entities
       for (const entity of level.entities) {
         this.createEntity(entity.id, entity);
@@ -477,6 +482,43 @@ export class WorldScene extends Scene {
 
     // Fallback: legacy placeholder
     this.createPlaceholderLevel();
+  }
+
+  private renderFloorTilemap(level: LevelData): void {
+    if (!level.floorGrid || !level.gridWidth || !level.gridHeight) return;
+
+    const tileSize = level.tileSize || 32;
+
+    // Convert 1D intGrid to 2D array for Phaser tilemap
+    const floorData: number[][] = [];
+    for (let y = 0; y < level.gridHeight; y++) {
+      const row: number[] = [];
+      for (let x = 0; x < level.gridWidth; x++) {
+        row.push(level.floorGrid[y * level.gridWidth + x]);
+      }
+      floorData.push(row);
+    }
+
+    // Create tilemap from array data
+    const map = this.make.tilemap({
+      data: floorData,
+      tileWidth: tileSize,
+      tileHeight: tileSize
+    });
+
+    // Add tileset image (first tile in tileset maps to index 1)
+    const tileset = map.addTilesetImage('floor_tiles');
+    if (!tileset) {
+      console.warn('[WorldScene] floor_tiles tileset not loaded');
+      return;
+    }
+
+    // Create the layer and position at origin
+    const floorLayer = map.createLayer(0, tileset, 0, 0);
+    if (floorLayer) {
+      floorLayer.setDepth(-10);
+      console.log('[WorldScene] Rendered floor tilemap:', level.gridWidth, 'x', level.gridHeight);
+    }
   }
 
   private createPlayer(): void {

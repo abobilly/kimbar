@@ -94,6 +94,10 @@ export interface LevelData {
   };
   entities: EntityData[];
   tileset?: string;
+  // Floor tile data from LDtk IntGrid
+  floorGrid?: number[];  // 1D array of tile values
+  gridWidth?: number;    // tiles across
+  gridHeight?: number;   // tiles down
 }
 
 export const DEFAULT_GAME_STATE: GameState = {

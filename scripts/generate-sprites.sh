@@ -2,7 +2,7 @@
 # generate-sprites.sh - Generate character sprites using ULPC in WSL2
 # 
 # Usage (from Windows PowerShell):
-#   wsl -d Ubuntu -- bash /mnt/c/Users/andre/lawchuck/kimbar/scripts/generate-sprites.sh [character_id]
+#   wsl -d Ubuntu -- bash /mnt/c/Users/andre/lawchuck/badgey.org/kimbar/scripts/generate-sprites.sh [character_id]
 #
 # Or from npm:
 #   npm run gen:sprites -- [character_id]
@@ -12,7 +12,7 @@
 set -e
 
 # Paths (Windows paths converted to WSL mount points)
-PROJECT_ROOT="/mnt/c/Users/andre/lawchuck/kimbar"
+PROJECT_ROOT="/mnt/c/Users/andre/lawchuck/badgey.org/kimbar"
 VENDOR_ULPC="$PROJECT_ROOT/vendor/lpc/Universal-LPC-Spritesheet-Character-Generator"
 CHAR_DIR="$PROJECT_ROOT/content/characters"
 OUTPUT_DIR="$PROJECT_ROOT/generated/sprites"

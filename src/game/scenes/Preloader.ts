@@ -64,6 +64,9 @@ export class Preloader extends Scene
             loadingText.setText(`Loading... ${Math.floor(progress * 100)}%`);
         });
 
+        // Load floor tileset for level rendering
+        this.load.image('floor_tiles', '/assets/tilesets/lpc/floors.png');
+
         // Registry-driven asset loading
         if (this.registryData?.sprites) {
             // Cache-busting via buildId
@@ -90,6 +93,20 @@ export class Preloader extends Scene
                 // Load portrait if available
                 if (sprite.portraitUrl) {
                     this.load.image(`portrait.${id}`, sprite.portraitUrl + cacheBust);
+                }
+            }
+
+            // Load props as simple images (not spritesheets)
+            if (this.registryData.props) {
+                if (DEBUG_ASSETS) {
+                    console.log('[Preloader] Props:', Object.keys(this.registryData.props));
+                }
+                for (const [propId, prop] of Object.entries(this.registryData.props)) {
+                    const propUrl = prop.path + cacheBust;
+                    if (DEBUG_ASSETS) {
+                        console.log(`[Preloader] Prop ${propId}: url=${propUrl}`);
+                    }
+                    this.load.image(propId, propUrl);
                 }
             }
         } else {
