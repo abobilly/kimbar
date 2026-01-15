@@ -163,32 +163,39 @@ function convertEntity(
 }
 
 /**
- * Check if raw JSON is an LDtk level export
+ * Check if raw JSON is an LDtk level export or Project JSON
  */
 export function isLdtkLevel(json: unknown): json is LdtkLevelJson {
   if (!json || typeof json !== 'object') return false;
   const obj = json as Record<string, unknown>;
-  return Array.isArray(obj.layerInstances);
+  // Check for simplified export (layerInstances at root) or Project JSON (levels array)
+  return Array.isArray(obj.layerInstances) || Array.isArray(obj.levels);
 }
 
 /**
  * Normalize raw LDtk JSON into internal LevelData format
  *
- * @param rawJson - Raw LDtk level JSON (single level export)
+ * @param rawJson - Raw LDtk level JSON (single level export) or Project JSON
  * @returns Normalized LevelData for game use
  */
-export function normalizeLdtkLevel(rawJson: LdtkLevelJson): LevelData {
+export function normalizeLdtkLevel(rawJson: LdtkLevelJson | any): LevelData {
+  // Handle LDtk Project JSON (extract first level)
+  let levelData = rawJson;
+  if (Array.isArray(rawJson.levels) && rawJson.levels.length > 0) {
+    levelData = rawJson.levels[0];
+  }
+
   // Find Entities layer
-  const entitiesLayer = rawJson.layerInstances?.find(
-    (layer) => layer.__identifier === 'Entities'
+  const entitiesLayer = levelData.layerInstances?.find(
+    (layer: any) => layer.__identifier === 'Entities'
   );
 
   const gridSize = entitiesLayer?.__gridSize || 32;
 
   const level: LevelData = {
-    id: rawJson.identifier || rawJson.iid || 'unknown',
-    width: rawJson.pxWid || 800,
-    height: rawJson.pxHei || 600,
+    id: levelData.identifier || levelData.iid || 'unknown',
+    width: levelData.pxWid || 800,
+    height: levelData.pxHei || 600,
     tileSize: gridSize,
     entities: [],
     playerSpawn: undefined,

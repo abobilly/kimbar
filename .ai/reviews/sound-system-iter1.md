@@ -1,0 +1,3 @@
+FIXES
+- Implement the requested sound system changes (parse `sfx:` tags in Ink, add `SoundManager` in `src/services/`, wire narrative events, registry-first audio asset loading per loader instructions, update `generated/registry.json` schema). None of these appear in the provided diff.
+- Ensure any sound-related changes avoid touching forbidden `generated/` outputs and update `NEXT_SESSION.md` per workflow.

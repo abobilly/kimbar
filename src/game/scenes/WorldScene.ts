@@ -3,6 +3,7 @@ import { Scene } from 'phaser';
 import { EncounterSystem } from '@game/systems/EncounterSystem';
 import { DialogueSystem } from '@game/systems/DialogueSystem';
 import { OutfitSystem } from '@game/systems/OutfitSystem';
+import { QuestPanel } from '@game/ui/QuestPanel';
 import { isModalOpen, openModal, closeModal, clearAllModals } from '@game/ui/modal';
 import { initExitManager, registerExit, unregisterExit, clearExitManager } from '@game/ui/exitManager';
 import { layoutHUD } from '@game/ui/layout';
@@ -15,6 +16,7 @@ export class WorldScene extends Scene {
   // Systems
   private encounterSystem!: EncounterSystem;
   private dialogueSystem!: DialogueSystem;
+  private questPanel!: QuestPanel;
 
   // Player
   private player!: Phaser.GameObjects.Sprite;
@@ -52,6 +54,7 @@ export class WorldScene extends Scene {
     // Initialize systems - pass uiLayer for UI rendering
     this.encounterSystem = new EncounterSystem(this);
     this.dialogueSystem = new DialogueSystem(this);
+    this.questPanel = new QuestPanel(this);
 
     // Load game content
     await loadRegistry();
@@ -735,6 +738,8 @@ export class WorldScene extends Scene {
           state.storyFlags[flagName.trim()] = value;
           saveGameState();
           console.log(`[Quest] Set ${flagName} = ${value}`);
+          // Refresh quest panel to reflect new flags
+          this.questPanel?.refresh();
         }
       } else if (questData.startsWith('get ')) {
         // For debugging: log flag value
@@ -1005,6 +1010,7 @@ export class WorldScene extends Scene {
    */
   private onShutdown(): void {
     this.scale.off('resize', this.onResize, this);
+    this.questPanel?.destroy();
     clearAllModals();
     clearExitManager();
   }

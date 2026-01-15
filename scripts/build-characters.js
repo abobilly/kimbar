@@ -18,7 +18,7 @@
 
 import { readdir, readFile, writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
-import { join, basename } from 'path';
+import { join, basename, extname } from 'path';
 
 const CONTENT_DIR = './content/characters';
 const GENERATED_DIR = './generated';
@@ -130,7 +130,8 @@ async function scanRooms() {
 
   const files = await readdir(LDTK_DIR);
   for (const file of files) {
-    if (!file.endsWith('.json')) continue;
+    if (file.startsWith('_')) continue;
+    if (!file.endsWith('.json') && !file.endsWith('.ldtk')) continue;
 
     try {
       const filePath = join(LDTK_DIR, file);
@@ -138,7 +139,7 @@ async function scanRooms() {
       const ldtkData = JSON.parse(content);
 
       // Extract room ID from filename or LDtk identifier
-      let roomId = basename(file, '.json');
+      let roomId = basename(file, extname(file)); // Use extname to handle .ldtk correctly
       // Remove 'room.' prefix if present for cleaner IDs
       if (roomId.startsWith('room.')) {
         roomId = roomId.substring(5);

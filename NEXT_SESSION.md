@@ -27,33 +27,45 @@
 
 ---
 
-## 2. Recent Changes: Wardrobe UI + Room Transitions + Ink Fixes
+## 2. Recent Changes: Quest Panel UI
 
 ### What Was Done (January 14, 2026)
 
-This session focused on gameplay loop blockers: fixing dialogue loading, enabling room traversal, and adding an interface for the outfit system.
+- Implemented `QuestPanel` to derive active entries from `quest_*`, `has_*`, and `met_*` story flags and display them on the UI layer (toggle with Q).
+- Added a unit test to assert QuestPanel attaches to `WorldScene.getUILayer()`.
+
+---
+
+## 2. Recent Changes: LDtk Level Generation + Tooling Updates
+
+### What Was Done (January 14, 2026)
+
+**LDtk Level Generation:**
+- Created `scripts/generate-ldtk-levels.mjs` to generate LDtk project files (`.ldtk`) from room specifications.
+- Generated 17 room levels and a `_template.ldtk` in `public/content/ldtk/`.
+- Updated `scripts/build-characters.js` to scan `.ldtk` files (in addition to `.json`) for the registry.
+- Updated `src/content/ldtk-normalizer.ts` to support LDtk Project JSON format (handling nested `levels` array).
+
+**Verification:**
+- Validated all generated levels against the schema (`npm run validate`).
+- Verified unit tests pass for the updated normalizer (`npm run test:unit`).
+
+### Previous Changes: Wardrobe UI + Room Transitions + Ink Fixes (January 14, 2026)
 
 **Files Modified:**
-- `content/ink/story.ink` - Consolidated `justices.ink`, `tutorial.ink`, and `rewards.ink` into main story file (Option A fix) to resolve multiple-file loading issues.
-- `src/game/scenes/WorldScene.ts` - 
-    - Implemented `createWardrobeUI` / `showOutfits` modal with buff display and equipment logic.
-    - Updated `create()` to accept `{ level: string }` data, enabling `this.scene.restart({ level: '...' })` for door transitions.
-
-### Previous Changes: LDtk Normalizer + Ink Tag Enhancement (January 13)
+- `content/ink/story.ink` - Consolidated `justices.ink`, `tutorial.ink`, and `rewards.ink` into main story file.
+- `src/game/scenes/WorldScene.ts` - Implemented `createWardrobeUI` and enabled level transitions.
 
 **New Files Created:**
 - `src/content/ldtk-normalizer.ts`, `src/content/ldtk-validator.ts`
 - `src/services/semantic-service.ts` (Feature flag OFF)
 
-**Files Modified:**
-- `src/game/systems/DialogueSystem.ts` (Portrait tags)
-- `content/ink/story.ink` (Tag docs)
-
 ### Key Improvements
 
-1. **Dialogue Stability**: Consolidated Ink files ensure all knots (justices, tutorial) are available at runtime without complex multi-story management.
-2. **Wardrobe UI**: Players can now see unlocked outfits and their buffs (Hints, Extra Time, etc.) and equip them.
-3. **Traversal**: "Door" entities now correctly trigger scene restarts with the target level.
+1. **Level Generation**: Automated generation of LDtk files ensures all rooms defined in `content/rooms/*.json` have corresponding playable levels.
+2. **Tooling Compatibility**: Registry and Runtime loaders now support native LDtk Project files.
+3. **Dialogue Stability**: Consolidated Ink files ensure all knots are available.
+4. **Wardrobe UI**: Players can manage outfits and view buffs.
 
 ---
 
