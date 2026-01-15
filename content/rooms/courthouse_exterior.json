@@ -90,6 +90,16 @@
             "properties": {
                 "sprite": "bench"
             }
+        },
+        {
+            "type": "Door",
+            "x": 12,
+            "y": 5,
+            "id": "door_lobby",
+            "properties": {
+                "targetLevel": "scotus_lobby",
+                "sprite": "door_courthouse"
+            }
         }
     ],
     "connections": [

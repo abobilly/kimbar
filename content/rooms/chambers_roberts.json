@@ -28,6 +28,16 @@
                 "rewardId": "conlaw_robe",
                 "once": true
             }
+        },
+        {
+            "type": "Door",
+            "x": 7,
+            "y": 11,
+            "id": "door_courtroom",
+            "properties": {
+                "targetLevel": "courtroom_main",
+                "sprite": "door_chambers"
+            }
         }
     ],
     "connections": [

@@ -25,6 +25,16 @@
                 "characterId": "npc.librarian",
                 "storyKnot": "librarian_intro"
             }
+        },
+        {
+            "type": "Door",
+            "x": 10,
+            "y": 14,
+            "id": "door_lobby",
+            "properties": {
+                "targetLevel": "scotus_lobby",
+                "sprite": "door_library"
+            }
         }
     ],
     "connections": [

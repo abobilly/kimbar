@@ -60,6 +60,16 @@
         "locked": true,
         "requiredItem": "clerk_key"
       }
+    },
+    {
+      "type": "Door",
+      "x": 10,
+      "y": 14,
+      "id": "door_lobby",
+      "properties": {
+        "targetLevel": "scotus_lobby",
+        "sprite": "door_hall"
+      }
     }
   ],
   

@@ -39,6 +39,16 @@
                 "rewardId": "civpro_suit",
                 "once": true
             }
+        },
+        {
+            "type": "Door",
+            "x": 7,
+            "y": 11,
+            "id": "door_hall",
+            "properties": {
+                "targetLevel": "scotus_hall_01",
+                "sprite": "door_chambers"
+            }
         }
     ],
     "connections": [

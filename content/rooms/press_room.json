@@ -25,6 +25,16 @@
                 "characterId": "npc.reporter",
                 "storyKnot": "reporter_intro"
             }
+        },
+        {
+            "type": "Door",
+            "x": 7,
+            "y": 11,
+            "id": "door_lobby",
+            "properties": {
+                "targetLevel": "scotus_lobby",
+                "sprite": "door_press"
+            }
         }
     ],
     "connections": [

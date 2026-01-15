@@ -36,6 +36,16 @@
                 "characterId": "npc.bailiff",
                 "storyKnot": "bailiff_intro"
             }
+        },
+        {
+            "type": "Door",
+            "x": 15,
+            "y": 19,
+            "id": "door_lobby",
+            "properties": {
+                "targetLevel": "scotus_lobby",
+                "sprite": "door_courthouse"
+            }
         }
     ],
     "connections": [

@@ -14,6 +14,16 @@
             "x": 10,
             "y": 13,
             "id": "spawn_main"
+        },
+        {
+            "type": "Door",
+            "x": 19,
+            "y": 7,
+            "id": "door_lobby",
+            "properties": {
+                "targetLevel": "scotus_lobby",
+                "sprite": "door_cafeteria"
+            }
         }
     ],
     "connections": [

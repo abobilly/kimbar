@@ -32,6 +32,16 @@
             "properties": {
                 "outfitId": "power_suit"
             }
+        },
+        {
+            "type": "Door",
+            "x": 7,
+            "y": 11,
+            "id": "door_lobby",
+            "properties": {
+                "targetLevel": "scotus_lobby",
+                "sprite": "door_robing"
+            }
         }
     ],
     "connections": [

@@ -68,6 +68,16 @@
         "locked": true,
         "requiredItem": "all_justice_victories"
       }
+    },
+    {
+      "type": "Door",
+      "x": 10,
+      "y": 14,
+      "id": "door_exterior",
+      "properties": {
+        "targetLevel": "courthouse_exterior",
+        "sprite": "door_courthouse"
+      }
     }
   ],
   "connections": [
