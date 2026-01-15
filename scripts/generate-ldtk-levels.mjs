@@ -124,6 +124,17 @@ const DEFS = {
       fieldDefs: [
         { identifier: "outfitId", uid: 330, type: "F_String", __type: "String" }
       ]
+    },
+    {
+      identifier: "Prop",
+      uid: 205,
+      width: 32,
+      height: 32,
+      color: "#8bc34a",
+      fieldDefs: [
+        { identifier: "sprite", uid: 340, type: "F_String", __type: "String" },
+        { identifier: "collision", uid: 341, type: "F_Bool", __type: "Bool" }
+      ]
     }
   ],
   tilesets: [],

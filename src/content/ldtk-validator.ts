@@ -55,6 +55,10 @@ const ENTITY_REQUIREMENTS: Record<
   OutfitChest: {
     required: ['outfitId'],
   },
+  Prop: {
+    required: ['sprite'],
+    optional: ['collision', 'propId'],
+  },
 };
 
 /**
@@ -65,6 +69,19 @@ function validateEntityProperties(
   errors: LdtkValidationError[],
   warnings: LdtkValidationError[]
 ): void {
+  if (entity.type === 'Prop') {
+    const spriteKey = entity.properties.sprite || entity.properties.propId;
+    if (!spriteKey) {
+      errors.push({
+        code: 'MISSING_REQUIRED_FIELD',
+        message: 'Entity Prop missing required field: sprite',
+        entityId: entity.id,
+        field: 'sprite',
+      });
+    }
+    return;
+  }
+
   const requirements = ENTITY_REQUIREMENTS[entity.type];
 
   if (!requirements) {

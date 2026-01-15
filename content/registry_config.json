@@ -48,6 +48,15 @@
         "y",
         "outfitId"
       ]
+    },
+    "Prop": {
+      "required": [
+        "sprite"
+      ],
+      "optional": [
+        "collision",
+        "propId"
+      ]
     }
   },
   "outfits": {

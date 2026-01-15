@@ -85,6 +85,14 @@
                 "type": "string",
                 "description": "Sprite key override"
               },
+              "collision": {
+                "type": "boolean",
+                "description": "Whether this prop should block movement"
+              },
+              "propId": {
+                "type": "string",
+                "description": "Prop registry ID (preferred for Prop entities)"
+              },
               "deckTag": {
                 "type": "string",
                 "description": "Flashcard deck tag for encounters"

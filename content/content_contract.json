@@ -160,12 +160,14 @@
       "NPC": ["x", "y", "inkKnot"],
       "EncounterTrigger": ["x", "y", "deckTag", "count"],
       "Door": ["x", "y", "targetLevel"],
-      "OutfitChest": ["x", "y", "outfitId"]
+      "OutfitChest": ["x", "y", "outfitId"],
+      "Prop": ["x", "y", "sprite"]
     },
     "optionalEntityFields": {
       "NPC": ["sprite", "name"],
       "EncounterTrigger": ["rewardId"],
-      "Door": ["locked", "requiredItem"]
+      "Door": ["locked", "requiredItem"],
+      "Prop": ["collision", "propId"]
     }
   },
   

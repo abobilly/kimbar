@@ -1,5 +1,5 @@
 # Kim Bar - Agent Handoff Document
-**Last Update**: January 14, 2026
+**Last Update**: January 15, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
@@ -24,6 +24,17 @@
 | Levels | LDtk JSON | - |
 | Testing | Vitest + Playwright | - |
 | Deploy | GitHub Actions → Cloudflare Pages | - |
+
+---
+
+## 2. Recent Changes: Props Registry + Missing Assets Brief
+
+### What Was Done (January 15, 2026)
+
+- Added missing assets brief for generator/placer workflows: `docs/MISSING_ASSETS.md`.
+- Implemented prop ID normalization and deterministic scanning in `scripts/build-characters.js`.
+- Added Prop entity support in content contract, LDtk generation, and validator.
+- Updated registry docs for prop IDs and normalization.
 
 ---
 

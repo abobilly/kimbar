@@ -1,8 +1,8 @@
 {
   "_meta": {
     "name": "wf_portrait_v1",
-    "description": "HD character portrait generation (no pixelization)",
-    "version": "1.0.0",
+    "description": "Kimbar portrait workflow (HD, non-pixel, style-locked)",
+    "version": "1.1.0",
     "placeholders": {
       "{{POSITIVE_PROMPT}}": "Main generation prompt with style suffix",
       "{{NEGATIVE_PROMPT}}": "Negative prompt",
@@ -10,7 +10,7 @@
       "{{OUTPUT_FILENAME}}": "Output filename without extension",
       "{{CHECKPOINT}}": "Model checkpoint name"
     },
-    "notes": "Outputs HD portrait suitable for dialogue UI. Can be scaled by game engine."
+    "notes": "Locked to Kimbar style guide: bust portrait, 3/4 view, centered composition, neutral background, soft top-left light, muted palette, no text or watermark. Output 768x768 for downscale to 256 or 128."
   },
   "3": {
     "class_type": "KSampler",
@@ -45,14 +45,14 @@
     "class_type": "CLIPTextEncode",
     "inputs": {
       "clip": ["4", 1],
-      "text": "{{POSITIVE_PROMPT}}, portrait, character bust, centered face, clean background"
+      "text": "{{POSITIVE_PROMPT}}, bust portrait, head and shoulders, 3/4 view, centered composition, neutral background, soft studio light from top-left, muted palette, clean edges, minimal texture, stylized illustration, no photorealism, kimbar_style_v1"
     }
   },
   "7": {
     "class_type": "CLIPTextEncode",
     "inputs": {
       "clip": ["4", 1],
-      "text": "{{NEGATIVE_PROMPT}}, deformed, ugly, blurry, low quality"
+      "text": "{{NEGATIVE_PROMPT}}, deformed, ugly, blurry, low quality, text, watermark, logo, signature, pixelated, noisy, photorealistic, cropped, out of frame, full body, hands"
     }
   },
   "8": {

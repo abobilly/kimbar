@@ -28,6 +28,40 @@ const LDTK_DIR = './public/content/ldtk';
 const FLASHCARDS_DIR = './public/content/cards';
 const INK_SOURCE_DIR = './content/ink';
 const AI_MANIFEST_PATH = './generated/ai-manifest.json';
+const PROPS_DIR = './vendor/props';
+const PROPS_CATEGORIES = ['legal', 'exterior', 'office'];
+const PROP_SKIP_FILES = new Set(['_ Liberated Palette Ramps.png']);
+
+function normalizePropName(fileName) {
+  const base = basename(fileName, extname(fileName));
+  const normalized = base
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+    .replace(/_+/g, '_');
+  return normalized;
+}
+
+function buildPropId(category, name, usedIds) {
+  const baseId = `prop.${name}`;
+  if (!usedIds.has(baseId)) {
+    return baseId;
+  }
+
+  const categoryId = `prop.${category}_${name}`;
+  if (!usedIds.has(categoryId)) {
+    console.warn(`⚠️ Prop id collision for '${baseId}', using '${categoryId}' instead`);
+    return categoryId;
+  }
+
+  let suffix = 2;
+  while (usedIds.has(`${categoryId}_${suffix}`)) {
+    suffix += 1;
+  }
+  const finalId = `${categoryId}_${suffix}`;
+  console.warn(`⚠️ Prop id collision for '${baseId}', using '${finalId}' instead`);
+  return finalId;
+}
 
 async function loadRegistryConfig() {
   if (!existsSync(REGISTRY_CONFIG_PATH)) {
@@ -41,12 +75,13 @@ async function loadRegistryConfig() {
   // Remove $schema before using as registry base
   delete config.$schema;
 
-  // Add empty arrays that will be populated
+  // Add empty arrays/objects that will be populated
   config.sprites = {};
   config.characters = [];
   config.rooms = [];
   config.flashcardPacks = [];
   config.ink = [];
+  config.props = {};
 
   return config;
 }
@@ -293,6 +328,65 @@ async function scanInkStories() {
 }
 
 /**
+ * Scan vendor/props/ for procedural prop PNGs and create prop entries.
+ * Props are simple images (not spritesheets) stored by category.
+ */
+async function scanProps() {
+  const props = {};
+  const propEntries = [];
+  const usedIds = new Set();
+
+  if (!existsSync(PROPS_DIR)) {
+    console.log(`📁 No props directory found at ${PROPS_DIR}`);
+    return props;
+  }
+
+  for (const category of PROPS_CATEGORIES) {
+    const categoryDir = join(PROPS_DIR, category);
+    if (!existsSync(categoryDir)) {
+      continue;
+    }
+
+    try {
+      const files = await readdir(categoryDir);
+      files.sort((a, b) => a.localeCompare(b));
+      for (const file of files) {
+        if (!file.endsWith('.png')) continue;
+        if (file.startsWith('_') || PROP_SKIP_FILES.has(file)) continue;
+
+        const normalizedName = normalizePropName(file);
+        if (!normalizedName) {
+          console.warn(`⚠️ Skipping prop with empty normalized name: ${file}`);
+          continue;
+        }
+
+        const id = buildPropId(category, normalizedName, usedIds);
+        usedIds.add(id);
+
+        propEntries.push({
+          id,
+          path: `/assets/props/${category}/${file}`,
+          category
+        });
+      }
+    } catch (e) {
+      console.error(`❌ Failed to scan props category ${category}:`, e.message);
+    }
+  }
+
+  propEntries.sort((a, b) => a.id.localeCompare(b.id));
+  for (const entry of propEntries) {
+    props[entry.id] = {
+      path: entry.path,
+      category: entry.category
+    };
+    console.log(`  🪴 Found prop: ${entry.id}`);
+  }
+
+  return props;
+}
+
+/**
  * Load AI-generated assets from generated/ai-manifest.json if it exists.
  * Merges AI sprite entries into the registry sprites object.
  */
@@ -390,6 +484,12 @@ async function main() {
   registry.ink = await scanInkStories();
   console.log(`  ✅ Found ${registry.ink.length} ink story(ies)`);
 
+  // Scan for props
+  console.log('\n🪴 Scanning for props...');
+  registry.props = await scanProps();
+  const propCount = Object.keys(registry.props).length;
+  console.log(`  ✅ Found ${propCount} prop(s)`);
+
   // Load AI-generated assets
   console.log('\n🤖 Loading AI-generated assets...');
   const aiManifest = await loadAiManifest();
@@ -432,7 +532,8 @@ async function main() {
     characters: registry.characters,
     rooms: registry.rooms,
     flashcardPacks: registry.flashcardPacks,
-    ink: registry.ink
+    ink: registry.ink,
+    props: registry.props
   };
 
   await writeFile(registryPath, JSON.stringify(orderedRegistry, null, 2));
@@ -444,6 +545,7 @@ async function main() {
   console.log(`   - ${registry.rooms?.length || 0} room(s)`);
   console.log(`   - ${registry.flashcardPacks?.length || 0} flashcard pack(s)`);
   console.log(`   - ${registry.ink?.length || 0} ink story(ies)`);
+  console.log(`   - ${propCount} prop(s)`);
   console.log(`   - ${aiSpriteCount} AI-generated sprite(s)`);
 }
 

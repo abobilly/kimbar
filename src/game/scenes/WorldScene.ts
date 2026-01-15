@@ -7,7 +7,7 @@ import { QuestPanel } from '@game/ui/QuestPanel';
 import { isModalOpen, openModal, closeModal, clearAllModals } from '@game/ui/modal';
 import { initExitManager, registerExit, unregisterExit, clearExitManager } from '@game/ui/exitManager';
 import { layoutHUD } from '@game/ui/layout';
-import { loadRegistry, loadFlashcards, getGameState, saveGameState, getRoom, getInkStory } from '@content/registry';
+import { loadRegistry, loadFlashcards, getGameState, saveGameState, getRoom, getInkStory, getRegistry } from '@content/registry';
 import { EntityData, LevelData, EncounterConfig } from '@content/types';
 import { isLdtkLevel, normalizeLdtkLevel } from '@content/ldtk-normalizer';
 import { validateLdtkLevel, formatValidationErrors } from '@content/ldtk-validator';
@@ -293,9 +293,55 @@ export class WorldScene extends Scene {
     this.createEntity('chest1', chestEntity);
   }
 
+  private normalizePropName(value: string): string {
+    return value
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '_')
+      .replace(/^_+|_+$/g, '')
+      .replace(/_+/g, '_');
+  }
+
+  private resolvePropSpriteKey(rawKey: string | undefined): string | null {
+    if (!rawKey) return null;
+
+    const normalized = this.normalizePropName(rawKey);
+    try {
+      const registry = getRegistry();
+      const props = registry.props || {};
+      const withPrefix = `prop.${normalized}`;
+
+      if (rawKey.startsWith('prop.') && props[rawKey]) {
+        return rawKey;
+      }
+      if (props[withPrefix]) {
+        return withPrefix;
+      }
+      if (props[rawKey]) {
+        return rawKey;
+      }
+    } catch (e) {
+      // Registry not loaded; fall back to raw key checks.
+    }
+
+    return rawKey;
+  }
+
+  private resolveEntitySpriteKey(entity: EntityData): string | null {
+    if (entity.type === 'Prop') {
+      const rawKey = entity.properties?.propId || entity.properties?.sprite || entity.id;
+      return this.resolvePropSpriteKey(rawKey);
+    }
+
+    return entity.properties?.characterId || entity.properties?.sprite || entity.id;
+  }
+
+  private isInteractiveEntity(entity: EntityData): boolean {
+    return ['NPC', 'EncounterTrigger', 'OutfitChest', 'Door'].includes(entity.type);
+  }
+
   private createEntity(id: string, entity: EntityData): void {
     // Prefer explicit characterId/sprite property to select real sprite
-    const spriteKey = entity.properties?.characterId || entity.properties?.sprite || entity.id;
+    const spriteKey = this.resolveEntitySpriteKey(entity);
     if (spriteKey && this.textures.exists(spriteKey)) {
       const npc = this.add.sprite(entity.x, entity.y, spriteKey)
         .setOrigin(0.5, 1)
@@ -311,7 +357,7 @@ export class WorldScene extends Scene {
       console.log('[WorldScene] Spawned NPC', id, 'spriteKey=', spriteKey, 'facing=', facing, 'pos=', entity.x, entity.y, 'props=', entity.properties);
 
       // Name tag
-      if (entity.properties?.name) {
+      if (entity.type === 'NPC' && entity.properties?.name) {
         const nameTag = this.add.text(entity.x, entity.y - 70, entity.properties.name, {
           fontSize: '14px',
           color: '#FFFFFF',
@@ -321,13 +367,15 @@ export class WorldScene extends Scene {
         void nameTag; // Used for display
       }
 
-      // Make interactive
-      npc.setInteractive({ useHandCursor: true });
-      npc.on('pointerdown', () => {
-        if (!this.dialogueSystem.isActive()) {
-          this.handleEntityInteraction(id, entity);
-        }
-      });
+      // Make interactive only for actionable entities
+      if (this.isInteractiveEntity(entity)) {
+        npc.setInteractive({ useHandCursor: true });
+        npc.on('pointerdown', () => {
+          if (!this.dialogueSystem.isActive()) {
+            this.handleEntityInteraction(id, entity);
+          }
+        });
+      }
 
       this.entities.set(id, { ...entity, sprite: npc });
       return;
@@ -353,6 +401,10 @@ export class WorldScene extends Scene {
       case 'Door':
         color = 0x8B4513;
         emoji = '🚪';
+        break;
+      case 'Prop':
+        color = 0x8BC34A;
+        emoji = '🪴';
         break;
     }
 
