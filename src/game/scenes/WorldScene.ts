@@ -45,7 +45,7 @@ export class WorldScene extends Scene {
     super('WorldScene');
   }
 
-  async create(): Promise<void> {
+  async create(data?: { level?: string }): Promise<void> {
     // Set up camera system: world camera + UI camera
     this.setupCameras();
     
@@ -66,7 +66,9 @@ export class WorldScene extends Scene {
     }
 
     // Load level (this also creates the player at spawn point)
-    await this.loadLevel('scotus_lobby');
+    // Use passed level ID or default to lobby
+    const levelId = data?.level || 'scotus_lobby';
+    await this.loadLevel(levelId);
 
     // Create UI (on uiLayer)
     this.createUI();
@@ -909,10 +911,92 @@ export class WorldScene extends Scene {
   }
 
   private showOutfits(): void {
-    // Outfit selection screen - simplified
+    // Close main menu if open
+    this.closeMenuIfOpen();
+    
+    // Register wardrobe as modal
+    openModal('wardrobe');
+    
+    const { width, height } = this.scale;
+
+    // Overlay
+    const overlay = this.add.rectangle(width / 2, height / 2, width, height, 0x000000, 0.9)
+      .setDepth(1100)
+      .setInteractive();
+    this.uiLayer.add(overlay);
+
+    const container = this.add.container(width / 2, height / 2)
+      .setDepth(1101);
+    this.uiLayer.add(container);
+    
+    // Cleanup refs
+    (this as any)._wardrobeOverlay = overlay;
+    (this as any)._wardrobeContainer = container;
+
+    // Close handler
+    const closeWardrobe = () => {
+      unregisterExit('wardrobe');
+      closeModal('wardrobe');
+      overlay.destroy();
+      container.destroy();
+      (this as any)._wardrobeOverlay = undefined;
+      (this as any)._wardrobeContainer = undefined;
+    };
+    
+    overlay.on('pointerdown', closeWardrobe);
+    registerExit('wardrobe', closeWardrobe);
+
+    // Title
+    const title = this.add.text(0, -250, '👗 WARDROBE 👗', {
+      fontSize: '32px',
+      color: '#FFD700',
+      fontFamily: 'Georgia'
+    }).setOrigin(0.5);
+    container.add(title);
+
+    // List outfits
     const unlocked = OutfitSystem.getUnlockedOutfits();
-    console.log('Unlocked outfits:', unlocked);
-    this.showNotification(`You have ${unlocked.length} outfits`);
+    const equipped = OutfitSystem.getEquippedOutfit();
+
+    unlocked.forEach((outfit, index) => {
+      const isEquipped = equipped?.id === outfit.id;
+      const y = -180 + (index * 60);
+      
+      const bg = this.add.rectangle(0, y, 500, 50, isEquipped ? 0x2a4858 : 0x1a1a2e)
+        .setStrokeStyle(2, isEquipped ? 0xFFD700 : 0x4a90a4)
+        .setInteractive({ useHandCursor: true });
+        
+      const nameText = this.add.text(-230, y, outfit.name, {
+        fontSize: '20px',
+        color: isEquipped ? '#FFD700' : '#FFFFFF'
+      }).setOrigin(0, 0.5);
+      
+      // Format buffs string
+      const buffs: string[] = [];
+      if (outfit.buffs?.hints) buffs.push(`💡+${outfit.buffs.hints}`);
+      if (outfit.buffs?.extraTime) buffs.push(`⏱️+${outfit.buffs.extraTime}s`);
+      if (outfit.buffs?.citationBonus) buffs.push(`📈+${outfit.buffs.citationBonus}%`);
+      if (outfit.buffs?.strike) buffs.push(`🛡️+${outfit.buffs.strike}`);
+      
+      const buffText = this.add.text(230, y, buffs.join(' '), {
+        fontSize: '14px',
+        color: '#AAAAAA'
+      }).setOrigin(1, 0.5);
+      
+      bg.on('pointerdown', (e: any) => {
+        e.stopPropagation();
+        OutfitSystem.equipOutfit(outfit.id);
+        this.showNotification(`Equipped: ${outfit.name}`);
+        this.updateUI(); // Update HUD
+        closeWardrobe();
+      });
+      
+      container.add([bg, nameText, buffText]);
+    });
+    
+    if (unlocked.length === 0) {
+      container.add(this.add.text(0, 0, 'No outfits unlocked yet!', { fontSize: '20px', color: '#888' }).setOrigin(0.5));
+    }
   }
   
   /**
