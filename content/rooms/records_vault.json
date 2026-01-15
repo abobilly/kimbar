@@ -1,0 +1,39 @@
+{
+    "$schema": "../../schemas/RoomSpec.schema.json",
+    "id": "records_vault",
+    "name": "Records Vault",
+    "description": "The secure vault with advanced flashcard challenges",
+    "width": 15,
+    "height": 12,
+    "tileset": "courthouse",
+    "background": "#1a1a1a",
+    "music": "vault_ambient",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 7,
+            "y": 10,
+            "id": "spawn_main"
+        },
+        {
+            "type": "EncounterTrigger",
+            "x": 7,
+            "y": 4,
+            "id": "encounter_advanced",
+            "properties": {
+                "name": "Advanced Challenge",
+                "deckTag": "all",
+                "count": 10,
+                "rewardId": "supreme_robe",
+                "once": true
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "south",
+            "targetRoom": "scotus_hall_01"
+        }
+    ],
+    "_TODO": "LDtk export not yet created - placeholder room spec. 'all' deckTag may need special handling."
+}

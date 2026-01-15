@@ -1,0 +1,51 @@
+{
+    "$schema": "../../schemas/RoomSpec.schema.json",
+    "id": "chambers_barrett",
+    "name": "Justice Barrett's Chambers",
+    "description": "The private chambers of Justice Barrett - Family Law challenge",
+    "width": 15,
+    "height": 12,
+    "tileset": "courthouse",
+    "background": "#2a2a2a",
+    "music": "chambers_ambient",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 7,
+            "y": 10,
+            "id": "spawn_main"
+        },
+        {
+            "type": "NPC",
+            "x": 7,
+            "y": 4,
+            "id": "npc_barrett",
+            "properties": {
+                "name": "Justice Barrett",
+                "characterId": "npc.justice_barrett",
+                "storyKnot": "justice_barrett_intro"
+            }
+        },
+        {
+            "type": "EncounterTrigger",
+            "x": 7,
+            "y": 4,
+            "id": "encounter_barrett",
+            "properties": {
+                "justiceId": "justice_barrett",
+                "name": "Justice Barrett",
+                "deckTag": "family_law",
+                "count": 5,
+                "rewardId": "family_cardigan",
+                "once": true
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "south",
+            "targetRoom": "scotus_hall_01"
+        }
+    ],
+    "_TODO": "LDtk export not yet created - placeholder room spec"
+}

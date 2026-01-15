@@ -11,6 +11,13 @@
 //   encounter:deckTag=X count=N rewardId=Y  - Start encounter
 //   give:item_id           - Give item/outfit
 //   save                   - Save game
+//
+// NOTE: Dialogue is split across multiple compiled JSON files:
+//   - story.json (this file): clerk intro, basic interactions
+//   - justices.json: justice intro/victory/defeat knots
+//   - tutorial.json: librarian, bailiff, reporter dialogues
+//   - rewards.json: outfit acquisition dialogues
+// The game loads each JSON file separately.
 
 === court_clerk_intro ===
 # speaker:Court Clerk

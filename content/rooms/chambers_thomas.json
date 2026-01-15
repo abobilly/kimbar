@@ -1,0 +1,51 @@
+{
+    "$schema": "../../schemas/RoomSpec.schema.json",
+    "id": "chambers_thomas",
+    "name": "Justice Thomas's Chambers",
+    "description": "The private chambers of Justice Thomas - Evidence challenge",
+    "width": 15,
+    "height": 12,
+    "tileset": "courthouse",
+    "background": "#2a1a1a",
+    "music": "chambers_ambient",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 7,
+            "y": 10,
+            "id": "spawn_main"
+        },
+        {
+            "type": "NPC",
+            "x": 7,
+            "y": 4,
+            "id": "npc_thomas",
+            "properties": {
+                "name": "Justice Thomas",
+                "characterId": "npc.justice_thomas",
+                "storyKnot": "justice_thomas_intro"
+            }
+        },
+        {
+            "type": "EncounterTrigger",
+            "x": 7,
+            "y": 4,
+            "id": "encounter_thomas",
+            "properties": {
+                "justiceId": "justice_thomas",
+                "name": "Justice Thomas",
+                "deckTag": "evidence",
+                "count": 5,
+                "rewardId": "evidence_blazer",
+                "once": true
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "south",
+            "targetRoom": "scotus_hall_01"
+        }
+    ],
+    "_TODO": "LDtk export not yet created - placeholder room spec"
+}

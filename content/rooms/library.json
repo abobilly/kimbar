@@ -1,0 +1,37 @@
+{
+    "$schema": "../../schemas/RoomSpec.schema.json",
+    "id": "library",
+    "name": "Supreme Court Library",
+    "description": "The law library where the Librarian offers tutorials and study tips",
+    "width": 20,
+    "height": 15,
+    "tileset": "courthouse",
+    "background": "#2a2a1a",
+    "music": "library_ambient",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 10,
+            "y": 13,
+            "id": "spawn_main"
+        },
+        {
+            "type": "NPC",
+            "x": 10,
+            "y": 5,
+            "id": "npc_librarian",
+            "properties": {
+                "name": "Law Librarian",
+                "characterId": "npc.librarian",
+                "storyKnot": "librarian_intro"
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "south",
+            "targetRoom": "scotus_lobby"
+        }
+    ],
+    "_TODO": "LDtk export not yet created - placeholder room spec"
+}

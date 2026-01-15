@@ -42,6 +42,8 @@
         "test:e2e": "playwright test",
         "test:e2e:headed": "playwright test --headed",
         "test": "npm run test:unit && npm run test:e2e",
+        "bounce": "node tools/bounce.mjs",
+        "bounce:check": "node tools/bounce.mjs --check",
         "check": "npm run prepare:content && npm run verify && npm run check-boundaries && npm run test && npm run build-nolog",
         "check:fast": "npm run prepare:content && npm run verify && npm run check-boundaries && npm run test:unit && npm run build-nolog",
         "precommit": "npm run check-boundaries && node scripts/check-no-hardcoded-paths.mjs",

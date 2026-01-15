@@ -1,0 +1,51 @@
+{
+    "$schema": "../../schemas/RoomSpec.schema.json",
+    "id": "chambers_gorsuch",
+    "name": "Justice Gorsuch's Chambers",
+    "description": "The private chambers of Justice Gorsuch - Property challenge",
+    "width": 15,
+    "height": 12,
+    "tileset": "courthouse",
+    "background": "#1a2a2a",
+    "music": "chambers_ambient",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 7,
+            "y": 10,
+            "id": "spawn_main"
+        },
+        {
+            "type": "NPC",
+            "x": 7,
+            "y": 4,
+            "id": "npc_gorsuch",
+            "properties": {
+                "name": "Justice Gorsuch",
+                "characterId": "npc.justice_gorsuch",
+                "storyKnot": "justice_gorsuch_intro"
+            }
+        },
+        {
+            "type": "EncounterTrigger",
+            "x": 7,
+            "y": 4,
+            "id": "encounter_gorsuch",
+            "properties": {
+                "justiceId": "justice_gorsuch",
+                "name": "Justice Gorsuch",
+                "deckTag": "property",
+                "count": 5,
+                "rewardId": "property_vest",
+                "once": true
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "south",
+            "targetRoom": "scotus_hall_01"
+        }
+    ],
+    "_TODO": "LDtk export not yet created - placeholder room spec"
+}

@@ -1,0 +1,40 @@
+{
+    "$schema": "../../schemas/RoomSpec.schema.json",
+    "id": "chambers_roberts",
+    "name": "Chief Justice Roberts's Chambers",
+    "description": "The private chambers of the Chief Justice - Constitutional Law challenge",
+    "width": 15,
+    "height": 12,
+    "tileset": "courthouse",
+    "background": "#1a2a1a",
+    "music": "chambers_ambient",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 7,
+            "y": 10,
+            "id": "spawn_main"
+        },
+        {
+            "type": "EncounterTrigger",
+            "x": 7,
+            "y": 4,
+            "id": "encounter_roberts",
+            "properties": {
+                "justiceId": "justice_roberts",
+                "name": "Chief Justice Roberts",
+                "deckTag": "constitutional_law",
+                "count": 7,
+                "rewardId": "conlaw_robe",
+                "once": true
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "south",
+            "targetRoom": "courtroom_main"
+        }
+    ],
+    "_TODO": "LDtk export not yet created - placeholder room spec"
+}

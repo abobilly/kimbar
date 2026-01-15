@@ -38,3 +38,6 @@ vendor/**
 
 # Flashcard data (stored externally, not in public repo)
 public/content/cards/flashcards.json
+
+.bounce.*
+.ai.patch

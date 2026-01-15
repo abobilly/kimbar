@@ -1,0 +1,37 @@
+{
+    "$schema": "../../schemas/RoomSpec.schema.json",
+    "id": "press_room",
+    "name": "Press Room",
+    "description": "The press room where the Court Reporter offers hints",
+    "width": 15,
+    "height": 12,
+    "tileset": "courthouse",
+    "background": "#1a1a2a",
+    "music": "press_room_ambient",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 7,
+            "y": 10,
+            "id": "spawn_main"
+        },
+        {
+            "type": "NPC",
+            "x": 7,
+            "y": 4,
+            "id": "npc_reporter",
+            "properties": {
+                "name": "Court Reporter",
+                "characterId": "npc.reporter",
+                "storyKnot": "reporter_intro"
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "south",
+            "targetRoom": "scotus_lobby"
+        }
+    ],
+    "_TODO": "LDtk export not yet created - placeholder room spec"
+}

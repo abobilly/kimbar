@@ -1,0 +1,51 @@
+{
+    "$schema": "../../schemas/RoomSpec.schema.json",
+    "id": "chambers_alito",
+    "name": "Justice Alito's Chambers",
+    "description": "The private chambers of Justice Alito - Criminal Law challenge",
+    "width": 15,
+    "height": 12,
+    "tileset": "courthouse",
+    "background": "#1a1a1a",
+    "music": "chambers_ambient",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 7,
+            "y": 10,
+            "id": "spawn_main"
+        },
+        {
+            "type": "NPC",
+            "x": 7,
+            "y": 4,
+            "id": "npc_alito",
+            "properties": {
+                "name": "Justice Alito",
+                "characterId": "npc.justice_alito",
+                "storyKnot": "justice_alito_intro"
+            }
+        },
+        {
+            "type": "EncounterTrigger",
+            "x": 7,
+            "y": 4,
+            "id": "encounter_alito",
+            "properties": {
+                "justiceId": "justice_alito",
+                "name": "Justice Alito",
+                "deckTag": "criminal_law",
+                "count": 5,
+                "rewardId": "criminal_jacket",
+                "once": true
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "south",
+            "targetRoom": "scotus_hall_01"
+        }
+    ],
+    "_TODO": "LDtk export not yet created - placeholder room spec"
+}

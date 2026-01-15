@@ -1,0 +1,51 @@
+{
+    "$schema": "../../schemas/RoomSpec.schema.json",
+    "id": "chambers_jackson",
+    "name": "Justice Jackson's Chambers",
+    "description": "The private chambers of Justice Jackson - Torts challenge",
+    "width": 15,
+    "height": 12,
+    "tileset": "courthouse",
+    "background": "#1a2a1a",
+    "music": "chambers_ambient",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 7,
+            "y": 10,
+            "id": "spawn_main"
+        },
+        {
+            "type": "NPC",
+            "x": 7,
+            "y": 4,
+            "id": "npc_jackson",
+            "properties": {
+                "name": "Justice Jackson",
+                "characterId": "npc.justice_jackson",
+                "storyKnot": "justice_jackson_intro"
+            }
+        },
+        {
+            "type": "EncounterTrigger",
+            "x": 7,
+            "y": 4,
+            "id": "encounter_jackson",
+            "properties": {
+                "justiceId": "justice_jackson",
+                "name": "Justice Jackson",
+                "deckTag": "torts",
+                "count": 5,
+                "rewardId": "torts_blazer",
+                "once": true
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "south",
+            "targetRoom": "scotus_hall_01"
+        }
+    ],
+    "_TODO": "LDtk export not yet created - placeholder room spec"
+}

@@ -1,0 +1,48 @@
+{
+    "$schema": "../../schemas/RoomSpec.schema.json",
+    "id": "courtroom_main",
+    "name": "Main Courtroom",
+    "description": "The grand courtroom where the Chief Justice presides - final boss area",
+    "width": 30,
+    "height": 20,
+    "tileset": "courthouse",
+    "background": "#1a1a2e",
+    "music": "courtroom_theme",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 15,
+            "y": 18,
+            "id": "spawn_main"
+        },
+        {
+            "type": "NPC",
+            "x": 15,
+            "y": 5,
+            "id": "npc_roberts",
+            "properties": {
+                "name": "Chief Justice Roberts",
+                "characterId": "npc.justice_roberts",
+                "storyKnot": "justice_roberts_intro"
+            }
+        },
+        {
+            "type": "NPC",
+            "x": 5,
+            "y": 10,
+            "id": "npc_bailiff",
+            "properties": {
+                "name": "Bailiff",
+                "characterId": "npc.bailiff",
+                "storyKnot": "bailiff_intro"
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "south",
+            "targetRoom": "scotus_lobby"
+        }
+    ],
+    "_TODO": "LDtk export not yet created - placeholder room spec"
+}

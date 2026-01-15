@@ -3,19 +3,160 @@
   "tileSize": 32,
   "scale": 2,
   "entities": {
-    "PlayerSpawn": { "required": ["x", "y"] },
-    "NPC": { "required": ["x", "y", "inkKnot"], "optional": ["sprite", "name"] },
-    "EncounterTrigger": { "required": ["x", "y", "deckTag", "count"], "optional": ["rewardId"] },
-    "Door": { "required": ["x", "y", "targetLevel"], "optional": ["locked", "requiredItem"] },
-    "OutfitChest": { "required": ["x", "y", "outfitId"] }
+    "PlayerSpawn": {
+      "required": [
+        "x",
+        "y"
+      ]
+    },
+    "NPC": {
+      "required": [
+        "x",
+        "y",
+        "inkKnot"
+      ],
+      "optional": [
+        "sprite",
+        "name"
+      ]
+    },
+    "EncounterTrigger": {
+      "required": [
+        "x",
+        "y",
+        "deckTag",
+        "count"
+      ],
+      "optional": [
+        "rewardId"
+      ]
+    },
+    "Door": {
+      "required": [
+        "x",
+        "y",
+        "targetLevel"
+      ],
+      "optional": [
+        "locked",
+        "requiredItem"
+      ]
+    },
+    "OutfitChest": {
+      "required": [
+        "x",
+        "y",
+        "outfitId"
+      ]
+    }
   },
   "outfits": {
-    "default": { "id": "default", "name": "Street Clothes", "sprite": "player_default", "buffs": {} },
-    "evidence_blazer": { "id": "evidence_blazer", "name": "Evidence Blazer", "sprite": "player_blazer", "buffs": { "hints": 1 } },
-    "civpro_suit": { "id": "civpro_suit", "name": "Civ Pro Power Suit", "sprite": "player_suit", "buffs": { "strike": 1 } },
-    "conlaw_robe": { "id": "conlaw_robe", "name": "Con Law Robe", "sprite": "player_robe", "buffs": { "extraTime": 5 } },
-    "court_blazer": { "id": "court_blazer", "name": "Court Blazer", "sprite": "player_court", "buffs": { "citationBonus": 10 } },
-    "power_suit": { "id": "power_suit", "name": "Power Suit", "sprite": "player_power", "buffs": { "hints": 1, "citationBonus": 5 } }
+    "default": {
+      "id": "default",
+      "name": "Street Clothes",
+      "sprite": "player_default",
+      "buffs": {}
+    },
+    "evidence_blazer": {
+      "id": "evidence_blazer",
+      "name": "Evidence Blazer",
+      "sprite": "player_blazer",
+      "buffs": {
+        "hints": 1
+      }
+    },
+    "civpro_suit": {
+      "id": "civpro_suit",
+      "name": "Civ Pro Power Suit",
+      "sprite": "player_suit",
+      "buffs": {
+        "strike": 1
+      }
+    },
+    "conlaw_robe": {
+      "id": "conlaw_robe",
+      "name": "Con Law Robe",
+      "sprite": "player_robe",
+      "buffs": {
+        "extraTime": 5
+      }
+    },
+    "court_blazer": {
+      "id": "court_blazer",
+      "name": "Court Blazer",
+      "sprite": "player_court",
+      "buffs": {
+        "citationBonus": 10
+      }
+    },
+    "power_suit": {
+      "id": "power_suit",
+      "name": "Power Suit",
+      "sprite": "player_power",
+      "buffs": {
+        "hints": 1,
+        "citationBonus": 5
+      }
+    },
+    "crimpro_badge": {
+      "id": "crimpro_badge",
+      "name": "Crim Pro Badge",
+      "sprite": "player_badge",
+      "buffs": {
+        "hints": 1
+      }
+    },
+    "property_vest": {
+      "id": "property_vest",
+      "name": "Property Vest",
+      "sprite": "player_vest",
+      "buffs": {
+        "citationBonus": 10
+      }
+    },
+    "contracts_tie": {
+      "id": "contracts_tie",
+      "name": "Contracts Tie",
+      "sprite": "player_tie",
+      "buffs": {
+        "hints": 1
+      }
+    },
+    "family_cardigan": {
+      "id": "family_cardigan",
+      "name": "Family Law Cardigan",
+      "sprite": "player_cardigan",
+      "buffs": {
+        "extraTime": 5
+      }
+    },
+    "criminal_jacket": {
+      "id": "criminal_jacket",
+      "name": "Criminal Law Jacket",
+      "sprite": "player_jacket",
+      "buffs": {
+        "strike": 1
+      }
+    },
+    "torts_blazer": {
+      "id": "torts_blazer",
+      "name": "Torts Blazer",
+      "sprite": "player_torts",
+      "buffs": {
+        "citationBonus": 10
+      }
+    },
+    "supreme_robe": {
+      "id": "supreme_robe",
+      "name": "Supreme Robe",
+      "sprite": "player_supreme",
+      "buffs": {
+        "hints": 2,
+        "strike": 1,
+        "extraTime": 10,
+        "citationBonus": 20
+      }
+    }
   },
   "tags": {
     "subjects": [

@@ -1,0 +1,26 @@
+{
+    "$schema": "../../schemas/RoomSpec.schema.json",
+    "id": "cafeteria",
+    "name": "Court Cafeteria",
+    "description": "A rest area where players can save their progress",
+    "width": 20,
+    "height": 15,
+    "tileset": "courthouse",
+    "background": "#2a2a2a",
+    "music": "cafeteria_ambient",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 10,
+            "y": 13,
+            "id": "spawn_main"
+        }
+    ],
+    "connections": [
+        {
+            "direction": "east",
+            "targetRoom": "scotus_lobby"
+        }
+    ],
+    "_TODO": "LDtk export not yet created - placeholder room spec. Add save point entity when save system is implemented."
+}

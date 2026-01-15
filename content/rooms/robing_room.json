@@ -1,0 +1,44 @@
+{
+    "$schema": "../../schemas/RoomSpec.schema.json",
+    "id": "robing_room",
+    "name": "Robing Room",
+    "description": "The robing room where outfits can be collected from chests",
+    "width": 15,
+    "height": 12,
+    "tileset": "courthouse",
+    "background": "#2a1a1a",
+    "music": "robing_ambient",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 7,
+            "y": 10,
+            "id": "spawn_main"
+        },
+        {
+            "type": "OutfitChest",
+            "x": 5,
+            "y": 4,
+            "id": "chest_1",
+            "properties": {
+                "outfitId": "court_blazer"
+            }
+        },
+        {
+            "type": "OutfitChest",
+            "x": 9,
+            "y": 4,
+            "id": "chest_2",
+            "properties": {
+                "outfitId": "power_suit"
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "south",
+            "targetRoom": "scotus_lobby"
+        }
+    ],
+    "_TODO": "LDtk export not yet created - placeholder room spec"
+}

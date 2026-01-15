@@ -1,0 +1,51 @@
+{
+    "$schema": "../../schemas/RoomSpec.schema.json",
+    "id": "chambers_kagan",
+    "name": "Justice Kagan's Chambers",
+    "description": "The private chambers of Justice Kagan - Civil Procedure challenge",
+    "width": 15,
+    "height": 12,
+    "tileset": "courthouse",
+    "background": "#2a2a1a",
+    "music": "chambers_ambient",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 7,
+            "y": 10,
+            "id": "spawn_main"
+        },
+        {
+            "type": "NPC",
+            "x": 7,
+            "y": 4,
+            "id": "npc_kagan",
+            "properties": {
+                "name": "Justice Kagan",
+                "characterId": "npc.justice_kagan",
+                "storyKnot": "justice_kagan_intro"
+            }
+        },
+        {
+            "type": "EncounterTrigger",
+            "x": 7,
+            "y": 4,
+            "id": "encounter_kagan",
+            "properties": {
+                "justiceId": "justice_kagan",
+                "name": "Justice Kagan",
+                "deckTag": "civil_procedure",
+                "count": 5,
+                "rewardId": "civpro_suit",
+                "once": true
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "south",
+            "targetRoom": "scotus_hall_01"
+        }
+    ],
+    "_TODO": "LDtk export not yet created - placeholder room spec"
+}
