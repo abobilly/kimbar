@@ -1,0 +1,125 @@
+{
+  "identifier": "chambers_roberts",
+  "iid": "chambers_roberts",
+  "uid": 0,
+  "worldX": 0,
+  "worldY": 0,
+  "worldDepth": 0,
+  "pxWid": 480,
+  "pxHei": 384,
+  "bgColor": "#1a2a1a",
+  "layerInstances": [
+    {
+      "__identifier": "Entities",
+      "__type": "Entities",
+      "__cWid": 15,
+      "__cHei": 12,
+      "__gridSize": 32,
+      "entityInstances": [
+        {
+          "__identifier": "PlayerSpawn",
+          "__grid": [
+            7,
+            10
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 240,
+          "__worldY": 352,
+          "defUid": 1,
+          "iid": "spawn_main",
+          "width": 32,
+          "height": 32,
+          "px": [
+            224,
+            320
+          ],
+          "fieldInstances": []
+        },
+        {
+          "__identifier": "EncounterTrigger",
+          "__grid": [
+            7,
+            4
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 240,
+          "__worldY": 160,
+          "defUid": 2,
+          "iid": "encounter_roberts",
+          "width": 32,
+          "height": 32,
+          "px": [
+            224,
+            128
+          ],
+          "fieldInstances": [
+            {
+              "__identifier": "justiceId",
+              "__type": "String",
+              "__value": "justice_roberts",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "name",
+              "__type": "String",
+              "__value": "Chief Justice Roberts",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "deckTag",
+              "__type": "String",
+              "__value": "constitutional_law",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "count",
+              "__type": "Int",
+              "__value": 7,
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "rewardId",
+              "__type": "String",
+              "__value": "conlaw_robe",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "once",
+              "__type": "String",
+              "__value": true,
+              "defUid": 0,
+              "realEditorValues": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "_kimbar": {
+    "name": "Chief Justice Roberts's Chambers",
+    "description": "The private chambers of the Chief Justice - Constitutional Law challenge",
+    "tileset": "courthouse",
+    "music": "chambers_ambient",
+    "connections": [
+      {
+        "direction": "south",
+        "targetRoom": "courtroom_main"
+      }
+    ]
+  }
+}

@@ -6,8 +6,10 @@
     "ulpcArgs": {
         "body": "male",
         "skin": "bronze",
-        "hair": "plain",
-        "hairColor": "gray",
+        "hair": "buzzcut",
+        "hairColor": "white",
+        "glasses": "secretary",
+        "glassesColor": "brass",
         "torso": "robe",
         "torsoColor": "black",
         "legs": "pants",

@@ -6,14 +6,14 @@
     "ulpcArgs": {
         "body": "male",
         "skin": "light",
-        "hair": "short",
-        "hairColor": "brown",
+        "hair": "parted",
+        "hairColor": "white",
         "torso": "robe",
         "torsoColor": "black",
         "legs": "pants",
         "legsColor": "charcoal",
         "feet": "shoes",
-        "feetColor": "brown"
+        "feetColor": "black"
     },
     "animations": [
         "idle_down",

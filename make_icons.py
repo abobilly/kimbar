@@ -629,6 +629,158 @@ def draw_planter(d, w, h):
     for ox in [-8, 8]:
         d.ellipse([cx+ox-2, 8, cx+ox+2, 14], fill=FOLIAGE[2])
 
+# --- OFFICE FURNITURE ---
+
+def draw_bookshelf(d, w, h):
+    """32x48 wooden bookshelf with 3-4 shelves filled with books"""
+    # Back panel
+    d.rectangle([2, 2, w-3, h-2], fill=WOOD[1], outline=WOOD[0])
+    
+    # Left side panel (visible edge in 3/4 view)
+    d.polygon([(2, 2), (5, 4), (5, h-4), (2, h-2)], fill=WOOD[2], outline=WOOD[0])
+    
+    # Right side panel
+    d.polygon([(w-3, 2), (w-6, 4), (w-6, h-4), (w-3, h-2)], fill=WOOD[3], outline=WOOD[0])
+    
+    # Shelves (4 levels with books)
+    shelf_ys = [6, 16, 26, 36]
+    for sy in shelf_ys:
+        # Shelf plank
+        d.rectangle([5, sy, w-6, sy+2], fill=WOOD[3], outline=WOOD[0])
+        d.line([6, sy, w-7, sy], fill=WOOD[4], width=1)  # Top highlight
+        
+        # Books on shelf (varying heights and colors)
+        book_colors = [
+            (128, 0, 32),   # Maroon
+            (0, 64, 128),   # Navy
+            (64, 96, 64),   # Forest
+            (139, 69, 19),  # Brown
+            (80, 40, 80),   # Purple
+            (160, 82, 45),  # Sienna
+        ]
+        x = 6
+        while x < w - 10:
+            book_w = 3 + (x % 2)  # Vary width 3-4px
+            book_h = 7 + (x % 3)  # Vary height 7-9px
+            color = book_colors[(x // 3) % len(book_colors)]
+            # Book spine (main face)
+            d.rectangle([x, sy - book_h, x + book_w, sy], fill=color, outline=WOOD[0])
+            # Highlight stripe on spine
+            d.line([x + 1, sy - book_h + 1, x + 1, sy - 1], fill=tuple(min(c + 40, 255) for c in color), width=1)
+            x += book_w + 1
+    
+    # Bottom shelf (no books, just the plank)
+    d.rectangle([5, h-6, w-6, h-4], fill=WOOD[3], outline=WOOD[0])
+    d.line([6, h-6, w-7, h-6], fill=WOOD[4], width=1)
+    
+    # Top crown molding
+    d.rectangle([1, 1, w-2, 4], fill=WOOD[3], outline=WOOD[0])
+    d.line([3, 2, w-4, 2], fill=WOOD[4], width=1)
+
+def draw_file_cabinet(d, w, h):
+    """32x48 metal file cabinet with 3 drawers"""
+    # Cabinet body
+    d.rectangle([3, 2, w-4, h-2], fill=SILVER[2], outline=SILVER[0])
+    
+    # Left side panel (darker, 3/4 view)
+    d.polygon([(3, 2), (6, 4), (6, h-4), (3, h-2)], fill=SILVER[1], outline=SILVER[0])
+    
+    # Top surface
+    d.polygon([(3, 2), (w-4, 2), (w-7, 4), (6, 4)], fill=SILVER[3], outline=SILVER[0])
+    
+    # Three drawers
+    drawer_h = 13
+    for i in range(3):
+        dy = 5 + i * (drawer_h + 1)
+        # Drawer face
+        d.rectangle([7, dy, w-8, dy + drawer_h], fill=SILVER[2], outline=SILVER[0])
+        # Drawer inset shadow
+        d.line([8, dy + 1, w-9, dy + 1], fill=SILVER[1], width=1)
+        d.line([8, dy + 1, 8, dy + drawer_h - 1], fill=SILVER[1], width=1)
+        # Drawer highlight (bottom right)
+        d.line([9, dy + drawer_h - 1, w-9, dy + drawer_h - 1], fill=SILVER[3], width=1)
+        # Handle (horizontal bar)
+        handle_y = dy + drawer_h // 2
+        d.rectangle([12, handle_y - 1, w-13, handle_y + 1], fill=SILVER[1], outline=SILVER[0])
+        d.line([13, handle_y - 1, w-14, handle_y - 1], fill=SILVER[3], width=1)
+        # Label slot
+        d.rectangle([14, dy + 2, w-15, dy + 5], fill=PAPER[1], outline=SILVER[0])
+
+def draw_laptop(d, w, h):
+    """32x32 open laptop with screen facing viewer"""
+    cx = w // 2
+    
+    # Screen (back panel, angled)
+    d.polygon([(4, 4), (w-5, 4), (w-3, 18), (2, 18)], fill=BLACK[1], outline=BLACK[0])
+    
+    # Screen display area (bright)
+    d.polygon([(6, 6), (w-7, 6), (w-5, 16), (4, 16)], fill=(60, 100, 140), outline=BLACK[0])
+    
+    # Screen content (simplified code/text lines)
+    for ly in [8, 10, 12, 14]:
+        line_w = 12 + (ly % 4)
+        d.line([8, ly, 8 + line_w, ly], fill=(150, 200, 255), width=1)
+    
+    # Screen bezel highlight
+    d.line([6, 6, w-7, 6], fill=BLACK[3], width=1)
+    
+    # Keyboard base (3/4 perspective)
+    d.polygon([(1, 18), (w-2, 18), (w-1, 28), (0, 28)], fill=BLACK[2], outline=BLACK[0])
+    
+    # Keyboard surface (top face)
+    d.polygon([(2, 18), (w-3, 18), (w-2, 20), (1, 20)], fill=BLACK[3], outline=BLACK[0])
+    
+    # Keyboard keys (simplified grid)
+    for ky in [21, 24]:
+        for kx in range(4, w-5, 4):
+            d.rectangle([kx, ky, kx+2, ky+2], fill=BLACK[1], outline=BLACK[0])
+    
+    # Trackpad
+    d.rectangle([cx-4, 26, cx+4, 28], fill=BLACK[1], outline=BLACK[0])
+    d.line([cx-3, 27, cx+3, 27], fill=BLACK[3], width=1)
+    
+    # Power LED (small green dot)
+    d.point([cx, 19], fill=(0, 255, 0))
+
+def draw_whiteboard(d, w, h):
+    """48x32 whiteboard with metal frame and white center"""
+    # Frame (silver/gray metal)
+    d.rectangle([1, 1, w-2, h-2], fill=SILVER[1], outline=SILVER[0])
+    
+    # Frame top highlight
+    d.line([2, 2, w-3, 2], fill=SILVER[3], width=1)
+    
+    # Frame left highlight
+    d.line([2, 2, 2, h-3], fill=SILVER[2], width=1)
+    
+    # White board surface (inset)
+    d.rectangle([4, 4, w-5, h-5], fill=PAPER[1], outline=SILVER[0])
+    
+    # Slight cream tint for realism
+    d.rectangle([5, 5, w-6, h-6], fill=(252, 252, 250))
+    
+    # Some marker scribbles (light traces)
+    # Blue marker line
+    d.line([8, 8, 20, 8], fill=(100, 140, 200), width=1)
+    d.line([8, 11, 28, 11], fill=(100, 140, 200), width=1)
+    
+    # Red marker line
+    d.line([10, 14, 24, 14], fill=(200, 100, 100), width=1)
+    
+    # Black marker (heading)
+    d.line([8, 18, 18, 18], fill=(60, 60, 60), width=1)
+    d.line([8, 21, 30, 21], fill=(80, 80, 80), width=1)
+    d.line([8, 24, 26, 24], fill=(80, 80, 80), width=1)
+    
+    # Marker tray at bottom
+    d.rectangle([6, h-4, w-7, h-2], fill=SILVER[2], outline=SILVER[0])
+    d.line([7, h-4, w-8, h-4], fill=SILVER[3], width=1)
+    
+    # Markers in tray
+    d.rectangle([10, h-4, 14, h-2], fill=(20, 60, 120), outline=BLACK[0])  # Blue marker
+    d.rectangle([16, h-4, 20, h-2], fill=(160, 40, 40), outline=BLACK[0])  # Red marker
+    d.rectangle([22, h-4, 26, h-2], fill=(40, 40, 40), outline=BLACK[0])   # Black marker
+
 # --- EXECUTE ---
 if __name__ == "__main__":
     import os
@@ -676,6 +828,12 @@ if __name__ == "__main__":
     
     # Round 6 - Deliberation Room
     save_to("conference_table_proc", (64, 48), draw_conference_table)
+    
+    # Round 7 - Office Furniture
+    save_to("bookshelf_proc", (32, 48), draw_bookshelf)
+    save_to("file_cabinet_proc", (32, 48), draw_file_cabinet)
+    save_to("laptop_proc", (32, 32), draw_laptop)
+    save_to("whiteboard_proc", (48, 32), draw_whiteboard)
     
     # Round 4 - SCOTUS Exterior Construction Kit
     exterior_dir = "vendor/props/exterior"

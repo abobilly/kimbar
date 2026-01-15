@@ -56,27 +56,27 @@ let _ulpcIndex = null;
 
 async function scanDirectory(dir, files = []) {
   if (!existsSync(dir)) return files;
-  
+
   const entries = await readdir(dir, { withFileTypes: true });
-  
+
   for (const entry of entries) {
     const fullPath = join(dir, entry.name);
-    
+
     if (entry.isDirectory()) {
       await scanDirectory(fullPath, files);
     } else if (entry.isFile() && entry.name.toLowerCase().endsWith('.png')) {
       files.push(fullPath);
     }
   }
-  
+
   return files;
 }
 
 async function buildUlpcIndex() {
   info('Building ULPC layer index...');
-  
+
   const allPngs = await scanDirectory(ULPC_SPRITESHEETS);
-  
+
   const byBase = new Map();  // basename -> [absPath...]
   const byRel = new Map();   // relpath(lower) -> absPath
 
@@ -84,13 +84,13 @@ async function buildUlpcIndex() {
     // Relative path from spritesheets root
     const rel = relative(ULPC_SPRITESHEETS, absPath).replace(/\\/g, '/');
     byRel.set(rel.toLowerCase(), absPath);
-    
+
     const base = basename(absPath).toLowerCase();
     const arr = byBase.get(base) ?? [];
     arr.push(absPath);
     byBase.set(base, arr);
   }
-  
+
   info(`  Indexed ${allPngs.length} PNG files`);
   return { byBase, byRel };
 }
@@ -112,28 +112,28 @@ async function getUlpcIndex() {
  */
 async function resolveUlpcLayer(ref) {
   const { byBase, byRel } = await getUlpcIndex();
-  
+
   const norm = ref.replace(/\\/g, '/').toLowerCase();
-  
+
   // Prefer explicit relative paths if provided
   if (norm.includes('/')) {
     const hit = byRel.get(norm);
     if (hit) return hit;
-    
+
     // Try without leading path segments
     for (const [key, val] of byRel) {
       if (key.endsWith(norm)) return val;
     }
   }
-  
+
   // Fall back to basename lookup
   const base = basename(norm).toLowerCase();
   const hits = byBase.get(base);
-  
+
   if (!hits || hits.length === 0) {
     throw new Error(`ULPC layer not found: ${ref}`);
   }
-  
+
   // If ambiguous, throw with candidates (require disambiguation)
   if (hits.length > 1) {
     const candidates = hits.map(h => relative(ULPC_DIR, h)).join('\n  - ');
@@ -142,7 +142,7 @@ async function resolveUlpcLayer(ref) {
       `Specify full path:\n  - ${candidates}`
     );
   }
-  
+
   return hits[0];
 }
 
@@ -153,7 +153,7 @@ async function resolveUlpcLayer(ref) {
 async function findLayerAsset(layerType, variant, bodyType = 'male', color = null) {
   // Try various path patterns common in ULPC structure
   const patterns = [];
-  
+
   if (layerType === 'body') {
     patterns.push(
       `body/bodies/${bodyType}/${variant}.png`,
@@ -254,13 +254,56 @@ async function findLayerAsset(layerType, variant, bodyType = 'male', color = nul
       `feet/shoes/${bodyType}.png`,
       `feet/${variant}.png`
     );
+  } else if (layerType === 'glasses') {
+    // Pattern: facial/glasses/{type}/{bodyType}/{color}.png
+    if (color) {
+      patterns.push(
+        `facial/glasses/${variant}/adult/${color}.png`,
+        `facial/glasses/${variant}/${bodyType}/${color}.png`,
+        `facial/glasses/${variant}/${color}.png`
+      );
+    }
+    patterns.push(
+      `facial/glasses/${variant}/adult.png`,
+      `facial/glasses/${variant}/${bodyType}.png`,
+      `facial/glasses/${variant}.png`
+    );
+  } else if (layerType === 'earrings') {
+    // Pattern: facial/earrings/{type}/adult/{color}.png
+    if (color) {
+      patterns.push(
+        `facial/earrings/${variant}/adult/${color}.png`,
+        `facial/earrings/${variant}/${bodyType}/${color}.png`,
+        `facial/earrings/${variant}/${color}.png`
+      );
+    }
+    patterns.push(
+      `facial/earrings/${variant}/adult.png`,
+      `facial/earrings/${variant}/${bodyType}.png`,
+      `facial/earrings/${variant}.png`
+    );
+  } else if (layerType === 'necklace') {
+    // Pattern: neck/necklace/{variant}/{bodyType}/{color}.png
+    if (color) {
+      patterns.push(
+        `neck/necklace/${variant}/${bodyType}/${color}.png`,
+        `neck/necklace/${variant}/adult/${color}.png`,
+        `neck/necklace/${bodyType}/${color}.png`,
+        `neck/${variant}/${bodyType}/${color}.png`
+      );
+    }
+    patterns.push(
+      `neck/necklace/${variant}/${bodyType}.png`,
+      `neck/necklace/${variant}.png`,
+      `neck/${variant}/${bodyType}.png`
+    );
   } else {
     patterns.push(
       `${layerType}/${variant}/${bodyType}.png`,
       `${layerType}/${variant}.png`
     );
   }
-  
+
   // Try each pattern
   const triedPatterns = [];
   for (const pattern of patterns) {
@@ -271,7 +314,7 @@ async function findLayerAsset(layerType, variant, bodyType = 'male', color = nul
       // Try next pattern
     }
   }
-  
+
   // Last resort: try just the variant name as a basename
   const lastResort = `${variant}.png`;
   triedPatterns.push(lastResort);
@@ -290,14 +333,14 @@ async function findLayerAsset(layerType, variant, bodyType = 'male', color = nul
 async function generateCharacter(specFile) {
   const charId = basename(specFile, '.json');
   info(`Generating sprite for: ${charId}`);
-  
+
   try {
     const spec = await loadJson(specFile);
     const ulpcArgs = spec.ulpcArgs || {};
-    
+
     const layers = [];
     const missing = [];
-    
+
     // Body layer (required)
     const bodyVariant = ulpcArgs.body || 'male';
     const skinVariant = ulpcArgs.skin || 'light';
@@ -309,7 +352,7 @@ async function generateCharacter(specFile) {
       missing.push(`body (${bodyVariant}/${skinVariant})`);
       warn(`  ✗ body layer not found for ${bodyVariant}/${skinVariant}`);
     }
-    
+
     // Head layer (FACE - required, after body, contains the nose/face features)
     // The body layer is just the body shape; head layer is the actual face
     const headPath = await findLayerAsset('head', 'human', bodyVariant, skinVariant);
@@ -320,7 +363,7 @@ async function generateCharacter(specFile) {
       missing.push(`head (${bodyVariant}/${skinVariant})`);
       warn(`  ✗ head layer not found: head/heads/human/${bodyVariant}/${skinVariant}`);
     }
-    
+
     // Eyes layer (after head, before hair)
     if (ulpcArgs.eyes) {
       const eyesPath = await findLayerAsset('eyes', 'human', 'adult', ulpcArgs.eyes);
@@ -332,7 +375,7 @@ async function generateCharacter(specFile) {
         warn(`  ✗ eyes layer not found: human/adult/${ulpcArgs.eyes}`);
       }
     }
-    
+
     // Hair layer
     if (ulpcArgs.hair) {
       const hairColor = ulpcArgs.hairColor || 'brown';
@@ -345,7 +388,7 @@ async function generateCharacter(specFile) {
         warn(`  ✗ hair layer not found: ${ulpcArgs.hair}/${bodyVariant}/${hairColor}`);
       }
     }
-    
+
     // Torso layer
     if (ulpcArgs.torso) {
       const torsoColor = ulpcArgs.torsoColor || 'white';
@@ -358,7 +401,7 @@ async function generateCharacter(specFile) {
         warn(`  ✗ torso layer not found: ${ulpcArgs.torso}/${bodyVariant}/${torsoColor}`);
       }
     }
-    
+
     // Legs layer
     if (ulpcArgs.legs) {
       const legsColor = ulpcArgs.legsColor || 'charcoal';
@@ -371,7 +414,7 @@ async function generateCharacter(specFile) {
         warn(`  ✗ legs layer not found: ${ulpcArgs.legs}/${bodyVariant}/${legsColor}`);
       }
     }
-    
+
     // Feet layer
     if (ulpcArgs.feet) {
       const feetColor = ulpcArgs.feetColor || 'black';
@@ -384,12 +427,51 @@ async function generateCharacter(specFile) {
         warn(`  ✗ feet layer not found: ${ulpcArgs.feet}/${bodyVariant}/${feetColor}`);
       }
     }
-    
+
+    // Necklace layer (under torso, so add early but will be composited in order)
+    if (ulpcArgs.necklace) {
+      const necklaceColor = ulpcArgs.necklaceColor || 'gold';
+      const necklacePath = await findLayerAsset('necklace', ulpcArgs.necklace, bodyVariant, necklaceColor);
+      if (necklacePath) {
+        layers.push({ input: necklacePath, top: 0, left: 0 });
+        info(`  + necklace: ${necklacePath}`);
+      } else {
+        missing.push(`necklace (${ulpcArgs.necklace}/${necklaceColor})`);
+        warn(`  ✗ necklace layer not found: ${ulpcArgs.necklace}/${bodyVariant}/${necklaceColor}`);
+      }
+    }
+
+    // Glasses layer (on top of face/hair)
+    if (ulpcArgs.glasses) {
+      const glassesColor = ulpcArgs.glassesColor || 'black';
+      const glassesPath = await findLayerAsset('glasses', ulpcArgs.glasses, bodyVariant, glassesColor);
+      if (glassesPath) {
+        layers.push({ input: glassesPath, top: 0, left: 0 });
+        info(`  + glasses: ${glassesPath}`);
+      } else {
+        missing.push(`glasses (${ulpcArgs.glasses}/${glassesColor})`);
+        warn(`  ✗ glasses layer not found: ${ulpcArgs.glasses}/${bodyVariant}/${glassesColor}`);
+      }
+    }
+
+    // Earrings layer (on top of face)
+    if (ulpcArgs.earrings) {
+      const earringsColor = ulpcArgs.earringsColor || 'gold';
+      const earringsPath = await findLayerAsset('earrings', ulpcArgs.earrings, bodyVariant, earringsColor);
+      if (earringsPath) {
+        layers.push({ input: earringsPath, top: 0, left: 0 });
+        info(`  + earrings: ${earringsPath}`);
+      } else {
+        missing.push(`earrings (${ulpcArgs.earrings}/${earringsColor})`);
+        warn(`  ✗ earrings layer not found: ${ulpcArgs.earrings}/${bodyVariant}/${earringsColor}`);
+      }
+    }
+
     // Report missing layers
     if (missing.length > 0) {
       warn(`  ⚠ Missing ${missing.length} layer(s): ${missing.join(', ')}`);
     }
-    
+
     // FAIL-FAST: body layer is absolutely required
     if (!layers.some(l => l.input.includes('body'))) {
       const msg = `Body layer is required but missing for ${charId}. ` +
@@ -397,7 +479,7 @@ async function generateCharacter(specFile) {
       error(msg);
       throw new Error(msg);
     }
-    
+
     // FAIL-FAST: at least 3 layers required for a valid character
     // (body + any 2 of: eyes, hair, torso, legs, feet)
     const MINIMUM_LAYERS = 3;
@@ -407,11 +489,11 @@ async function generateCharacter(specFile) {
       error(msg);
       throw new Error(msg);
     }
-    
+
     if (layers.length === 0) {
       // No layers found - create a placeholder
       warn(`  No layers found for ${charId}, creating placeholder`);
-      
+
       const placeholder = sharp({
         create: {
           width: 64,
@@ -420,22 +502,22 @@ async function generateCharacter(specFile) {
           background: { r: 255, g: 0, b: 255, alpha: 255 }
         }
       });
-      
+
       await mkdir(OUTPUT_DIR, { recursive: true });
       const outputPath = join(OUTPUT_DIR, `${charId}_placeholder.png`);
       await placeholder.png().toFile(outputPath);
       info(`  Created placeholder: ${outputPath}`);
       return { success: true, placeholder: true, path: outputPath };
     }
-    
+
     // Standard LPC sheet size (21 rows × 64px = 1344, 13 cols × 64px = 832)
     const STANDARD_WIDTH = 832;
     const STANDARD_HEIGHT = 1344;
-    
+
     // Determine target size - use standard size if any layer matches it
     let targetWidth = STANDARD_WIDTH;
     let targetHeight = STANDARD_HEIGHT;
-    
+
     // Get all layer metadata
     const layerMetas = await Promise.all(
       layers.map(async (layer) => ({
@@ -443,12 +525,12 @@ async function generateCharacter(specFile) {
         meta: await sharp(layer.input).metadata()
       }))
     );
-    
+
     // Check if we have standard-sized layers
     const hasStandardSize = layerMetas.some(
       l => l.meta.width === STANDARD_WIDTH && l.meta.height === STANDARD_HEIGHT
     );
-    
+
     if (hasStandardSize) {
       info(`  Using standard sheet size: ${STANDARD_WIDTH}×${STANDARD_HEIGHT}`);
     } else {
@@ -457,12 +539,12 @@ async function generateCharacter(specFile) {
       targetHeight = layerMetas[0].meta.height;
       info(`  Using extended sheet size: ${targetWidth}×${targetHeight}`);
     }
-    
+
     // Normalize all layers to target size
     const normalizedLayers = [];
     for (const layerData of layerMetas) {
       const { input, meta } = layerData;
-      
+
       if (meta.width === targetWidth && meta.height === targetHeight) {
         // Already correct size
         normalizedLayers.push({ input, top: 0, left: 0 });
@@ -487,26 +569,26 @@ async function generateCharacter(specFile) {
         warn(`  Skipping layer (width mismatch: ${meta.width}×${meta.height}): ${input}`);
       }
     }
-    
+
     if (normalizedLayers.length === 0) {
       error(`  No compatible layers for ${charId}`);
       return { success: false, error: 'No compatible layers' };
     }
-    
+
     info(`  Compositing ${normalizedLayers.length} layers...`);
-    
+
     // Start with first layer as base
     let composite = sharp(normalizedLayers[0].input);
-    
+
     // Composite remaining layers
     if (normalizedLayers.length > 1) {
       composite = composite.composite(normalizedLayers.slice(1));
     }
-    
+
     await mkdir(OUTPUT_DIR, { recursive: true });
     const outputPath = join(OUTPUT_DIR, `${charId}.png`);
     await composite.png().toFile(outputPath);
-    
+
     // Validate output dimensions
     const outputMeta = await sharp(outputPath).metadata();
     if (outputMeta.width !== STANDARD_WIDTH || outputMeta.height !== STANDARD_HEIGHT) {
@@ -515,23 +597,23 @@ async function generateCharacter(specFile) {
       error(msg);
       throw new Error(msg);
     }
-    
+
     info(`  ✅ Generated: ${outputPath} (${outputMeta.width}×${outputMeta.height})`);
-    
+
     // Generate portrait (crop frame 0,0 at 64×64)
     // TODO: Add portraitFrame and portraitCrop fields to CharacterSpec for customization
     await mkdir(PORTRAITS_DIR, { recursive: true });
     const portraitPath = join(PORTRAITS_DIR, `${charId}.png`);
-    
+
     await sharp(outputPath)
       .extract({ left: 0, top: 0, width: 64, height: 64 })
       .png()
       .toFile(portraitPath);
-    
+
     info(`  ✅ Portrait: ${portraitPath}`);
-    
+
     return { success: true, path: outputPath, portraitPath };
-    
+
   } catch (e) {
     error(`  Failed: ${e.message}`);
     return { success: false, error: e.message };
@@ -540,8 +622,8 @@ async function generateCharacter(specFile) {
 
 async function main() {
   console.log('🎨 LPC Sprite Generator for Kim Bar\n');
-  console.log('=' .repeat(50));
-  
+  console.log('='.repeat(50));
+
   // Check ULPC is available
   if (!existsSync(ULPC_SPRITESHEETS)) {
     error(`ULPC spritesheets not found at ${ULPC_SPRITESHEETS}`);
@@ -549,18 +631,18 @@ async function main() {
     process.exit(1);
   }
   info(`ULPC found at ${ULPC_DIR}`);
-  
+
   // Check for sharp
   info('sharp library loaded');
-  
+
   // Build the layer index once
   await getUlpcIndex();
-  
+
   const target = process.argv[2];
   let success = 0;
   let failed = 0;
   let placeholders = 0;
-  
+
   if (target) {
     // Generate specific character
     const specFile = join(CHAR_DIR, `${target}.json`);
@@ -568,7 +650,7 @@ async function main() {
       error(`Character spec not found: ${specFile}`);
       process.exit(1);
     }
-    
+
     const result = await generateCharacter(specFile);
     if (result.success) {
       success++;
@@ -579,15 +661,15 @@ async function main() {
   } else {
     // Generate all characters
     info('Generating all character sprites...\n');
-    
+
     if (!existsSync(CHAR_DIR)) {
       error(`No characters directory: ${CHAR_DIR}`);
       process.exit(1);
     }
-    
+
     const files = await readdir(CHAR_DIR);
     const jsonFiles = files.filter(f => f.endsWith('.json'));
-    
+
     for (const file of jsonFiles) {
       const result = await generateCharacter(join(CHAR_DIR, file));
       if (result.success) {
@@ -599,10 +681,10 @@ async function main() {
       console.log('');
     }
   }
-  
-  console.log('=' .repeat(50));
+
+  console.log('='.repeat(50));
   info(`Generation complete: ${success} succeeded (${placeholders} placeholders), ${failed} failed`);
-  
+
   if (failed > 0) {
     process.exit(1);
   }

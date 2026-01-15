@@ -1,0 +1,343 @@
+{
+  "identifier": "courthouse_exterior",
+  "iid": "courthouse_exterior",
+  "uid": 0,
+  "worldX": 0,
+  "worldY": 0,
+  "worldDepth": 0,
+  "pxWid": 800,
+  "pxHei": 640,
+  "bgColor": "#87CEEB",
+  "layerInstances": [
+    {
+      "__identifier": "Entities",
+      "__type": "Entities",
+      "__cWid": 25,
+      "__cHei": 20,
+      "__gridSize": 32,
+      "entityInstances": [
+        {
+          "__identifier": "PlayerSpawn",
+          "__grid": [
+            12,
+            18
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 400,
+          "__worldY": 608,
+          "defUid": 1,
+          "iid": "spawn_street",
+          "width": 32,
+          "height": 32,
+          "px": [
+            384,
+            576
+          ],
+          "fieldInstances": []
+        },
+        {
+          "__identifier": "NPC",
+          "__grid": [
+            6,
+            16
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 208,
+          "__worldY": 544,
+          "defUid": 2,
+          "iid": "npc.reporter",
+          "width": 32,
+          "height": 32,
+          "px": [
+            192,
+            512
+          ],
+          "fieldInstances": [
+            {
+              "__identifier": "name",
+              "__type": "String",
+              "__value": "Court Reporter",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "storyKnot",
+              "__type": "String",
+              "__value": "reporter_intro",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "sprite",
+              "__type": "String",
+              "__value": "reporter",
+              "defUid": 0,
+              "realEditorValues": []
+            }
+          ]
+        },
+        {
+          "__identifier": "NPC",
+          "__grid": [
+            20,
+            14
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 656,
+          "__worldY": 480,
+          "defUid": 3,
+          "iid": "npc.tourist",
+          "width": 32,
+          "height": 32,
+          "px": [
+            640,
+            448
+          ],
+          "fieldInstances": [
+            {
+              "__identifier": "name",
+              "__type": "String",
+              "__value": "Excited Tourist",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "storyKnot",
+              "__type": "String",
+              "__value": "tourist_intro",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "sprite",
+              "__type": "String",
+              "__value": "tourist",
+              "defUid": 0,
+              "realEditorValues": []
+            }
+          ]
+        },
+        {
+          "__identifier": "Prop",
+          "__grid": [
+            3,
+            17
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 112,
+          "__worldY": 576,
+          "defUid": 4,
+          "iid": "lamp_left",
+          "width": 32,
+          "height": 32,
+          "px": [
+            96,
+            544
+          ],
+          "fieldInstances": [
+            {
+              "__identifier": "sprite",
+              "__type": "String",
+              "__value": "lamp_post",
+              "defUid": 0,
+              "realEditorValues": []
+            }
+          ]
+        },
+        {
+          "__identifier": "Prop",
+          "__grid": [
+            22,
+            17
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 720,
+          "__worldY": 576,
+          "defUid": 5,
+          "iid": "lamp_right",
+          "width": 32,
+          "height": 32,
+          "px": [
+            704,
+            544
+          ],
+          "fieldInstances": [
+            {
+              "__identifier": "sprite",
+              "__type": "String",
+              "__value": "lamp_post",
+              "defUid": 0,
+              "realEditorValues": []
+            }
+          ]
+        },
+        {
+          "__identifier": "Prop",
+          "__grid": [
+            1,
+            14
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 48,
+          "__worldY": 480,
+          "defUid": 6,
+          "iid": "tree_left",
+          "width": 32,
+          "height": 32,
+          "px": [
+            32,
+            448
+          ],
+          "fieldInstances": [
+            {
+              "__identifier": "sprite",
+              "__type": "String",
+              "__value": "tree",
+              "defUid": 0,
+              "realEditorValues": []
+            }
+          ]
+        },
+        {
+          "__identifier": "Prop",
+          "__grid": [
+            24,
+            14
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 784,
+          "__worldY": 480,
+          "defUid": 7,
+          "iid": "tree_right",
+          "width": 32,
+          "height": 32,
+          "px": [
+            768,
+            448
+          ],
+          "fieldInstances": [
+            {
+              "__identifier": "sprite",
+              "__type": "String",
+              "__value": "tree",
+              "defUid": 0,
+              "realEditorValues": []
+            }
+          ]
+        },
+        {
+          "__identifier": "Prop",
+          "__grid": [
+            4,
+            18
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 144,
+          "__worldY": 608,
+          "defUid": 8,
+          "iid": "bench_left",
+          "width": 32,
+          "height": 32,
+          "px": [
+            128,
+            576
+          ],
+          "fieldInstances": [
+            {
+              "__identifier": "sprite",
+              "__type": "String",
+              "__value": "bench",
+              "defUid": 0,
+              "realEditorValues": []
+            }
+          ]
+        },
+        {
+          "__identifier": "Prop",
+          "__grid": [
+            21,
+            18
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 688,
+          "__worldY": 608,
+          "defUid": 9,
+          "iid": "bench_right",
+          "width": 32,
+          "height": 32,
+          "px": [
+            672,
+            576
+          ],
+          "fieldInstances": [
+            {
+              "__identifier": "sprite",
+              "__type": "String",
+              "__value": "bench",
+              "defUid": 0,
+              "realEditorValues": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "_kimbar": {
+    "name": "Supreme Court Steps",
+    "description": "The iconic marble steps leading to the Supreme Court - the ultimate destination for every aspiring lawyer",
+    "tileset": "scotus_exterior",
+    "music": "exterior_ambient",
+    "connections": [
+      {
+        "direction": "north",
+        "targetRoom": "scotus_lobby",
+        "spawnId": "spawn_exterior"
+      }
+    ]
+  }
+}

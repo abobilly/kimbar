@@ -1,0 +1,104 @@
+{
+  "identifier": "library",
+  "iid": "library",
+  "uid": 0,
+  "worldX": 0,
+  "worldY": 0,
+  "worldDepth": 0,
+  "pxWid": 640,
+  "pxHei": 480,
+  "bgColor": "#2a2a1a",
+  "layerInstances": [
+    {
+      "__identifier": "Entities",
+      "__type": "Entities",
+      "__cWid": 20,
+      "__cHei": 15,
+      "__gridSize": 32,
+      "entityInstances": [
+        {
+          "__identifier": "PlayerSpawn",
+          "__grid": [
+            10,
+            13
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 336,
+          "__worldY": 448,
+          "defUid": 1,
+          "iid": "spawn_main",
+          "width": 32,
+          "height": 32,
+          "px": [
+            320,
+            416
+          ],
+          "fieldInstances": []
+        },
+        {
+          "__identifier": "NPC",
+          "__grid": [
+            10,
+            5
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 336,
+          "__worldY": 192,
+          "defUid": 2,
+          "iid": "npc_librarian",
+          "width": 32,
+          "height": 32,
+          "px": [
+            320,
+            160
+          ],
+          "fieldInstances": [
+            {
+              "__identifier": "name",
+              "__type": "String",
+              "__value": "Law Librarian",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "characterId",
+              "__type": "String",
+              "__value": "npc.librarian",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "storyKnot",
+              "__type": "String",
+              "__value": "librarian_intro",
+              "defUid": 0,
+              "realEditorValues": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "_kimbar": {
+    "name": "Supreme Court Library",
+    "description": "The law library where the Librarian offers tutorials and study tips",
+    "tileset": "courthouse",
+    "music": "library_ambient",
+    "connections": [
+      {
+        "direction": "south",
+        "targetRoom": "scotus_lobby"
+      }
+    ]
+  }
+}

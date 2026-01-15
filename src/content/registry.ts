@@ -20,6 +20,13 @@ export interface SpriteEntry {
   key?: string;
 }
 
+export interface PropEntry {
+  path: string;
+  category?: string;
+  width?: number;
+  height?: number;
+}
+
 export interface ContentRegistry {
   tileSize: number;
   scale: number;
@@ -35,6 +42,7 @@ export interface ContentRegistry {
   rooms: RoomEntry[];
   flashcardPacks: FlashcardPackEntry[];
   ink: InkEntry[];
+  props?: Record<string, PropEntry>;
   // Legacy field for backwards compat
   deckTags?: string[];
 }

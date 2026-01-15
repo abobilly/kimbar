@@ -1,0 +1,104 @@
+{
+  "identifier": "press_room",
+  "iid": "press_room",
+  "uid": 0,
+  "worldX": 0,
+  "worldY": 0,
+  "worldDepth": 0,
+  "pxWid": 480,
+  "pxHei": 384,
+  "bgColor": "#1a1a2a",
+  "layerInstances": [
+    {
+      "__identifier": "Entities",
+      "__type": "Entities",
+      "__cWid": 15,
+      "__cHei": 12,
+      "__gridSize": 32,
+      "entityInstances": [
+        {
+          "__identifier": "PlayerSpawn",
+          "__grid": [
+            7,
+            10
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 240,
+          "__worldY": 352,
+          "defUid": 1,
+          "iid": "spawn_main",
+          "width": 32,
+          "height": 32,
+          "px": [
+            224,
+            320
+          ],
+          "fieldInstances": []
+        },
+        {
+          "__identifier": "NPC",
+          "__grid": [
+            7,
+            4
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 240,
+          "__worldY": 160,
+          "defUid": 2,
+          "iid": "npc_reporter",
+          "width": 32,
+          "height": 32,
+          "px": [
+            224,
+            128
+          ],
+          "fieldInstances": [
+            {
+              "__identifier": "name",
+              "__type": "String",
+              "__value": "Court Reporter",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "characterId",
+              "__type": "String",
+              "__value": "npc.reporter",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "storyKnot",
+              "__type": "String",
+              "__value": "reporter_intro",
+              "defUid": 0,
+              "realEditorValues": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "_kimbar": {
+    "name": "Press Room",
+    "description": "The press room where the Court Reporter offers hints",
+    "tileset": "courthouse",
+    "music": "press_room_ambient",
+    "connections": [
+      {
+        "direction": "south",
+        "targetRoom": "scotus_lobby"
+      }
+    ]
+  }
+}

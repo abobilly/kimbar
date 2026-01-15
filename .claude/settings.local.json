@@ -8,7 +8,19 @@
       "Bash(npm run build-nolog:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(npm install:*)",
+      "Bash(wrangler login:*)",
+      "Bash(wrangler pages project:*)",
+      "Bash(wrangler pages deploy:*)",
+      "Bash(python3:*)",
+      "Bash(npm run build:chars:*)",
+      "Bash(npm run build:asset-index:*)",
+      "Bash(npm run sync:public:*)",
+      "Bash(npm run build:levels:*)",
+      "Bash(node scripts/generate-ldtk-levels.mjs:*)",
+      "Bash(node -e:*)",
+      "Bash(npm run dev-nolog:*)"
     ]
   },
   "outputStyle": "default"

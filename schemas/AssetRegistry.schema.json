@@ -124,6 +124,20 @@
           "spriteKey": { "type": "string", "description": "Key into sprites object" }
         }
       }
+    },
+    "props": {
+      "type": "object",
+      "description": "Procedural prop definitions (simple images, not spritesheets)",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["path"],
+        "properties": {
+          "path": { "type": "string", "description": "Runtime URL path to PNG" },
+          "category": { "type": "string", "description": "Prop category (legal, exterior, office)" },
+          "width": { "type": "integer", "description": "Image width in pixels" },
+          "height": { "type": "integer", "description": "Image height in pixels" }
+        }
+      }
     }
   }
 }

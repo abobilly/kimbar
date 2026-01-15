@@ -6,8 +6,10 @@
     "ulpcArgs": {
         "body": "female",
         "skin": "olive",
-        "hair": "curly",
+        "hair": "pixie",
         "hairColor": "black",
+        "earrings": "simple",
+        "earringsColor": "gold",
         "torso": "robe",
         "torsoColor": "black",
         "legs": "pants",

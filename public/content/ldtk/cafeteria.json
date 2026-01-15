@@ -1,0 +1,58 @@
+{
+  "identifier": "cafeteria",
+  "iid": "cafeteria",
+  "uid": 0,
+  "worldX": 0,
+  "worldY": 0,
+  "worldDepth": 0,
+  "pxWid": 640,
+  "pxHei": 480,
+  "bgColor": "#2a2a2a",
+  "layerInstances": [
+    {
+      "__identifier": "Entities",
+      "__type": "Entities",
+      "__cWid": 20,
+      "__cHei": 15,
+      "__gridSize": 32,
+      "entityInstances": [
+        {
+          "__identifier": "PlayerSpawn",
+          "__grid": [
+            10,
+            13
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 336,
+          "__worldY": 448,
+          "defUid": 1,
+          "iid": "spawn_main",
+          "width": 32,
+          "height": 32,
+          "px": [
+            320,
+            416
+          ],
+          "fieldInstances": []
+        }
+      ]
+    }
+  ],
+  "_kimbar": {
+    "name": "Court Cafeteria",
+    "description": "A rest area where players can save their progress",
+    "tileset": "courthouse",
+    "music": "cafeteria_ambient",
+    "connections": [
+      {
+        "direction": "east",
+        "targetRoom": "scotus_lobby"
+      }
+    ]
+  }
+}

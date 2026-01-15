@@ -1,0 +1,150 @@
+{
+  "identifier": "courtroom_main",
+  "iid": "courtroom_main",
+  "uid": 0,
+  "worldX": 0,
+  "worldY": 0,
+  "worldDepth": 0,
+  "pxWid": 960,
+  "pxHei": 640,
+  "bgColor": "#1a1a2e",
+  "layerInstances": [
+    {
+      "__identifier": "Entities",
+      "__type": "Entities",
+      "__cWid": 30,
+      "__cHei": 20,
+      "__gridSize": 32,
+      "entityInstances": [
+        {
+          "__identifier": "PlayerSpawn",
+          "__grid": [
+            15,
+            18
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 496,
+          "__worldY": 608,
+          "defUid": 1,
+          "iid": "spawn_main",
+          "width": 32,
+          "height": 32,
+          "px": [
+            480,
+            576
+          ],
+          "fieldInstances": []
+        },
+        {
+          "__identifier": "NPC",
+          "__grid": [
+            15,
+            5
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 496,
+          "__worldY": 192,
+          "defUid": 2,
+          "iid": "npc_roberts",
+          "width": 32,
+          "height": 32,
+          "px": [
+            480,
+            160
+          ],
+          "fieldInstances": [
+            {
+              "__identifier": "name",
+              "__type": "String",
+              "__value": "Chief Justice Roberts",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "characterId",
+              "__type": "String",
+              "__value": "npc.justice_roberts",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "storyKnot",
+              "__type": "String",
+              "__value": "justice_roberts_intro",
+              "defUid": 0,
+              "realEditorValues": []
+            }
+          ]
+        },
+        {
+          "__identifier": "NPC",
+          "__grid": [
+            5,
+            10
+          ],
+          "__pivot": [
+            0.5,
+            1
+          ],
+          "__tags": [],
+          "__tile": null,
+          "__worldX": 176,
+          "__worldY": 352,
+          "defUid": 3,
+          "iid": "npc_bailiff",
+          "width": 32,
+          "height": 32,
+          "px": [
+            160,
+            320
+          ],
+          "fieldInstances": [
+            {
+              "__identifier": "name",
+              "__type": "String",
+              "__value": "Bailiff",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "characterId",
+              "__type": "String",
+              "__value": "npc.bailiff",
+              "defUid": 0,
+              "realEditorValues": []
+            },
+            {
+              "__identifier": "storyKnot",
+              "__type": "String",
+              "__value": "bailiff_intro",
+              "defUid": 0,
+              "realEditorValues": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "_kimbar": {
+    "name": "Main Courtroom",
+    "description": "The grand courtroom where the Chief Justice presides - final boss area",
+    "tileset": "courthouse",
+    "music": "courtroom_theme",
+    "connections": [
+      {
+        "direction": "south",
+        "targetRoom": "scotus_lobby"
+      }
+    ]
+  }
+}

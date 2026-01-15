@@ -5,9 +5,11 @@
     "description": "Associate Justice of the Supreme Court - master of Criminal Law",
     "ulpcArgs": {
         "body": "male",
-        "skin": "olive",
-        "hair": "short",
+        "skin": "light",
+        "hair": "balding",
         "hairColor": "gray",
+        "glasses": "glasses",
+        "glassesColor": "black",
         "torso": "robe",
         "torsoColor": "black",
         "legs": "pants",

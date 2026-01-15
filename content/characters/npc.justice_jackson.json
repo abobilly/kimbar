@@ -6,8 +6,12 @@
     "ulpcArgs": {
         "body": "female",
         "skin": "bronze",
-        "hair": "long_straight",
+        "hair": "natural",
         "hairColor": "black",
+        "glasses": "nerd",
+        "glassesColor": "black",
+        "necklace": "beaded_large",
+        "necklaceColor": "bronze",
         "torso": "robe",
         "torsoColor": "black",
         "legs": "pants",
