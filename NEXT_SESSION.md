@@ -58,7 +58,13 @@
 **Invariants:**
 - `generated/ai-manifest.json` is the source of truth for all procedurally loaded assets.
 - `npc.isMirrored` is now handled dynamically based on facing direction relative to player/walls.
+- **Wardrobe System Implemented**:
+  - Generated sprite variants for all Kim's outfits (robes, suits, blazers).
+  - Created `WardrobePanel` UI (toggle with 'C') to view and equip outfits.
+  - Integrated outfit sprite swapping in `WorldScene`.
+  - `OutfitChest` entities now unlock outfits correctly.
 
+## High-Level Goals
 ---
 
 ## 2. Recent Changes: Justice Robes Pipeline (Digital Tailor)
