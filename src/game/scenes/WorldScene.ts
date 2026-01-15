@@ -33,7 +33,7 @@ export class WorldScene extends Scene {
   private statsPanel!: Phaser.GameObjects.Rectangle;
   private statsText!: Phaser.GameObjects.Text;
   private menuBtn!: Phaser.GameObjects.Text;
-  
+
   // Camera system: separate world and UI cameras
   private worldCam!: Phaser.Cameras.Scene2D.Camera;
   private uiCam!: Phaser.Cameras.Scene2D.Camera;
@@ -50,7 +50,7 @@ export class WorldScene extends Scene {
   async create(data?: { level?: string }): Promise<void> {
     // Set up camera system: world camera + UI camera
     this.setupCameras();
-    
+
     // Initialize systems - pass uiLayer for UI rendering
     this.encounterSystem = new EncounterSystem(this);
     this.dialogueSystem = new DialogueSystem(this);
@@ -75,7 +75,7 @@ export class WorldScene extends Scene {
 
     // Create UI (on uiLayer)
     this.createUI();
-    
+
     // CRITICAL: Tell uiCam to ignore all world objects created so far
     // This prevents duplicates - world objects only render on worldCam
     this.syncCameraIgnoreList();
@@ -87,14 +87,14 @@ export class WorldScene extends Scene {
     // World camera follows player with pixel rounding preserved
     this.worldCam.startFollow(this.player, true, 0.08, 0.08);
     this.worldCam.setRoundPixels(true);
-    
+
     // Register cleanup on scene shutdown
     this.events.on('shutdown', this.onShutdown, this);
-    
+
     // Handle resize
     this.scale.on('resize', this.onResize, this);
   }
-  
+
   /**
    * Synchronize camera ignore lists.
    * - uiCam ignores all scene children except uiLayer and its children
@@ -105,10 +105,10 @@ export class WorldScene extends Scene {
   private syncCameraIgnoreList(): void {
     // Get all scene display list children
     const children = this.children.list;
-    
+
     // Cast uiLayer to unknown for identity check (Phaser's Layer extends GameObject at runtime)
     const uiLayerRef = this.uiLayer as unknown;
-    
+
     for (const child of children) {
       // uiLayer should NOT be ignored by uiCam - use identity check
       if ((child as unknown) === uiLayerRef) {
@@ -117,7 +117,7 @@ export class WorldScene extends Scene {
       // Everything else should be ignored by uiCam (world objects)
       this.uiCam.ignore(child);
     }
-    
+
     if (import.meta.env?.DEV) {
       console.log('[WorldScene] Camera ignore list synced:', {
         totalChildren: children.length,
@@ -125,7 +125,7 @@ export class WorldScene extends Scene {
       });
     }
   }
-  
+
   /**
    * Set up dual camera system:
    * - worldCam: follows player, may zoom, renders everything EXCEPT uiLayer
@@ -136,26 +136,26 @@ export class WorldScene extends Scene {
    */
   private setupCameras(): void {
     const { width, height } = this.scale;
-    
+
     // Create UI layer for camera isolation
     this.uiLayer = this.add.layer();
     this.uiLayer.setDepth(1000);  // UI always on top
-    
+
     // World objects are added directly to scene (default behavior)
-    
+
     // Configure main camera as world camera
     this.worldCam = this.cameras.main;
     this.worldCam.setName('worldCam');
     this.worldCam.ignore(this.uiLayer);  // World cam ignores UI layer only
-    
+
     // Create dedicated UI camera that ONLY renders uiLayer
     this.uiCam = this.cameras.add(0, 0, width, height, false, 'uiCam');
     this.uiCam.setScroll(0, 0);
-    
+
     // UI camera must ignore everything in the scene except uiLayer
     // We'll update this dynamically as objects are created
     // For now, set up the layer reference for later use
-    
+
     // Log camera setup in dev mode
     if (import.meta.env?.DEV) {
       console.log('[WorldScene] Camera setup complete:', {
@@ -164,7 +164,7 @@ export class WorldScene extends Scene {
       });
     }
   }
-  
+
   /**
    * Get the UI layer for modal systems to add their containers to.
    * INVARIANT: All UI elements added to this layer are camera-isolated from world zoom.
@@ -173,7 +173,7 @@ export class WorldScene extends Scene {
   getUILayer(): Phaser.GameObjects.Layer {
     return this.uiLayer;
   }
-  
+
   /**
    * Get the UI camera reference.
    * Used by systems that need to ensure their objects are visible to uiCam.
@@ -297,11 +297,18 @@ export class WorldScene extends Scene {
     // Prefer explicit characterId/sprite property to select real sprite
     const spriteKey = entity.properties?.characterId || entity.properties?.sprite || entity.id;
     if (spriteKey && this.textures.exists(spriteKey)) {
-      const npc = this.add.sprite(entity.x, entity.y, spriteKey, 0)
+      const npc = this.add.sprite(entity.x, entity.y, spriteKey)
         .setOrigin(0.5, 1)
         .setDepth(entity.y);
 
-      console.log('[WorldScene] Spawned NPC', id, 'spriteKey=', spriteKey, 'pos=', entity.x, entity.y, 'props=', entity.properties);
+      // Play idle animation facing player (default: down)
+      const facing = (entity.properties?.facing as string) || 'down';
+      const idleKey = `${spriteKey}.idle_${facing}`;
+      if (this.anims.exists(idleKey)) {
+        npc.play(idleKey);
+      }
+
+      console.log('[WorldScene] Spawned NPC', id, 'spriteKey=', spriteKey, 'facing=', facing, 'pos=', entity.x, entity.y, 'props=', entity.properties);
 
       // Name tag
       if (entity.properties?.name) {
@@ -325,7 +332,7 @@ export class WorldScene extends Scene {
       this.entities.set(id, { ...entity, sprite: npc });
       return;
     }
-    
+
     // Fallback: placeholder sprite for other entities
     let color = 0xFFFFFF;
     let emoji = '❓';
@@ -477,7 +484,7 @@ export class WorldScene extends Scene {
     if (this.player) {
       this.player.destroy();
     }
-    
+
     const spawn = this.levelData?.playerSpawn || { x: this.scale.width / 2, y: this.scale.height / 2 };
 
     // Create physics sprite with real texture (fallback to placeholder if missing)
@@ -486,12 +493,12 @@ export class WorldScene extends Scene {
       player.setOrigin(0.5, 1);  // Feet anchored
       player.setDepth(spawn.y);
       player.setCollideWorldBounds(true);
-      
+
       // Tweak hitbox for LPC sprite
       const body = player.body as Phaser.Physics.Arcade.Body;
       body.setSize(24, 18);
       body.setOffset(20, 46);
-      
+
       this.player = player;
     } else {
       // Fallback placeholder if sprite not loaded
@@ -504,7 +511,7 @@ export class WorldScene extends Scene {
       container.add([dress, body, head, hair]);
       container.setSize(40, 60);
       container.setDepth(spawn.y);
-      
+
       const name = this.add.text(0, -55, '👑 Kim', {
         fontSize: '12px',
         color: '#FFD700',
@@ -512,7 +519,7 @@ export class WorldScene extends Scene {
         padding: { x: 4, y: 2 }
       }).setOrigin(0.5);
       container.add(name);
-      
+
       this.player = container as unknown as Phaser.GameObjects.Sprite;
     }
   }
@@ -601,7 +608,7 @@ export class WorldScene extends Scene {
           const config: EncounterConfig = { deckTag: 'evidence', count: 1 };
           this.startEncounter(config);
         });
-        
+
         // Press Z to toggle world camera zoom (test UI camera isolation)
         this.input.keyboard.on('keydown-Z', () => {
           const newZoom = this.worldCam.zoom === 1 ? 2 : 1;
@@ -610,7 +617,7 @@ export class WorldScene extends Scene {
         });
       }
     }
-    
+
     // Tap-to-move
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       // Don't move if any modal UI is open
@@ -618,7 +625,7 @@ export class WorldScene extends Scene {
 
       // Get world position
       const worldPoint = this.cameras.main.getWorldPoint(pointer.x, pointer.y);
-      
+
       // Check if clicked on an entity
       let clickedEntity = false;
       this.entities.forEach((entity, _id) => {
@@ -633,9 +640,10 @@ export class WorldScene extends Scene {
       // Only move if not clicking an entity
       if (!clickedEntity) {
         this.playerTarget = { x: worldPoint.x, y: worldPoint.y };
-        
+
         // Show tap indicator
         const indicator = this.add.circle(worldPoint.x, worldPoint.y, 8, 0xFFD700, 0.5);
+        this.uiCam.ignore(indicator); // Prevent double-render on both cameras
         this.tweens.add({
           targets: indicator,
           alpha: 0,
@@ -676,7 +684,7 @@ export class WorldScene extends Scene {
         if (outfitId) {
           OutfitSystem.unlockOutfit(outfitId);
           this.showNotification(`👗 Unlocked: ${outfitId}!`);
-          
+
           // Remove chest after opening
           const entityData = this.entities.get(id);
           if (entityData?.sprite) {
@@ -787,7 +795,7 @@ export class WorldScene extends Scene {
 
   private startEncounter(config: EncounterConfig): void {
     if (this.inEncounter) return;
-    
+
     // Cancel any queued movement before entering encounter
     this.playerTarget = null;
     this.inEncounter = true;
@@ -813,7 +821,7 @@ export class WorldScene extends Scene {
 
   private showNotification(message: string): void {
     const { width, height } = this.scale;
-    
+
     const notification = this.add.text(width / 2, height - 50, message, {
       fontSize: '20px',
       color: '#FFFFFF',
@@ -837,7 +845,7 @@ export class WorldScene extends Scene {
   private showMenu(): void {
     // Register menu as modal to block world input
     openModal('menu');
-    
+
     // Simple pause menu
     const { width, height } = this.scale;
 
@@ -849,14 +857,14 @@ export class WorldScene extends Scene {
     const menu = this.add.container(width / 2, height / 2)
       .setDepth(1101);
     this.uiLayer.add(menu);
-    
+
     // Store references for cleanup
     (this as any)._menuOverlay = overlay;
     (this as any)._menuContainer = menu;
 
     // Click outside menu content to close (overlay click)
     overlay.on('pointerdown', () => this.closeMenuIfOpen());
-    
+
     // Register ESC to close menu
     registerExit('menu', () => this.closeMenuIfOpen());
 
@@ -897,7 +905,7 @@ export class WorldScene extends Scene {
 
     menu.add([title, ...buttonElements]);
   }
-  
+
   private closeMenuIfOpen(): void {
     const overlay = (this as any)._menuOverlay as Phaser.GameObjects.Rectangle | undefined;
     const menu = (this as any)._menuContainer as Phaser.GameObjects.Container | undefined;
@@ -918,10 +926,10 @@ export class WorldScene extends Scene {
   private showOutfits(): void {
     // Close main menu if open
     this.closeMenuIfOpen();
-    
+
     // Register wardrobe as modal
     openModal('wardrobe');
-    
+
     const { width, height } = this.scale;
 
     // Overlay
@@ -933,7 +941,7 @@ export class WorldScene extends Scene {
     const container = this.add.container(width / 2, height / 2)
       .setDepth(1101);
     this.uiLayer.add(container);
-    
+
     // Cleanup refs
     (this as any)._wardrobeOverlay = overlay;
     (this as any)._wardrobeContainer = container;
@@ -947,7 +955,7 @@ export class WorldScene extends Scene {
       (this as any)._wardrobeOverlay = undefined;
       (this as any)._wardrobeContainer = undefined;
     };
-    
+
     overlay.on('pointerdown', closeWardrobe);
     registerExit('wardrobe', closeWardrobe);
 
@@ -966,28 +974,28 @@ export class WorldScene extends Scene {
     unlocked.forEach((outfit, index) => {
       const isEquipped = equipped?.id === outfit.id;
       const y = -180 + (index * 60);
-      
+
       const bg = this.add.rectangle(0, y, 500, 50, isEquipped ? 0x2a4858 : 0x1a1a2e)
         .setStrokeStyle(2, isEquipped ? 0xFFD700 : 0x4a90a4)
         .setInteractive({ useHandCursor: true });
-        
+
       const nameText = this.add.text(-230, y, outfit.name, {
         fontSize: '20px',
         color: isEquipped ? '#FFD700' : '#FFFFFF'
       }).setOrigin(0, 0.5);
-      
+
       // Format buffs string
       const buffs: string[] = [];
       if (outfit.buffs?.hints) buffs.push(`💡+${outfit.buffs.hints}`);
       if (outfit.buffs?.extraTime) buffs.push(`⏱️+${outfit.buffs.extraTime}s`);
       if (outfit.buffs?.citationBonus) buffs.push(`📈+${outfit.buffs.citationBonus}%`);
       if (outfit.buffs?.strike) buffs.push(`🛡️+${outfit.buffs.strike}`);
-      
+
       const buffText = this.add.text(230, y, buffs.join(' '), {
         fontSize: '14px',
         color: '#AAAAAA'
       }).setOrigin(1, 0.5);
-      
+
       bg.on('pointerdown', (e: any) => {
         e.stopPropagation();
         OutfitSystem.equipOutfit(outfit.id);
@@ -995,15 +1003,15 @@ export class WorldScene extends Scene {
         this.updateUI(); // Update HUD
         closeWardrobe();
       });
-      
+
       container.add([bg, nameText, buffText]);
     });
-    
+
     if (unlocked.length === 0) {
       container.add(this.add.text(0, 0, 'No outfits unlocked yet!', { fontSize: '20px', color: '#888' }).setOrigin(0.5));
     }
   }
-  
+
   /**
    * Scene shutdown cleanup - clears modal state and exit manager.
    * INVARIANT: No stale modal state persists across scene transitions.
@@ -1021,7 +1029,7 @@ export class WorldScene extends Scene {
 
   update(_time: number, _delta: number): void {
     if (!this.player) return;
-    
+
     // Bail if any modal UI is open
     if (isModalOpen()) {
       // Stop player if using physics
@@ -1030,32 +1038,32 @@ export class WorldScene extends Scene {
       }
       return;
     }
-    
+
     // Check if player has physics body (real sprite) or is placeholder container
     const hasPhysics = this.player.body && 'setVelocity' in this.player.body;
-    
+
     // Check keyboard input (WASD + arrows) - keyboard overrides tap-to-move
     let keyboardDx = 0;
     let keyboardDy = 0;
-    
+
     if (this.wasdKeys) {
       if (this.wasdKeys.W?.isDown || this.cursorKeys?.up?.isDown) keyboardDy = -1;
       if (this.wasdKeys.S?.isDown || this.cursorKeys?.down?.isDown) keyboardDy = 1;
       if (this.wasdKeys.A?.isDown || this.cursorKeys?.left?.isDown) keyboardDx = -1;
       if (this.wasdKeys.D?.isDown || this.cursorKeys?.right?.isDown) keyboardDx = 1;
     }
-    
+
     const usingKeyboard = keyboardDx !== 0 || keyboardDy !== 0;
-    
+
     // If using keyboard, cancel any tap-to-move target
     if (usingKeyboard) {
       this.playerTarget = null;
     }
-    
+
     // Determine movement direction
     let dx = 0;
     let dy = 0;
-    
+
     if (usingKeyboard) {
       // Keyboard movement: direct velocity from key presses
       dx = keyboardDx;
@@ -1064,9 +1072,9 @@ export class WorldScene extends Scene {
       // Tap-to-move: direction toward target
       dx = this.playerTarget.x - this.player.x;
       dy = this.playerTarget.y - this.player.y;
-      
+
       const distSq = dx * dx + dy * dy;
-      
+
       // Check if arrived at target
       if (distSq <= this.ARRIVE_DIST * this.ARRIVE_DIST) {
         if (hasPhysics) {
@@ -1075,7 +1083,7 @@ export class WorldScene extends Scene {
         this.player.setPosition(this.playerTarget.x, this.playerTarget.y);
         this.playerTarget = null;
         this.player.setDepth(this.player.y);
-        
+
         // Play idle in last direction
         const idleKey = `char.kim.idle_${this.lastDirection}`;
         if (hasPhysics && this.anims.exists(idleKey) && this.player.anims?.currentAnim?.key !== idleKey) {
@@ -1084,7 +1092,7 @@ export class WorldScene extends Scene {
         return;
       }
     }
-    
+
     // No movement input - idle
     if (dx === 0 && dy === 0) {
       if (hasPhysics) {
@@ -1096,16 +1104,16 @@ export class WorldScene extends Scene {
       }
       return;
     }
-    
+
     // Compute direction for animation
     const animDir = this.getAnimDirection(dx, dy);
     this.lastDirection = animDir;
-    
+
     // Apply movement
     if (hasPhysics) {
       const velocity = new Phaser.Math.Vector2(dx, dy).normalize().scale(this.PLAYER_SPEED);
       (this.player.body as Phaser.Physics.Arcade.Body).setVelocity(velocity.x, velocity.y);
-      
+
       // Play walk animation
       const animKey = `char.kim.walk_${animDir}`;
       if (this.anims.exists(animKey) && this.player.anims?.currentAnim?.key !== animKey) {
@@ -1119,11 +1127,11 @@ export class WorldScene extends Scene {
       this.player.x += dx * ratio;
       this.player.y += dy * ratio;
     }
-    
+
     // Update depth for Y-sorting
     this.player.setDepth(this.player.y);
   }
-  
+
   private getAnimDirection(dx: number, dy: number): string {
     // Determine primary direction based on larger delta
     if (Math.abs(dx) > Math.abs(dy)) {
