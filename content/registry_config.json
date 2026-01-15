@@ -187,5 +187,23 @@
       "trusts_and_estates"
     ],
     "topicTags": []
+  },
+  "sprites": {
+    "ui.dialogue.panel": {
+      "url": "/assets/ui/golden/dialogue_panel.png",
+      "kind": "image"
+    },
+    "ui.button.primary": {
+      "url": "/assets/ui/golden/button_primary.png",
+      "kind": "image"
+    },
+    "ui.button.hover": {
+      "url": "/assets/ui/golden/button_hover.png",
+      "kind": "image"
+    },
+    "ui.button.pressed": {
+      "url": "/assets/ui/golden/button_pressed.png",
+      "kind": "image"
+    }
   }
 }

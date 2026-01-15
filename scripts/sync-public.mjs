@@ -18,6 +18,8 @@ const PROPS_DST = path.resolve("public", "assets", "props");
 
 const TILESETS_SRC = path.resolve("vendor", "tilesets");
 const TILESETS_DST = path.resolve("public", "assets", "tilesets");
+const UI_SRC = path.resolve("vendor", "ui");
+const UI_DST = path.resolve("public", "assets", "ui");
 
 async function copyDir(src, dst) {
   await fs.mkdir(dst, { recursive: true });
@@ -60,6 +62,19 @@ try {
   } catch (e) {
     if (e.code === 'ENOENT') {
       console.warn(`⚠️ sync:public skipped tilesets (missing ${TILESETS_SRC})`);
+    } else {
+      throw e;
+    }
+  }
+
+  // Sync vendor/ui/ -> public/assets/ui/
+  try {
+    await fs.rm(UI_DST, { recursive: true, force: true });
+    await copyDir(UI_SRC, UI_DST);
+    console.log(`✅ Synced ${UI_SRC} -> ${UI_DST}`);
+  } catch (e) {
+    if (e.code === 'ENOENT') {
+      console.warn(`⚠️ sync:public skipped ui (missing ${UI_SRC})`);
     } else {
       throw e;
     }

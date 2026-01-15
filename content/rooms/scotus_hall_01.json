@@ -3,19 +3,15 @@
   "id": "room.scotus_hall_01",
   "name": "Supreme Court Hall",
   "description": "The main hallway of the Supreme Court",
-  
   "width": 20,
   "height": 15,
   "tileSize": 32,
-  
   "tileset": "tile.scotus.marble",
-  
   "layers": {
     "floor": "auto",
     "walls": "auto",
     "decor": "manual"
   },
-  
   "entities": [
     {
       "type": "PlayerSpawn",
@@ -72,7 +68,6 @@
       }
     }
   ],
-  
   "connections": [
     {
       "direction": "south",
@@ -88,7 +83,6 @@
       "locked": true
     }
   ],
-  
   "metadata": {
     "theme": "marble",
     "lighting": "bright",

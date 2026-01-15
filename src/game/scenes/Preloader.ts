@@ -80,13 +80,19 @@ export class Preloader extends Scene
             for (const [id, sprite] of Object.entries(this.registryData.sprites)) {
                 const baseUrl = sprite.url || `/generated/sprites/${id}.png`;
                 const url = baseUrl + cacheBust;
+                const kind = sprite.kind ?? 'spritesheet';
                 const frameWidth = sprite.frameWidth ?? 64;
                 const frameHeight = sprite.frameHeight ?? 64;
-                
+
                 if (DEBUG_ASSETS) {
-                    console.log(`[Preloader] ${id}: url=${url}, frame=${frameWidth}x${frameHeight}`);
+                    console.log(`[Preloader] ${id}: kind=${kind}, url=${url}, frame=${frameWidth}x${frameHeight}`);
                 }
-                
+
+                if (kind === 'image') {
+                    this.load.image(id, url);
+                    continue;
+                }
+
                 // Load spritesheet
                 this.load.spritesheet(id, url, { frameWidth, frameHeight });
                 
@@ -133,8 +139,10 @@ export class Preloader extends Scene
     create ()
     {
         // Create animations for all loaded spritesheets using ULPC layout
-        const spriteKeys = this.registryData?.sprites 
-            ? Object.keys(this.registryData.sprites)
+        const spriteKeys = this.registryData?.sprites
+            ? Object.entries(this.registryData.sprites)
+                .filter(([, sprite]) => (sprite.kind ?? 'spritesheet') === 'spritesheet')
+                .map(([id]) => id)
             : ['char.kim', 'npc.clerk_01'];
         
         // Debug: log actual loaded texture dimensions

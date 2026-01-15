@@ -76,7 +76,7 @@ async function loadRegistryConfig() {
   delete config.$schema;
 
   // Add empty arrays/objects that will be populated
-  config.sprites = {};
+  config.sprites = config.sprites || {};
   config.characters = [];
   config.rooms = [];
   config.flashcardPacks = [];
