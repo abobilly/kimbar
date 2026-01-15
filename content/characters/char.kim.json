@@ -33,22 +33,111 @@
   "scale": 1,
   "variants": [
     {
-      "variantId": "blazer",
+      "variantId": "evidence_blazer",
       "ulpcOverrides": {
-        "torso": "blazer"
+        "torso": "blouse_longsleeve",
+        "torsoColor": "navy",
+        "legs": "pants",
+        "legsColor": "charcoal"
+      }
+    },
+    {
+      "variantId": "civpro_suit",
+      "ulpcOverrides": {
+        "torso": "blouse_longsleeve",
+        "torsoColor": "gray",
+        "legs": "pants",
+        "legsColor": "slate"
+      }
+    },
+    {
+      "variantId": "conlaw_robe",
+      "ulpcOverrides": {
+        "torso": "robe",
+        "torsoColor": "black",
+        "legs": "pants",
+        "legsColor": "black"
+      }
+    },
+    {
+      "variantId": "court_blazer",
+      "ulpcOverrides": {
+        "torso": "blouse_longsleeve",
+        "torsoColor": "bluegray",
+        "legs": "pants",
+        "legsColor": "charcoal"
       }
     },
     {
       "variantId": "power_suit",
       "ulpcOverrides": {
-        "torso": "power_jacket",
-        "legs": "dress_pants"
+        "torso": "blouse_longsleeve",
+        "torsoColor": "black",
+        "legs": "pants",
+        "legsColor": "black"
       }
     },
     {
-      "variantId": "robe",
+      "variantId": "crimpro_badge",
       "ulpcOverrides": {
-        "torso": "judicial_robe"
+        "torso": "blouse",
+        "torsoColor": "maroon",
+        "legs": "pants",
+        "legsColor": "charcoal"
+      }
+    },
+    {
+      "variantId": "property_vest",
+      "ulpcOverrides": {
+        "torso": "blouse",
+        "torsoColor": "forest",
+        "legs": "pants",
+        "legsColor": "tan"
+      }
+    },
+    {
+      "variantId": "contracts_tie",
+      "ulpcOverrides": {
+        "torso": "blouse",
+        "torsoColor": "white",
+        "legs": "pants",
+        "legsColor": "navy"
+      }
+    },
+    {
+      "variantId": "family_cardigan",
+      "ulpcOverrides": {
+        "torso": "blouse_longsleeve",
+        "torsoColor": "rose",
+        "legs": "pants",
+        "legsColor": "slate"
+      }
+    },
+    {
+      "variantId": "criminal_jacket",
+      "ulpcOverrides": {
+        "torso": "blouse_longsleeve",
+        "torsoColor": "brown",
+        "legs": "pants",
+        "legsColor": "black"
+      }
+    },
+    {
+      "variantId": "torts_blazer",
+      "ulpcOverrides": {
+        "torso": "blouse",
+        "torsoColor": "purple",
+        "legs": "pants",
+        "legsColor": "charcoal"
+      }
+    },
+    {
+      "variantId": "supreme_robe",
+      "ulpcOverrides": {
+        "torso": "robe",
+        "torsoColor": "dark_gray",
+        "legs": "pants",
+        "legsColor": "black"
       }
     }
   ]

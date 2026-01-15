@@ -144,6 +144,19 @@ function buildSpriteEntry(charId) {
   };
 }
 
+function normalizeVariantId(variantId) {
+  return variantId
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+    .replace(/_+/g, '_');
+}
+
+function buildVariantSpriteId(charId, variantId) {
+  const normalized = normalizeVariantId(variantId);
+  return `${charId}_${normalized}`;
+}
+
 function buildCharacterEntry(charId) {
   return {
     id: charId,
@@ -482,6 +495,23 @@ async function main() {
     // Add/update sprite entries
     for (const { id } of compiled) {
       registry.sprites[id] = buildSpriteEntry(id);
+    }
+
+    // Add sprite entries for outfit variants (do not register as characters)
+    const variantSpriteIds = new Set();
+    for (const { id, spec } of compiled) {
+      const variants = [...(spec.variants || [])].sort((a, b) => {
+        return a.variantId.localeCompare(b.variantId);
+      });
+      for (const variant of variants) {
+        const variantSpriteId = buildVariantSpriteId(id, variant.variantId);
+        if (registry.sprites[variantSpriteId]) continue;
+        registry.sprites[variantSpriteId] = buildSpriteEntry(variantSpriteId);
+        variantSpriteIds.add(variantSpriteId);
+      }
+    }
+    if (variantSpriteIds.size > 0) {
+      console.log(`  👗 Added ${variantSpriteIds.size} outfit variant sprite(s)`);
     }
 
     // Build characters array

@@ -228,9 +228,12 @@ export class EncounterSystem {
   ): Phaser.GameObjects.Container {
     const container = this.scene.add.container(x, y);
 
-    const buttonKey = 'ui.button.primary';
-    const buttonHoverKey = 'ui.button.hover';
+    const buttonKey = 'ui.button_normal';
+    const buttonHoverKey = 'ui.button_hover';
+    const buttonPressedKey = 'ui.button_pressed';
     const useButtonImage = this.scene.textures.exists(buttonKey);
+    const hasHover = useButtonImage && this.scene.textures.exists(buttonHoverKey);
+    const hasPressed = useButtonImage && this.scene.textures.exists(buttonPressedKey);
     const bg = useButtonImage
       ? this.scene.add.image(0, 0, buttonKey)
       : this.scene.add.rectangle(0, 0, layout.buttonWidth, layout.buttonHeight, 0x2a4858, 1)
@@ -251,7 +254,7 @@ export class EncounterSystem {
     container.setInteractive({ useHandCursor: true });
 
     container.on('pointerover', () => {
-      if (useButtonImage && this.scene.textures.exists(buttonHoverKey)) {
+      if (hasHover) {
         (bg as Phaser.GameObjects.Image).setTexture(buttonHoverKey);
       } else if (!useButtonImage) {
         (bg as Phaser.GameObjects.Rectangle).setFillStyle(0x3a5868);
@@ -273,6 +276,10 @@ export class EncounterSystem {
           (child as Phaser.GameObjects.Container).disableInteractive();
         }
       });
+
+      if (useButtonImage && hasPressed) {
+        (bg as Phaser.GameObjects.Image).setTexture(buttonPressedKey);
+      }
 
       if (correct) {
         if (useButtonImage) {
@@ -351,7 +358,7 @@ export class EncounterSystem {
     
     const explanation = card.easyContent || card.mediumContent || 'No explanation available.';
     
-    const panelKey = 'ui.dialogue.panel';
+    const panelKey = 'ui.panel_frame';
     const usePanel = this.scene.textures.exists(panelKey);
     const feedbackBg = usePanel
       ? this.scene.add.image(layout.centerX, layout.feedbackY, panelKey)

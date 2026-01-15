@@ -24,6 +24,7 @@ export class WorldScene extends Scene {
   private moveSpeed = 200;
   private lastDirection: string = 'down';  // Track facing direction for idle
   private inEncounter: boolean = false; // Whether an encounter is active
+  private playerSpriteKey: string = 'char.kim';
 
   // Level data
   private levelData: LevelData | null = null;

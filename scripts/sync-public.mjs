@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * sync-public.mjs - Sync generated/ and vendor/props/ to public/
+ * sync-public.mjs - Sync generated/ and vendor assets to public/
  * 
  * Copies all build outputs from generated/ to public/generated/
- * and procedural props from vendor/props/ to public/assets/props/
+ * and vendor assets (props/tilesets/ui) to public/assets/
  * so they're available at runtime via Phaser loaders.
  */
 

@@ -102,6 +102,23 @@ async function getUlpcIndex() {
   return _ulpcIndex;
 }
 
+function normalizeVariantId(variantId) {
+  return variantId
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+    .replace(/_+/g, '_');
+}
+
+function buildVariantSpriteId(baseId, variantId) {
+  const normalized = normalizeVariantId(variantId);
+  return `${baseId}_${normalized}`;
+}
+
+function mergeUlpcArgs(baseArgs, overrides) {
+  return { ...(baseArgs || {}), ...(overrides || {}) };
+}
+
 /**
  * Resolve a layer reference to an absolute path.
  * 
@@ -330,13 +347,10 @@ async function findLayerAsset(layerType, variant, bodyType = 'male', color = nul
   }
 }
 
-async function generateCharacter(specFile) {
-  const charId = basename(specFile, '.json');
+async function generateCharacterSprite(charId, ulpcArgs) {
   info(`Generating sprite for: ${charId}`);
 
   try {
-    const spec = await loadJson(specFile);
-    const ulpcArgs = spec.ulpcArgs || {};
 
     const layers = [];
     const missing = [];
@@ -618,6 +632,26 @@ async function generateCharacter(specFile) {
     error(`  Failed: ${e.message}`);
     return { success: false, error: e.message };
   }
+}
+
+async function generateCharacter(specFile) {
+  const spec = await loadJson(specFile);
+  const charId = spec.id || basename(specFile, '.json');
+  const baseArgs = spec.ulpcArgs || {};
+
+  const results = [];
+  results.push(await generateCharacterSprite(charId, baseArgs));
+
+  const variants = spec.variants || [];
+  for (const variant of variants) {
+    const variantSpriteId = buildVariantSpriteId(charId, variant.variantId);
+    const mergedArgs = mergeUlpcArgs(baseArgs, variant.ulpcOverrides);
+    results.push(await generateCharacterSprite(variantSpriteId, mergedArgs));
+  }
+
+  const success = results.every(result => result.success);
+  const placeholder = results.some(result => result.placeholder);
+  return { success, placeholder };
 }
 
 async function main() {

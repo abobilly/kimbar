@@ -114,8 +114,8 @@ export class OutfitSystem {
   static getOutfitSprite(outfitId: string): string {
     const registry = getRegistry();
     const outfit = registry.outfits[outfitId];
-    if (!outfit) return 'player_default';
-    return outfit.sprite || `player_${outfitId}`;
+    if (!outfit) return 'char.kim';
+    return outfit.sprite || `char.kim_${outfitId}`;
   }
 }
 

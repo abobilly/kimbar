@@ -97,7 +97,7 @@ export class DialogueSystem {
     // Store layout for other methods
     this.container.setData('layout', layout);
 
-    const panelKey = 'ui.dialogue.panel';
+    const panelKey = 'ui.panel_frame';
     const hasPanel = this.scene.textures.exists(panelKey);
     this.container.setData('panelIsImage', hasPanel);
 
@@ -123,7 +123,7 @@ export class DialogueSystem {
     this.container.add(portrait);
 
     // Speaker name plate (shifted right to accommodate portrait)
-    const namePlateKey = 'ui.button.primary';
+    const namePlateKey = 'ui.button_normal';
     const hasNamePlate = this.scene.textures.exists(namePlateKey);
     this.container.setData('namePlateIsImage', hasNamePlate);
     const namePlate = hasNamePlate
@@ -374,15 +374,19 @@ export class DialogueSystem {
       startY = bottomY - (choices.length - 1) * step;
     }
 
+    const buttonKey = 'ui.button_normal';
+    const buttonHoverKey = 'ui.button_hover';
+    const buttonPressedKey = 'ui.button_pressed';
+    const useButtonImage = this.scene.textures.exists(buttonKey);
+    const hasHover = useButtonImage && this.scene.textures.exists(buttonHoverKey);
+    const hasPressed = useButtonImage && this.scene.textures.exists(buttonPressedKey);
+
     choices.forEach((choice, index) => {
       // Index 0 is first choice (top of list), Index N is last choice (bottom of list)
       const y = startY + index * step;
 
       const choiceBtn = this.scene.add.container(layout.boxCenterX, y);
 
-      const buttonKey = 'ui.button.primary';
-      const buttonHoverKey = 'ui.button.hover';
-      const useButtonImage = this.scene.textures.exists(buttonKey);
       const bg = useButtonImage
         ? this.scene.add.image(0, 0, buttonKey)
         : this.scene.add.rectangle(0, 0, layout.choiceWidth, layout.choiceHeight, 0x2a4858)
@@ -402,7 +406,7 @@ export class DialogueSystem {
       choiceBtn.setInteractive({ useHandCursor: true });
 
       choiceBtn.on('pointerover', () => {
-        if (useButtonImage && this.scene.textures.exists(buttonHoverKey)) {
+        if (hasHover) {
           (bg as Phaser.GameObjects.Image).setTexture(buttonHoverKey);
         } else if (!useButtonImage) {
           (bg as Phaser.GameObjects.Rectangle).setFillStyle(0x3a5868);
@@ -423,6 +427,9 @@ export class DialogueSystem {
         // Guard against double-click
         if (this.isAdvancing) return;
         this.isAdvancing = true;
+        if (useButtonImage && hasPressed) {
+          (bg as Phaser.GameObjects.Image).setTexture(buttonPressedKey);
+        }
 
         // Disable all choice buttons
         choicesContainer.each((child: Phaser.GameObjects.GameObject) => {

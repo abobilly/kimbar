@@ -112,8 +112,21 @@
 - Added schema + validation: `schemas/PlacementDraft.schema.json` and placement checks in `scripts/validate.js`.
 - Expanded AI job schema IDs to allow dotted namespaces in `schemas/AiJobSpec.schema.json`.
 - Updated `scripts/generate-ldtk-levels.mjs` to merge placement drafts into Prop entities (adds `propId` field definition).
+
+---
+
+## 3. Recent Changes: Golden UI Pass (Dialogue + Encounter)
+
+### What Was Done (January 15, 2026)
+
+- Added `scripts/extract-ui-golden.py` to crop and normalize Golden UI elements.
+- Added Golden UI sprite entries to `content/registry_config.json` for dialogue panel and button states.
+- Updated `scripts/sync-public.mjs` to sync `vendor/ui` into `public/assets/ui`.
+- Preloader now loads registry sprites with `kind: "image"` as images (not spritesheets).
+- Dialogue and encounter choices use Golden UI buttons when present; feedback panel uses Golden UI frame.
 - Updated `scripts/build-levels.js` to merge placement drafts and include Floor/Collisions layers so `.json` exports render floors.
 - Updated `scripts/build-characters.js` to prefer `.ldtk` over `.json` when both exist (prevents duplicate room entries).
+- Added fast mode to `scripts/build-asset-index.mjs` and npm script `npm run build:asset-index:fast` for large asset sets.
 
 ---
 
@@ -355,6 +368,7 @@ npm run dev           # Start dev server (port 8080)
 npm run build         # Production build
 npm run prepare:content  # Full asset pipeline
 npm run gen:sprites   # Regenerate character sprites
+npm run gen:ui:golden # Extract Golden UI slices
 npm run gen:ai:missing  # Generate AI job files from missing asset spec
 npm run gen:placements  # Generate prop placement drafts from missing asset spec
 npm run validate      # Validate all content

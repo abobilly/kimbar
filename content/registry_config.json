@@ -63,13 +63,13 @@
     "default": {
       "id": "default",
       "name": "Street Clothes",
-      "sprite": "player_default",
+      "sprite": "char.kim",
       "buffs": {}
     },
     "evidence_blazer": {
       "id": "evidence_blazer",
       "name": "Evidence Blazer",
-      "sprite": "player_blazer",
+      "sprite": "char.kim_evidence_blazer",
       "buffs": {
         "hints": 1
       }
@@ -77,7 +77,7 @@
     "civpro_suit": {
       "id": "civpro_suit",
       "name": "Civ Pro Power Suit",
-      "sprite": "player_suit",
+      "sprite": "char.kim_civpro_suit",
       "buffs": {
         "strike": 1
       }
@@ -85,7 +85,7 @@
     "conlaw_robe": {
       "id": "conlaw_robe",
       "name": "Con Law Robe",
-      "sprite": "player_robe",
+      "sprite": "char.kim_conlaw_robe",
       "buffs": {
         "extraTime": 5
       }
@@ -93,7 +93,7 @@
     "court_blazer": {
       "id": "court_blazer",
       "name": "Court Blazer",
-      "sprite": "player_court",
+      "sprite": "char.kim_court_blazer",
       "buffs": {
         "citationBonus": 10
       }
@@ -101,7 +101,7 @@
     "power_suit": {
       "id": "power_suit",
       "name": "Power Suit",
-      "sprite": "player_power",
+      "sprite": "char.kim_power_suit",
       "buffs": {
         "hints": 1,
         "citationBonus": 5
@@ -110,7 +110,7 @@
     "crimpro_badge": {
       "id": "crimpro_badge",
       "name": "Crim Pro Badge",
-      "sprite": "player_badge",
+      "sprite": "char.kim_crimpro_badge",
       "buffs": {
         "hints": 1
       }
@@ -118,7 +118,7 @@
     "property_vest": {
       "id": "property_vest",
       "name": "Property Vest",
-      "sprite": "player_vest",
+      "sprite": "char.kim_property_vest",
       "buffs": {
         "citationBonus": 10
       }
@@ -126,7 +126,7 @@
     "contracts_tie": {
       "id": "contracts_tie",
       "name": "Contracts Tie",
-      "sprite": "player_tie",
+      "sprite": "char.kim_contracts_tie",
       "buffs": {
         "hints": 1
       }
@@ -134,7 +134,7 @@
     "family_cardigan": {
       "id": "family_cardigan",
       "name": "Family Law Cardigan",
-      "sprite": "player_cardigan",
+      "sprite": "char.kim_family_cardigan",
       "buffs": {
         "extraTime": 5
       }
@@ -142,7 +142,7 @@
     "criminal_jacket": {
       "id": "criminal_jacket",
       "name": "Criminal Law Jacket",
-      "sprite": "player_jacket",
+      "sprite": "char.kim_criminal_jacket",
       "buffs": {
         "strike": 1
       }
@@ -150,7 +150,7 @@
     "torts_blazer": {
       "id": "torts_blazer",
       "name": "Torts Blazer",
-      "sprite": "player_torts",
+      "sprite": "char.kim_torts_blazer",
       "buffs": {
         "citationBonus": 10
       }
@@ -158,7 +158,7 @@
     "supreme_robe": {
       "id": "supreme_robe",
       "name": "Supreme Robe",
-      "sprite": "player_supreme",
+      "sprite": "char.kim_supreme_robe",
       "buffs": {
         "hints": 2,
         "strike": 1,
@@ -189,19 +189,23 @@
     "topicTags": []
   },
   "sprites": {
-    "ui.dialogue.panel": {
+    "ui.panel_frame": {
+      "key": "ui.panel_frame",
       "url": "/assets/ui/golden/dialogue_panel.png",
       "kind": "image"
     },
-    "ui.button.primary": {
+    "ui.button_normal": {
+      "key": "ui.button_normal",
       "url": "/assets/ui/golden/button_primary.png",
       "kind": "image"
     },
-    "ui.button.hover": {
+    "ui.button_hover": {
+      "key": "ui.button_hover",
       "url": "/assets/ui/golden/button_hover.png",
       "kind": "image"
     },
-    "ui.button.pressed": {
+    "ui.button_pressed": {
+      "key": "ui.button_pressed",
       "url": "/assets/ui/golden/button_pressed.png",
       "kind": "image"
     }
