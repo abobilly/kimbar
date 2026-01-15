@@ -9,6 +9,7 @@ Generate or extend `make_icons.py` with new procedural drawing functions that cr
 
 ### 1. Code Structure
 ```python
+import os
 from PIL import Image, ImageDraw
 
 # All functions follow this signature:
@@ -16,6 +17,8 @@ def draw_asset_name(d, w, h):
     """Docstring with dimensions and description"""
     # Drawing code using d (ImageDraw), w (width), h (height)
 ```
+
+**Directory Safety:** The execute block already handles `os.makedirs(dir, exist_ok=True)` - follow the existing pattern.
 
 ### 2. Style Rules - LPC/SNES/16-bit RPG
 - **Perspective:** Top-down 3/4 view (looking from above at ~45°)
@@ -25,21 +28,31 @@ def draw_asset_name(d, w, h):
 - **NO anti-aliasing** - all edges crisp
 - **NO dithering** unless intentional texture
 
-### 3. Use Existing Palettes
-Reference palettes already defined at the top of `make_icons.py`:
+### 3. Palettes (CRITICAL)
+**Before using a palette, verify it exists in `make_icons.py`.** If not, define it.
+
+Existing palettes (safe to use):
 - `GOLD` - metallic gold/brass
-- `WOOD` - wooden surfaces
+- `WOOD` - wooden surfaces  
 - `MARBLE` - white stone
 - `LEATHER` - brown leather
 - `BRASS` - bronze/brass metal
 - `PAPER` - documents
 - `FOLIAGE` - trees/plants
 - `BLACK` - dark metal
-- `RED`, `GLASS`, `SKY` - etc.
+- `RED` - red accents
+- `GLASS` - blue/transparent
+- `SKY` - sky blues
+- `SILVER` - pewter/silver metal
+- `BRONZE` - bronze metal
+- `QUILL` - feather whites
+- `DOC` - document colors
+- `CARDBOARD` - box colors
 
-Add new palettes if needed following the pattern:
+If you need a new palette, define it at the top following this pattern:
 ```python
-PALETTE_NAME = [(r,g,b), (r,g,b), ...] # Outline, Dark, Mid, Light, Highlight
+# Format: Outline, Dark, Mid, Light, Highlight
+PALETTE_NAME = [(r,g,b), (r,g,b), (r,g,b), (r,g,b), (r,g,b)]
 ```
 
 ### 4. Output Requirements
@@ -49,12 +62,12 @@ PALETTE_NAME = [(r,g,b), (r,g,b), ...] # Outline, Dark, Mid, Light, Highlight
 
 ## Workflow
 
-1. **Read** current `make_icons.py` to understand existing patterns
-2. **Add** new palette if needed (at top with other palettes)
+1. **Read** current `make_icons.py` to understand existing patterns and palettes
+2. **Verify** required palettes exist. If not, **define them** at the top of the file
 3. **Add** draw function(s) before `# --- EXECUTE ---`
-4. **Add** save_to() or save_exterior() call in `__main__` block
+4. **Add** save_to() or save_exterior() call in `__main__` block (directories are auto-created)
 5. **Run** `python make_icons.py` to generate
-6. **Report** which files were created
+6. **Report** which files were created and their sizes
 
 ## Example Request/Response
 
