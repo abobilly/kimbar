@@ -97,12 +97,22 @@ export class DialogueSystem {
     // Store layout for other methods
     this.container.setData('layout', layout);
 
-    // Background
-    const bg = this.scene.add.rectangle(
-      layout.boxCenterX, layout.boxCenterY,
-      layout.boxWidth, layout.boxHeight - 20,
-      0x1a1a2e, 0.95
-    ).setStrokeStyle(3, 0x4a90a4);
+    const panelKey = 'ui.dialogue.panel';
+    const hasPanel = this.scene.textures.exists(panelKey);
+    this.container.setData('panelIsImage', hasPanel);
+
+    const bg = hasPanel
+      ? this.scene.add.image(layout.boxCenterX, layout.boxCenterY, panelKey)
+      : this.scene.add.rectangle(
+        layout.boxCenterX, layout.boxCenterY,
+        layout.boxWidth, layout.boxHeight - 20,
+        0x1a1a2e, 0.95
+      ).setStrokeStyle(3, 0x4a90a4);
+    bg.setName('dialoguePanel');
+    if (hasPanel) {
+      (bg as Phaser.GameObjects.Image).setDisplaySize(layout.boxWidth, layout.boxHeight - 20);
+      bg.setAlpha(0.95);
+    }
     this.container.add(bg);
 
     // Portrait placeholder (will be updated when speaker changes)
@@ -113,9 +123,17 @@ export class DialogueSystem {
     this.container.add(portrait);
 
     // Speaker name plate (shifted right to accommodate portrait)
-    const namePlate = this.scene.add.rectangle(layout.namePlateX, layout.namePlateY, 160, 30, 0x2a4858)
-      .setStrokeStyle(2, 0xFFD700);
+    const namePlateKey = 'ui.button.primary';
+    const hasNamePlate = this.scene.textures.exists(namePlateKey);
+    this.container.setData('namePlateIsImage', hasNamePlate);
+    const namePlate = hasNamePlate
+      ? this.scene.add.image(layout.namePlateX, layout.namePlateY, namePlateKey)
+      : this.scene.add.rectangle(layout.namePlateX, layout.namePlateY, 160, 30, 0x2a4858)
+        .setStrokeStyle(2, 0xFFD700);
     namePlate.setName('namePlate');
+    if (hasNamePlate) {
+      (namePlate as Phaser.GameObjects.Image).setDisplaySize(160, 30);
+    }
     this.container.add(namePlate);
 
     const nameText = this.scene.add.text(layout.namePlateX, layout.namePlateY, '', {
@@ -362,8 +380,16 @@ export class DialogueSystem {
 
       const choiceBtn = this.scene.add.container(layout.boxCenterX, y);
 
-      const bg = this.scene.add.rectangle(0, 0, layout.choiceWidth, layout.choiceHeight, 0x2a4858)
-        .setStrokeStyle(2, 0x4a90a4);
+      const buttonKey = 'ui.button.primary';
+      const buttonHoverKey = 'ui.button.hover';
+      const useButtonImage = this.scene.textures.exists(buttonKey);
+      const bg = useButtonImage
+        ? this.scene.add.image(0, 0, buttonKey)
+        : this.scene.add.rectangle(0, 0, layout.choiceWidth, layout.choiceHeight, 0x2a4858)
+          .setStrokeStyle(2, 0x4a90a4);
+      if (useButtonImage) {
+        (bg as Phaser.GameObjects.Image).setDisplaySize(layout.choiceWidth, layout.choiceHeight);
+      }
 
       const text = this.scene.add.text(0, 0, `${index + 1}. ${choice.text}`, {
         fontSize: '16px',
@@ -376,12 +402,20 @@ export class DialogueSystem {
       choiceBtn.setInteractive({ useHandCursor: true });
 
       choiceBtn.on('pointerover', () => {
-        bg.setFillStyle(0x3a5868);
+        if (useButtonImage && this.scene.textures.exists(buttonHoverKey)) {
+          (bg as Phaser.GameObjects.Image).setTexture(buttonHoverKey);
+        } else if (!useButtonImage) {
+          (bg as Phaser.GameObjects.Rectangle).setFillStyle(0x3a5868);
+        }
         text.setColor('#FFD700');
       });
 
       choiceBtn.on('pointerout', () => {
-        bg.setFillStyle(0x2a4858);
+        if (useButtonImage) {
+          (bg as Phaser.GameObjects.Image).setTexture(buttonKey);
+        } else {
+          (bg as Phaser.GameObjects.Rectangle).setFillStyle(0x2a4858);
+        }
         text.setColor('#FFFFFF');
       });
 
@@ -481,10 +515,15 @@ export class DialogueSystem {
     }
 
     // Reposition background
-    const bg = this.container.list[1] as Phaser.GameObjects.Rectangle;  // After scrim
-    if (bg && bg.type === 'Rectangle') {
+    const bg = this.container.getByName('dialoguePanel') as Phaser.GameObjects.Image | Phaser.GameObjects.Rectangle | null;
+    if (bg) {
       bg.setPosition(layout.boxCenterX, layout.boxCenterY);
-      bg.setSize(layout.boxWidth, layout.boxHeight - 20);
+      const panelIsImage = this.container.getData('panelIsImage');
+      if (panelIsImage) {
+        (bg as Phaser.GameObjects.Image).setDisplaySize(layout.boxWidth, layout.boxHeight - 20);
+      } else {
+        (bg as Phaser.GameObjects.Rectangle).setSize(layout.boxWidth, layout.boxHeight - 20);
+      }
     }
 
     // Reposition portrait
@@ -494,7 +533,7 @@ export class DialogueSystem {
     }
 
     // Reposition name plate
-    const namePlate = this.container.getByName('namePlate') as Phaser.GameObjects.Rectangle;
+    const namePlate = this.container.getByName('namePlate') as Phaser.GameObjects.Image | Phaser.GameObjects.Rectangle | null;
     if (namePlate) {
       namePlate.setPosition(layout.namePlateX, layout.namePlateY);
     }

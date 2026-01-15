@@ -546,6 +546,38 @@
               ]
             },
             {
+              "__identifier": "Door",
+              "__grid": [
+                10,
+                14
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "door_exterior",
+              "width": 32,
+              "height": 32,
+              "defUid": 203,
+              "px": [
+                320,
+                448
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "targetLevel",
+                  "__type": "String",
+                  "__value": "courthouse_exterior",
+                  "__tile": null,
+                  "defUid": 320,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
               "__identifier": "Prop",
               "__grid": [
                 9,

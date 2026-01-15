@@ -611,6 +611,38 @@
               ]
             },
             {
+              "__identifier": "Door",
+              "__grid": [
+                12,
+                5
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "door_lobby",
+              "width": 32,
+              "height": 32,
+              "defUid": 203,
+              "px": [
+                384,
+                160
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "targetLevel",
+                  "__type": "String",
+                  "__value": "scotus_lobby",
+                  "__tile": null,
+                  "defUid": 320,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
               "__identifier": "Prop",
               "__grid": [
                 12,

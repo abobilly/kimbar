@@ -23,6 +23,7 @@
         "build:levels": "node scripts/build-levels.js",
         "build:content": "npm run build:chars && npm run build:levels",
         "build:asset-index": "node scripts/build-asset-index.mjs",
+        "build:asset-index:fast": "node scripts/build-asset-index.mjs --fast",
         "sync:public": "node scripts/sync-public.mjs",
         "compile:ink": "node scripts/compile-ink.mjs",
         "gen:props": "python make_icons.py",

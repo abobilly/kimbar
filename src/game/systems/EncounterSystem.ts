@@ -228,8 +228,16 @@ export class EncounterSystem {
   ): Phaser.GameObjects.Container {
     const container = this.scene.add.container(x, y);
 
-    const bg = this.scene.add.rectangle(0, 0, layout.buttonWidth, layout.buttonHeight, 0x2a4858, 1)
-      .setStrokeStyle(2, 0x4a90a4);
+    const buttonKey = 'ui.button.primary';
+    const buttonHoverKey = 'ui.button.hover';
+    const useButtonImage = this.scene.textures.exists(buttonKey);
+    const bg = useButtonImage
+      ? this.scene.add.image(0, 0, buttonKey)
+      : this.scene.add.rectangle(0, 0, layout.buttonWidth, layout.buttonHeight, 0x2a4858, 1)
+        .setStrokeStyle(2, 0x4a90a4);
+    if (useButtonImage) {
+      (bg as Phaser.GameObjects.Image).setDisplaySize(layout.buttonWidth, layout.buttonHeight);
+    }
     
     const label = this.scene.add.text(0, 0, text, {
       fontSize: '18px',
@@ -242,8 +250,20 @@ export class EncounterSystem {
     container.setSize(layout.buttonWidth, layout.buttonHeight);
     container.setInteractive({ useHandCursor: true });
 
-    container.on('pointerover', () => bg.setFillStyle(0x3a5868));
-    container.on('pointerout', () => bg.setFillStyle(0x2a4858));
+    container.on('pointerover', () => {
+      if (useButtonImage && this.scene.textures.exists(buttonHoverKey)) {
+        (bg as Phaser.GameObjects.Image).setTexture(buttonHoverKey);
+      } else if (!useButtonImage) {
+        (bg as Phaser.GameObjects.Rectangle).setFillStyle(0x3a5868);
+      }
+    });
+    container.on('pointerout', () => {
+      if (useButtonImage) {
+        (bg as Phaser.GameObjects.Image).setTexture(buttonKey);
+      } else {
+        (bg as Phaser.GameObjects.Rectangle).setFillStyle(0x2a4858);
+      }
+    });
     
     container.on('pointerdown', () => {
       // Disable all buttons and mark as evaluating (blocks cancel)
@@ -255,13 +275,21 @@ export class EncounterSystem {
       });
 
       if (correct) {
-        bg.setFillStyle(0x2d5a3d);
-        bg.setStrokeStyle(2, 0x4CAF50);
+        if (useButtonImage) {
+          (bg as Phaser.GameObjects.Image).setTint(0x4CAF50);
+        } else {
+          (bg as Phaser.GameObjects.Rectangle).setFillStyle(0x2d5a3d);
+          (bg as Phaser.GameObjects.Rectangle).setStrokeStyle(2, 0x4CAF50);
+        }
         this.correctCount++;
         this.showFeedback(card, true);
       } else {
-        bg.setFillStyle(0x5a2d2d);
-        bg.setStrokeStyle(2, 0xF44336);
+        if (useButtonImage) {
+          (bg as Phaser.GameObjects.Image).setTint(0xF44336);
+        } else {
+          (bg as Phaser.GameObjects.Rectangle).setFillStyle(0x5a2d2d);
+          (bg as Phaser.GameObjects.Rectangle).setStrokeStyle(2, 0xF44336);
+        }
         // Update sanction meter
         const state = getGameState();
         updateGameState({ sanctionMeter: state.sanctionMeter + 10 });
@@ -323,15 +351,37 @@ export class EncounterSystem {
     
     const explanation = card.easyContent || card.mediumContent || 'No explanation available.';
     
-    const feedbackBg = this.scene.add.rectangle(
-      layout.centerX, 
-      layout.feedbackY, 
-      layout.feedbackWidth, 
-      layout.feedbackHeight, 
-      0x1a1a2e, 
-      0.95
-    ).setStrokeStyle(2, correct ? 0x4CAF50 : 0xF44336);
+    const panelKey = 'ui.dialogue.panel';
+    const usePanel = this.scene.textures.exists(panelKey);
+    const feedbackBg = usePanel
+      ? this.scene.add.image(layout.centerX, layout.feedbackY, panelKey)
+      : this.scene.add.rectangle(
+        layout.centerX,
+        layout.feedbackY,
+        layout.feedbackWidth,
+        layout.feedbackHeight,
+        0x1a1a2e,
+        0.95
+      ).setStrokeStyle(2, correct ? 0x4CAF50 : 0xF44336);
     feedbackBg.setName('q_feedback_bg');
+    if (usePanel) {
+      (feedbackBg as Phaser.GameObjects.Image).setDisplaySize(layout.feedbackWidth, layout.feedbackHeight);
+      feedbackBg.setAlpha(0.95);
+    }
+
+    const feedbackOutline = usePanel
+      ? this.scene.add.rectangle(
+        layout.centerX,
+        layout.feedbackY,
+        layout.feedbackWidth,
+        layout.feedbackHeight,
+        0x000000,
+        0
+      ).setStrokeStyle(2, correct ? 0x4CAF50 : 0xF44336)
+      : null;
+    if (feedbackOutline) {
+      feedbackOutline.setName('q_feedback_outline');
+    }
     
     const feedbackTitle = this.scene.add.text(layout.centerX, layout.feedbackY - 30, 
       correct ? '✅ CORRECT!' : '❌ INCORRECT', {
@@ -349,7 +399,12 @@ export class EncounterSystem {
     }).setOrigin(0.5, 0);
     feedbackText.setName('q_feedback_text');
 
-    this.container.add([feedbackBg, feedbackTitle, feedbackText]);
+    this.container.add([
+      feedbackBg,
+      ...(feedbackOutline ? [feedbackOutline] : []),
+      feedbackTitle,
+      feedbackText
+    ]);
 
     // Continue button - always visible at bottom
     const continueBtn = this.scene.add.text(layout.centerX, layout.continueY, 'TAP TO CONTINUE', {

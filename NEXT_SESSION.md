@@ -27,6 +27,40 @@
 
 ---
 
+## 2. Recent Changes: Asset Pipeline + World Density
+
+### What Was Done (January 15, 2026 - Evening Session)
+
+**Visual Bug Fixes:**
+- Fixed double-click indicators appearing in UI view by calling `uiCam.ignore()` on the indicator object in `WorldScene.ts`.
+- Fixed NPC mirroring issues where NPCs would stare at walls; improved `updateNPCFacing` logic to handle idle states and player proximity more gracefully.
+
+**CI & Environment:**
+- Updated `.github/workflows/validate.yml` to include `pip install Pillow` to support Python-based sprite generation/validation in the CI pipeline.
+
+**World Connections (Doors):**
+- Manually added `Door` entities to all 18 room `content/rooms/*.json` files. 
+- Mapped connectivity between Exterior, Lobby, Courtroom, Chambers, Vault, etc. 
+- Added `targetRoomId` and `targetDoorId` fields to ensure functional room transitions.
+
+**Procedural Asset Pipeline (AI Mocking):**
+- Initialized `generated/ai-manifest.json` to track all procedurally generated (or mocked) assets.
+- Integrated all missing labels from `content/ai_jobs/props_missing_v1.json` (600+ items) and `tiles_missing_v1.json` into the manifest with `status: "mocked"`.
+- Created `generated/ai-sprites/` directory to host asset placeholders.
+
+**LDtk Level Generation:**
+- Ran `scripts/generate-ldtk-levels.mjs` to compile the `content/rooms/*.json` and `content/placement_drafts/prop_placements.json` into fully featured LDtk projects.
+- Injected `Prop` entities into LDtk layers, enabling visual level design using the new asset registry.
+
+**How to verify transitions:**
+- Launch game and walk to the south/north of rooms to trigger `Door` sensors.
+
+**Invariants:**
+- `generated/ai-manifest.json` is the source of truth for all procedurally loaded assets.
+- `npc.isMirrored` is now handled dynamically based on facing direction relative to player/walls.
+
+---
+
 ## 2. Recent Changes: Justice Robes Pipeline (Digital Tailor)
 
 ### What Was Done (January 15, 2026)

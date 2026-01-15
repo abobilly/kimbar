@@ -16,13 +16,19 @@ import { join, extname, basename, dirname } from 'path';
 const VENDOR_DIR = './vendor';
 const GENERATED_DIR = './generated';
 const CONTRACT_PATH = './content/content_contract.json';
+const ARGS = process.argv.slice(2);
+const SKIP_DIMENSIONS = ARGS.includes('--skip-dimensions') || ARGS.includes('--fast');
 
 // Try to load sharp for image dimension checking
 let sharp = null;
-try {
-  sharp = (await import('sharp')).default;
-} catch (e) {
-  console.warn('Sharp not available - dimension validation will be skipped');
+if (!SKIP_DIMENSIONS) {
+  try {
+    sharp = (await import('sharp')).default;
+  } catch (e) {
+    console.warn('Sharp not available - dimension validation will be skipped');
+  }
+} else {
+  console.log('⚡ Fast mode: skipping dimension validation');
 }
 
 async function loadContract() {
@@ -132,6 +138,19 @@ async function validateAsset(filePath, kind, contract) {
   const notes = [];
   let dimensions = null;
 
+  if (!sharp || SKIP_DIMENSIONS) {
+    if (!sharp && !SKIP_DIMENSIONS) {
+      notes.push('sharp not available, dimensions not verified');
+    } else if (SKIP_DIMENSIONS) {
+      notes.push('dimension validation skipped');
+    }
+    return {
+      compliance: 'pass',
+      notes,
+      dimensions
+    };
+  }
+
   // Try to get actual dimensions using sharp
   if (sharp) {
     try {
@@ -181,8 +200,6 @@ async function validateAsset(filePath, kind, contract) {
     } catch (e) {
       notes.push(`failed to read dimensions: ${e.message}`);
     }
-  } else {
-    notes.push('sharp not available, dimensions not verified');
   }
 
   return {
