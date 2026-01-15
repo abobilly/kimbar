@@ -1,5 +1,5 @@
 # Kim Bar - Agent Handoff Document
-**Last Update**: January 13, 2026
+**Last Update**: January 14, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
@@ -27,83 +27,33 @@
 
 ---
 
-## 2. Recent Changes: LDtk Normalizer + Ink Tag Enhancement + Semantic Layer
+## 2. Recent Changes: Wardrobe UI + Room Transitions + Ink Fixes
 
-### What Was Done (January 13, 2026)
+### What Was Done (January 14, 2026)
 
-This session added typing improvements, LDtk normalization, enhanced Ink tag handling, and a semantic layer extension point.
-
-**New Files Created:**
-- `src/content/ldtk-normalizer.ts` - Converts raw LDtk JSON to internal LevelData format
-- `src/content/ldtk-validator.ts` - Validates level data (checks PlayerSpawn exists, field types)
-- `src/services/semantic-service.ts` - Provider-agnostic embedding service interface (feature flag OFF by default)
-- `src/services/transformers-backend.ts` - Transformers.js backend stub (lazy-loaded when enabled)
-- `scripts/check-phaser-types.mjs` - Sentinel check ensuring Phaser types resolve from node_modules
-- `tests/unit/ldtk-normalizer.test.ts` - 16 unit tests for LDtk normalization + validation
-- `docs/SEMANTIC_LAYER.md` - Documentation for enabling semantic features
+This session focused on gameplay loop blockers: fixing dialogue loading, enabling room traversal, and adding an interface for the outfit system.
 
 **Files Modified:**
-- `scripts/verify.js` - Added Phaser types check to verification suite
-- `src/game/scenes/WorldScene.ts` - Now uses ldtk-normalizer module, enhanced tag handling
-- `src/game/systems/DialogueSystem.ts` - Added portrait tag support (`portrait:id:emotion`)
-- `src/vite-env.d.ts` - Added `VITE_ENABLE_SEMANTIC` feature flag type
-- `content/ink/story.ink` - Added tag reference docs and demo tags
+- `content/ink/story.ink` - Consolidated `justices.ink`, `tutorial.ink`, and `rewards.ink` into main story file (Option A fix) to resolve multiple-file loading issues.
+- `src/game/scenes/WorldScene.ts` - 
+    - Implemented `createWardrobeUI` / `showOutfits` modal with buff display and equipment logic.
+    - Updated `create()` to accept `{ level: string }` data, enabling `this.scene.restart({ level: '...' })` for door transitions.
+
+### Previous Changes: LDtk Normalizer + Ink Tag Enhancement (January 13)
+
+**New Files Created:**
+- `src/content/ldtk-normalizer.ts`, `src/content/ldtk-validator.ts`
+- `src/services/semantic-service.ts` (Feature flag OFF)
+
+**Files Modified:**
+- `src/game/systems/DialogueSystem.ts` (Portrait tags)
+- `content/ink/story.ink` (Tag docs)
 
 ### Key Improvements
 
-1. **LDtk Normalization**: Level parsing extracted from WorldScene to reusable module with validation
-2. **Ink Tag Grammar**: Expanded to support `speaker:`, `portrait:`, `sfx:`, `quest:`, `encounter:` (key=value format)
-3. **Semantic Layer**: Opt-in embedding service with WebGPU support (disabled by default, zero bundle cost)
-4. **Phaser Types**: Sentinel check ensures official types used, no custom d.ts conflicts
-
-### Previous Changes: Asset Pipeline Hardening (January 12)
-
-**New Files Created:**
-- `docs/INVARIANTS.md` - 7 sacred rules that must be followed
-- `content/registry_config.json` - Extracted registry template config
-- `schemas/FlashcardPack.schema.json` - Registry entry schema
-- `schemas/FlashcardsFile.schema.json` - Flashcards file schema
-- `schemas/RoomEntry.schema.json` - Room registry entry schema
-- `tests/unit/registry.test.ts` - Registry accessor tests
-
-**Files Modified:**
-- `scripts/build-characters.js` - Now reads from config, auto-scans rooms/flashcards/ink
-- `scripts/compile-ink.mjs` - Output path fixed to `generated/ink/`
-- `scripts/validate.js` - Enhanced with flashcard pack, room, ink validation
-- `scripts/build-asset-index.mjs` - Actual image dimension validation with Sharp
-- `src/content/types.ts` - Added RoomEntry, FlashcardPackEntry, InkEntry interfaces
-- `src/content/registry.ts` - Added typed accessors (getRoom, getFlashcardPack, getInkStory) with caching
-- `src/game/scenes/WorldScene.ts` - Registry-driven room/ink loading
-
-**Files Deleted:**
-- `public/content/registry.json` - Stale duplicate removed
-- `public/content/ink/story.json` - Now generated to `generated/ink/`
-
-### Registry Structure
-
-The registry now contains all content routing information:
-
-```json
-{
-  "buildId": "dev-...",
-  "tileSize": 32,
-  "scale": 2,
-  "entities": { ... },
-  "outfits": { ... },
-  "tags": { "subjects": [...] },
-  "sprites": { ... },
-  "characters": [ ... ],
-  "rooms": [
-    { "id": "scotus_lobby", "ldtkUrl": "/content/ldtk/scotus_lobby.json", ... }
-  ],
-  "flashcardPacks": [
-    { "id": "flashcards", "url": "/content/cards/flashcards.json", "count": 1154 }
-  ],
-  "ink": [
-    { "id": "story", "url": "/generated/ink/story.json" }
-  ]
-}
-```
+1. **Dialogue Stability**: Consolidated Ink files ensure all knots (justices, tutorial) are available at runtime without complex multi-story management.
+2. **Wardrobe UI**: Players can now see unlocked outfits and their buffs (Hints, Extra Time, etc.) and equip them.
+3. **Traversal**: "Door" entities now correctly trigger scene restarts with the target level.
 
 ---
 
@@ -203,6 +153,7 @@ The registry now contains all content routing information:
 │  • NPCs + world labels      │  • EncounterSystem UI    │
 │  • Interactables            │  • DialogueSystem UI     │
 │  • Trigger zones            │  • Notifications         │
+│  • Wardrobe UI           │
 └─────────────────────────────┴──────────────────────────┘
 ```
 
@@ -301,15 +252,11 @@ npm run test          # Run all tests
 
 ## 10. Suggested Next Steps
 
-Now that LDtk normalization and Ink tag handling are enhanced, consider:
-
-1. **Sound System** - Wire up `sfx:` tags to actual audio playback
-2. **Outfit System UI** - Wardrobe screen, visual preview, buff display
-3. **Room Transitions** - Door entity handling, scene transitions, spawn management
-4. **Quest System** - UI for tracking story flags set by `quest:set` tags
-5. **Semantic Search** - Enable `VITE_ENABLE_SEMANTIC=true`, add "Related Cards" panel
-6. **Mobile Touch Controls** - Virtual D-pad, touch-friendly UI
-7. **More Ink Content** - Expand story.ink with more knots and dialogue branches
+1. **Quest System UI** - Need a way to visualize active quests and story progress (storyFlags are currently hidden).
+2. **Sound System** - `sfx:` tags are logged but not audible.
+3. **Semantic Search** - Enable `VITE_ENABLE_SEMANTIC=true`, add "Related Cards" panel.
+4. **Mobile Touch Controls** - Virtual D-pad, touch-friendly UI.
+5. **Content Expansion** - Add more room layouts (LDtk) to replace placeholders.
 
 ---
 
