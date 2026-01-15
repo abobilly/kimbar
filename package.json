@@ -42,6 +42,8 @@
         "gen:ai:dry": "node scripts/generate-ai-assets.mjs --dry-run",
         "gen:ai:missing": "node scripts/generate-ai-jobs-from-spec.mjs",
         "gen:placements": "node scripts/generate-placement-drafts.mjs",
+        "gen:robes": "python tools/tailor/generate_male_robe.py && python tools/tailor/generate_female_robe.py",
+        "tailor:robes": "cd tools/tailor && python run_pipeline.py",
         "download:packs": "node scripts/download-packs.mjs",
         "ingest:assets": "node scripts/ingest-assets.mjs",
         "ingest:assets:dry": "node scripts/ingest-assets.mjs --dry-run",

@@ -27,6 +27,46 @@
 
 ---
 
+## 2. Recent Changes: Justice Robes Pipeline (Digital Tailor)
+
+### What Was Done (January 15, 2026)
+
+**Problem**: Male justices were using the female robe layer (wrong body fit), and the existing ULPC robes had skin leak issues.
+
+**Solution**: Created "Digital Tailor" pipeline - a 3-stage Python toolchain for procedural sprite layer generation with automated skin-leak validation.
+
+**Files Created:**
+- `tools/tailor/01_slice.py` - Explodes spritesheets into individual 64×64 frames
+- `tools/tailor/02_tailor.py` - Composites body + robe, validates skin coverage (chest box 24-42 × 28-48)
+- `tools/tailor/03_stitch.py` - Reassembles validated frames into game-ready sheet
+- `tools/tailor/generate_male_robe.py` - Procedural male judge robe (832×1344 LPC sheet)
+- `tools/tailor/generate_female_robe.py` - Procedural female judge robe (832×1344 LPC sheet)
+- `tools/tailor/run_pipeline.py` - Orchestrates full pipeline
+- `tools/tailor/fix_robe_frames.py` - Surgical fixes for frames that fail validation
+- `tools/tailor/config_justice_robes.json` - Configuration for justice robes pipeline
+
+**Outputs:**
+- `vendor/lpc/custom/torso_robe_judge_male_black.png` - Male robe layer
+- `vendor/lpc/custom/torso_robe_judge_female_black.png` - Female robe layer
+- Copied to ULPC tree: `vendor/lpc/.../spritesheets/torso/clothes/robe/{male,female}/black.png`
+
+**npm Scripts Added:**
+- `npm run gen:robes` - Regenerate robe PNGs from Python generators
+- `npm run tailor:robes` - Run full tailor pipeline with validation
+
+**How to Add a New Robe Color:**
+1. Duplicate `generate_male_robe.py`, update palette constants
+2. Run generator: `python tools/tailor/generate_{body}_{color}.py`
+3. Slice + validate: `python 02_tailor.py --body ... --robe ... --output ...`
+4. If failures, run `fix_robe_frames.py` or adjust generator
+5. Copy to ULPC tree and regenerate sprites
+
+**Invariants:**
+- All walk frames (rows 7-10) must pass skin-leak test (<5 exposed pixels in chest box)
+- Side-view robes must extend to x=23 (left) and x=43 (right) to cover male/female body silhouettes
+
+---
+
 ## 2. Recent Changes: AI Job + Placement Drafts
 
 ### What Was Done (January 15, 2026)
