@@ -574,6 +574,37 @@ export class WorldScene extends Scene {
     }
   }
 
+  private resolvePlayerSpriteKey(): string {
+    const outfit = OutfitSystem.getEquippedOutfit();
+    const desired = outfit ? OutfitSystem.getOutfitSprite(outfit.id) : 'char.kim';
+
+    if (desired && this.textures.exists(desired)) {
+      return desired;
+    }
+    if (this.textures.exists('char.kim')) {
+      return 'char.kim';
+    }
+    return desired || 'char.kim';
+  }
+
+  private applyPlayerSpriteKey(nextKey: string): void {
+    if (!this.player || !nextKey) return;
+    if (!('setTexture' in this.player)) return;
+    if (this.playerSpriteKey === nextKey) return;
+    if (!this.textures.exists(nextKey)) {
+      console.warn(`[WorldScene] Outfit sprite missing: ${nextKey}`);
+      return;
+    }
+
+    this.player.setTexture(nextKey, 0);
+    this.playerSpriteKey = nextKey;
+
+    const idleKey = `${nextKey}.idle_${this.lastDirection}`;
+    if (this.anims.exists(idleKey)) {
+      this.player.play(idleKey);
+    }
+  }
+
   private createPlayer(): void {
     // Destroy existing player if any (prevents two Kims bug)
     if (this.player) {
@@ -582,9 +613,11 @@ export class WorldScene extends Scene {
 
     const spawn = this.levelData?.playerSpawn || { x: this.scale.width / 2, y: this.scale.height / 2 };
 
+    const spriteKey = this.resolvePlayerSpriteKey();
+
     // Create physics sprite with real texture (fallback to placeholder if missing)
-    if (this.textures.exists('char.kim')) {
-      const player = this.physics.add.sprite(spawn.x, spawn.y, 'char.kim', 0);
+    if (this.textures.exists(spriteKey)) {
+      const player = this.physics.add.sprite(spawn.x, spawn.y, spriteKey, 0);
       player.setOrigin(0.5, 1);  // Feet anchored
       player.setDepth(spawn.y);
       player.setCollideWorldBounds(true);
@@ -595,9 +628,10 @@ export class WorldScene extends Scene {
       body.setOffset(20, 46);
 
       this.player = player;
+      this.playerSpriteKey = spriteKey;
     } else {
       // Fallback placeholder if sprite not loaded
-      console.warn('char.kim sprite not loaded, using placeholder');
+      console.warn(`${spriteKey} sprite not loaded, using placeholder`);
       const container = this.add.container(spawn.x, spawn.y);
       const body = this.add.circle(0, 0, 20, 0xFF69B4);
       const head = this.add.circle(0, -25, 12, 0xFFDFC4);
@@ -1098,6 +1132,7 @@ export class WorldScene extends Scene {
       bg.on('pointerdown', (e: any) => {
         e.stopPropagation();
         OutfitSystem.equipOutfit(outfit.id);
+        this.applyPlayerSpriteKey(this.resolvePlayerSpriteKey());
         this.showNotification(`Equipped: ${outfit.name}`);
         this.updateUI(); // Update HUD
         closeWardrobe();
@@ -1184,7 +1219,8 @@ export class WorldScene extends Scene {
         this.player.setDepth(this.player.y);
 
         // Play idle in last direction
-        const idleKey = `char.kim.idle_${this.lastDirection}`;
+        const spriteKey = this.playerSpriteKey || 'char.kim';
+        const idleKey = `${spriteKey}.idle_${this.lastDirection}`;
         if (hasPhysics && this.anims.exists(idleKey) && this.player.anims?.currentAnim?.key !== idleKey) {
           this.player.play(idleKey);
         }
@@ -1196,7 +1232,8 @@ export class WorldScene extends Scene {
     if (dx === 0 && dy === 0) {
       if (hasPhysics) {
         (this.player.body as Phaser.Physics.Arcade.Body).setVelocity(0, 0);
-        const idleKey = `char.kim.idle_${this.lastDirection}`;
+        const spriteKey = this.playerSpriteKey || 'char.kim';
+        const idleKey = `${spriteKey}.idle_${this.lastDirection}`;
         if (this.anims.exists(idleKey) && this.player.anims?.currentAnim?.key !== idleKey) {
           this.player.play(idleKey);
         }
@@ -1214,7 +1251,8 @@ export class WorldScene extends Scene {
       (this.player.body as Phaser.Physics.Arcade.Body).setVelocity(velocity.x, velocity.y);
 
       // Play walk animation
-      const animKey = `char.kim.walk_${animDir}`;
+      const spriteKey = this.playerSpriteKey || 'char.kim';
+      const animKey = `${spriteKey}.walk_${animDir}`;
       if (this.anims.exists(animKey) && this.player.anims?.currentAnim?.key !== animKey) {
         this.player.play(animKey);
       }
