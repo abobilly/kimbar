@@ -20,7 +20,8 @@
       "Bash(npm run build:levels:*)",
       "Bash(node scripts/generate-ldtk-levels.mjs:*)",
       "Bash(node -e:*)",
-      "Bash(npm run dev-nolog:*)"
+      "Bash(npm run dev-nolog:*)",
+      "Bash(ls:*)"
     ]
   },
   "outputStyle": "default"
