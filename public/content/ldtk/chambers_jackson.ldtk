@@ -219,6 +219,33 @@
             "__type": "String"
           }
         ]
+      },
+      {
+        "identifier": "Prop",
+        "uid": 205,
+        "width": 32,
+        "height": 32,
+        "color": "#8bc34a",
+        "fieldDefs": [
+          {
+            "identifier": "sprite",
+            "uid": 340,
+            "type": "F_String",
+            "__type": "String"
+          },
+          {
+            "identifier": "collision",
+            "uid": 341,
+            "type": "F_Bool",
+            "__type": "Bool"
+          },
+          {
+            "identifier": "propId",
+            "uid": 342,
+            "type": "F_String",
+            "__type": "String"
+          }
+        ]
       }
     ],
     "tilesets": [],
@@ -411,6 +438,150 @@
                   "__value": true,
                   "__tile": null,
                   "defUid": 313,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                7,
+                5
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_accident_report__desk_zone__1",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                224,
+                160
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.accident_report",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.accident_report",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                7,
+                5
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_hazard_sign__desk_zone__2",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                224,
+                160
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.hazard_sign",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": true,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.hazard_sign",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                7,
+                1
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_medical_chart__wall_props__3",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                224,
+                32
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.medical_chart",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.medical_chart",
+                  "__tile": null,
+                  "defUid": 342,
                   "realEditorValues": []
                 }
               ]

@@ -28,7 +28,15 @@ def draw_asset_name(d, w, h):
 - **NO anti-aliasing** - all edges crisp
 - **NO dithering** unless intentional texture
 
-### 3. Palettes (CRITICAL)
+### 3. LPC Clothing Physics
+When generating clothes or robes for LPC characters:
+- **Drape over form:** Clothes must follow the character's volume (shoulders, chest, hips).
+- **Gravity affects hems:** Bottom edges should hang naturally, not be perfectly straight unless rigid.
+- **Layering logic:** Inner layers (shirts) are tighter; outer layers (robes/coats) are looser.
+- **Fold shading:** Use 3-tone shading (highlight, mid, shadow) to indicate folds where fabric bunches (elbows, waist).
+- **No pillow shading:** Light comes from top-left.
+
+### 4. Palettes (CRITICAL)
 **Before using a palette, verify it exists in `make_icons.py`.** If not, define it.
 
 Existing palettes (safe to use):

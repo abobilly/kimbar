@@ -1,0 +1,1536 @@
+{
+  "schema": "kimbar.missing_assets.v1",
+  "version": "1.1.0",
+  "grid": {
+    "tileSize": 32,
+    "propAnchor": "bottom_center"
+  },
+  "priorities": {
+    "P0": "Required for MVP room readability or navigation",
+    "P1": "Recommended for thematic clarity",
+    "P2": "Nice-to-have polish"
+  },
+  "rooms": {
+    "courthouse_exterior": {
+      "size": [
+        25,
+        20
+      ],
+      "zones": {
+        "stairs": {
+          "rect": [
+            4,
+            10,
+            21,
+            18
+          ]
+        },
+        "facade": {
+          "rect": [
+            6,
+            3,
+            20,
+            9
+          ]
+        },
+        "plaza_edges": {
+          "rect": [
+            0,
+            19,
+            24,
+            19
+          ]
+        },
+        "door_zone": {
+          "rect": [
+            11,
+            6,
+            13,
+            8
+          ]
+        }
+      }
+    },
+    "scotus_lobby": {
+      "size": [
+        20,
+        15
+      ],
+      "zones": {
+        "center_aisle": {
+          "rect": [
+            9,
+            2,
+            11,
+            13
+          ],
+          "clear": true
+        },
+        "seal_center": {
+          "rect": [
+            9,
+            6,
+            11,
+            8
+          ]
+        },
+        "seating_left": {
+          "rect": [
+            2,
+            8,
+            6,
+            12
+          ]
+        },
+        "seating_right": {
+          "rect": [
+            13,
+            8,
+            17,
+            12
+          ]
+        },
+        "north_wall": {
+          "rect": [
+            0,
+            1,
+            19,
+            1
+          ]
+        },
+        "south_entry": {
+          "rect": [
+            8,
+            12,
+            12,
+            14
+          ]
+        }
+      }
+    },
+    "room.scotus_hall_01": {
+      "size": [
+        20,
+        15
+      ],
+      "zones": {
+        "runner": {
+          "rect": [
+            9,
+            2,
+            11,
+            13
+          ],
+          "clear": true
+        },
+        "side_benches": {
+          "rect": [
+            2,
+            8,
+            17,
+            11
+          ]
+        },
+        "doors": {
+          "rect": [
+            4,
+            1,
+            16,
+            1
+          ]
+        }
+      }
+    },
+    "courtroom_main": {
+      "size": [
+        30,
+        20
+      ],
+      "zones": {
+        "dais": {
+          "rect": [
+            12,
+            2,
+            18,
+            4
+          ]
+        },
+        "aisle": {
+          "rect": [
+            14,
+            5,
+            16,
+            18
+          ],
+          "clear": true
+        },
+        "counsel_left": {
+          "rect": [
+            6,
+            10,
+            10,
+            12
+          ]
+        },
+        "counsel_right": {
+          "rect": [
+            20,
+            10,
+            24,
+            12
+          ]
+        },
+        "jury_box": {
+          "rect": [
+            4,
+            5,
+            8,
+            9
+          ]
+        }
+      }
+    },
+    "library": {
+      "size": [
+        20,
+        15
+      ],
+      "zones": {
+        "shelves_north": {
+          "rect": [
+            0,
+            1,
+            19,
+            2
+          ]
+        },
+        "reading_center": {
+          "rect": [
+            6,
+            7,
+            14,
+            10
+          ]
+        }
+      }
+    },
+    "press_room": {
+      "size": [
+        15,
+        12
+      ],
+      "zones": {
+        "podium_front": {
+          "rect": [
+            6,
+            2,
+            9,
+            3
+          ]
+        },
+        "seating": {
+          "rect": [
+            1,
+            6,
+            13,
+            9
+          ]
+        },
+        "backdrop": {
+          "rect": [
+            0,
+            1,
+            14,
+            1
+          ]
+        }
+      }
+    },
+    "cafeteria": {
+      "size": [
+        20,
+        15
+      ],
+      "zones": {
+        "serving_north": {
+          "rect": [
+            0,
+            1,
+            19,
+            2
+          ]
+        },
+        "tables_center": {
+          "rect": [
+            4,
+            6,
+            16,
+            12
+          ]
+        }
+      }
+    },
+    "robing_room": {
+      "size": [
+        15,
+        12
+      ],
+      "zones": {
+        "racks": {
+          "rect": [
+            2,
+            2,
+            13,
+            4
+          ]
+        },
+        "lockers": {
+          "rect": [
+            0,
+            1,
+            14,
+            2
+          ]
+        }
+      }
+    },
+    "records_vault": {
+      "size": [
+        15,
+        12
+      ],
+      "zones": {
+        "vault_wall": {
+          "rect": [
+            0,
+            1,
+            14,
+            2
+          ]
+        },
+        "shelves": {
+          "rect": [
+            2,
+            4,
+            13,
+            9
+          ]
+        }
+      }
+    },
+    "chambers": {
+      "size": [
+        15,
+        12
+      ],
+      "zones": {
+        "desk_zone": {
+          "rect": [
+            5,
+            4,
+            9,
+            6
+          ]
+        },
+        "wall_props": {
+          "rect": [
+            0,
+            1,
+            14,
+            2
+          ]
+        }
+      }
+    }
+  },
+  "assets": [
+    {
+      "id": "tile.scotus.marble_floor",
+      "kind": "tileset",
+      "priority": "P0",
+      "tileSize": 32,
+      "variants": [
+        "plain",
+        "veined",
+        "border",
+        "corner",
+        "inner_corner",
+        "seal_medallion"
+      ],
+      "placer": {
+        "rooms": [
+          "scotus_lobby",
+          "room.scotus_hall_01",
+          "courtroom_main"
+        ],
+        "zones": [
+          "floor",
+          "seal_center"
+        ]
+      }
+    },
+    {
+      "id": "tile.scotus.marble_wall",
+      "kind": "tileset",
+      "priority": "P0",
+      "tileSize": 32,
+      "variants": [
+        "wall",
+        "trim",
+        "pillar",
+        "arch",
+        "door_frame"
+      ],
+      "placer": {
+        "rooms": [
+          "scotus_lobby",
+          "room.scotus_hall_01",
+          "courtroom_main"
+        ],
+        "zones": [
+          "north_wall"
+        ]
+      }
+    },
+    {
+      "id": "tile.scotus.wood_panel",
+      "kind": "tileset",
+      "priority": "P0",
+      "tileSize": 32,
+      "variants": [
+        "panel",
+        "baseboard",
+        "corner"
+      ],
+      "placer": {
+        "rooms": [
+          "courtroom_main",
+          "chambers_*"
+        ],
+        "zones": [
+          "north_wall"
+        ]
+      }
+    },
+    {
+      "id": "tile.scotus.dais",
+      "kind": "tileset",
+      "priority": "P0",
+      "tileSize": 32,
+      "variants": [
+        "platform",
+        "front_face",
+        "steps",
+        "corner"
+      ],
+      "placer": {
+        "rooms": [
+          "courtroom_main"
+        ],
+        "zones": [
+          "dais"
+        ]
+      }
+    },
+    {
+      "id": "tile.scotus.library_floor",
+      "kind": "tileset",
+      "priority": "P1",
+      "tileSize": 32,
+      "variants": [
+        "planks_horizontal",
+        "planks_vertical"
+      ],
+      "placer": {
+        "rooms": [
+          "library"
+        ],
+        "zones": [
+          "floor"
+        ]
+      }
+    },
+    {
+      "id": "tile.scotus.cafeteria_floor",
+      "kind": "tileset",
+      "priority": "P1",
+      "tileSize": 32,
+      "variants": [
+        "checker_light",
+        "checker_dark"
+      ],
+      "placer": {
+        "rooms": [
+          "cafeteria"
+        ],
+        "zones": [
+          "floor"
+        ]
+      }
+    },
+    {
+      "id": "tile.scotus.vault_floor",
+      "kind": "tileset",
+      "priority": "P1",
+      "tileSize": 32,
+      "variants": [
+        "metal",
+        "grate",
+        "warning_border"
+      ],
+      "placer": {
+        "rooms": [
+          "records_vault"
+        ],
+        "zones": [
+          "floor"
+        ]
+      }
+    },
+    {
+      "id": "prop.scotus_plaque",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "courthouse_exterior"
+        ],
+        "zones": [
+          "facade",
+          "door_zone"
+        ]
+      }
+    },
+    {
+      "id": "prop.statue",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "courthouse_exterior"
+        ],
+        "zones": [
+          "plaza_edges"
+        ]
+      }
+    },
+    {
+      "id": "prop.bollard",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "courthouse_exterior"
+        ],
+        "zones": [
+          "plaza_edges"
+        ]
+      }
+    },
+    {
+      "id": "prop.info_desk",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        3,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "scotus_lobby"
+        ],
+        "zones": [
+          "seating_left"
+        ]
+      }
+    },
+    {
+      "id": "prop.metal_detector",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        2,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "scotus_lobby"
+        ],
+        "zones": [
+          "south_entry"
+        ]
+      }
+    },
+    {
+      "id": "prop.xray_belt",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        3,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "scotus_lobby"
+        ],
+        "zones": [
+          "south_entry"
+        ]
+      }
+    },
+    {
+      "id": "prop.stanchion",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "scotus_lobby"
+        ],
+        "zones": [
+          "north_wall"
+        ]
+      }
+    },
+    {
+      "id": "prop.couch",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        2,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "scotus_lobby"
+        ],
+        "zones": [
+          "seating_left",
+          "seating_right"
+        ]
+      }
+    },
+    {
+      "id": "prop.wall_sconce",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "room.scotus_hall_01"
+        ],
+        "zones": [
+          "north_wall"
+        ]
+      }
+    },
+    {
+      "id": "prop.door_plaque",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "room.scotus_hall_01"
+        ],
+        "zones": [
+          "doors"
+        ]
+      }
+    },
+    {
+      "id": "prop.banner",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        2
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "scotus_lobby"
+        ],
+        "zones": [
+          "north_wall"
+        ]
+      }
+    },
+    {
+      "id": "prop.judge_bench",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        4,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "courtroom_main"
+        ],
+        "zones": [
+          "dais"
+        ]
+      }
+    },
+    {
+      "id": "prop.counsel_table",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        3,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "courtroom_main"
+        ],
+        "zones": [
+          "counsel_left",
+          "counsel_right"
+        ]
+      }
+    },
+    {
+      "id": "prop.counsel_chair",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "courtroom_main"
+        ],
+        "zones": [
+          "counsel_left",
+          "counsel_right"
+        ]
+      }
+    },
+    {
+      "id": "prop.jury_box",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        3,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "courtroom_main"
+        ],
+        "zones": [
+          "jury_box"
+        ]
+      }
+    },
+    {
+      "id": "prop.book_ladder",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "library"
+        ],
+        "zones": [
+          "shelves_north"
+        ]
+      }
+    },
+    {
+      "id": "prop.card_catalog",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        2,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "library"
+        ],
+        "zones": [
+          "reading_center"
+        ]
+      }
+    },
+    {
+      "id": "prop.reading_table",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        3,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "library"
+        ],
+        "zones": [
+          "reading_center"
+        ]
+      }
+    },
+    {
+      "id": "prop.desk_lamp",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "library"
+        ],
+        "zones": [
+          "reading_center"
+        ]
+      }
+    },
+    {
+      "id": "prop.podium",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        2,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "press_room"
+        ],
+        "zones": [
+          "podium_front"
+        ]
+      }
+    },
+    {
+      "id": "prop.camera_rig",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        2,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "press_room"
+        ],
+        "zones": [
+          "seating"
+        ]
+      }
+    },
+    {
+      "id": "prop.press_backdrop",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        4,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "press_room"
+        ],
+        "zones": [
+          "backdrop"
+        ]
+      }
+    },
+    {
+      "id": "prop.press_chair",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "press_room"
+        ],
+        "zones": [
+          "seating"
+        ]
+      }
+    },
+    {
+      "id": "prop.cafeteria_table",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        2,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "cafeteria"
+        ],
+        "zones": [
+          "tables_center"
+        ]
+      }
+    },
+    {
+      "id": "prop.cafeteria_chair",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "cafeteria"
+        ],
+        "zones": [
+          "tables_center"
+        ]
+      }
+    },
+    {
+      "id": "prop.vending_machine",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "cafeteria"
+        ],
+        "zones": [
+          "serving_north"
+        ]
+      }
+    },
+    {
+      "id": "prop.menu_board",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        2,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "cafeteria"
+        ],
+        "zones": [
+          "serving_north"
+        ]
+      }
+    },
+    {
+      "id": "prop.serving_counter",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        4,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "cafeteria"
+        ],
+        "zones": [
+          "serving_north"
+        ]
+      }
+    },
+    {
+      "id": "prop.robe_rack",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        2,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "robing_room"
+        ],
+        "zones": [
+          "racks"
+        ]
+      }
+    },
+    {
+      "id": "prop.mirror",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        2
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "robing_room"
+        ],
+        "zones": [
+          "racks"
+        ]
+      }
+    },
+    {
+      "id": "prop.locker",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        2,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "robing_room"
+        ],
+        "zones": [
+          "lockers"
+        ]
+      }
+    },
+    {
+      "id": "prop.vault_door",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        2,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "records_vault"
+        ],
+        "zones": [
+          "vault_wall"
+        ]
+      }
+    },
+    {
+      "id": "prop.metal_shelf",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        2,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "records_vault"
+        ],
+        "zones": [
+          "shelves"
+        ]
+      }
+    },
+    {
+      "id": "prop.warning_light",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "records_vault"
+        ],
+        "zones": [
+          "vault_wall"
+        ]
+      }
+    },
+    {
+      "id": "prop.evidence_board",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        2,
+        2
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_thomas"
+        ],
+        "zones": [
+          "wall_props"
+        ]
+      }
+    },
+    {
+      "id": "prop.tape_recorder",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_thomas"
+        ],
+        "zones": [
+          "desk_zone"
+        ]
+      }
+    },
+    {
+      "id": "prop.badge_stand",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_sotomayor"
+        ],
+        "zones": [
+          "desk_zone"
+        ]
+      }
+    },
+    {
+      "id": "prop.handcuffs",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_sotomayor"
+        ],
+        "zones": [
+          "desk_zone"
+        ]
+      }
+    },
+    {
+      "id": "prop.cctv_monitor",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_sotomayor"
+        ],
+        "zones": [
+          "wall_props"
+        ]
+      }
+    },
+    {
+      "id": "prop.docket_stack",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_kagan"
+        ],
+        "zones": [
+          "desk_zone"
+        ]
+      }
+    },
+    {
+      "id": "prop.procedure_chart",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        2,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_kagan"
+        ],
+        "zones": [
+          "wall_props"
+        ]
+      }
+    },
+    {
+      "id": "prop.deed_ledger",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_gorsuch"
+        ],
+        "zones": [
+          "desk_zone"
+        ]
+      }
+    },
+    {
+      "id": "prop.map_plot",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        2,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_gorsuch"
+        ],
+        "zones": [
+          "wall_props"
+        ]
+      }
+    },
+    {
+      "id": "prop.house_keys",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_gorsuch"
+        ],
+        "zones": [
+          "desk_zone"
+        ]
+      }
+    },
+    {
+      "id": "prop.contract_scroll",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_kavanaugh"
+        ],
+        "zones": [
+          "desk_zone"
+        ]
+      }
+    },
+    {
+      "id": "prop.handshake_sculpture",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "chambers_kavanaugh"
+        ],
+        "zones": [
+          "wall_props"
+        ]
+      }
+    },
+    {
+      "id": "prop.family_photo_frame",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_barrett"
+        ],
+        "zones": [
+          "wall_props"
+        ]
+      }
+    },
+    {
+      "id": "prop.toy_blocks",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_barrett"
+        ],
+        "zones": [
+          "desk_zone"
+        ]
+      }
+    },
+    {
+      "id": "prop.caution_cone",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "chambers_alito"
+        ],
+        "zones": [
+          "desk_zone"
+        ]
+      }
+    },
+    {
+      "id": "prop.accident_report",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_jackson"
+        ],
+        "zones": [
+          "desk_zone"
+        ]
+      }
+    },
+    {
+      "id": "prop.medical_chart",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_jackson"
+        ],
+        "zones": [
+          "wall_props"
+        ]
+      }
+    },
+    {
+      "id": "prop.hazard_sign",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "chambers_jackson"
+        ],
+        "zones": [
+          "desk_zone"
+        ]
+      }
+    },
+    {
+      "id": "prop.constitution_scroll",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "chambers_roberts"
+        ],
+        "zones": [
+          "desk_zone"
+        ]
+      }
+    },
+    {
+      "id": "prop.classical_bust",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "chambers_roberts"
+        ],
+        "zones": [
+          "wall_props"
+        ]
+      }
+    },
+    {
+      "id": "npc.tourist",
+      "kind": "character",
+      "priority": "P1",
+      "format": "ulpc_spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "placer": {
+        "rooms": [
+          "courthouse_exterior"
+        ],
+        "zones": [
+          "plaza_edges"
+        ]
+      }
+    },
+    {
+      "id": "npc.clerk",
+      "kind": "character",
+      "priority": "P1",
+      "format": "ulpc_spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "placer": {
+        "rooms": [
+          "room.scotus_hall_01"
+        ],
+        "zones": [
+          "runner"
+        ]
+      }
+    },
+    {
+      "id": "player_outfit_variants",
+      "kind": "character_variants",
+      "priority": "P0",
+      "format": "ulpc_layers",
+      "variants": [
+        "evidence_blazer",
+        "civpro_suit",
+        "conlaw_robe",
+        "court_blazer",
+        "power_suit",
+        "crimpro_badge",
+        "property_vest",
+        "contracts_tie",
+        "family_cardigan",
+        "criminal_jacket",
+        "torts_blazer",
+        "supreme_robe"
+      ]
+    },
+    {
+      "id": "ui_and_vfx_optional",
+      "kind": "ui_vfx",
+      "priority": "P2",
+      "items": [
+        "icon.locked_door",
+        "icon.quest_complete",
+        "vfx.sparkle_unlock",
+        "vfx.victory_burst",
+        "ui.panel_frame",
+        "ui.button_normal"
+      ]
+    }
+  ]
+}

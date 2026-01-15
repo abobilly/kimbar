@@ -27,14 +27,26 @@
 
 ---
 
-## 2. Recent Changes: Props Registry + Missing Assets Brief
+## 2. Recent Changes: AI Job + Placement Drafts
 
 ### What Was Done (January 15, 2026)
 
-- Added missing assets brief for generator/placer workflows: `docs/MISSING_ASSETS.md`.
-- Implemented prop ID normalization and deterministic scanning in `scripts/build-characters.js`.
-- Added Prop entity support in content contract, LDtk generation, and validator.
-- Updated registry docs for prop IDs and normalization.
+- Added generator scripts: `scripts/generate-ai-jobs-from-spec.mjs` and `scripts/generate-placement-drafts.mjs`.
+- Added npm entry points: `npm run gen:ai:missing` and `npm run gen:placements`.
+- Generated missing-asset AI job sets: `content/ai_jobs/props_missing_v1.json` and `content/ai_jobs/tiles_missing_v1.json`.
+- Generated placement drafts: `content/placement_drafts/prop_placements.json` (+ README).
+- Added schema + validation: `schemas/PlacementDraft.schema.json` and placement checks in `scripts/validate.js`.
+- Expanded AI job schema IDs to allow dotted namespaces in `schemas/AiJobSpec.schema.json`.
+- Updated `scripts/generate-ldtk-levels.mjs` to merge placement drafts into Prop entities (adds `propId` field definition).
+
+---
+
+## 2. Recent Changes: Missing Assets Guidance (Second Pass)
+
+### What Was Done (January 15, 2026)
+
+- Expanded missing assets guidance with footprints, collision flags, room zones, and priorities in `docs/MISSING_ASSETS.md`.
+- Added machine-readable spec for generator/placer workflows: `docs/MISSING_ASSETS_SPEC.json`.
 
 ---
 
@@ -267,6 +279,8 @@ npm run dev           # Start dev server (port 8080)
 npm run build         # Production build
 npm run prepare:content  # Full asset pipeline
 npm run gen:sprites   # Regenerate character sprites
+npm run gen:ai:missing  # Generate AI job files from missing asset spec
+npm run gen:placements  # Generate prop placement drafts from missing asset spec
 npm run validate      # Validate all content
 npm run test          # Run all tests
 ```

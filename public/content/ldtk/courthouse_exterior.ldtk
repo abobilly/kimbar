@@ -219,6 +219,33 @@
             "__type": "String"
           }
         ]
+      },
+      {
+        "identifier": "Prop",
+        "uid": 205,
+        "width": 32,
+        "height": 32,
+        "color": "#8bc34a",
+        "fieldDefs": [
+          {
+            "identifier": "sprite",
+            "uid": 340,
+            "type": "F_String",
+            "__type": "String"
+          },
+          {
+            "identifier": "collision",
+            "uid": 341,
+            "type": "F_Bool",
+            "__type": "Bool"
+          },
+          {
+            "identifier": "propId",
+            "uid": 342,
+            "type": "F_String",
+            "__type": "String"
+          }
+        ]
       }
     ],
     "tilesets": [],
@@ -387,6 +414,390 @@
                   "__value": "tourist",
                   "__tile": null,
                   "defUid": 304,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                3,
+                17
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "lamp_left",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                96,
+                544
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "lamp_post",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                22,
+                17
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "lamp_right",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                704,
+                544
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "lamp_post",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                1,
+                14
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "tree_left",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                32,
+                448
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "tree",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                24,
+                14
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "tree_right",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                768,
+                448
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "tree",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                4,
+                18
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "bench_left",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                128,
+                576
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "bench",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                21,
+                18
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "bench_right",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                672,
+                576
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "bench",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                12,
+                19
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_bollard__plaza_edges__1",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                384,
+                608
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.bollard",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": true,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.bollard",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                12,
+                7
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_scotus_plaque__door_zone__2",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                384,
+                224
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.scotus_plaque",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.scotus_plaque",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                13,
+                6
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_scotus_plaque__facade__3",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                416,
+                192
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.scotus_plaque",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.scotus_plaque",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                12,
+                19
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_statue__plaza_edges__4",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                384,
+                608
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.statue",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": true,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.statue",
+                  "__tile": null,
+                  "defUid": 342,
                   "realEditorValues": []
                 }
               ]

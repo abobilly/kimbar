@@ -48,6 +48,16 @@ Use these as anchors; vary subtly per room.
 - Tiles/props: darker local color for outlines, no pure black.
 - Characters: near-black outlines, no selective outlining.
 - Textures: minimal noise; emphasize large forms and clean silhouettes.
+
+## 6. LPC Clothing Physics
+
+When generating clothes or robes for LPC characters:
+
+1. **Drape over form:** Clothes must follow the character's volume (shoulders, chest, hips).
+2. **Gravity affects hems:** Bottom edges should hang naturally, not be perfectly straight unless rigid.
+3. **Layering logic:** Inner layers (shirts) are tighter; outer layers (robes/coats) are looser.
+4. **Fold shading:** Use 3-tone shading (highlight, mid, shadow) to indicate folds where fabric bunches (elbows, waist).
+5. **No pillow shading:** Light comes from top-left.
 - Detail density: low to medium; avoid cluttered tile patterns.
 
 ## 6. Characters (Sprites)

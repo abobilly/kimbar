@@ -1,0 +1,603 @@
+{
+  "$schema": "../../schemas/AiJobSpec.schema.json",
+  "setId": "props.missing_v1",
+  "workflow": "wf_prop_pixelize_v1",
+  "defaults": {
+    "style": "top-down pixel art prop, courthouse theme, clean silhouette, limited palette, soft shading, transparent background, centered object",
+    "negativePrompt": "blurry, watermark, text, ui, border, frame, background scene, multiple objects, ground shadow",
+    "size": 64,
+    "paletteColors": 24,
+    "anchor": [
+      0.5,
+      1
+    ]
+  },
+  "items": [
+    {
+      "id": "prop.accident_report",
+      "prompt": "accident report clipboard, papers on clipboard, no text",
+      "size": 64,
+      "seed": 1680849502,
+      "tags": [
+        "prop",
+        "accident",
+        "report"
+      ]
+    },
+    {
+      "id": "prop.badge_stand",
+      "prompt": "police badge display stand, small badge on plaque",
+      "size": 64,
+      "seed": 714352110,
+      "tags": [
+        "prop",
+        "badge",
+        "stand"
+      ]
+    },
+    {
+      "id": "prop.banner",
+      "prompt": "vertical courthouse banner with seal motif, fabric drape",
+      "size": 64,
+      "seed": 1505287394,
+      "tags": [
+        "prop",
+        "banner"
+      ]
+    },
+    {
+      "id": "prop.bollard",
+      "prompt": "short metal bollard, street barrier post, simple cylinder",
+      "size": 64,
+      "seed": 1965650373,
+      "tags": [
+        "prop",
+        "bollard"
+      ]
+    },
+    {
+      "id": "prop.book_ladder",
+      "prompt": "rolling library ladder, wooden ladder on wheels",
+      "size": 64,
+      "seed": 1557478012,
+      "tags": [
+        "prop",
+        "book",
+        "ladder"
+      ]
+    },
+    {
+      "id": "prop.cafeteria_chair",
+      "prompt": "cafeteria chair, simple metal chair",
+      "size": 64,
+      "seed": 157351621,
+      "tags": [
+        "prop",
+        "cafeteria",
+        "chair"
+      ]
+    },
+    {
+      "id": "prop.cafeteria_table",
+      "prompt": "cafeteria table, round or square table, simple metal legs",
+      "size": 64,
+      "seed": 172843982,
+      "tags": [
+        "prop",
+        "cafeteria",
+        "table"
+      ]
+    },
+    {
+      "id": "prop.camera_rig",
+      "prompt": "press camera on tripod, compact news camera",
+      "size": 64,
+      "seed": 740439141,
+      "tags": [
+        "prop",
+        "camera",
+        "rig"
+      ]
+    },
+    {
+      "id": "prop.card_catalog",
+      "prompt": "card catalog cabinet, library index drawers",
+      "size": 64,
+      "seed": 355132636,
+      "tags": [
+        "prop",
+        "card",
+        "catalog"
+      ]
+    },
+    {
+      "id": "prop.caution_cone",
+      "prompt": "orange caution cone, safety cone",
+      "size": 64,
+      "seed": 1424842760,
+      "tags": [
+        "prop",
+        "caution",
+        "cone"
+      ]
+    },
+    {
+      "id": "prop.cctv_monitor",
+      "prompt": "small CCTV monitor, wall mounted screen",
+      "size": 64,
+      "seed": 1022654938,
+      "tags": [
+        "prop",
+        "cctv",
+        "monitor"
+      ]
+    },
+    {
+      "id": "prop.classical_bust",
+      "prompt": "classical marble bust on pedestal",
+      "size": 64,
+      "seed": 1428569480,
+      "tags": [
+        "prop",
+        "classical",
+        "bust"
+      ]
+    },
+    {
+      "id": "prop.constitution_scroll",
+      "prompt": "constitution scroll, rolled parchment with ribbon",
+      "size": 64,
+      "seed": 61094289,
+      "tags": [
+        "prop",
+        "constitution",
+        "scroll"
+      ]
+    },
+    {
+      "id": "prop.contract_scroll",
+      "prompt": "rolled contract scroll with ribbon, no text",
+      "size": 64,
+      "seed": 413390462,
+      "tags": [
+        "prop",
+        "contract",
+        "scroll"
+      ]
+    },
+    {
+      "id": "prop.couch",
+      "prompt": "low lobby couch, modern seating, simple shape",
+      "size": 64,
+      "seed": 1781746289,
+      "tags": [
+        "prop",
+        "couch"
+      ]
+    },
+    {
+      "id": "prop.counsel_chair",
+      "prompt": "courtroom chair, wooden chair with cushion",
+      "size": 64,
+      "seed": 1454128338,
+      "tags": [
+        "prop",
+        "counsel",
+        "chair"
+      ]
+    },
+    {
+      "id": "prop.counsel_table",
+      "prompt": "courtroom counsel table, slim wooden desk",
+      "size": 128,
+      "seed": 1469620699,
+      "tags": [
+        "prop",
+        "counsel",
+        "table"
+      ]
+    },
+    {
+      "id": "prop.deed_ledger",
+      "prompt": "property deed ledger book, thick bound ledger",
+      "size": 64,
+      "seed": 1512948458,
+      "tags": [
+        "prop",
+        "deed",
+        "ledger"
+      ]
+    },
+    {
+      "id": "prop.desk_lamp",
+      "prompt": "green banker desk lamp, brass base",
+      "size": 64,
+      "seed": 1523128105,
+      "tags": [
+        "prop",
+        "desk",
+        "lamp"
+      ]
+    },
+    {
+      "id": "prop.docket_stack",
+      "prompt": "stack of legal files and folders, docket pile",
+      "size": 64,
+      "seed": 1863627054,
+      "tags": [
+        "prop",
+        "docket",
+        "stack"
+      ]
+    },
+    {
+      "id": "prop.door_plaque",
+      "prompt": "small brass door plaque, room nameplate, no text",
+      "size": 64,
+      "seed": 1698675413,
+      "tags": [
+        "prop",
+        "door",
+        "plaque"
+      ]
+    },
+    {
+      "id": "prop.evidence_board",
+      "prompt": "evidence board with pinned notes and string, no readable text",
+      "size": 64,
+      "seed": 1617816426,
+      "tags": [
+        "prop",
+        "evidence",
+        "board"
+      ]
+    },
+    {
+      "id": "prop.family_photo_frame",
+      "prompt": "family photo frame, simple wood frame, no faces",
+      "size": 64,
+      "seed": 1517170291,
+      "tags": [
+        "prop",
+        "family",
+        "photo",
+        "frame"
+      ]
+    },
+    {
+      "id": "prop.handcuffs",
+      "prompt": "pair of metal handcuffs, closed cuffs",
+      "size": 64,
+      "seed": 2015467612,
+      "tags": [
+        "prop",
+        "handcuffs"
+      ]
+    },
+    {
+      "id": "prop.handshake_sculpture",
+      "prompt": "handshake sculpture on small pedestal, bronze finish",
+      "size": 64,
+      "seed": 2092006792,
+      "tags": [
+        "prop",
+        "handshake",
+        "sculpture"
+      ]
+    },
+    {
+      "id": "prop.hazard_sign",
+      "prompt": "hazard warning sign, simple icon, no text",
+      "size": 64,
+      "seed": 768407223,
+      "tags": [
+        "prop",
+        "hazard",
+        "sign"
+      ]
+    },
+    {
+      "id": "prop.house_keys",
+      "prompt": "set of house keys on keyring",
+      "size": 64,
+      "seed": 447430078,
+      "tags": [
+        "prop",
+        "house",
+        "keys"
+      ]
+    },
+    {
+      "id": "prop.info_desk",
+      "prompt": "reception info desk, modern courthouse desk, wood and brass accents",
+      "size": 128,
+      "seed": 1042852645,
+      "tags": [
+        "prop",
+        "info",
+        "desk"
+      ]
+    },
+    {
+      "id": "prop.judge_bench",
+      "prompt": "large judge bench, courtroom furniture, raised wooden bench",
+      "size": 128,
+      "seed": 1722988995,
+      "tags": [
+        "prop",
+        "judge",
+        "bench"
+      ]
+    },
+    {
+      "id": "prop.jury_box",
+      "prompt": "jury box seating enclosure, wood rail with benches",
+      "size": 128,
+      "seed": 929477668,
+      "tags": [
+        "prop",
+        "jury",
+        "box"
+      ]
+    },
+    {
+      "id": "prop.locker",
+      "prompt": "locker bank, metal lockers, courthouse staff lockers",
+      "size": 64,
+      "seed": 1804177614,
+      "tags": [
+        "prop",
+        "locker"
+      ]
+    },
+    {
+      "id": "prop.map_plot",
+      "prompt": "property map plot, rolled map or flat map sheet",
+      "size": 64,
+      "seed": 1211983176,
+      "tags": [
+        "prop",
+        "map",
+        "plot"
+      ]
+    },
+    {
+      "id": "prop.medical_chart",
+      "prompt": "medical chart clipboard, simple chart, no text",
+      "size": 64,
+      "seed": 563917734,
+      "tags": [
+        "prop",
+        "medical",
+        "chart"
+      ]
+    },
+    {
+      "id": "prop.menu_board",
+      "prompt": "cafeteria menu board, simple wall board, no text",
+      "size": 64,
+      "seed": 503459500,
+      "tags": [
+        "prop",
+        "menu",
+        "board"
+      ]
+    },
+    {
+      "id": "prop.metal_detector",
+      "prompt": "security metal detector gate, courthouse entry device",
+      "size": 64,
+      "seed": 2051758080,
+      "tags": [
+        "prop",
+        "metal",
+        "detector"
+      ]
+    },
+    {
+      "id": "prop.metal_shelf",
+      "prompt": "metal archive shelving, simple storage rack",
+      "size": 64,
+      "seed": 689216871,
+      "tags": [
+        "prop",
+        "metal",
+        "shelf"
+      ]
+    },
+    {
+      "id": "prop.mirror",
+      "prompt": "tall standing mirror, simple frame",
+      "size": 64,
+      "seed": 1827719541,
+      "tags": [
+        "prop",
+        "mirror"
+      ]
+    },
+    {
+      "id": "prop.podium",
+      "prompt": "press podium with seal medallion, wooden lectern",
+      "size": 64,
+      "seed": 1918722578,
+      "tags": [
+        "prop",
+        "podium"
+      ]
+    },
+    {
+      "id": "prop.press_backdrop",
+      "prompt": "press room backdrop panel with seal motif, no text",
+      "size": 128,
+      "seed": 845646996,
+      "tags": [
+        "prop",
+        "press",
+        "backdrop"
+      ]
+    },
+    {
+      "id": "prop.press_chair",
+      "prompt": "simple press chair, folding chair",
+      "size": 64,
+      "seed": 1590560200,
+      "tags": [
+        "prop",
+        "press",
+        "chair"
+      ]
+    },
+    {
+      "id": "prop.procedure_chart",
+      "prompt": "procedure chart poster with simple arrows, no text",
+      "size": 64,
+      "seed": 482920659,
+      "tags": [
+        "prop",
+        "procedure",
+        "chart"
+      ]
+    },
+    {
+      "id": "prop.reading_table",
+      "prompt": "library reading table, long wooden table",
+      "size": 128,
+      "seed": 1807919975,
+      "tags": [
+        "prop",
+        "reading",
+        "table"
+      ]
+    },
+    {
+      "id": "prop.robe_rack",
+      "prompt": "robe rack with hanging robes, courthouse wardrobe rack",
+      "size": 64,
+      "seed": 2010035730,
+      "tags": [
+        "prop",
+        "robe",
+        "rack"
+      ]
+    },
+    {
+      "id": "prop.scotus_plaque",
+      "prompt": "bronze courthouse wall plaque with embossed seal, simple decorative plaque",
+      "size": 64,
+      "seed": 952013208,
+      "tags": [
+        "prop",
+        "scotus",
+        "plaque"
+      ]
+    },
+    {
+      "id": "prop.serving_counter",
+      "prompt": "cafeteria serving counter, long counter with tray rail",
+      "size": 128,
+      "seed": 1748772797,
+      "tags": [
+        "prop",
+        "serving",
+        "counter"
+      ]
+    },
+    {
+      "id": "prop.stanchion",
+      "prompt": "velvet rope stanchion post, brass stand",
+      "size": 64,
+      "seed": 1847745374,
+      "tags": [
+        "prop",
+        "stanchion"
+      ]
+    },
+    {
+      "id": "prop.statue",
+      "prompt": "small marble statue on pedestal, classical courthouse decor",
+      "size": 64,
+      "seed": 2009148826,
+      "tags": [
+        "prop",
+        "statue"
+      ]
+    },
+    {
+      "id": "prop.tape_recorder",
+      "prompt": "small tape recorder, evidence device",
+      "size": 64,
+      "seed": 1922126847,
+      "tags": [
+        "prop",
+        "tape",
+        "recorder"
+      ]
+    },
+    {
+      "id": "prop.toy_blocks",
+      "prompt": "small toy blocks, colorful cubes",
+      "size": 64,
+      "seed": 121720540,
+      "tags": [
+        "prop",
+        "toy",
+        "blocks"
+      ]
+    },
+    {
+      "id": "prop.vault_door",
+      "prompt": "vault door, round metal door with wheel handle",
+      "size": 64,
+      "seed": 37613370,
+      "tags": [
+        "prop",
+        "vault",
+        "door"
+      ]
+    },
+    {
+      "id": "prop.vending_machine",
+      "prompt": "vending machine, tall rectangular unit with buttons",
+      "size": 64,
+      "seed": 2037949244,
+      "tags": [
+        "prop",
+        "vending",
+        "machine"
+      ]
+    },
+    {
+      "id": "prop.wall_sconce",
+      "prompt": "brass wall sconce light, courthouse wall lamp",
+      "size": 64,
+      "seed": 1865579533,
+      "tags": [
+        "prop",
+        "wall",
+        "sconce"
+      ]
+    },
+    {
+      "id": "prop.warning_light",
+      "prompt": "small red warning light, industrial indicator",
+      "size": 64,
+      "seed": 1309580336,
+      "tags": [
+        "prop",
+        "warning",
+        "light"
+      ]
+    },
+    {
+      "id": "prop.xray_belt",
+      "prompt": "x-ray conveyor belt, security screening machine, compact unit",
+      "size": 128,
+      "seed": 373316490,
+      "tags": [
+        "prop",
+        "xray",
+        "belt"
+      ]
+    }
+  ]
+}

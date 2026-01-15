@@ -1,0 +1,86 @@
+{
+  "$schema": "../../schemas/AiJobSpec.schema.json",
+  "setId": "tiles.missing_v1",
+  "workflow": "wf_tile_seamless_v1",
+  "defaults": {
+    "style": "top-down RPG tileset, pixel art style, seamless texture, clean tiling, courthouse materials",
+    "negativePrompt": "blurry, watermark, text, photo-realistic, 3d render, gradient, perspective",
+    "size": 32,
+    "paletteColors": 16,
+    "anchor": [
+      0.5,
+      0.5
+    ]
+  },
+  "items": [
+    {
+      "id": "tile.scotus.cafeteria_floor",
+      "prompt": "cafeteria floor tiles, light checker pattern, clean and simple",
+      "seed": 1296497723,
+      "tags": [
+        "tile",
+        "cafeteria",
+        "floor"
+      ]
+    },
+    {
+      "id": "tile.scotus.dais",
+      "prompt": "wooden dais platform tiles, courtroom judge platform with steps and front face",
+      "seed": 1915337625,
+      "tags": [
+        "tile",
+        "dais"
+      ]
+    },
+    {
+      "id": "tile.scotus.library_floor",
+      "prompt": "wood plank floor texture, warm library flooring, subtle grain",
+      "seed": 110120711,
+      "tags": [
+        "tile",
+        "library",
+        "floor"
+      ]
+    },
+    {
+      "id": "tile.scotus.marble_floor",
+      "prompt": "white marble floor tiles with subtle veining, polished stone, courthouse lobby floor",
+      "seed": 1398031274,
+      "tags": [
+        "tile",
+        "marble",
+        "floor"
+      ]
+    },
+    {
+      "id": "tile.scotus.marble_wall",
+      "prompt": "marble wall tiles with trim and pillar accents, clean courthouse wall texture",
+      "seed": 1431066880,
+      "tags": [
+        "tile",
+        "marble",
+        "wall"
+      ]
+    },
+    {
+      "id": "tile.scotus.vault_floor",
+      "prompt": "metal floor tiles with grates and warning stripe border, secure vault flooring",
+      "seed": 2054602348,
+      "tags": [
+        "tile",
+        "vault",
+        "floor"
+      ]
+    },
+    {
+      "id": "tile.scotus.wood_panel",
+      "prompt": "dark wood wall paneling, wainscoting texture, courthouse interior",
+      "seed": 619467127,
+      "tags": [
+        "tile",
+        "wood",
+        "panel"
+      ]
+    }
+  ]
+}

@@ -64,8 +64,8 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^(prop|tile|portrait|icon)\\.[a-z0-9_]+$",
-            "description": "Asset ID matching content_contract naming pattern"
+          "pattern": "^(prop|tile|portrait|icon)\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Asset ID matching content_contract naming pattern (dot namespaces allowed)"
           },
           "prompt": {
             "type": "string",

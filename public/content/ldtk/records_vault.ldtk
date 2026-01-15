@@ -219,6 +219,33 @@
             "__type": "String"
           }
         ]
+      },
+      {
+        "identifier": "Prop",
+        "uid": 205,
+        "width": 32,
+        "height": 32,
+        "color": "#8bc34a",
+        "fieldDefs": [
+          {
+            "identifier": "sprite",
+            "uid": 340,
+            "type": "F_String",
+            "__type": "String"
+          },
+          {
+            "identifier": "collision",
+            "uid": 341,
+            "type": "F_Bool",
+            "__type": "Bool"
+          },
+          {
+            "identifier": "propId",
+            "uid": 342,
+            "type": "F_String",
+            "__type": "String"
+          }
+        ]
       }
     ],
     "tilesets": [],
@@ -355,6 +382,150 @@
                   "__value": true,
                   "__tile": null,
                   "defUid": 313,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                7,
+                6
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_metal_shelf__shelves__1",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                224,
+                192
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.metal_shelf",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": true,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.metal_shelf",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                7,
+                1
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_vault_door__vault_wall__2",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                224,
+                32
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.vault_door",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": true,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.vault_door",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                7,
+                1
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_warning_light__vault_wall__3",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                224,
+                32
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.warning_light",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.warning_light",
+                  "__tile": null,
+                  "defUid": 342,
                   "realEditorValues": []
                 }
               ]

@@ -219,6 +219,33 @@
             "__type": "String"
           }
         ]
+      },
+      {
+        "identifier": "Prop",
+        "uid": 205,
+        "width": 32,
+        "height": 32,
+        "color": "#8bc34a",
+        "fieldDefs": [
+          {
+            "identifier": "sprite",
+            "uid": 340,
+            "type": "F_String",
+            "__type": "String"
+          },
+          {
+            "identifier": "collision",
+            "uid": 341,
+            "type": "F_Bool",
+            "__type": "Bool"
+          },
+          {
+            "identifier": "propId",
+            "uid": 342,
+            "type": "F_String",
+            "__type": "String"
+          }
+        ]
       }
     ],
     "tilesets": [],
@@ -387,6 +414,294 @@
                   "__value": "bailiff_intro",
                   "__tile": null,
                   "defUid": 302,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                8,
+                11
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_counsel_chair__counsel_left__1",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                256,
+                352
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.counsel_chair",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": true,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.counsel_chair",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                22,
+                11
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_counsel_chair__counsel_right__2",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                704,
+                352
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.counsel_chair",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": true,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.counsel_chair",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                7,
+                11
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_counsel_table__counsel_left__3",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                224,
+                352
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.counsel_table",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": true,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.counsel_table",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                21,
+                11
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_counsel_table__counsel_right__4",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                672,
+                352
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.counsel_table",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": true,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.counsel_table",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                14,
+                3
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_judge_bench__dais__5",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                448,
+                96
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.judge_bench",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": true,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.judge_bench",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                5,
+                7
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_jury_box__jury_box__6",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                160,
+                224
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.jury_box",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": true,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.jury_box",
+                  "__tile": null,
+                  "defUid": 342,
                   "realEditorValues": []
                 }
               ]

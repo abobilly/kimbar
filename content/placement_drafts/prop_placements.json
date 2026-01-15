@@ -1,0 +1,670 @@
+{
+  "$schema": "../../schemas/PlacementDraft.schema.json",
+  "schemaVersion": 1,
+  "sourceSpec": "docs/MISSING_ASSETS_SPEC.json",
+  "placements": {
+    "cafeteria": [
+      {
+        "type": "Prop",
+        "id": "prop.cafeteria_chair",
+        "zone": "tables_center",
+        "x": 10,
+        "y": 9,
+        "properties": {
+          "sprite": "prop.cafeteria_chair",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.cafeteria_table",
+        "zone": "tables_center",
+        "x": 10,
+        "y": 9,
+        "properties": {
+          "sprite": "prop.cafeteria_table",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.menu_board",
+        "zone": "serving_north",
+        "x": 9,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.menu_board",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.serving_counter",
+        "zone": "serving_north",
+        "x": 8,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.serving_counter",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.vending_machine",
+        "zone": "serving_north",
+        "x": 9,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.vending_machine",
+          "collision": true
+        }
+      }
+    ],
+    "chambers_alito": [
+      {
+        "type": "Prop",
+        "id": "prop.caution_cone",
+        "zone": "desk_zone",
+        "x": 7,
+        "y": 5,
+        "properties": {
+          "sprite": "prop.caution_cone",
+          "collision": true
+        }
+      }
+    ],
+    "chambers_barrett": [
+      {
+        "type": "Prop",
+        "id": "prop.family_photo_frame",
+        "zone": "wall_props",
+        "x": 7,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.family_photo_frame",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.toy_blocks",
+        "zone": "desk_zone",
+        "x": 7,
+        "y": 5,
+        "properties": {
+          "sprite": "prop.toy_blocks",
+          "collision": false
+        }
+      }
+    ],
+    "chambers_gorsuch": [
+      {
+        "type": "Prop",
+        "id": "prop.deed_ledger",
+        "zone": "desk_zone",
+        "x": 7,
+        "y": 5,
+        "properties": {
+          "sprite": "prop.deed_ledger",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.house_keys",
+        "zone": "desk_zone",
+        "x": 7,
+        "y": 5,
+        "properties": {
+          "sprite": "prop.house_keys",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.map_plot",
+        "zone": "wall_props",
+        "x": 7,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.map_plot",
+          "collision": false
+        }
+      }
+    ],
+    "chambers_jackson": [
+      {
+        "type": "Prop",
+        "id": "prop.accident_report",
+        "zone": "desk_zone",
+        "x": 7,
+        "y": 5,
+        "properties": {
+          "sprite": "prop.accident_report",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.hazard_sign",
+        "zone": "desk_zone",
+        "x": 7,
+        "y": 5,
+        "properties": {
+          "sprite": "prop.hazard_sign",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.medical_chart",
+        "zone": "wall_props",
+        "x": 7,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.medical_chart",
+          "collision": false
+        }
+      }
+    ],
+    "chambers_kagan": [
+      {
+        "type": "Prop",
+        "id": "prop.docket_stack",
+        "zone": "desk_zone",
+        "x": 7,
+        "y": 5,
+        "properties": {
+          "sprite": "prop.docket_stack",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.procedure_chart",
+        "zone": "wall_props",
+        "x": 7,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.procedure_chart",
+          "collision": false
+        }
+      }
+    ],
+    "chambers_kavanaugh": [
+      {
+        "type": "Prop",
+        "id": "prop.contract_scroll",
+        "zone": "desk_zone",
+        "x": 7,
+        "y": 5,
+        "properties": {
+          "sprite": "prop.contract_scroll",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.handshake_sculpture",
+        "zone": "wall_props",
+        "x": 7,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.handshake_sculpture",
+          "collision": true
+        }
+      }
+    ],
+    "chambers_roberts": [
+      {
+        "type": "Prop",
+        "id": "prop.classical_bust",
+        "zone": "wall_props",
+        "x": 7,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.classical_bust",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.constitution_scroll",
+        "zone": "desk_zone",
+        "x": 7,
+        "y": 5,
+        "properties": {
+          "sprite": "prop.constitution_scroll",
+          "collision": false
+        }
+      }
+    ],
+    "chambers_sotomayor": [
+      {
+        "type": "Prop",
+        "id": "prop.badge_stand",
+        "zone": "desk_zone",
+        "x": 7,
+        "y": 5,
+        "properties": {
+          "sprite": "prop.badge_stand",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.cctv_monitor",
+        "zone": "wall_props",
+        "x": 7,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.cctv_monitor",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.handcuffs",
+        "zone": "desk_zone",
+        "x": 7,
+        "y": 5,
+        "properties": {
+          "sprite": "prop.handcuffs",
+          "collision": false
+        }
+      }
+    ],
+    "chambers_thomas": [
+      {
+        "type": "Prop",
+        "id": "prop.evidence_board",
+        "zone": "wall_props",
+        "x": 7,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.evidence_board",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.tape_recorder",
+        "zone": "desk_zone",
+        "x": 7,
+        "y": 5,
+        "properties": {
+          "sprite": "prop.tape_recorder",
+          "collision": false
+        }
+      }
+    ],
+    "courthouse_exterior": [
+      {
+        "type": "Prop",
+        "id": "prop.bollard",
+        "zone": "plaza_edges",
+        "x": 12,
+        "y": 19,
+        "properties": {
+          "sprite": "prop.bollard",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.scotus_plaque",
+        "zone": "door_zone",
+        "x": 12,
+        "y": 7,
+        "properties": {
+          "sprite": "prop.scotus_plaque",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.scotus_plaque",
+        "zone": "facade",
+        "x": 13,
+        "y": 6,
+        "properties": {
+          "sprite": "prop.scotus_plaque",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.statue",
+        "zone": "plaza_edges",
+        "x": 12,
+        "y": 19,
+        "properties": {
+          "sprite": "prop.statue",
+          "collision": true
+        }
+      }
+    ],
+    "courtroom_main": [
+      {
+        "type": "Prop",
+        "id": "prop.counsel_chair",
+        "zone": "counsel_left",
+        "x": 8,
+        "y": 11,
+        "properties": {
+          "sprite": "prop.counsel_chair",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.counsel_chair",
+        "zone": "counsel_right",
+        "x": 22,
+        "y": 11,
+        "properties": {
+          "sprite": "prop.counsel_chair",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.counsel_table",
+        "zone": "counsel_left",
+        "x": 7,
+        "y": 11,
+        "properties": {
+          "sprite": "prop.counsel_table",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.counsel_table",
+        "zone": "counsel_right",
+        "x": 21,
+        "y": 11,
+        "properties": {
+          "sprite": "prop.counsel_table",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.judge_bench",
+        "zone": "dais",
+        "x": 14,
+        "y": 3,
+        "properties": {
+          "sprite": "prop.judge_bench",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.jury_box",
+        "zone": "jury_box",
+        "x": 5,
+        "y": 7,
+        "properties": {
+          "sprite": "prop.jury_box",
+          "collision": true
+        }
+      }
+    ],
+    "library": [
+      {
+        "type": "Prop",
+        "id": "prop.book_ladder",
+        "zone": "shelves_north",
+        "x": 9,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.book_ladder",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.card_catalog",
+        "zone": "reading_center",
+        "x": 10,
+        "y": 8,
+        "properties": {
+          "sprite": "prop.card_catalog",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.desk_lamp",
+        "zone": "reading_center",
+        "x": 10,
+        "y": 8,
+        "properties": {
+          "sprite": "prop.desk_lamp",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.reading_table",
+        "zone": "reading_center",
+        "x": 9,
+        "y": 8,
+        "properties": {
+          "sprite": "prop.reading_table",
+          "collision": true
+        }
+      }
+    ],
+    "press_room": [
+      {
+        "type": "Prop",
+        "id": "prop.camera_rig",
+        "zone": "seating",
+        "x": 7,
+        "y": 7,
+        "properties": {
+          "sprite": "prop.camera_rig",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.podium",
+        "zone": "podium_front",
+        "x": 7,
+        "y": 2,
+        "properties": {
+          "sprite": "prop.podium",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.press_backdrop",
+        "zone": "backdrop",
+        "x": 6,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.press_backdrop",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.press_chair",
+        "zone": "seating",
+        "x": 7,
+        "y": 7,
+        "properties": {
+          "sprite": "prop.press_chair",
+          "collision": true
+        }
+      }
+    ],
+    "records_vault": [
+      {
+        "type": "Prop",
+        "id": "prop.metal_shelf",
+        "zone": "shelves",
+        "x": 7,
+        "y": 6,
+        "properties": {
+          "sprite": "prop.metal_shelf",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.vault_door",
+        "zone": "vault_wall",
+        "x": 7,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.vault_door",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.warning_light",
+        "zone": "vault_wall",
+        "x": 7,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.warning_light",
+          "collision": false
+        }
+      }
+    ],
+    "robing_room": [
+      {
+        "type": "Prop",
+        "id": "prop.locker",
+        "zone": "lockers",
+        "x": 7,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.locker",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.mirror",
+        "zone": "racks",
+        "x": 7,
+        "y": 3,
+        "properties": {
+          "sprite": "prop.mirror",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.robe_rack",
+        "zone": "racks",
+        "x": 7,
+        "y": 3,
+        "properties": {
+          "sprite": "prop.robe_rack",
+          "collision": true
+        }
+      }
+    ],
+    "room.scotus_hall_01": [
+      {
+        "type": "Prop",
+        "id": "prop.door_plaque",
+        "zone": "doors",
+        "x": 10,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.door_plaque",
+          "collision": false
+        }
+      }
+    ],
+    "scotus_lobby": [
+      {
+        "type": "Prop",
+        "id": "prop.banner",
+        "zone": "north_wall",
+        "x": 9,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.banner",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.couch",
+        "zone": "seating_left",
+        "x": 4,
+        "y": 10,
+        "properties": {
+          "sprite": "prop.couch",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.couch",
+        "zone": "seating_right",
+        "x": 15,
+        "y": 10,
+        "properties": {
+          "sprite": "prop.couch",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.info_desk",
+        "zone": "seating_left",
+        "x": 3,
+        "y": 10,
+        "properties": {
+          "sprite": "prop.info_desk",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.metal_detector",
+        "zone": "south_entry",
+        "x": 10,
+        "y": 13,
+        "properties": {
+          "sprite": "prop.metal_detector",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.stanchion",
+        "zone": "north_wall",
+        "x": 9,
+        "y": 1,
+        "properties": {
+          "sprite": "prop.stanchion",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.xray_belt",
+        "zone": "south_entry",
+        "x": 9,
+        "y": 13,
+        "properties": {
+          "sprite": "prop.xray_belt",
+          "collision": true
+        }
+      }
+    ]
+  }
+}

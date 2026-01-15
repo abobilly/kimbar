@@ -219,6 +219,33 @@
             "__type": "String"
           }
         ]
+      },
+      {
+        "identifier": "Prop",
+        "uid": 205,
+        "width": 32,
+        "height": 32,
+        "color": "#8bc34a",
+        "fieldDefs": [
+          {
+            "identifier": "sprite",
+            "uid": 340,
+            "type": "F_String",
+            "__type": "String"
+          },
+          {
+            "identifier": "collision",
+            "uid": 341,
+            "type": "F_Bool",
+            "__type": "Bool"
+          },
+          {
+            "identifier": "propId",
+            "uid": 342,
+            "type": "F_String",
+            "__type": "String"
+          }
+        ]
       }
     ],
     "tilesets": [],
@@ -459,6 +486,54 @@
                   "__value": "clerk_key",
                   "__tile": null,
                   "defUid": 322,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                10,
+                1
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_door_plaque__doors__1",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                320,
+                32
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.door_plaque",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.door_plaque",
+                  "__tile": null,
+                  "defUid": 342,
                   "realEditorValues": []
                 }
               ]

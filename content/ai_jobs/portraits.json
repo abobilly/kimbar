@@ -1,0 +1,65 @@
+{
+  "$schema": "../../schemas/AiJobSpec.schema.json",
+  "setId": "portraits.justices_v1",
+  "workflow": "wf_portrait_v1",
+  "defaults": {
+    "style": "dignified portrait, formal, professional, black judicial robe, supreme court justice",
+    "negativePrompt": "deformed, ugly, blurry, cartoon, anime, photorealistic photo, lowres"
+  },
+  "items": [
+    {
+      "id": "portrait.justice_roberts",
+      "prompt": "Chief Justice John Roberts, elderly white male, steel gray side-parted hair, clean-shaven, stern dignified expression, wise eyes",
+      "seed": 1001,
+      "tags": ["justice", "chief"]
+    },
+    {
+      "id": "portrait.justice_thomas",
+      "prompt": "Justice Clarence Thomas, elderly Black male, short gray hair, round glasses, serious contemplative expression, distinguished",
+      "seed": 1002,
+      "tags": ["justice"]
+    },
+    {
+      "id": "portrait.justice_alito",
+      "prompt": "Justice Samuel Alito, elderly white male, balding with gray hair on sides, glasses, thoughtful scholarly expression",
+      "seed": 1003,
+      "tags": ["justice"]
+    },
+    {
+      "id": "portrait.justice_sotomayor",
+      "prompt": "Justice Sonia Sotomayor, Latina woman, bronze skin, dark curly hair pulled back, warm confident expression, pearl earrings",
+      "seed": 1004,
+      "tags": ["justice"]
+    },
+    {
+      "id": "portrait.justice_kagan",
+      "prompt": "Justice Elena Kagan, white woman, brown bob cut hair, friendly approachable expression, intelligent eyes",
+      "seed": 1005,
+      "tags": ["justice"]
+    },
+    {
+      "id": "portrait.justice_gorsuch",
+      "prompt": "Justice Neil Gorsuch, white male, thick silver-white hair swept back, clean-shaven, composed dignified expression",
+      "seed": 1006,
+      "tags": ["justice"]
+    },
+    {
+      "id": "portrait.justice_kavanaugh",
+      "prompt": "Justice Brett Kavanaugh, white male, short dark brown hair, clean-shaven, earnest determined expression",
+      "seed": 1007,
+      "tags": ["justice"]
+    },
+    {
+      "id": "portrait.justice_barrett",
+      "prompt": "Justice Amy Coney Barrett, white woman, long light brown hair, warm maternal expression, simple elegant style",
+      "seed": 1008,
+      "tags": ["justice"]
+    },
+    {
+      "id": "portrait.justice_jackson",
+      "prompt": "Justice Ketanji Brown Jackson, Black woman, natural black hair in locs, dark-framed glasses, confident graceful expression, beaded necklace",
+      "seed": 1009,
+      "tags": ["justice"]
+    }
+  ]
+}

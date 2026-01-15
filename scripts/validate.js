@@ -27,6 +27,8 @@ const FLASHCARDS_DIR = './public/content/cards';
 const INK_GENERATED_DIR = './generated/ink';
 const INK_PUBLIC_DIR = './public/generated/ink';
 const CONTRACT_PATH = './content/content_contract.json';
+const PLACEMENT_DRAFTS_DIR = './content/placement_drafts';
+const PLACEMENT_SPEC_PATH = './docs/MISSING_ASSETS_SPEC.json';
 
 let hardErrors = [];
 let policySkips = [];
@@ -558,6 +560,106 @@ async function validateLpcStyleGuide(contract) {
   checks.forEach(c => console.log(`    📐 ${c}`));
 }
 
+async function validatePlacementDrafts(schemas) {
+  console.log('\n🧭 Validating Placement Drafts...');
+
+  if (!existsSync(PLACEMENT_DRAFTS_DIR)) {
+    warn('No placement_drafts directory found');
+    return;
+  }
+
+  if (!existsSync(PLACEMENT_SPEC_PATH)) {
+    warn(`Missing placement spec at ${PLACEMENT_SPEC_PATH}`);
+    return;
+  }
+
+  let spec;
+  try {
+    spec = await loadJson(PLACEMENT_SPEC_PATH);
+  } catch (e) {
+    error(`Failed to load placement spec: ${e.message}`);
+    return;
+  }
+
+  const rooms = spec.rooms || {};
+  const propAssets = new Set(
+    (spec.assets || [])
+      .filter(a => a.kind === 'prop')
+      .map(a => a.id)
+  );
+
+  const files = await readdir(PLACEMENT_DRAFTS_DIR);
+  const jsonFiles = files.filter(f => f.endsWith('.json'));
+
+  if (jsonFiles.length === 0) {
+    warn('No placement drafts found');
+    return;
+  }
+
+  for (const file of jsonFiles) {
+    try {
+      const draft = await loadJson(join(PLACEMENT_DRAFTS_DIR, file));
+
+      if (schemas.PlacementDraft) {
+        const valid = schemas.PlacementDraft(draft);
+        if (!valid) {
+          for (const err of schemas.PlacementDraft.errors) {
+            error(`${file} ${err.instancePath}: ${err.message}`);
+          }
+        } else {
+          ok(`${file}: schema valid`);
+        }
+      }
+
+      const placements = draft.placements || {};
+      for (const [roomId, entries] of Object.entries(placements)) {
+        const roomSpec = rooms[roomId] || (roomId.startsWith('chambers_') ? rooms.chambers : null);
+        if (!roomSpec) {
+          error(`${file}: unknown room '${roomId}' (no zones available)`);
+          continue;
+        }
+
+        const zones = roomSpec.zones || {};
+        const size = roomSpec.size || [0, 0];
+        const maxX = size[0] ? size[0] - 1 : null;
+        const maxY = size[1] ? size[1] - 1 : null;
+
+        for (const entry of entries) {
+          if (!propAssets.has(entry.id)) {
+            error(`${file}: placement uses unknown prop id '${entry.id}'`);
+          }
+
+          if (entry.zone && !zones[entry.zone]) {
+            error(`${file}: placement uses unknown zone '${entry.zone}' in room '${roomId}'`);
+          }
+
+          if (maxX !== null && (entry.x < 0 || entry.x > maxX)) {
+            error(`${file}: placement '${entry.id}' x=${entry.x} out of bounds for room '${roomId}'`);
+          }
+
+          if (maxY !== null && (entry.y < 0 || entry.y > maxY)) {
+            error(`${file}: placement '${entry.id}' y=${entry.y} out of bounds for room '${roomId}'`);
+          }
+
+          const zone = zones[entry.zone];
+          if (zone?.rect) {
+            const [x1, y1, x2, y2] = zone.rect;
+            if (entry.x < x1 || entry.x > x2 || entry.y < y1 || entry.y > y2) {
+              error(`${file}: placement '${entry.id}' (${entry.x},${entry.y}) outside zone '${entry.zone}'`);
+            }
+          }
+
+          if (entry.properties?.sprite && entry.properties.sprite !== entry.id) {
+            warn(`${file}: placement '${entry.id}' uses sprite '${entry.properties.sprite}' (expected '${entry.id}')`);
+          }
+        }
+      }
+    } catch (e) {
+      error(`Failed to parse placement draft ${file}: ${e.message}`);
+    }
+  }
+}
+
 async function main() {
   console.log('🔍 Kim Bar Content Validator\n');
   console.log('='.repeat(50));
@@ -584,6 +686,7 @@ async function main() {
   await validateCharacterSpecs(schemas, contract);
   await validateRoomSpecs(schemas, registry, contract);
   await validateLpcStyleGuide(contract);
+  await validatePlacementDrafts(schemas);
 
   // Summary
   console.log('\n' + '='.repeat(50));

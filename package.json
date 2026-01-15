@@ -40,6 +40,8 @@
         "gen:ldtk": "node scripts/generate-ldtk-levels.mjs",
         "gen:ai": "node scripts/generate-ai-assets.mjs",
         "gen:ai:dry": "node scripts/generate-ai-assets.mjs --dry-run",
+        "gen:ai:missing": "node scripts/generate-ai-jobs-from-spec.mjs",
+        "gen:placements": "node scripts/generate-placement-drafts.mjs",
         "download:packs": "node scripts/download-packs.mjs",
         "ingest:assets": "node scripts/ingest-assets.mjs",
         "ingest:assets:dry": "node scripts/ingest-assets.mjs --dry-run",

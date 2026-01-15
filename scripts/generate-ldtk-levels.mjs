@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOMS_DIR = path.join(__dirname, '../content/rooms');
 const OUTPUT_DIR = path.join(__dirname, '../public/content/ldtk');
+const PLACEMENT_DRAFT_PATH = path.join(__dirname, '../content/placement_drafts/prop_placements.json');
 const TILE_SIZE = 32;
 
 // Ensure output directory exists
@@ -20,6 +21,47 @@ function readJson(filePath) {
 // Helper to write JSON
 function writeJson(filePath, data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+}
+
+function loadPlacementDrafts() {
+  if (!fs.existsSync(PLACEMENT_DRAFT_PATH)) {
+    return null;
+  }
+
+  try {
+    const draft = readJson(PLACEMENT_DRAFT_PATH);
+    return draft.placements || null;
+  } catch (err) {
+    console.warn(`Failed to load placement drafts: ${err.message}`);
+    return null;
+  }
+}
+
+function buildPlacementEntities(roomId, drafts) {
+  if (!drafts || !drafts[roomId]) return [];
+  const entries = drafts[roomId] || [];
+
+  return entries.map((entry, idx) => {
+    const zoneToken = (entry.zone || 'zone').toLowerCase().replace(/[^a-z0-9_]+/g, '_');
+    const baseId = (entry.id || 'prop').replace(/^prop\./, 'prop_');
+    const uniqueId = `${baseId}__${zoneToken}__${idx + 1}`;
+    const spriteKey = entry.properties?.sprite || entry.id;
+
+    const properties = {};
+    if (spriteKey) properties.sprite = spriteKey;
+    if (typeof entry.properties?.collision === 'boolean') {
+      properties.collision = entry.properties.collision;
+    }
+    if (entry.id) properties.propId = entry.id;
+
+    return {
+      type: entry.type || 'Prop',
+      x: entry.x,
+      y: entry.y,
+      id: uniqueId,
+      properties
+    };
+  });
 }
 
 // 1. Define LDtk Definitions (Layers, Entities, Fields)
@@ -133,7 +175,8 @@ const DEFS = {
       color: "#8bc34a",
       fieldDefs: [
         { identifier: "sprite", uid: 340, type: "F_String", __type: "String" },
-        { identifier: "collision", uid: 341, type: "F_Bool", __type: "Bool" }
+        { identifier: "collision", uid: 341, type: "F_Bool", __type: "Bool" },
+        { identifier: "propId", uid: 342, type: "F_String", __type: "String" }
       ]
     }
   ],
@@ -193,12 +236,15 @@ console.log(`Generated ${path.join(OUTPUT_DIR, '_template.ldtk')}`);
 
 // 3. Process Rooms
 const roomFiles = fs.readdirSync(ROOMS_DIR).filter(f => f.endsWith('.json'));
+const placementDrafts = loadPlacementDrafts();
 
 roomFiles.sort(); // Stable order
 
 roomFiles.forEach(file => {
   const roomSpec = readJson(path.join(ROOMS_DIR, file));
   const roomId = roomSpec.id;
+  const placementEntities = buildPlacementEntities(roomId, placementDrafts);
+  const combinedEntities = (roomSpec.entities || []).concat(placementEntities);
 
   // Clone template
   const ldtkProject = JSON.parse(JSON.stringify(template));
@@ -230,7 +276,7 @@ roomFiles.forEach(file => {
 
   // Create Layer Instances
   // 1. Entities
-  const entityInstances = (roomSpec.entities || []).map((ent, idx) => {
+  const entityInstances = combinedEntities.map((ent, idx) => {
     // Find def
     const def = DEFS.entities.find(d => d.identifier === ent.type);
     if (!def) {
