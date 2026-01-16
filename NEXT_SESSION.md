@@ -27,6 +27,24 @@
 
 ---
 
+## 2. Recent Changes: Dialogue UI Fix
+
+### What Was Done (January 15, 2026 - Night Session)
+
+- Fixed dialogue UI crash on click by removing dependency on `camera.worldToScreen` (not present in Phaser 3.90). Dialogue now computes screen Y from camera scroll/zoom to decide top/bottom placement (`src/game/systems/DialogueSystem.ts`).
+
+---
+
+## 2. Recent Changes: Lazy Asset Loading
+
+### What Was Done (January 15, 2026 - Night Session)
+
+- Added registry-driven lazy asset loader (`src/game/services/asset-loader.ts`) and shared ULPC animation helper (`src/game/utils/characterAnims.ts`).
+- Preloader now only queues essential UI assets instead of loading full sprite/prop registry, reducing boot-time load.
+- WorldScene now preloads sprites/props per-room before rendering, shows a lightweight loading overlay with spinner + elapsed time during loads, and loads outfit sprites on equip.
+
+---
+
 ## 2. Recent Changes: Asset Pipeline + World Density
 
 ### What Was Done (January 15, 2026 - Evening Session)

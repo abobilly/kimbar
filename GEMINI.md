@@ -29,6 +29,7 @@ TypeScript + Phaser 3 + Vite game for bar exam prep.
 | `npm run check:fast` | Quick gate (unit tests only) |
 | `npm run prepare:content` | Rebuild content pipeline |
 | `npm run validate` | Schema + content validation |
+| `npm run screenshot` | Capture/update gameplay screenshots via E2E agent |
 
 ## Content Pipeline
 
@@ -44,4 +45,20 @@ TypeScript + Phaser 3 + Vite game for bar exam prep.
 
 - `docs/INVARIANTS.md` — full invariant documentation
 - `NEXT_SESSION.md` — current session handoff
-- `schemas/*.schema.json` — JSON schemas for validation
+| Sentinel | `.github/agents/sentinel.agent.md` | QA and gate enforcement |
+| Content Intake | `.github/agents/content-intake.agent.md` | Content pipeline ops |
+
+## Screenshot Agent
+
+The screenshot agent (`scripts/screenshot-agent.mjs`) automates visual verification.
+
+**Usage:** `npm run screenshot`
+
+**Workflow:**
+1. Invalidates cache (deletes `test-results/*.png`)
+2. Runs headless E2E tests (`npm run test:e2e`)
+3. Verifies new screenshots were generated atomically
+
+**Context7 Integration:**
+This agent produces standard artifacts in `test-results/` compatible with Context7 visual diffing and Context7 CI reporting pipelines.
+

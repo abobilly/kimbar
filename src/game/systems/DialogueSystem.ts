@@ -71,14 +71,21 @@ export class DialogueSystem {
       // Get screen position of the target
       // Note: Assumes world camera is main camera
       const camera = this.scene.cameras.main;
+      const cameraAny = camera as Phaser.Cameras.Scene2D.Camera & {
+        worldToScreen?: (x: number, y: number) => { x: number; y: number };
+      };
+      const targetX = target.x as number;
+      const targetY = target.y as number;
+      let screenY: number;
 
-      // worldToScreen gives position relative to viewport
-      // If target is a Container or Sprite, it has x,y
-      // We assume it's in world space
-      const screenPos = camera.worldToScreen(target.x as number, target.y as number);
+      if (typeof cameraAny.worldToScreen === 'function') {
+        screenY = cameraAny.worldToScreen(targetX, targetY).y;
+      } else {
+        screenY = (targetY - camera.scrollY) * camera.zoom + camera.y;
+      }
 
       // If target is in the bottom ~35% of screen, put box at TOP
-      if (screenPos.y > height * 0.65) {
+      if (screenY > height * 0.65) {
         isTop = true;
       }
     }

@@ -8,6 +8,8 @@ import { WardrobePanel } from '@game/ui/WardrobePanel';
 import { isModalOpen, openModal, closeModal, clearAllModals } from '@game/ui/modal';
 import { initExitManager, registerExit, unregisterExit, clearExitManager } from '@game/ui/exitManager';
 import { layoutHUD } from '@game/ui/layout';
+import { loadRegistryAssets } from '@game/services/asset-loader';
+import { DEPTH_POPUP } from '@game/constants/depth';
 import { loadRegistry, loadFlashcards, getGameState, saveGameState, getRoom, getInkStory, getRegistry } from '@content/registry';
 import { EntityData, LevelData, EncounterConfig } from '@content/types';
 import { isLdtkLevel, normalizeLdtkLevel } from '@content/ldtk-normalizer';
@@ -41,6 +43,10 @@ export class WorldScene extends Scene {
   private worldCam!: Phaser.Cameras.Scene2D.Camera;
   private uiCam!: Phaser.Cameras.Scene2D.Camera;
   private uiLayer!: Phaser.GameObjects.Layer;
+  private loadingOverlay: Phaser.GameObjects.Container | null = null;
+  private isLoadingAssets: boolean = false;
+  private loadingStartTime: number | null = null;
+  private loadingTimer: Phaser.Time.TimerEvent | null = null;
 
   // Keyboard controls
   private wasdKeys!: { W: Phaser.Input.Keyboard.Key; A: Phaser.Input.Keyboard.Key; S: Phaser.Input.Keyboard.Key; D: Phaser.Input.Keyboard.Key };
@@ -199,13 +205,32 @@ export class WorldScene extends Scene {
       }
 
       const response = await fetch(room.ldtkUrl);
-      if (response.ok) {
-        this.levelData = await response.json();
-        this.renderLevel();
-      } else {
-        // Create a placeholder level for testing
+      if (!response.ok) {
         this.createPlaceholderLevel();
+        return;
       }
+
+      const rawLevel = await response.json();
+      const isLdtk = isLdtkLevel(rawLevel);
+      const level = isLdtk ? normalizeLdtkLevel(rawLevel) : (rawLevel as LevelData);
+
+      if (isLdtk) {
+        const validation = validateLdtkLevel(level);
+        if (!validation.valid) {
+          console.error('[WorldScene] Level validation failed:');
+          console.error(formatValidationErrors(validation));
+          this.createPlaceholderLevel();
+          return;
+        }
+        if (validation.warnings.length > 0 && import.meta.env?.DEV) {
+          console.warn('[WorldScene] Level validation warnings:');
+          console.warn(formatValidationErrors(validation));
+        }
+      }
+
+      await this.preloadLevelAssets(level);
+      this.levelData = level;
+      this.renderLevel();
     } catch (error) {
       console.warn('Level not found, creating placeholder:', error);
       this.createPlaceholderLevel();
@@ -444,100 +469,71 @@ export class WorldScene extends Scene {
 
   private renderLevel(): void {
     if (!this.levelData) return;
+    const level = this.levelData;
+    console.log('[WorldScene] Loaded level', level.id, 'entities:', level.entities.length, 'playerSpawn:', level.playerSpawn);
 
-    // Detect if the loaded level is LDtk JSON and normalize it
-    const raw = this.levelData as unknown;
-    if (isLdtkLevel(raw)) {
-      // Use normalizer module to convert LDtk format to internal LevelData
-      const level = normalizeLdtkLevel(raw);
-
-      // Validate the normalized level
-      const validation = validateLdtkLevel(level);
-      if (!validation.valid) {
-        console.error('[WorldScene] Level validation failed:');
-        console.error(formatValidationErrors(validation));
-        // Continue with placeholder if validation fails
-        this.createPlaceholderLevel();
-        return;
+    // Collect encounter triggers for physics zone creation
+    const triggersToCreate: Array<{ entity: EntityData; tileSize: number }> = [];
+    for (const entity of level.entities) {
+      if (entity.type === 'EncounterTrigger') {
+        triggersToCreate.push({ entity, tileSize: level.tileSize || 32 });
       }
-      if (validation.warnings.length > 0 && import.meta.env?.DEV) {
-        console.warn('[WorldScene] Level validation warnings:');
-        console.warn(formatValidationErrors(validation));
-      }
-
-      // Replace levelData with normalized format
-      this.levelData = level;
-      console.log('[WorldScene] Loaded LDtk level', level.id, 'entities:', level.entities.length, 'playerSpawn:', level.playerSpawn);
-
-      // Collect encounter triggers for physics zone creation
-      const triggersToCreate: Array<{ entity: EntityData; tileSize: number }> = [];
-      for (const entity of level.entities) {
-        if (entity.type === 'EncounterTrigger') {
-          triggersToCreate.push({ entity, tileSize: level.tileSize || 32 });
-        }
-      }
-
-      // Clean up any existing entities
-      this.entities.forEach((e) => {
-        if (e.sprite) e.sprite.destroy();
-      });
-      this.entities.clear();
-
-      // Render floor tilemap if floor data exists
-      if (level.floorGrid && level.gridWidth && level.gridHeight) {
-        this.renderFloorTilemap(level);
-      }
-
-      // Create entities
-      for (const entity of level.entities) {
-        this.createEntity(entity.id, entity);
-      }
-
-      // Create player AFTER entities so overlap checks can be set up
-      this.createPlayer();
-
-      // Create overlap triggers (after player exists)
-      for (const t of triggersToCreate) {
-        const e = t.entity as EntityData;
-        const centerX = e.x; // __worldX is centered horizontally
-        const centerY = (e.y - (t.tileSize / 2)); // convert bottom-based y to center y
-
-        const zone = this.add.zone(centerX, centerY, t.tileSize, t.tileSize).setOrigin(0.5);
-        this.physics.add.existing(zone);
-        const body = zone.body as Phaser.Physics.Arcade.Body;
-        body.setAllowGravity(false);
-        body.setImmovable(true);
-
-        // Debug visual (only in dev)
-        if (import.meta.env.DEV) {
-          const debugRect = this.add.rectangle(centerX, centerY, t.tileSize, t.tileSize, 0x00ff00, 0.2);
-          debugRect.setDepth(900);
-        }
-
-        console.log('[WorldScene] Created EncounterTrigger zone', e.id, 'at', centerX, centerY, 'props=', e.properties);
-
-        this.physics.add.overlap(this.player, zone, () => {
-          if (this.dialogueSystem.isActive() || this.inEncounter) return;
-
-          const cfg: EncounterConfig = {
-            deckTag: e.properties.deckTag || 'evidence',
-            count: e.properties.count ?? 1,
-            rewardId: e.properties.rewardId
-          };
-
-          this.startEncounter(cfg);
-
-          const once = e.properties.once === true || e.properties.once === 'true';
-          if (once) zone.destroy();
-        }, undefined, this);
-      }
-
-      // Done rendering LDtk level
-      return;
     }
 
-    // Fallback: legacy placeholder
-    this.createPlaceholderLevel();
+    // Clean up any existing entities
+    this.entities.forEach((e) => {
+      if (e.sprite) e.sprite.destroy();
+    });
+    this.entities.clear();
+
+    // Render floor tilemap if floor data exists
+    if (level.floorGrid && level.gridWidth && level.gridHeight) {
+      this.renderFloorTilemap(level);
+    }
+
+    // Create entities
+    for (const entity of level.entities) {
+      this.createEntity(entity.id, entity);
+    }
+
+    // Create player AFTER entities so overlap checks can be set up
+    this.createPlayer();
+
+    // Create overlap triggers (after player exists)
+    for (const t of triggersToCreate) {
+      const e = t.entity as EntityData;
+      const centerX = e.x; // __worldX is centered horizontally
+      const centerY = (e.y - (t.tileSize / 2)); // convert bottom-based y to center y
+
+      const zone = this.add.zone(centerX, centerY, t.tileSize, t.tileSize).setOrigin(0.5);
+      this.physics.add.existing(zone);
+      const body = zone.body as Phaser.Physics.Arcade.Body;
+      body.setAllowGravity(false);
+      body.setImmovable(true);
+
+      // Debug visual (only in dev)
+      if (import.meta.env.DEV) {
+        const debugRect = this.add.rectangle(centerX, centerY, t.tileSize, t.tileSize, 0x00ff00, 0.2);
+        debugRect.setDepth(900);
+      }
+
+      console.log('[WorldScene] Created EncounterTrigger zone', e.id, 'at', centerX, centerY, 'props=', e.properties);
+
+      this.physics.add.overlap(this.player, zone, () => {
+        if (this.dialogueSystem.isActive() || this.inEncounter) return;
+
+        const cfg: EncounterConfig = {
+          deckTag: e.properties.deckTag || 'evidence',
+          count: e.properties.count ?? 1,
+          rewardId: e.properties.rewardId
+        };
+
+        this.startEncounter(cfg);
+
+        const once = e.properties.once === true || e.properties.once === 'true';
+        if (once) zone.destroy();
+      }, undefined, this);
+    }
   }
 
   private renderFloorTilemap(level: LevelData): void {
@@ -578,13 +574,28 @@ export class WorldScene extends Scene {
   }
 
   public updatePlayerAppearance(): void {
-    this.applyPlayerSpriteKey(this.resolvePlayerSpriteKey());
-    this.updateUI();
+    void this.ensurePlayerSpriteLoaded().then(() => {
+      this.applyPlayerSpriteKey(this.resolvePlayerSpriteKey());
+      this.updateUI();
+    });
+  }
+
+  private getDesiredPlayerSpriteKey(): string {
+    const outfit = OutfitSystem.getEquippedOutfit();
+    return outfit ? OutfitSystem.getOutfitSprite(outfit.id) : 'char.kim';
+  }
+
+  private async ensurePlayerSpriteLoaded(): Promise<void> {
+    const desired = this.getDesiredPlayerSpriteKey();
+    if (desired && !this.textures.exists(desired)) {
+      this.showLoadingOverlay('Loading outfit...');
+      await loadRegistryAssets(this, { sprites: [desired] });
+      this.hideLoadingOverlay();
+    }
   }
 
   private resolvePlayerSpriteKey(): string {
-    const outfit = OutfitSystem.getEquippedOutfit();
-    const desired = outfit ? OutfitSystem.getOutfitSprite(outfit.id) : 'char.kim';
+    const desired = this.getDesiredPlayerSpriteKey();
 
     if (desired && this.textures.exists(desired)) {
       return desired;
@@ -593,6 +604,139 @@ export class WorldScene extends Scene {
       return 'char.kim';
     }
     return desired || 'char.kim';
+  }
+
+  private async preloadLevelAssets(level: LevelData): Promise<void> {
+    const spriteIds = new Set<string>();
+    const propIds = new Set<string>();
+    const registry = getRegistry();
+
+    spriteIds.add(this.getDesiredPlayerSpriteKey());
+
+    for (const entity of level.entities) {
+      if (entity.type === 'Prop') {
+        const propKey = this.resolvePropSpriteKey(
+          entity.properties?.propId || entity.properties?.sprite || entity.id
+        );
+        if (propKey) {
+          propIds.add(propKey);
+        }
+        continue;
+      }
+
+      if (entity.type === 'NPC' || entity.type === 'OutfitChest') {
+        const spriteKey = this.resolveEntitySpriteKey(entity);
+        if (spriteKey) {
+          if (registry.props?.[spriteKey]) {
+            propIds.add(spriteKey);
+          } else {
+            spriteIds.add(spriteKey);
+          }
+        }
+      }
+    }
+
+    let needsLoad = false;
+    for (const spriteId of spriteIds) {
+      if (spriteId && !this.textures.exists(spriteId)) {
+        needsLoad = true;
+        break;
+      }
+    }
+    if (!needsLoad) {
+      for (const propId of propIds) {
+        if (propId && !this.textures.exists(propId)) {
+          needsLoad = true;
+          break;
+        }
+      }
+    }
+
+    if (needsLoad) {
+      this.showLoadingOverlay('Loading room assets...');
+      await loadRegistryAssets(this, { sprites: spriteIds, props: propIds });
+      this.hideLoadingOverlay();
+    }
+  }
+
+  private showLoadingOverlay(message: string): void {
+    this.isLoadingAssets = true;
+    this.loadingStartTime = performance.now();
+    const { width, height } = this.scale;
+
+    if (this.loadingOverlay) {
+      const text = this.loadingOverlay.getByName('loadingText') as Phaser.GameObjects.Text | null;
+      if (text) text.setText(this.getLoadingMessage(message));
+      return;
+    }
+
+    const container = this.add.container(0, 0);
+    container.setDepth(DEPTH_POPUP);
+
+    const scrim = this.add.rectangle(width / 2, height / 2, width, height, 0x000000, 0.6);
+    scrim.setName('loadingScrim');
+    scrim.setInteractive();
+
+    const panel = this.add.rectangle(width / 2, height / 2, 320, 130, 0x1a1a2e, 0.95)
+      .setStrokeStyle(2, 0x4a90a4);
+    panel.setName('loadingPanel');
+
+    const text = this.add.text(width / 2, height / 2 - 10, this.getLoadingMessage(message), {
+      fontSize: '18px',
+      color: '#FFD700',
+      fontFamily: 'Georgia, serif',
+      align: 'center'
+    }).setOrigin(0.5);
+    text.setName('loadingText');
+
+    const spinner = this.add.rectangle(width / 2, height / 2 + 28, 14, 14, 0xFFD700, 1);
+    spinner.setName('loadingSpinner');
+
+    this.tweens.add({
+      targets: spinner,
+      angle: 360,
+      duration: 900,
+      repeat: -1
+    });
+
+    container.add([scrim, panel, text, spinner]);
+    this.uiLayer.add(container);
+    this.loadingOverlay = container;
+
+    this.loadingTimer?.remove(false);
+    this.loadingTimer = this.time.addEvent({
+      delay: 100,
+      loop: true,
+      callback: () => {
+        const loadingText = this.loadingOverlay?.getByName('loadingText') as Phaser.GameObjects.Text | null;
+        if (loadingText) {
+          loadingText.setText(this.getLoadingMessage(message));
+        }
+      }
+    });
+  }
+
+  private hideLoadingOverlay(): void {
+    this.isLoadingAssets = false;
+    if (this.loadingStartTime) {
+      const elapsed = performance.now() - this.loadingStartTime;
+      console.log(`[WorldScene] Asset load time: ${elapsed.toFixed(0)}ms`);
+    }
+    this.loadingStartTime = null;
+    if (this.loadingTimer) {
+      this.loadingTimer.remove(false);
+      this.loadingTimer = null;
+    }
+    if (this.loadingOverlay) {
+      this.loadingOverlay.destroy();
+      this.loadingOverlay = null;
+    }
+  }
+
+  private getLoadingMessage(message: string): string {
+    if (!this.loadingStartTime) return message;
+    const seconds = (performance.now() - this.loadingStartTime) / 1000;
+    return `${message} ${seconds.toFixed(1)}s`;
   }
 
   private applyPlayerSpriteKey(nextKey: string): void {
@@ -717,6 +861,27 @@ export class WorldScene extends Scene {
     if (this.menuBtn) {
       this.menuBtn.setPosition(layout.menuX, layout.menuY);
     }
+
+    if (this.loadingOverlay) {
+      const scrim = this.loadingOverlay.getByName('loadingScrim') as Phaser.GameObjects.Rectangle | null;
+      const panel = this.loadingOverlay.getByName('loadingPanel') as Phaser.GameObjects.Rectangle | null;
+      const text = this.loadingOverlay.getByName('loadingText') as Phaser.GameObjects.Text | null;
+      const spinner = this.loadingOverlay.getByName('loadingSpinner') as Phaser.GameObjects.Rectangle | null;
+
+      if (scrim) {
+        scrim.setPosition(width / 2, height / 2);
+        scrim.setSize(width, height);
+      }
+      if (panel) {
+        panel.setPosition(width / 2, height / 2);
+      }
+      if (text) {
+        text.setPosition(width / 2, height / 2 - 10);
+      }
+      if (spinner) {
+        spinner.setPosition(width / 2, height / 2 + 28);
+      }
+    }
   }
 
   private updateUI(): void {
@@ -758,7 +923,7 @@ export class WorldScene extends Scene {
     // Tap-to-move
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       // Don't move if any modal UI is open
-      if (isModalOpen()) return;
+      if (isModalOpen() || this.isLoadingAssets) return;
 
       // Get world position
       const worldPoint = this.cameras.main.getWorldPoint(pointer.x, pointer.y);
@@ -793,6 +958,7 @@ export class WorldScene extends Scene {
   }
 
   private handleEntityInteraction(id: string, entity: EntityData): void {
+    if (this.isLoadingAssets) return;
     console.log('Interacting with:', id, entity.type);
 
     // Retrieve live entity wrapper (with sprite) if available
@@ -1072,6 +1238,7 @@ export class WorldScene extends Scene {
     this.scale.off('resize', this.onResize, this);
     this.questPanel?.destroy();
     this.wardrobePanel?.destroy();
+    this.hideLoadingOverlay();
     clearAllModals();
     clearExitManager();
   }
@@ -1084,7 +1251,7 @@ export class WorldScene extends Scene {
     if (!this.player) return;
 
     // Bail if any modal UI is open
-    if (isModalOpen()) {
+    if (isModalOpen() || this.isLoadingAssets) {
       // Stop player if using physics
       if (this.player.body) {
         (this.player.body as Phaser.Physics.Arcade.Body).setVelocity(0, 0);

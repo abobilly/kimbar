@@ -54,6 +54,7 @@
         "test:e2e": "playwright test",
         "test:e2e:headed": "playwright test --headed",
         "test": "npm run test:unit && npm run test:e2e",
+        "screenshot": "node scripts/screenshot-agent.mjs",
         "bounce": "node tools/bounce.mjs",
         "bounce:check": "node tools/bounce.mjs --check",
         "check": "npm run prepare:content && npm run verify && npm run check-boundaries && npm run test && npm run build-nolog",
