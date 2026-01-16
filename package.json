@@ -48,6 +48,7 @@
         "tailor:robes": "cd tools/tailor && python run_pipeline.py",
         "db:sync": "python scripts/sync-to-sqlite.py",
         "db:query": "python scripts/query-db.py",
+        "split:flashcards": "node scripts/split-flashcards-by-subject.mjs",
         "download:packs": "node scripts/download-packs.mjs",
         "ingest:assets": "node scripts/ingest-assets.mjs",
         "ingest:assets:dry": "node scripts/ingest-assets.mjs --dry-run",
