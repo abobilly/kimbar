@@ -4,6 +4,12 @@
 
 TypeScript + Phaser 3 + Vite game for bar exam prep.
 
+## Data Access
+You have access to a SQL mirror of the game content through the MCP Toolbox.
+- **Source**: `kimbar-content` (SQLite)
+- **Tools**: `query-content`, `search-characters`
+- **Sync**: Run `npm run db:sync` to refresh the database from JSON files.
+
 ## Sacred Invariants
 
 1. **UI isolation**: All UI created on UI layer (`WorldScene.getUILayer()`). UI renders via UI camera, unaffected by world camera zoom/scroll. Never use `scrollFactor` hacks.

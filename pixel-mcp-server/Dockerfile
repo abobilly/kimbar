@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpixman-1-dev \
     libcurl4-openssl-dev \
     libwebp-dev \
+    libarchive-dev \
     zlib1g-dev \
     # Virtual framebuffer for headless operation
     xvfb \

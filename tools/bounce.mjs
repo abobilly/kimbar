@@ -14,7 +14,7 @@ const ARTIFACTS = {
   COMMANDS: '.bounce.commands.txt'
 };
 
-const GATE_CMD = 'npm run verify'; 
+const GATE_CMD = 'npm run verify';
 const DEFAULT_MAX_ITERS = 5;
 
 // --- Helpers ---
@@ -23,22 +23,22 @@ function log(msg) {
   console.log(msg);
   try {
     appendFileSync(ARTIFACTS.COMMANDS, `[LOG] ${msg}\n`);
-  } catch (e) {}
+  } catch (e) { }
 }
 
 function run(cmd, args = [], opts = {}) {
   const cmdStr = `${cmd} ${args.join(' ')}`;
   try {
     appendFileSync(ARTIFACTS.COMMANDS, `[RUN] ${cmdStr}\n`);
-  } catch (e) {}
+  } catch (e) { }
 
   // Pass opts (including input) to spawnSync
   const result = spawnSync(cmd, args, { shell: true, encoding: 'utf8', ...opts });
-  
+
   try {
     const status = result.status === 0 ? 'PASS' : 'FAIL';
     appendFileSync(ARTIFACTS.COMMANDS, `[END] ${cmdStr} -> ${status} (Exit: ${result.status})\n`);
-  } catch (e) {}
+  } catch (e) { }
 
   return result;
 }
@@ -70,7 +70,7 @@ function check() {
   try {
     execSync('git rev-parse --is-inside-work-tree', { stdio: 'ignore' });
     console.log('✅ Git repo detected');
-    
+
     const status = execSync('git status --porcelain', { encoding: 'utf8' });
     if (status.trim()) {
       console.warn('⚠️  WARNING: Git working tree is dirty. Review changes carefully.');
@@ -119,7 +119,7 @@ function check() {
   const ollama = run('ollama', ['--version']);
   if (ollama.status === 0) {
     console.log(`✅ Ollama detected: ${ollama.stdout.trim()}`);
-    
+
     const list = run('ollama', ['list']);
     if (list.stdout.includes('qwen2.5-coder:7b')) {
       console.log('✅ Model qwen2.5-coder:7b found');
@@ -152,7 +152,7 @@ function bounce(options) {
   // Initialize Artifacts
   writeFileSync(ARTIFACTS.COMMANDS, `[START] ${new Date().toISOString()}\nGOAL: ${goal}\n`);
   writeFileSync(ARTIFACTS.SUMMARY, `BOUNCE SUMMARY\nGOAL: ${goal}\nDATE: ${new Date().toISOString()}\n\n`);
-  writeFileSync(ARTIFACTS.DIFF, ''); 
+  writeFileSync(ARTIFACTS.DIFF, '');
 
   log(`🚀 Starting Bounce Loop for: "${goal}"`);
   log(`   Options: max-iters=${maxIterations}, ai-artifacts=${aiArtifacts}, slug=${slug}`);
@@ -170,6 +170,14 @@ function bounce(options) {
 
     // 1. Supervisor Plan (passed via stdin)
     log('   👤 Supervisor planning...');
+
+    let contextDocs = '';
+    if (existsSync('CODEX.md')) {
+      contextDocs = readFileSync('CODEX.md', 'utf8');
+    } else if (existsSync('AGENTS.md')) {
+      contextDocs = readFileSync('AGENTS.md', 'utf8');
+    }
+
     const supPrompt = `
     You are the Supervisor.
     GOAL: ${goal}
@@ -177,24 +185,27 @@ function bounce(options) {
     - Current iteration: ${i}
     - Gate command: ${GATE_CMD}
 
+    PROJECT_CONTEXT:
+    ${contextDocs}
+
     INSTRUCTIONS:
     Provide clear, step-by-step instructions for the Worker to implement the goal.
     Do not write code yourself. Focus on what needs to be done.
         `.trim();
-    
+
     // Pass prompt via stdin to avoid shell argument parsing issues
     const supRes = run('codex', ['exec', '-p', 'supervisor'], { input: supPrompt });
-    
+
     if (supRes.status !== 0) {
-        console.error('❌ Supervisor failed:', supRes.stderr || supRes.stdout);
-        writeArtifact(ARTIFACTS.SUMMARY, `FAIL: Supervisor crash\n`, true);
-        process.exit(1);
+      console.error('❌ Supervisor failed:', supRes.stderr || supRes.stdout);
+      writeArtifact(ARTIFACTS.SUMMARY, `FAIL: Supervisor crash\n`, true);
+      process.exit(1);
     }
-    
+
     // Supervisor output is in stdout
     const workerInstructions = supRes.stdout;
     writeFileSync(ARTIFACTS.SUPERVISOR, workerInstructions);
-    
+
     if (aiArtifacts) {
       writeFileSync(join('.ai/plans', `${currentSlug}-iter${i}.md`), workerInstructions);
     }
@@ -208,9 +219,9 @@ function bounce(options) {
 
     Implement the changes in the codebase.
         `.trim();
-    
+
     const workRes = run('codex', ['exec', '-p', 'worker_qwen'], { input: workPrompt });
-    writeFileSync(ARTIFACTS.WORKER, workRes.stdout || workRes.stderr); 
+    writeFileSync(ARTIFACTS.WORKER, workRes.stdout || workRes.stderr);
 
     // 3. Gate Check
     log('   🛡️ Running gate...');
@@ -244,7 +255,7 @@ function bounce(options) {
     const revRes = run('codex', ['exec', '-p', 'supervisor'], { input: revPrompt });
     const verdict = revRes.stdout.trim();
     writeFileSync(ARTIFACTS.VERDICT, verdict);
-    
+
     if (aiArtifacts) {
       writeFileSync(join('.ai/reviews', `${currentSlug}-iter${i}.md`), verdict);
     }
@@ -257,7 +268,7 @@ function bounce(options) {
 
     log('   ⚠️ Issues detected. Continuing...');
     writeArtifact(ARTIFACTS.SUMMARY, `RESULT: CONTINUING (Verdict: ${verdict.slice(0, 50)}...)\n`, true);
-    
+
     if (i === maxIterations) {
       log('❌ Max iterations reached without approval.');
       writeArtifact(ARTIFACTS.SUMMARY, `RESULT: FAILED (Max iterations)\n`, true);
