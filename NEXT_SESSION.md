@@ -29,6 +29,73 @@
 
 ## 2. Recent Changes: Claude/Gemini/Qwen CLI Setup
 
+## 2. Recent Changes: Flashcard Subject Packs (January 16, 2026)
+
+### What Was Done
+
+- **Split flashcards by subject**: Created 16 subject-specific packs from master `flashcards.json` (92 Criminal Law, 138 Property, 59 Evidence, etc.)
+- **Added split script**: `scripts/split-flashcards-by-subject.mjs` generates subject packs with normalized IDs
+- **Registry integration**: All 18 packs (16 subjects + master + manifest) now in registry
+- **npm script**: `npm run split:flashcards` to regenerate packs
+
+### Subject → Pack Mapping
+
+| Subject | Pack ID | Cards | Justice NPC |
+|---------|---------|-------|-------------|
+| Criminal Law | `criminal_law` | 92 | Justice Alito |
+| Evidence | `evidence` | 59 | Justice Thomas |
+| Torts | `torts` | 86 | Justice Jackson |
+| Civil Procedure | `civil_procedure` | 126 | Justice Kagan |
+| Contracts | `contracts` | 100 | Justice Kavanaugh |
+| Constitutional Law | `constitutional_law` | 122 | Chief Justice Roberts |
+| Criminal Procedure | `criminal_procedure` | 82 | Justice Sotomayor |
+| Property | `property` | 138 | Justice Gorsuch |
+| Family Law | `family_law` | 35 | Justice Barrett |
+
+### Status: ✅ FULLY WIRED!
+
+**All Justice encounters are now connected to subject-specific flashcard packs!**
+
+| Justice | Subject | Pack ID | Cards | Status |
+|---------|---------|---------|-------|--------|
+| Justice Alito | Criminal Law | `criminal_law` | 92 | ✅ |
+| Justice Thomas | Evidence | `evidence` | 59 | ✅ |
+| Justice Jackson | Torts | `torts` | 86 | ✅ |
+| Justice Kagan | Civil Procedure | `civil_procedure` | 126 | ✅ |
+| Justice Kavanaugh | Contracts | `contracts` | 100 | ✅ |
+| Chief Justice Roberts | Constitutional Law | `constitutional_law` | 122 | ✅ |
+| Justice Sotomayor | Criminal Procedure | `criminal_procedure` | 82 | ✅ |
+| Justice Gorsuch | Property | `property` | 138 | ✅ |
+| Justice Barrett | Family Law | `family_law` | 35 | ✅ |
+
+**Gameplay Loop**: Walk to Justice → Talk → Accept challenge → Battle 5 flashcards from their subject → Win outfit reward
+
+### Flashcard API Configuration
+
+**Production**: Flashcards are served from Cloudflare Workers, NOT committed to GitHub.
+
+```bash
+# .env.local (for production builds)
+VITE_FLASHCARD_API_URL=https://flashcard-api.andrewsbadger.workers.dev/flashcards
+```
+
+**Development**: For local dev, flashcard files can exist in `public/content/cards/*.json` but are gitignored.
+
+**Registry Behavior**:
+- Registry scans `public/content/cards/` for pack metadata during build
+- Runtime loads from API URL if `VITE_FLASHCARD_API_URL` is set, otherwise falls back to local files
+
+### Recent Changes (January 16, 2026)
+
+- **Cloze Deletion**: Updated `EncounterSystem` to properly parse and display cloze deletions (`{{c1::answer}}`)
+- **Git Exclusion**: Added `public/content/cards/*.json` to .gitignore (flashcards hosted externally)
+
+### Loose Ends
+
+- **Validation warnings**: Some flashcards have string `seq` values instead of integers (inherited from source data). Non-blocking for gameplay.
+- **Visual indicators**: Add UI hints showing which Justices haven't been defeated yet (glow effects, icons)
+- **Progress tracking**: Display mastered subjects in a "Progress" panel
+
 ## 2. Recent Changes: Pixel-MCP (Railway + MCP Config)
 
 ### What Was Done (January 16, 2026)

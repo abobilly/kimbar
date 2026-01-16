@@ -38,8 +38,8 @@ vendor/**
 !vendor/lpc/
 !vendor/lpc/README.md
 
-# Flashcard data (stored externally, not in public repo)
-public/content/cards/flashcards.json
+# Flashcard data (stored externally on Cloudflare Workers, not in public repo)
+public/content/cards/*.json
 
 .bounce.*
 .ai.patch
