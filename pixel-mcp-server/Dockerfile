@@ -33,6 +33,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zlib1g-dev \
     # Virtual framebuffer for headless operation
     xvfb \
+    xauth \
     # Runtime libs
     libgl1-mesa-glx \
     libglu1-mesa \
