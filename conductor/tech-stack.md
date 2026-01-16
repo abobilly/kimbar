@@ -13,6 +13,7 @@
 ## Pipeline & Tooling
 - **Scripting:** Python (for procedural asset generation)
 - **Asset Pipeline:** Node.js scripts + JSON Schemas
+- **Screenshot Pipeline:** Playwright + Node.js (scripts/screenshot-agent.mjs)
 - **Git Hooks:** Husky
 
 ## Testing & Quality Assurance
