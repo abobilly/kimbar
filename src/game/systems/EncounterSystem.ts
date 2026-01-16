@@ -128,8 +128,11 @@ export class EncounterSystem {
       }
     });
 
+    // Use cloze format: show text with blanks
+    const { questionText: displayText, answers } = this.parseCloze(card);
+
     // Question text - use layout for positioning and width
-    const questionText = this.scene.add.text(layout.centerX, layout.questionY, card.frontPrompt, {
+    const questionText = this.scene.add.text(layout.centerX, layout.questionY, displayText, {
       fontSize: '20px',
       color: '#FFFFFF',
       wordWrap: { width: layout.questionWrapWidth },
@@ -139,8 +142,8 @@ export class EncounterSystem {
     questionText.setName('q_text');
     this.container.add(questionText);
 
-    // Generate answer choices - use layout for button sizing
-    const choices = this.generateChoices(card);
+    // Generate answer choices from cloze deletions
+    const choices = this.generateChoicesFromCloze(card, answers);
     const questionHeight = questionText.height;
     const buttonStartY = layout.questionY + questionHeight + 30;
 
@@ -168,32 +171,53 @@ export class EncounterSystem {
     }
   }
 
-  private generateChoices(card: Flashcard): { text: string; correct: boolean }[] {
-    // Extract the correct answer from cloze
-    let correctAnswer = '';
-    if (card.cloze) {
-      const match = card.cloze.match(/\{\{(.+?)\}\}/);
-      if (match) correctAnswer = match[1];
-    }
-    if (!correctAnswer && card.clozeLite) {
-      const match = card.clozeLite.match(/\{\{(.+?)\}\}/);
-      if (match) correctAnswer = match[1];
-    }
-    if (!correctAnswer) {
-      correctAnswer = 'Correct Answer';
+  /**
+   * Parse cloze deletions from card.
+   * Returns question text with blanks and array of correct answers.
+   */
+  private parseCloze(card: Flashcard): { questionText: string; answers: string[] } {
+    // Use clozeLite first (simpler), fallback to cloze
+    const clozeText = card.clozeLite || card.cloze;
+    if (!clozeText) {
+      // Fallback to frontPrompt if no cloze
+      return { questionText: card.frontPrompt || 'No question text', answers: ['Answer'] };
     }
 
-    // Generate wrong answers from confusables or generic
+    const answers: string[] = [];
+    // Replace {{c1::text}} or {{text}} with _____ and extract answers
+    const questionText = clozeText.replace(/\{\{(?:c\d+::)?(.+?)\}\}/g, (match, answer) => {
+      answers.push(answer.trim());
+      return '_____';
+    });
+
+    return { questionText, answers };
+  }
+
+  /**
+   * Generate multiple choice options from cloze answers.
+   * Uses first cloze deletion as the correct answer.
+   */
+  private generateChoicesFromCloze(card: Flashcard, answers: string[]): { text: string; correct: boolean }[] {
+    const correctAnswer = answers[0] || 'Answer';
+
+    // Generate wrong answers from other cloze deletions or confusables
     const wrongAnswers: string[] = [];
-    if (card.confusableWith && card.confusableWith.length > 0) {
-      wrongAnswers.push(...card.confusableWith.slice(0, 3));
+    
+    // Use other cloze answers as distractors
+    if (answers.length > 1) {
+      wrongAnswers.push(...answers.slice(1, 4));
+    }
+    
+    // Use confusable cards if available
+    if (wrongAnswers.length < 3 && card.confusableWith && card.confusableWith.length > 0) {
+      wrongAnswers.push(...card.confusableWith.slice(0, 3 - wrongAnswers.length));
     }
     
     // Pad with generic wrong answers if needed
     const genericWrong = [
       'None of the above',
       'All of the above', 
-      'It depends on jurisdiction',
+      'It depends on the jurisdiction',
       'Only in federal court'
     ];
     while (wrongAnswers.length < 3) {
