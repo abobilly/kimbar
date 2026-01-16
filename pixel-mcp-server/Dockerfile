@@ -14,6 +14,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ninja-build \
     git \
     # LibreSprite dependencies
+    libsdl2-dev \
+    libsdl2-image-dev \
     libx11-dev \
     libxcursor-dev \
     libxi-dev \
@@ -47,11 +49,11 @@ RUN git clone https://github.com/LibreSprite/LibreSprite.git && \
     git submodule update --init --recursive && \
     mkdir build && cd build && \
     cmake -G Ninja \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX=/usr/local \
-        -DWITH_WEBP_SUPPORT=ON \
-        -DENABLE_UPDATER=OFF \
-        .. && \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -DWITH_WEBP_SUPPORT=ON \
+    -DENABLE_UPDATER=OFF \
+    .. && \
     ninja && \
     ninja install && \
     # Cleanup build directory to reduce image size
