@@ -1,12 +1,12 @@
 # Implementation Plan - Screenshot Pipeline Refactor
 
 ## Phase 1: Script Robustness & cleanup
-- [ ] Task: Audit `scripts/screenshot-agent.mjs` for error handling and edge cases.
-    - [ ] Sub-task: Write Tests for script logic (mocking spawn/fs).
-    - [ ] Sub-task: Refactor script to use proper logging and exit codes.
-- [ ] Task: Clean up redundant screenshot scripts/tools if any exist (check for `make_portrait.py` overlap or others).
-    - [ ] Sub-task: Verify `make_portrait.py` usage and document if it's distinct.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
+- [x] Task: Audit `scripts/screenshot-agent.mjs` for error handling and edge cases.
+    - [x] Sub-task: Write Tests for script logic (mocking spawn/fs).
+    - [x] Sub-task: Refactor script to use proper logging and exit codes.
+- [x] Task: Clean up redundant screenshot scripts/tools if any exist (check for `make_portrait.py` overlap or others).
+    - [x] Sub-task: Verify `make_portrait.py` usage and document if it's distinct.
+- [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Test Stability
 - [ ] Task: Review E2E tests (`tests/e2e/smoke.spec.ts`) for deterministic behavior.
