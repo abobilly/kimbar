@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Refactor and unify the automated screenshot pipeline**
+- [x] **Track: Refactor and unify the automated screenshot pipeline**
   *Link: [./tracks/screenshot_pipeline_20260115/](./tracks/screenshot_pipeline_20260115/)*
