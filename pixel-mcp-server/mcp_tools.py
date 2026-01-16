@@ -16,6 +16,7 @@ import json
 import math
 import os
 import random
+import shutil
 import tempfile
 import uuid
 from pathlib import Path
@@ -99,9 +100,56 @@ async def ensure_workspace():
     return WORKSPACE_DIR
 
 
+def resolve_libresprite_executable() -> str | None:
+    """
+    Resolve the configured LibreSprite executable.
+
+    Returns the resolved executable path if found, otherwise None.
+    """
+    candidate = Path(LIBRESPRITE_PATH)
+
+    # Treat anything with path separators as a path, even if relative.
+    if candidate.is_absolute() or any(sep in LIBRESPRITE_PATH for sep in ("/", "\\")):
+        return str(candidate) if candidate.exists() else None
+
+    return shutil.which(LIBRESPRITE_PATH)
+
+
+def get_runtime_health() -> dict:
+    """Return basic runtime health signals for dependency troubleshooting."""
+    workspace_error: str | None = None
+    try:
+        WORKSPACE_DIR.mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        workspace_error = str(e)
+
+    resolved = resolve_libresprite_executable()
+    return {
+        "ok": workspace_error is None and resolved is not None,
+        "workspace": {
+            "dir": str(WORKSPACE_DIR),
+            "ok": workspace_error is None,
+            "error": workspace_error,
+        },
+        "libresprite": {
+            "configured": LIBRESPRITE_PATH,
+            "resolved": resolved,
+            "ok": resolved is not None,
+        },
+    }
+
+
 async def run_libresprite(args: list[str], timeout: float = 60.0) -> tuple[int, str, str]:
     """Run LibreSprite in batch mode with given arguments."""
-    cmd = [LIBRESPRITE_PATH, "--batch"] + args
+    resolved = resolve_libresprite_executable()
+    if not resolved:
+        raise FileNotFoundError(
+            f"LibreSprite executable not found (LIBRESPRITE_PATH={LIBRESPRITE_PATH}). "
+            "If deploying to Railway, ensure the service builds with the provided Dockerfile (not Nixpacks), "
+            "or set LIBRESPRITE_PATH to a valid executable."
+        )
+
+    cmd = [resolved, "--batch"] + args
 
     process = await asyncio.create_subprocess_exec(
         *cmd,
@@ -162,29 +210,28 @@ async def create_sprite(
     png_path = WORKSPACE_DIR / f"{sprite_id}.png"
     img.save(png_path)
 
-    # Convert to Aseprite format using LibreSprite
-    returncode, stdout, stderr = await run_libresprite([
-        str(png_path),
-        "--save-as", str(output_path)
-    ])
+    # Convert to Aseprite format using LibreSprite when available; otherwise keep the PNG.
+    if resolve_libresprite_executable() is None:
+        return {
+            "success": True,
+            "sprite_id": sprite_id,
+            "path": str(png_path),
+            "format": "png",
+            "width": width,
+            "height": height,
+            "color_mode": color_mode,
+            "note": "LibreSprite not available; created PNG-only sprite.",
+        }
 
-    # Clean up temp PNG
+    returncode, stdout, stderr = await run_libresprite([str(png_path), "--save-as", str(output_path)])
+
+    # Clean up temp PNG after conversion
     png_path.unlink(missing_ok=True)
 
     if returncode != 0:
-        return {
-            "error": f"Failed to create sprite: {stderr}",
-            "success": False
-        }
+        return {"error": f"Failed to create sprite: {stderr}", "success": False}
 
-    return {
-        "success": True,
-        "sprite_id": sprite_id,
-        "path": str(output_path),
-        "width": width,
-        "height": height,
-        "color_mode": color_mode
-    }
+    return {"success": True, "sprite_id": sprite_id, "path": str(output_path), "format": "aseprite", "width": width, "height": height, "color_mode": color_mode}
 
 
 async def export_sprite(
@@ -226,28 +273,42 @@ async def export_sprite(
     else:
         args.extend(["--save-as", str(output_path)])
 
+    if resolve_libresprite_executable() is None:
+        try:
+            img = Image.open(input_path)
+            if img.mode != "RGBA":
+                img = img.convert("RGBA")
+
+            if scale > 1:
+                img = img.resize((img.width * min(scale, 10), img.height * min(scale, 10)), resample=Image.NEAREST)
+
+            with tempfile.NamedTemporaryFile(suffix=f".{format}", delete=False) as tmp:
+                tmp_path = Path(tmp.name)
+
+            try:
+                save_format = format.upper()
+                if save_format == "JPG":
+                    save_format = "JPEG"
+
+                img.save(tmp_path, format=save_format)
+                image_data = base64.b64encode(tmp_path.read_bytes()).decode()
+            finally:
+                tmp_path.unlink(missing_ok=True)
+
+            mime_type = "image/webp" if format == "webp" else f"image/{format}"
+            return {"success": True, "format": format, "scale": scale, "data": image_data, "mime_type": mime_type, "note": "Exported without LibreSprite (PIL fallback).", "sheet": sheet}
+        except Exception as e:
+            return {"error": f"Export failed without LibreSprite: {e}", "success": False}
+
     returncode, stdout, stderr = await run_libresprite(args)
 
     if returncode != 0 or not output_path.exists():
-        return {
-            "error": f"Export failed: {stderr}",
-            "success": False
-        }
+        return {"error": f"Export failed: {stderr}", "success": False}
 
-    # Read and encode the output
-    with open(output_path, "rb") as f:
-        image_data = base64.b64encode(f.read()).decode()
-
-    # Clean up export file
+    image_data = base64.b64encode(output_path.read_bytes()).decode()
     output_path.unlink(missing_ok=True)
 
-    return {
-        "success": True,
-        "format": format,
-        "scale": scale,
-        "data": image_data,
-        "mime_type": f"image/{format}"
-    }
+    return {"success": True, "format": format, "scale": scale, "data": image_data, "mime_type": f"image/{format}"}
 
 
 async def draw_pixel(

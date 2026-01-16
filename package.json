@@ -61,7 +61,7 @@
         "bounce:check": "node tools/bounce.mjs --check",
         "check": "npm run prepare:content && npm run verify && npm run check-boundaries && npm run test && npm run build-nolog",
         "check:fast": "npm run prepare:content && npm run verify && npm run check-boundaries && npm run test:unit && npm run build-nolog",
-        "precommit": "npm run check-boundaries && node scripts/check-no-hardcoded-paths.mjs",
+        "precommit": "node scripts/check-boundaries.js && node scripts/check-no-hardcoded-paths.mjs",
         "prepare": "husky"
     },
     "devDependencies": {

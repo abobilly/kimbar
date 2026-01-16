@@ -48,3 +48,7 @@ public/content/cards/flashcards.json
 gha-creds-*.json
 nul
 toolbox.exe
+
+# Python bytecode
+__pycache__/
+*.pyc

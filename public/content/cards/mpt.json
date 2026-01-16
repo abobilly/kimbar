@@ -1,0 +1,1867 @@
+{
+  "schemaVersion": 1,
+  "id": "mpt",
+  "title": "MPT",
+  "description": "MPT flashcards for bar exam prep",
+  "source": "bar-flashcards-docx",
+  "version": "2025-11-22",
+  "count": 116,
+  "cards": [
+    {
+      "id": "mpt-001",
+      "seq": 503,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "001",
+      "topic": "MPT",
+      "rawHeader": "MPT On Bar 001. MPT",
+      "front": "MPT",
+      "backPlain": "A test that assesses a student's ability to perform legal tasks based on provided materials.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-002",
+      "seq": 504,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "002",
+      "topic": "Skills tested",
+      "rawHeader": "MPT On Bar 002. Skills tested",
+      "front": "Skills tested",
+      "backPlain": "Reading comprehension, organization, tone, communication, and ability to follow directions.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-003",
+      "seq": 505,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "003",
+      "topic": "Purpose of the MPT",
+      "rawHeader": "MPT On Bar 003. Purpose of the MPT",
+      "front": "Purpose of the MPT",
+      "backPlain": "To address only the required information within a 90-minute time frame.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-004",
+      "seq": 506,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "004",
+      "topic": "MPT Method Step 1",
+      "rawHeader": "MPT On Bar 004. MPT Method Step 1",
+      "front": "MPT Method Step 1",
+      "backPlain": "Read the Instruction Sheet in 1 minute.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-005",
+      "seq": 507,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "005",
+      "topic": "Mythical jurisdiction",
+      "rawHeader": "MPT On Bar 005. Mythical jurisdiction",
+      "front": "Mythical jurisdiction",
+      "backPlain": "Usually in the State of Columbia or Olympia, often in the 15th Federal Circuit.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-006",
+      "seq": 508,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "006",
+      "topic": "Abbreviated citations",
+      "rawHeader": "MPT On Bar 006. Abbreviated citations",
+      "front": "Abbreviated citations",
+      "backPlain": "Allowed in the MPT.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-007",
+      "seq": 509,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "007",
+      "topic": "MPT Method Step 2",
+      "rawHeader": "MPT On Bar 007. MPT Method Step 2",
+      "front": "MPT Method Step 2",
+      "backPlain": "Read the Task Memo in 4 minutes.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-008",
+      "seq": 510,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "008",
+      "topic": "Point of view",
+      "rawHeader": "MPT On Bar 008. Point of view",
+      "front": "Point of view",
+      "backPlain": "Can be objective or persuasive.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-009",
+      "seq": 511,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "009",
+      "topic": "Audience",
+      "rawHeader": "MPT On Bar 009. Audience",
+      "front": "Audience",
+      "backPlain": "Can be a lay person or a legal professional.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-010",
+      "seq": 512,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "010",
+      "topic": "MPT Method Step 3",
+      "rawHeader": "MPT On Bar 010. MPT Method Step 3",
+      "front": "MPT Method Step 3",
+      "backPlain": "Read the Library in 20 minutes.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-011",
+      "seq": 513,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "011",
+      "topic": "Statutes",
+      "rawHeader": "MPT On Bar 011. Statutes",
+      "front": "Statutes",
+      "backPlain": "Start with statutes if given; the cases will illuminate.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-012",
+      "seq": 514,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "012",
+      "topic": "Jurisdiction",
+      "rawHeader": "MPT On Bar 012. Jurisdiction",
+      "front": "Jurisdiction",
+      "backPlain": "Verify whether it is mandatory or persuasive authority.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-013",
+      "seq": 515,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "013",
+      "topic": "MPT Method Step 4",
+      "rawHeader": "MPT On Bar 013. MPT Method Step 4",
+      "front": "MPT Method Step 4",
+      "backPlain": "Develop a Working Outline in 10 minutes.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-014",
+      "seq": 516,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "014",
+      "topic": "Gray areas of the law",
+      "rawHeader": "MPT On Bar 014. Gray areas of the law",
+      "front": "Gray areas of the law",
+      "backPlain": "Identify and analyze them during the outline development.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-015",
+      "seq": 517,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "015",
+      "topic": "Ifthen propositions",
+      "rawHeader": "MPT On Bar 015. Ifthen propositions",
+      "front": "Ifthen propositions",
+      "backPlain": "Used to develop tests and subtests in the analysis.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-016",
+      "seq": 518,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "016",
+      "topic": "MPT Method Step 5",
+      "rawHeader": "MPT On Bar 016. MPT Method Step 5",
+      "front": "MPT Method Step 5",
+      "backPlain": "Read the File in 10 minutes.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-017",
+      "seq": 519,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "017",
+      "topic": "Irrelevant facts",
+      "rawHeader": "MPT On Bar 017. Irrelevant facts",
+      "front": "Irrelevant facts",
+      "backPlain": "Focus on finding facts that prove the elements or factors in your outline.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-018",
+      "seq": 520,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "018",
+      "topic": "Characterize legal relationships",
+      "rawHeader": "MPT On Bar 018. Characterize legal relationships",
+      "front": "Characterize legal relationships",
+      "backPlain": "Important for understanding the context of the facts.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-019",
+      "seq": 521,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "019",
+      "topic": "MPT Method Step 6",
+      "rawHeader": "MPT On Bar 019. MPT Method Step 6",
+      "front": "MPT Method Step 6",
+      "backPlain": "Write in 45 minutes.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-020",
+      "seq": 522,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "020",
+      "topic": "Tone",
+      "rawHeader": "MPT On Bar 020. Tone",
+      "front": "Tone",
+      "backPlain": "Be responsive to the assigned task's tone.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-021",
+      "seq": 523,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "021",
+      "topic": "Types of Analyses",
+      "rawHeader": "MPT On Bar 021. Types of Analyses",
+      "front": "Types of Analyses",
+      "backPlain": "Various analyses that may include legal, persuasive, or objective writing.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-022",
+      "seq": 524,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "022",
+      "topic": "Working outline",
+      "rawHeader": "MPT On Bar 022. Working outline",
+      "front": "Working outline",
+      "backPlain": "An outline that prioritizes facts and organizes them according to the elements they prove.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-023",
+      "seq": 525,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "023",
+      "topic": "Develop an attack outline",
+      "rawHeader": "MPT On Bar 023. Develop an attack outline",
+      "front": "Develop an attack outline",
+      "backPlain": "Decide the order and choose facts to prioritize.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-024",
+      "seq": 526,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "024",
+      "topic": "Exam Tip 1",
+      "rawHeader": "MPT On Bar 024. Exam Tip 1",
+      "front": "Exam Tip 1",
+      "backPlain": "Be aware of the broad range of potential tasks, such as writing a pleading or client letter.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-025",
+      "seq": 527,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "025",
+      "topic": "Legal Analysis",
+      "rawHeader": "MPT On Bar 025. Legal Analysis",
+      "front": "Legal Analysis",
+      "backPlain": "Often a legal analysis is presented in IRAC or CRAC form.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-026",
+      "seq": 528,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "026",
+      "topic": "Fact Analysis",
+      "rawHeader": "MPT On Bar 026. Fact Analysis",
+      "front": "Fact Analysis",
+      "backPlain": "Often a persuasive lay scenario, sometimes an opening argument or closing argument to a jury.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-027",
+      "seq": 529,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "027",
+      "topic": "Fact Gathering",
+      "rawHeader": "MPT On Bar 027. Fact Gathering",
+      "front": "Fact Gathering",
+      "backPlain": "Looking for the ultimate fact to prove each element.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-028",
+      "seq": 530,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "028",
+      "topic": "Problem Solving",
+      "rawHeader": "MPT On Bar 028. Problem Solving",
+      "front": "Problem Solving",
+      "backPlain": "Often a letter to a client, acting as a counselor (giving advice to a lay person).",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-029",
+      "seq": 531,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "029",
+      "topic": "Ethical Dilemmas",
+      "rawHeader": "MPT On Bar 029. Ethical Dilemmas",
+      "front": "Ethical Dilemmas",
+      "backPlain": "Often a conflict-of-interest scenario, never ignore ethical considerations.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-030",
+      "seq": 532,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "030",
+      "topic": "Writing Strategies",
+      "rawHeader": "MPT On Bar 030. Writing Strategies",
+      "front": "Writing Strategies",
+      "backPlain": "Adopt the correct tone and format.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-031",
+      "seq": 533,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "031",
+      "topic": "Synthesis",
+      "rawHeader": "MPT On Bar 031. Synthesis",
+      "front": "Synthesis",
+      "backPlain": "Ask, 'why is this case here?'",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-032",
+      "seq": 534,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "032",
+      "topic": "The 'shotgunner'",
+      "rawHeader": "MPT On Bar 032. The 'shotgunner'",
+      "front": "The 'shotgunner'",
+      "backPlain": "Throwing everything on paper; to fix, work on your outline.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-033",
+      "seq": 535,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "033",
+      "topic": "The 'tangentializer'",
+      "rawHeader": "MPT On Bar 033. The 'tangentializer'",
+      "front": "The 'tangentializer'",
+      "backPlain": "Does not respond to the question; to fix, spend more time with the Task Memo.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-034",
+      "seq": 536,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "034",
+      "topic": "The 'objectifier'",
+      "rawHeader": "MPT On Bar 034. The 'objectifier'",
+      "front": "The 'objectifier'",
+      "backPlain": "Not paying attention to objective versus persuasive; to fix, focus on persuasive reasoning.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-035",
+      "seq": 537,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "035",
+      "topic": "The 'brainiac'",
+      "rawHeader": "MPT On Bar 035. The 'brainiac'",
+      "front": "The 'brainiac'",
+      "backPlain": "Goes outside the materials; to fix, practice MPTs outside your comfort zone.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-036",
+      "seq": 538,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "036",
+      "topic": "The 'storyteller'",
+      "rawHeader": "MPT On Bar 036. The 'storyteller'",
+      "front": "The 'storyteller'",
+      "backPlain": "Turns the MPT into a long, fact-intensive story; to fix, focus on giving a rule.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-037",
+      "seq": 539,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "037",
+      "topic": "The 'legal mind'",
+      "rawHeader": "MPT On Bar 037. The 'legal mind'",
+      "front": "The 'legal mind'",
+      "backPlain": "Ignores the facts; to fix, focus on linking an element to a fact.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-038",
+      "seq": 540,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "038",
+      "topic": "The 'onetrick pony'",
+      "rawHeader": "MPT On Bar 038. The 'onetrick pony'",
+      "front": "The 'onetrick pony'",
+      "backPlain": "Tends to do worse on one type of MPT; to fix, practice MPTs outside your comfort zone.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-039",
+      "seq": 541,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "039",
+      "topic": "Model Answer",
+      "rawHeader": "MPT On Bar 039. Model Answer",
+      "front": "Model Answer",
+      "backPlain": "Compare your outline to the model answer.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-040",
+      "seq": 542,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "040",
+      "topic": "Persuasive Headings",
+      "rawHeader": "MPT On Bar 040. Persuasive Headings",
+      "front": "Persuasive Headings",
+      "backPlain": "Use the 'persuasive headings' approach.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-041",
+      "seq": 543,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "041",
+      "topic": "Client's Goals",
+      "rawHeader": "MPT On Bar 041. Client's Goals",
+      "front": "Client's Goals",
+      "backPlain": "Think in terms of client's goals and explain their options.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-042",
+      "seq": 544,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "042",
+      "topic": "Factual Summaries",
+      "rawHeader": "MPT On Bar 042. Factual Summaries",
+      "front": "Factual Summaries",
+      "backPlain": "Keep factual summaries brief.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-043",
+      "seq": 545,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "043",
+      "topic": "Grammar",
+      "rawHeader": "MPT On Bar 043. Grammar",
+      "front": "Grammar",
+      "backPlain": "Grammar matters—write in a lawyerlike manner.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-044",
+      "seq": 546,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "044",
+      "topic": "Format",
+      "rawHeader": "MPT On Bar 044. Format",
+      "front": "Format",
+      "backPlain": "Format matters: Memo—To, From, RE:; Opening/Closing—'Ladies and Gentlemen of the Jury...'; Letter—address, date, salutation at the end.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-045",
+      "seq": 547,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "045",
+      "topic": "Practice",
+      "rawHeader": "MPT On Bar 045. Practice",
+      "front": "Practice",
+      "backPlain": "Practice with time constraints—consider completing just the first 45 minutes of the MPT.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-046",
+      "seq": 548,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "046",
+      "topic": "Weaker Elements",
+      "rawHeader": "MPT On Bar 046. Weaker Elements",
+      "front": "Weaker Elements",
+      "backPlain": "Spend more time on 'weaker' elements.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-047",
+      "seq": 549,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "047",
+      "topic": "Body of the Argument",
+      "rawHeader": "MPT On Bar 047. Body of the Argument",
+      "front": "Body of the Argument",
+      "backPlain": "Draft only the body of the argument.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-048",
+      "seq": 550,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "048",
+      "topic": "Professional Conduct",
+      "rawHeader": "MPT On Bar 048. Professional Conduct",
+      "front": "Professional Conduct",
+      "backPlain": "Rules governing the behavior and ethics of legal professionals.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-049",
+      "seq": 551,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "049",
+      "topic": "Rules of Evidence",
+      "rawHeader": "MPT On Bar 049. Rules of Evidence",
+      "front": "Rules of Evidence",
+      "backPlain": "Legal principles that govern the admissibility of evidence in court.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-050",
+      "seq": 552,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "050",
+      "topic": "Client Confidences",
+      "rawHeader": "MPT On Bar 050. Client Confidences",
+      "front": "Client Confidences",
+      "backPlain": "Obligation to preserve client secrets and avoid disclosure.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-051",
+      "seq": 553,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "051",
+      "topic": "Franklin Rules of Professional Conduct—Rule 001.6",
+      "rawHeader": "MPT On Bar 051. Franklin Rules of Professional Conduct—Rule 001.6",
+      "front": "Franklin Rules of Professional Conduct—Rule 001.6",
+      "backPlain": "Shall not reveal info regarding representation.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-052",
+      "seq": 554,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "052",
+      "topic": "Informed Consent",
+      "rawHeader": "MPT On Bar 052. Informed Consent",
+      "front": "Informed Consent",
+      "backPlain": "One of the exceptions allowing disclosure of client information.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-053",
+      "seq": 555,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "053",
+      "topic": "Disclosure Impliedly Authorized",
+      "rawHeader": "MPT On Bar 053. Disclosure Impliedly Authorized",
+      "front": "Disclosure Impliedly Authorized",
+      "backPlain": "Another exception permitting the revelation of client information.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-054",
+      "seq": 556,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "054",
+      "topic": "Substantial Injury Exception",
+      "rawHeader": "MPT On Bar 054. Substantial Injury Exception",
+      "front": "Substantial Injury Exception",
+      "backPlain": "Information may be revealed to prevent, mitigate, or rectify substantial injury to another's financial interests or property.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-055",
+      "seq": 557,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "055",
+      "topic": "Franklin Rules of Evidence—Rule 513",
+      "rawHeader": "MPT On Bar 055. Franklin Rules of Evidence—Rule 513",
+      "front": "Franklin Rules of Evidence—Rule 513",
+      "backPlain": "Defines elements of communication as confidential and for the purpose of facilitating legal services.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-056",
+      "seq": 558,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "056",
+      "topic": "Furtherance of Crime/Fraud",
+      "rawHeader": "MPT On Bar 056. Furtherance of Crime/Fraud",
+      "front": "Furtherance of Crime/Fraud",
+      "backPlain": "Exception to confidentiality if services were sought to enable or aid known crime/fraud.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-057",
+      "seq": 559,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "057",
+      "topic": "Presumed Privileged",
+      "rawHeader": "MPT On Bar 057. Presumed Privileged",
+      "front": "Presumed Privileged",
+      "backPlain": "Communications are assumed to be protected unless proven otherwise.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-058",
+      "seq": 560,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "058",
+      "topic": "Preponderance of the Evidence (POE)",
+      "rawHeader": "MPT On Bar 058. Preponderance of the Evidence (POE)",
+      "front": "Preponderance of the Evidence (POE)",
+      "backPlain": "Opposing party has the burden of proof by a greater weight of the evidence.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-059",
+      "seq": 561,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "059",
+      "topic": "Probable Cause",
+      "rawHeader": "MPT On Bar 059. Probable Cause",
+      "front": "Probable Cause",
+      "backPlain": "A reasonable basis for believing that a crime may have been committed.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-060",
+      "seq": 562,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "060",
+      "topic": "U.S. v. Robb",
+      "rawHeader": "MPT On Bar 060. U.S. v. Robb",
+      "front": "U.S. v. Robb",
+      "backPlain": "Case discussing the privilege of communication and exceptions for crime/fraud.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-061",
+      "seq": 563,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "061",
+      "topic": "State v. Sawyer",
+      "rawHeader": "MPT On Bar 061. State v. Sawyer",
+      "front": "State v. Sawyer",
+      "backPlain": "Case emphasizing the need for strong factual basis for crime/fraud to breach confidentiality.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-062",
+      "seq": 564,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "062",
+      "topic": "Legal Outline",
+      "rawHeader": "MPT On Bar 062. Legal Outline",
+      "front": "Legal Outline",
+      "backPlain": "Structured format for presenting legal arguments and facts.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-063",
+      "seq": 565,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "063",
+      "topic": "NonDisclosure",
+      "rawHeader": "MPT On Bar 063. NonDisclosure",
+      "front": "NonDisclosure",
+      "backPlain": "The principle of not revealing client information.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-064",
+      "seq": 566,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "064",
+      "topic": "False Alibi",
+      "rawHeader": "MPT On Bar 064. False Alibi",
+      "front": "False Alibi",
+      "backPlain": "A fabricated excuse to avoid legal consequences.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-065",
+      "seq": 567,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "065",
+      "topic": "Communications Concerned Representation",
+      "rawHeader": "MPT On Bar 065. Communications Concerned Representation",
+      "front": "Communications Concerned Representation",
+      "backPlain": "Refers to discussions and information related to the legal representation of a client.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-066",
+      "seq": 568,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "066",
+      "topic": "Three Exceptions to Confidentiality",
+      "rawHeader": "MPT On Bar 066. Three Exceptions to Confidentiality",
+      "front": "Three Exceptions to Confidentiality",
+      "backPlain": "1. Informed consent; Implied disclosure; Paragraph 1.0.2 regarding substantial injury.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-067",
+      "seq": 569,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "067",
+      "topic": "Franklin Rules of Evidence",
+      "rawHeader": "MPT On Bar 067. Franklin Rules of Evidence",
+      "front": "Franklin Rules of Evidence",
+      "backPlain": "Elements: 1) Confidential 2) Communication 3) Purpose of facilitating 4) Legal services",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-068",
+      "seq": 570,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "068",
+      "topic": "Exception—crime/fraud",
+      "rawHeader": "MPT On Bar 068. Exception—crime/fraud",
+      "front": "Exception—crime/fraud",
+      "backPlain": "If sought or obtained to enable or aid what the client knew or reasonably should have known is a crime/fraud",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-069",
+      "seq": 571,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "069",
+      "topic": "Presumed privilege",
+      "rawHeader": "MPT On Bar 069. Presumed privilege",
+      "front": "Presumed privilege",
+      "backPlain": "Opposing party has BOP by POE; If opposing party offers sufficient evidence to raise a substantial question (probable cause OR some evidence, unclear in Franklin), must be disclosed to the court",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-070",
+      "seq": 572,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "070",
+      "topic": "Proof of crime",
+      "rawHeader": "MPT On Bar 070. Proof of crime",
+      "front": "Proof of crime",
+      "backPlain": "Insured a building that burned down due to 'suspicious' origin; inquired into filing insurance claim; bank loan turned down before fire; failed alibi",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-071",
+      "seq": 573,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "071",
+      "topic": "Arson",
+      "rawHeader": "MPT On Bar 071. Arson",
+      "front": "Arson",
+      "backPlain": "Building of another",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-072",
+      "seq": 574,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "072",
+      "topic": "Defrauding insurer",
+      "rawHeader": "MPT On Bar 072. Defrauding insurer",
+      "front": "Defrauding insurer",
+      "backPlain": "Requires intent to defraud",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-073",
+      "seq": 575,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "073",
+      "topic": "Policy of privilege",
+      "rawHeader": "MPT On Bar 073. Policy of privilege",
+      "front": "Policy of privilege",
+      "backPlain": "Oldest privilege; full and frank communication; only when necessary",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-074",
+      "seq": 576,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "074",
+      "topic": "Counter to privilege",
+      "rawHeader": "MPT On Bar 074. Counter to privilege",
+      "front": "Counter to privilege",
+      "backPlain": "Lift veil of secrecy when purpose is to facilitate crime/fraud",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-075",
+      "seq": 577,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "075",
+      "topic": "Hammond's communications",
+      "rawHeader": "MPT On Bar 075. Hammond's communications",
+      "front": "Hammond's communications",
+      "backPlain": "Need to be protected, as he was seeking attorney's advice as potential target of criminal investigation",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-076",
+      "seq": 578,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "076",
+      "topic": "Inferences as to no crime/fraud",
+      "rawHeader": "MPT On Bar 076. Inferences as to no crime/fraud",
+      "front": "Inferences as to no crime/fraud",
+      "backPlain": "Equally strong; may have retained due to fear of prosecution—inform choices of client",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-077",
+      "seq": 579,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "077",
+      "topic": "Retained due to fear",
+      "rawHeader": "MPT On Bar 077. Retained due to fear",
+      "front": "Retained due to fear",
+      "backPlain": "Analogous: Retained due to fear of arson charges",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-078",
+      "seq": 580,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "078",
+      "topic": "Insurance paperwork",
+      "rawHeader": "MPT On Bar 078. Insurance paperwork",
+      "front": "Insurance paperwork",
+      "backPlain": "Don't need to retain an attorney to commit this type of fraud, as merely need to file insurance paperwork",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-079",
+      "seq": 581,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "079",
+      "topic": "FRE does not support",
+      "rawHeader": "MPT On Bar 079. FRE does not support",
+      "front": "FRE does not support",
+      "backPlain": "Overview of law; presumed privileged; meets elements",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-080",
+      "seq": 582,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "080",
+      "topic": "Probable cause standard",
+      "rawHeader": "MPT On Bar 080. Probable cause standard",
+      "front": "Probable cause standard",
+      "backPlain": "Adopt probable cause standard (meets policy; similar to Sawyer)",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-081",
+      "seq": 583,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "081",
+      "topic": "Burden of proof",
+      "rawHeader": "MPT On Bar 081. Burden of proof",
+      "front": "Burden of proof",
+      "backPlain": "Even under 'some evidence' standard, prosecutor cannot meet burden (distinguishable from Robb)",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-082",
+      "seq": 584,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "082",
+      "topic": "Phoenix Corporation v. Biogenesis, Inc.",
+      "rawHeader": "MPT On Bar 082. Phoenix Corporation v. Biogenesis, Inc.",
+      "front": "Phoenix Corporation v. Biogenesis, Inc.",
+      "backPlain": "A case referenced in the chapter that requires completion of the Multistate Performance Test (MPT) before proceeding.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-083",
+      "seq": 585,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "083",
+      "topic": "Rule 004.4 of FPC",
+      "rawHeader": "MPT On Bar 083. Rule 004.4 of FPC",
+      "front": "Rule 004.4 of FPC",
+      "backPlain": "A rule adopted in 2002 that requires attorneys to notify the sender if they receive a document inadvertently.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-084",
+      "seq": 586,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "084",
+      "topic": "Inadvertent Disclosure",
+      "rawHeader": "MPT On Bar 084. Inadvertent Disclosure",
+      "front": "Inadvertent Disclosure",
+      "backPlain": "The unintentional release of privileged information that requires specific handling under legal ethics.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-085",
+      "seq": 587,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "085",
+      "topic": "Indigo v. Luna Motors",
+      "rawHeader": "MPT On Bar 085. Indigo v. Luna Motors",
+      "front": "Indigo v. Luna Motors",
+      "backPlain": "A case that established the necessity for attorneys to refrain from examining inadvertently sent privileged documents.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-086",
+      "seq": 588,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "086",
+      "topic": "Disqualification",
+      "rawHeader": "MPT On Bar 086. Disqualification",
+      "front": "Disqualification",
+      "backPlain": "The removal of an attorney from a case due to ethical violations or conflicts of interest.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-087",
+      "seq": 589,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "087",
+      "topic": "Klein case",
+      "rawHeader": "MPT On Bar 087. Klein case",
+      "front": "Klein case",
+      "backPlain": "A case that emphasizes the public trust in justice and integrity as a concern for disqualification.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-088",
+      "seq": 590,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "088",
+      "topic": "Incurable Prejudice",
+      "rawHeader": "MPT On Bar 088. Incurable Prejudice",
+      "front": "Incurable Prejudice",
+      "backPlain": "A situation where the harm caused by a violation is so severe that it cannot be remedied.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-089",
+      "seq": 591,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "089",
+      "topic": "Six Factors for Disqualification",
+      "rawHeader": "MPT On Bar 089. Six Factors for Disqualification",
+      "front": "Six Factors for Disqualification",
+      "backPlain": "Knowledge of privilege, promptness of notice, extent of review, significance/curing prejudice, opposing party's fault, and opposing party prejudice via disqualification.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-090",
+      "seq": 592,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "090",
+      "topic": "AttorneyClient Privilege",
+      "rawHeader": "MPT On Bar 090. AttorneyClient Privilege",
+      "front": "AttorneyClient Privilege",
+      "backPlain": "A legal privilege that keeps communications between an attorney and their client confidential.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-091",
+      "seq": 593,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "091",
+      "topic": "Legal Outline with Facts",
+      "rawHeader": "MPT On Bar 091. Legal Outline with Facts",
+      "front": "Legal Outline with Facts",
+      "backPlain": "A structured summary that includes the objective and legal considerations in a case.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-092",
+      "seq": 594,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "092",
+      "topic": "Objective/Legal Memo",
+      "rawHeader": "MPT On Bar 092. Objective/Legal Memo",
+      "front": "Objective/Legal Memo",
+      "backPlain": "A document outlining the legal objectives and considerations without including a statement of facts.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-093",
+      "seq": 595,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "093",
+      "topic": "Comment 1 on Indigo",
+      "rawHeader": "MPT On Bar 093. Comment 1 on Indigo",
+      "front": "Comment 1 on Indigo",
+      "backPlain": "Response to Indigo must be prompt and inadvertent; attorney-client privilege is irrelevant.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-094",
+      "seq": 596,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "094",
+      "topic": "Comment 2 on Indigo",
+      "rawHeader": "MPT On Bar 094. Comment 2 on Indigo",
+      "front": "Comment 2 on Indigo",
+      "backPlain": "Indigo was NOT adopted; attorneys must just notify.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-095",
+      "seq": 597,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "095",
+      "topic": "Mead v. Conley Machinery Co.",
+      "rawHeader": "MPT On Bar 095. Mead v. Conley Machinery Co.",
+      "front": "Mead v. Conley Machinery Co.",
+      "backPlain": "A case that discusses the limits of attorney-client privilege and the conditions under which disqualification can occur.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-096",
+      "seq": 598,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "096",
+      "topic": "Public Trust in Justice",
+      "rawHeader": "MPT On Bar 096. Public Trust in Justice",
+      "front": "Public Trust in Justice",
+      "backPlain": "The ethical standard that ensures the integrity of the legal system and the trust of the public.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-097",
+      "seq": 599,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "097",
+      "topic": "Extent of Review",
+      "rawHeader": "MPT On Bar 097. Extent of Review",
+      "front": "Extent of Review",
+      "backPlain": "The degree to which an attorney examines a document before determining how to proceed.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-098",
+      "seq": 600,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "098",
+      "topic": "Opposing Party's Fault",
+      "rawHeader": "MPT On Bar 098. Opposing Party's Fault",
+      "front": "Opposing Party's Fault",
+      "backPlain": "The responsibility of the opposing party in the context of disqualification and ethical violations.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-099",
+      "seq": 601,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "099",
+      "topic": "Opposing Party Prejudice via Disqualification",
+      "rawHeader": "MPT On Bar 099. Opposing Party Prejudice via Disqualification",
+      "front": "Opposing Party Prejudice via Disqualification",
+      "backPlain": "The negative impact on the opposing party resulting from the disqualification of their attorney.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-100",
+      "seq": 602,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "100",
+      "topic": "Policy of AttorneyClient Privilege",
+      "rawHeader": "MPT On Bar 100. Policy of AttorneyClient Privilege",
+      "front": "Policy of AttorneyClient Privilege",
+      "backPlain": "Encourages fully developed cases by ensuring confidentiality in attorney-client communications.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-101",
+      "seq": 603,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "101",
+      "topic": "Footnote 1 in Mead",
+      "rawHeader": "MPT On Bar 101. Footnote 1 in Mead",
+      "front": "Footnote 1 in Mead",
+      "backPlain": "States that incurable prejudice is neither necessary nor sufficient for disqualification.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-102",
+      "seq": 604,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "102",
+      "topic": "High Prejudice for Opposing Party",
+      "rawHeader": "MPT On Bar 102. High Prejudice for Opposing Party",
+      "front": "High Prejudice for Opposing Party",
+      "backPlain": "The significant disadvantage faced by the opposing party when losing an attorney who has developed a trial strategy.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-103",
+      "seq": 605,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "103",
+      "topic": "Inadvertent Document",
+      "rawHeader": "MPT On Bar 103. Inadvertent Document",
+      "front": "Inadvertent Document",
+      "backPlain": "A document sent without the intention of disclosure, which the recipient must notify the sender about if they know it was sent inadvertently.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-104",
+      "seq": 606,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "104",
+      "topic": "Authorization Case",
+      "rawHeader": "MPT On Bar 104. Authorization Case",
+      "front": "Authorization Case",
+      "backPlain": "A case where the disclosure of a document is authorized, distinguishing it from inadvertent disclosure cases.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-105",
+      "seq": 607,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "105",
+      "topic": "Ethical Violation",
+      "rawHeader": "MPT On Bar 105. Ethical Violation",
+      "front": "Ethical Violation",
+      "backPlain": "A breach of professional conduct that may not be dispositive in disqualification but must still be addressed.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-106",
+      "seq": 608,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "106",
+      "topic": "Application in Mead",
+      "rawHeader": "MPT On Bar 106. Application in Mead",
+      "front": "Application in Mead",
+      "backPlain": "In Mead, it was determined that there was no prejudice, harm from counsel's knowledge was speculative, and high prejudice for the opposing party to lose counsel who developed trial strategy.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-107",
+      "seq": 609,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "107",
+      "topic": "Memo Format",
+      "rawHeader": "MPT On Bar 107. Memo Format",
+      "front": "Memo Format",
+      "backPlain": "A structured outline used to present arguments, including conceding protection, addressing ethical violations, and discussing disqualification.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-108",
+      "seq": 610,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "108",
+      "topic": "Concede it is protected",
+      "rawHeader": "MPT On Bar 108. Concede it is protected",
+      "front": "Concede it is protected",
+      "backPlain": "The first step in the memo format, acknowledging that the document in question is protected.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-109",
+      "seq": 611,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "109",
+      "topic": "No Ethical Violation",
+      "rawHeader": "MPT On Bar 109. No Ethical Violation",
+      "front": "No Ethical Violation",
+      "backPlain": "The second step in the memo format, arguing that there was no ethical violation under the rule.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-110",
+      "seq": 612,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "110",
+      "topic": "Indigo Distinguishable",
+      "rawHeader": "MPT On Bar 110. Indigo Distinguishable",
+      "front": "Indigo Distinguishable",
+      "backPlain": "A point made in the memo format stating that Indigo is distinguishable and that Rule 4.4 did not adopt it.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-111",
+      "seq": 613,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "111",
+      "topic": "Followed Mead's Mandates",
+      "rawHeader": "MPT On Bar 111. Followed Mead's Mandates",
+      "front": "Followed Mead's Mandates",
+      "backPlain": "A claim in the memo format that the actions taken adhered to the mandates of the Mead case.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-112",
+      "seq": 614,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "112",
+      "topic": "Two Factors Outweigh Four",
+      "rawHeader": "MPT On Bar 112. Two Factors Outweigh Four",
+      "front": "Two Factors Outweigh Four",
+      "backPlain": "The conclusion in the memo format asserting that the two factors in favor of the argument outweigh the four against it.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-113",
+      "seq": 615,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "113",
+      "topic": "Prompt Notice",
+      "rawHeader": "MPT On Bar 113. Prompt Notice",
+      "front": "Prompt Notice",
+      "backPlain": "The requirement for an attorney to notify the sender promptly upon receiving an inadvertently sent document.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-114",
+      "seq": 616,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "114",
+      "topic": "Significance/Curing Prejudice",
+      "rawHeader": "MPT On Bar 114. Significance/Curing Prejudice",
+      "front": "Significance/Curing Prejudice",
+      "backPlain": "The importance of the information received and whether any potential prejudice can be remedied.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-115",
+      "seq": 617,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "115",
+      "topic": "Opposing Party's Fault",
+      "rawHeader": "MPT On Bar 115. Opposing Party's Fault",
+      "front": "Opposing Party's Fault",
+      "backPlain": "The degree of responsibility the opposing party has in the situation leading to disqualification.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    },
+    {
+      "id": "mpt-116",
+      "seq": 618,
+      "subject": "MPT",
+      "subjectOrder": 16,
+      "code": "116",
+      "topic": "Opposing Party Prejudice",
+      "rawHeader": "MPT On Bar 116. Opposing Party Prejudice",
+      "front": "Opposing Party Prejudice",
+      "backPlain": "The potential harm that the opposing party may suffer as a result of disqualification.",
+      "tags": [
+        "MPT"
+      ],
+      "enhanced": false,
+      "enhancedAt": null
+    }
+  ]
+}

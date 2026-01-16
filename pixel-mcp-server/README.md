@@ -20,9 +20,9 @@ A containerized LibreSprite MCP server for pixel art generation, deployable on R
 | **Props** | create_prop, export_prop | Game objects with standard sizes |
 | **Animation** | add_frame, draw_on_frame, export_animated | Animated sprites and spritesheets |
 
-## One-Click Deploy to Railway
+## Deploy to Railway
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template)
+Railway doesn't currently have a maintained 1-click template for this repo; use the manual steps below.
 
 ### Manual Railway Deployment
 
@@ -32,6 +32,8 @@ A containerized LibreSprite MCP server for pixel art generation, deployable on R
    - Go to [railway.app](https://railway.app)
    - Click "New Project" → "Deploy from GitHub repo"
    - Select this repository
+   - If deploying from the Kimbar monorepo, set the service root directory to `pixel-mcp-server`
+   - Ensure the service builds with the `Dockerfile` (not Nixpacks), otherwise LibreSprite won't be installed and tool calls will fail
 
 3. **Configure environment variables** (optional)
    ```
@@ -92,7 +94,7 @@ Add to your `claude_desktop_config.json`:
 
 ### Claude Code
 
-Add to your `.claude/.mcp.json`:
+Add to your project-root `.mcp.json`:
 
 ```json
 {
@@ -541,8 +543,12 @@ For spritesheet format, returns frame metadata:
 - Ensure "Generate Domain" was clicked in Railway settings
 - Check if firewall/proxy is blocking SSE connections
 
+### "Session not found"
+- `/sse` sessions are stored in-memory, so `/sse` and `/message` must hit the same running instance
+- Ensure the Railway service is running a single replica (and a single web worker, if you customize the server runner)
+
 ### Tools not working
-- Check `/health` endpoint returns `{"status": "healthy"}`
+- Check `/health` endpoint and confirm `runtime.libresprite.ok` is `true` (otherwise you're in PNG/PIL fallback mode)
 - Verify LibreSprite is accessible: check container logs for startup errors
 - Ensure workspace directory is writable
 

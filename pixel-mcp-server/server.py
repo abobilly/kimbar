@@ -179,7 +179,12 @@ async def process_mcp_message(message: dict) -> dict | None:
 @app.get("/health")
 async def health_check():
     """Health check endpoint."""
-    return {"status": "healthy", "server": SERVER_NAME, "version": SERVER_VERSION}
+    runtime = mcp_tools.get_runtime_health()
+    status = "healthy" if runtime["ok"] else "degraded"
+    return JSONResponse(
+        status_code=200,
+        content={"status": status, "server": SERVER_NAME, "version": SERVER_VERSION, "runtime": runtime},
+    )
 
 
 @app.get("/sse")

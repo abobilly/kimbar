@@ -1,5 +1,5 @@
 # Kim Bar - Agent Handoff Document
-**Last Update**: January 15, 2026
+**Last Update**: January 16, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
@@ -24,6 +24,20 @@
 | Levels | LDtk JSON | - |
 | Testing | Vitest + Playwright | - |
 | Deploy | GitHub Actions → Cloudflare Pages | - |
+
+---
+
+## 2. Recent Changes: Claude/Gemini/Qwen CLI Setup
+
+## 2. Recent Changes: Pixel-MCP (Railway + MCP Config)
+
+### What Was Done (January 16, 2026)
+
+- Added project-scoped `.mcp.json` to connect Claude Code to the Railway Pixel-MCP SSE endpoint.
+- Updated `pixel-mcp-server` health reporting to surface missing LibreSprite (status becomes `degraded` with `runtime` details).
+- Added PNG/PIL fallbacks for `create_sprite` and `export_sprite` when LibreSprite isn't present (e.g., when Railway accidentally builds with Nixpacks instead of the Dockerfile).
+- Updated `pixel-mcp-server/README.md` to clarify `.mcp.json` location, remove broken 1-click template, and document Railway root-dir/Dockerfile pitfalls + common errors.
+- Fixed `scripts/pixel_client.py` so it runs on Windows consoles (no emoji output).
 
 ---
 

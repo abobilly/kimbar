@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "pixel-mcp": {
+      "type": "sse",
+      "url": "https://pixel-mcp-server-production.up.railway.app/sse"
+    }
+  }
+}

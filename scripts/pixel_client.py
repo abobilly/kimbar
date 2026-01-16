@@ -11,7 +11,7 @@ async def send_command(session_id):
     await asyncio.sleep(0.5)
     
     url = f"{SERVER_URL}/message?session_id={session_id}"
-    print(f"🚀 Sending command to: {url}")
+    print(f"Sending command to: {url}")
     
     payload = {
         "jsonrpc": "2.0",
@@ -30,12 +30,12 @@ async def send_command(session_id):
     async with httpx.AsyncClient() as client:
         resp = await client.post(url, json=payload)
         if resp.status_code != 200:
-             print(f"❌ POST Error: {resp.status_code} {resp.text}")
+            print(f"POST error: {resp.status_code} {resp.text}")
         else:
-             print("✅ Command sent.")
+            print("Command sent.")
 
 async def run_client():
-    print(f"🔌 Connecting to {SSE_ENDPOINT}...")
+    print(f"Connecting to {SSE_ENDPOINT}...")
     
     # Infinite read timeout for SSE
     timeout = httpx.Timeout(60.0, read=None) 
@@ -56,7 +56,7 @@ async def run_client():
                     # Check for session endpoint
                     if "?session_id=" in data and not session_id:
                         session_id = data.split("=")[1]
-                        print(f"✅ Session ID: {session_id}")
+                        print(f"Session ID: {session_id}")
                         # Launch command sender in background to not block the reader
                         command_task = asyncio.create_task(send_command(session_id))
                         continue
@@ -65,13 +65,13 @@ async def run_client():
                     try:
                         msg = json.loads(data)
                         if msg.get("id") == 1:
-                            print("\n✨ RESULT RECEIVED:")
+                            print("\nRESULT RECEIVED:")
                             print(json.dumps(msg, indent=2))
                             
                             if "result" in msg and "content" in msg["result"]:
                                 try:
                                     inner = json.loads(msg["result"]["content"][0]["text"])
-                                    print("\n📦 Parsed Content:")
+                                    print("\nParsed content:")
                                     print(json.dumps(inner, indent=2))
                                 except:
                                     pass
@@ -85,6 +85,8 @@ async def run_client():
                     pass
 
 if __name__ == "__main__":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     try:
         asyncio.run(run_client())
     except KeyboardInterrupt:
