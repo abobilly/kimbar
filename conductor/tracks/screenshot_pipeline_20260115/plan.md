@@ -15,8 +15,8 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
 ## Phase 3: CI & Documentation Integration
-- [ ] Task: Verify GitHub Actions workflow (`.github/workflows/validate.yml`) for screenshot artifact upload.
-    - [ ] Sub-task: Ensure `npm run screenshot` is utilized or mirrored in CI steps.
-- [ ] Task: Update `GEMINI.md` and `README.md` with final usage instructions.
-    - [ ] Sub-task: Document `npm run screenshot` command.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
+- [x] Task: Verify GitHub Actions workflow (`.github/workflows/validate.yml`) for screenshot artifact upload.
+    - [x] Sub-task: Ensure `npm run screenshot` is utilized or mirrored in CI steps.
+- [x] Task: Update `GEMINI.md` and `README.md` with final usage instructions.
+    - [x] Sub-task: Document `npm run screenshot` command.
+- [x] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)

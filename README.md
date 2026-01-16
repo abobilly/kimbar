@@ -27,6 +27,7 @@ This template has been updated for:
 | `npm run build` | Create a production build in the `dist` folder |
 | `npm run dev-nolog` | Launch a development web server without sending anonymous data (see "About log.js" below) |
 | `npm run build-nolog` | Create a production build in the `dist` folder without sending anonymous data (see "About log.js" below) |
+| `npm run screenshot` | Capture/update gameplay screenshots via E2E agent |
 
 ## Writing Code
 
