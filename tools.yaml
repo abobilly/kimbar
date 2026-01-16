@@ -1,0 +1,49 @@
+# Configuration for MCP Toolbox
+# See https://googleapis.github.io/genai-toolbox/getting-started/configure/ for details
+
+# version: 1.0  <-- Removing version as it caused a parsing error
+
+# Sources define connections to external data (Databases, APIs)
+sources:
+  kimbar-content:
+    kind: sqlite
+    database: generated/content.db
+
+# Tools define actions available to the agent
+tools:
+  query-content:
+    kind: sqlite-sql
+    source: kimbar-content
+    description: Run a read-only SQL query against the game content database. Tables include 'characters' (id, name, description, body, hair) and 'assets' (id, kind, path, tags).
+    parameters:
+      - name: sql_query
+        type: string
+        description: The SQL query to execute
+    statement: "{{.sql_query}}"
+
+  search-characters:
+    kind: sqlite-sql
+    source: kimbar-content
+    description: Search characters by name or description
+    parameters:
+      - name: query
+        type: string
+        description: Search term
+    statement: SELECT * FROM characters WHERE name LIKE '%' || $1 || '%' OR description LIKE '%' || $1 || '%'
+
+# Toolsets group tools together
+toolsets:
+  kimbar:
+    - query-content
+    - search-characters
+
+# Prompts define reusable templates
+prompts:
+  # hello-world:
+  #   description: A simple hello world prompt
+  #   messages:
+  #     - role: user
+  #       content: Hello {{.name}}!
+  #   arguments:
+  #     - name: name
+  #       description: Name to greet

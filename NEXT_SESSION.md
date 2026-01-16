@@ -27,6 +27,26 @@
 
 ---
 
+## 2. Recent Changes: Claude/Gemini/Qwen CLI Setup
+
+### What Was Done (January 15, 2026)
+
+- Installed Claude Code via winget (`claude` CLI).
+- Installed Gemini CLI via npm (`@google/gemini-cli`).
+- Ensured Ollama is installed and pulled `qwen2.5-coder:7b`.
+- Added wrappers in `C:\Users\andre\bin` for `claude`, `gemini`, and `qwen`.
+
+---
+
+## 2. Recent Changes: Copilot CLI Setup
+
+### What Was Done (January 15, 2026)
+
+- Installed GitHub Copilot CLI extension for `gh`.
+- Added `C:\Users\andre\bin\copilot.cmd` wrapper to run `gh copilot`.
+
+---
+
 ## 2. Recent Changes: Dialogue UI Fix
 
 ### What Was Done (January 15, 2026 - Night Session)

@@ -33,13 +33,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # Runtime libs
     libgl1-mesa-glx \
     libglu1-mesa \
+    curl \
     # Cleanup apt cache
     && rm -rf /var/lib/apt/lists/*
 
 # Clone and build LibreSprite from source
+# Pin to commit before CMake 4.1 requirement was added (2025-04-28)
 WORKDIR /build
-RUN git clone --recursive https://github.com/LibreSprite/LibreSprite.git && \
+RUN git clone https://github.com/LibreSprite/LibreSprite.git && \
     cd LibreSprite && \
+    git checkout 5770468d30fcced2a83e6b55e3b936c11072ad13 && \
+    git submodule update --init --recursive && \
     mkdir build && cd build && \
     cmake -G Ninja \
         -DCMAKE_BUILD_TYPE=Release \
