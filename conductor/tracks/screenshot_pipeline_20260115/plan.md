@@ -9,10 +9,10 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Test Stability
-- [ ] Task: Review E2E tests (`tests/e2e/smoke.spec.ts`) for deterministic behavior.
-    - [ ] Sub-task: Ensure waits are robust (no hardcoded sleeps if possible).
-    - [ ] Sub-task: Verify CORS handling is permanently solved for test environment.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
+- [x] Task: Review E2E tests (`tests/e2e/smoke.spec.ts`) for deterministic behavior.
+    - [x] Sub-task: Ensure waits are robust (no hardcoded sleeps if possible).
+    - [x] Sub-task: Verify CORS handling is permanently solved for test environment.
+- [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
 ## Phase 3: CI & Documentation Integration
 - [ ] Task: Verify GitHub Actions workflow (`.github/workflows/validate.yml`) for screenshot artifact upload.
