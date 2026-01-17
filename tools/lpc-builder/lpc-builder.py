@@ -8,7 +8,7 @@ Usage:
     python lpc-builder.py --list-options
     python lpc-builder.py --random --output random_character.png
     
-  UI Mode:
+  UI Mode (launches web server):
     python lpc-builder.py --ui
     
   Batch Mode:
@@ -20,193 +20,292 @@ import sys
 import json
 import argparse
 import random
+import base64
+import io
 from pathlib import Path
 from PIL import Image
 
 # Constants
-ULPC_DIR = Path(__file__).parent.parent.parent / "vendor" / "lpc" / "Universal-LPC-Spritesheet-Character-Generator"
+SCRIPT_DIR = Path(__file__).parent
+ULPC_DIR = SCRIPT_DIR.parent.parent / "vendor" / "lpc" / "Universal-LPC-Spritesheet-Character-Generator"
 SHEET_DEFS_DIR = ULPC_DIR / "sheet_definitions"
 SPRITESHEETS_DIR = ULPC_DIR / "spritesheets"
-PALETTES_DIR = ULPC_DIR / "palettes"
 
 # LPC sheet dimensions
 FRAME_WIDTH = 64
 FRAME_HEIGHT = 64
 SHEET_COLS = 13
 SHEET_ROWS = 21
+SHEET_WIDTH = FRAME_WIDTH * SHEET_COLS   # 832
+SHEET_HEIGHT = FRAME_HEIGHT * SHEET_ROWS  # 1344
 
-# Core layer categories with z-order
-LAYER_ORDER = [
-    # Behind character
-    ("cape", ["cape_solid", "cape_tattered"]),
-    ("wings", ["wings_bat", "wings_feathered", "wings_pixie", "wings_monarch"]),
-    # Body base
-    ("body", ["body"]),
-    # Clothing layers (bottom to top)
-    ("legs", ["legs_pants", "legs_skirt", "legs_shorts"]),
-    ("torso", ["torso_clothes_longsleeve", "torso_clothes_shortsleeve", "torso_clothes_sleeveless", "torso_clothes_robe"]),
-    ("belt", ["belt_leather", "belt_sash"]),
-    # Face features
-    ("eyes", ["eyes"]),
-    ("nose", ["nose"]),
-    ("ears", ["ears"]),
-    # Hair & facial
-    ("hair", ["hair_bangs", "hair_long", "hair_short", "hair_ponytail", "hair_mohawk"]),
-    ("beard", ["beards_beard", "beards_mustache", "beards_5oclock_shadow"]),
-    # Head gear
-    ("head", ["head_cap", "head_hood", "head_helmet"]),
-    # Accessories
-    ("feet", ["feet_shoes", "feet_boots"]),
-    ("hands", ["arms_gloves"]),
-]
+
+# Cache for definitions
+_definitions_cache = None
 
 
 def load_sheet_definitions() -> dict:
-    """Load all sheet definition JSON files"""
+    """Load all sheet definition JSON files (cached)"""
+    global _definitions_cache
+    if _definitions_cache is not None:
+        return _definitions_cache
+        
     defs = {}
     if not SHEET_DEFS_DIR.exists():
         print(f"Warning: Sheet definitions not found at {SHEET_DEFS_DIR}")
         return defs
         
-    for json_file in SHEET_DEFS_DIR.glob("*.json"):
+    for json_file in sorted(SHEET_DEFS_DIR.glob("*.json")):
         try:
             with open(json_file, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 defs[json_file.stem] = data
         except Exception as e:
             print(f"Warning: Could not load {json_file}: {e}")
+    
+    _definitions_cache = defs
     return defs
+
+
+def get_z_pos(definition: dict) -> int:
+    """Extract z-position from sheet definition"""
+    layer = definition.get("layer_1", {})
+    return layer.get("zPos", 50)
+
+
+def get_body_path(definition: dict, body_type: str) -> str | None:
+    """Get the path for a body type from definition"""
+    layer = definition.get("layer_1", {})
+    
+    # Direct match
+    if body_type in layer:
+        return layer[body_type]
+    
+    # Fallback mappings
+    fallbacks = {
+        "muscular": "male",
+        "teen": "male", 
+        "pregnant": "female",
+        "child": "male",
+    }
+    if body_type in fallbacks and fallbacks[body_type] in layer:
+        return layer[fallbacks[body_type]]
+    
+    # Use first available (skip zPos)
+    for key, value in layer.items():
+        if key != "zPos" and isinstance(value, str):
+            return value
+    
+    return None
 
 
 def get_available_options() -> dict:
     """Get all available options organized by category"""
     options = {
         "body_types": ["male", "female", "muscular", "teen", "child"],
-        "skin_colors": [
-            "light", "amber", "olive", "taupe", "bronze", "brown", "black",
-            "lavender", "blue", "green", "zombie_green"
-        ],
-        "hair_styles": [],
-        "hair_colors": [],
-        "eye_colors": [],
-        "clothing": {},
-        "accessories": {}
+        "body": {"skin_colors": []},
+        "eyes": {"colors": []},
+        "hair": {},  # style -> colors
+        "beard": {}, # style -> colors  
+        "clothing": {
+            "torso": {},   # item_name -> colors
+            "legs": {},
+            "feet": {},
+        },
+        "accessories": {
+            "head": {},
+            "belt": {},
+            "cape": {},
+        }
     }
     
     defs = load_sheet_definitions()
     
-    # Extract hair options
     for name, data in defs.items():
-        if name.startswith("hair_"):
-            options["hair_styles"].append(name.replace("hair_", ""))
-            if "variants" in data:
-                for v in data["variants"]:
-                    if v not in options["hair_colors"]:
-                        options["hair_colors"].append(v)
-    
-    # Extract eye colors
-    if "eyes" in defs and "variants" in defs["eyes"]:
-        options["eye_colors"] = defs["eyes"]["variants"]
-    
-    # Extract clothing options
-    for name, data in defs.items():
-        if name.startswith("torso_") or name.startswith("legs_") or name.startswith("feet_"):
-            category = name.split("_")[0]
-            if category not in options["clothing"]:
-                options["clothing"][category] = []
-            options["clothing"][category].append(name)
+        variants = data.get("variants", [])
+        
+        # Body skin colors
+        if name == "body":
+            options["body"]["skin_colors"] = variants
+        
+        # Eyes
+        elif name == "eyes":
+            options["eyes"]["colors"] = variants
             
-    # Extract accessories
-    for name, data in defs.items():
-        if name.startswith("head_") or name.startswith("belt_") or name.startswith("cape_"):
-            category = name.split("_")[0]
-            if category not in options["accessories"]:
-                options["accessories"][category] = []
-            options["accessories"][category].append(name)
+        # Hair styles
+        elif name.startswith("hair_"):
+            style = name.replace("hair_", "")
+            options["hair"][style] = variants
+            
+        # Beards
+        elif name.startswith("beards_"):
+            style = name.replace("beards_", "")
+            options["beard"][style] = variants
+            
+        # Torso clothing
+        elif name.startswith("torso_"):
+            options["clothing"]["torso"][name] = variants
+            
+        # Legs
+        elif name.startswith("legs_"):
+            options["clothing"]["legs"][name] = variants
+            
+        # Feet
+        elif name.startswith("feet_"):
+            options["clothing"]["feet"][name] = variants
+            
+        # Head items
+        elif name.startswith("head_"):
+            options["accessories"]["head"][name] = variants
+            
+        # Belts
+        elif name.startswith("belt_"):
+            options["accessories"]["belt"][name] = variants
+            
+        # Capes
+        elif name.startswith("cape_"):
+            options["accessories"]["cape"][name] = variants
     
     return options
 
 
 def find_spritesheet(sheet_name: str, body_type: str, variant: str) -> Path | None:
-    """Find the spritesheet file for a given sheet/body/variant combination"""
+    """Find the spritesheet PNG file for a given sheet/body/variant combination"""
     defs = load_sheet_definitions()
     
     if sheet_name not in defs:
         return None
         
     definition = defs[sheet_name]
+    base_path = get_body_path(definition, body_type)
     
-    # Get the path pattern for this body type
-    layer_key = f"layer_1"
-    if layer_key in definition and body_type in definition[layer_key]:
-        base_path = definition[layer_key][body_type]
-    elif layer_key in definition and "male" in definition[layer_key]:
-        # Fall back to male if body type not found
-        base_path = definition[layer_key]["male"]
-    else:
+    if not base_path:
         return None
     
-    # Build full path
+    # Normalize variant name
+    variant_normalized = variant.lower().replace(" ", "_")
+    
+    # Try normalized name (space -> underscore)
+    sheet_path = SPRITESHEETS_DIR / base_path / f"{variant_normalized}.png"
+    if sheet_path.exists():
+        return sheet_path
+    
+    # Try with original spaces
     sheet_path = SPRITESHEETS_DIR / base_path / f"{variant}.png"
     if sheet_path.exists():
         return sheet_path
-        
-    # Try without variant
-    sheet_path = SPRITESHEETS_DIR / base_path / f"{sheet_name}.png"
+    
+    # Try removing all spaces/underscores
+    variant_no_spaces = variant.lower().replace(" ", "").replace("_", "")
+    sheet_path = SPRITESHEETS_DIR / base_path / f"{variant_no_spaces}.png"
     if sheet_path.exists():
         return sheet_path
         
     return None
 
 
-def composite_character(config: dict) -> Image.Image:
+def composite_character(config: dict, verbose: bool = True) -> Image.Image:
     """Composite all layers into a single character spritesheet"""
-    # Create blank RGBA image (standard LPC sheet is 832x1344)
-    sheet_width = FRAME_WIDTH * SHEET_COLS
-    sheet_height = FRAME_HEIGHT * SHEET_ROWS
-    result = Image.new("RGBA", (sheet_width, sheet_height), (0, 0, 0, 0))
+    result = Image.new("RGBA", (SHEET_WIDTH, SHEET_HEIGHT), (0, 0, 0, 0))
     
+    defs = load_sheet_definitions()
     body_type = config.get("body_type", "male")
-    
-    # Process layers in z-order
     layers_to_composite = []
     
-    # Body first
-    body_sheet = find_spritesheet("body", body_type, config.get("skin_color", "light"))
+    # 1. Body (required)
+    skin_color = config.get("skin_color", "light")
+    body_sheet = find_spritesheet("body", body_type, skin_color)
     if body_sheet:
         layers_to_composite.append(("body", body_sheet, 10))
+    elif verbose:
+        print(f"  ! Body not found: body/{body_type}/{skin_color}")
     
-    # Eyes
-    if "eye_color" in config:
+    # 2. Eyes
+    if config.get("eye_color"):
         eye_sheet = find_spritesheet("eyes", body_type, config["eye_color"])
         if eye_sheet:
-            layers_to_composite.append(("eyes", eye_sheet, 50))
+            z = get_z_pos(defs.get("eyes", {}))
+            layers_to_composite.append(("eyes", eye_sheet, z))
     
-    # Hair
-    if "hair_style" in config and "hair_color" in config:
-        hair_sheet = find_spritesheet(f"hair_{config['hair_style']}", body_type, config["hair_color"])
+    # 3. Hair
+    hair_style = config.get("hair_style")
+    hair_color = config.get("hair_color", "brown")
+    if hair_style:
+        hair_def_name = f"hair_{hair_style}"
+        hair_sheet = find_spritesheet(hair_def_name, body_type, hair_color)
         if hair_sheet:
-            layers_to_composite.append(("hair", hair_sheet, 100))
+            z = get_z_pos(defs.get(hair_def_name, {}))
+            layers_to_composite.append(("hair", hair_sheet, z))
+        elif verbose:
+            print(f"  ! Hair not found: {hair_def_name}/{body_type}/{hair_color}")
     
-    # Clothing layers
-    for layer_name in ["torso", "legs", "feet", "belt"]:
-        layer_key = f"{layer_name}_item"
-        color_key = f"{layer_name}_color"
-        if layer_key in config:
-            sheet = find_spritesheet(config[layer_key], body_type, config.get(color_key, "white"))
-            if sheet:
-                z = {"torso": 30, "legs": 20, "feet": 25, "belt": 35}.get(layer_name, 30)
-                layers_to_composite.append((layer_name, sheet, z))
+    # 4. Beard
+    beard_style = config.get("beard_style")
+    beard_color = config.get("beard_color", hair_color)
+    if beard_style:
+        beard_def_name = f"beards_{beard_style}"
+        beard_sheet = find_spritesheet(beard_def_name, body_type, beard_color)
+        if beard_sheet:
+            z = get_z_pos(defs.get(beard_def_name, {}))
+            layers_to_composite.append(("beard", beard_sheet, z))
     
-    # Accessories
-    for acc_name in ["head", "cape", "beard"]:
-        acc_key = f"{acc_name}_item"
-        color_key = f"{acc_name}_color"
-        if acc_key in config:
-            sheet = find_spritesheet(config[acc_key], body_type, config.get(color_key, "white"))
-            if sheet:
-                z = {"head": 110, "cape": 5, "beard": 90}.get(acc_name, 50)
-                layers_to_composite.append((acc_name, sheet, z))
+    # 5. Torso clothing
+    torso_item = config.get("torso")
+    torso_color = config.get("torso_color", "white")
+    if torso_item:
+        torso_sheet = find_spritesheet(torso_item, body_type, torso_color)
+        if torso_sheet:
+            z = get_z_pos(defs.get(torso_item, {}))
+            layers_to_composite.append(("torso", torso_sheet, z))
+        elif verbose:
+            print(f"  ! Torso not found: {torso_item}/{body_type}/{torso_color}")
+    
+    # 6. Legs
+    legs_item = config.get("legs")
+    legs_color = config.get("legs_color", "white")
+    if legs_item:
+        legs_sheet = find_spritesheet(legs_item, body_type, legs_color)
+        if legs_sheet:
+            z = get_z_pos(defs.get(legs_item, {}))
+            layers_to_composite.append(("legs", legs_sheet, z))
+        elif verbose:
+            print(f"  ! Legs not found: {legs_item}/{body_type}/{legs_color}")
+    
+    # 7. Feet
+    feet_item = config.get("feet")
+    feet_color = config.get("feet_color", "black")
+    if feet_item:
+        feet_sheet = find_spritesheet(feet_item, body_type, feet_color)
+        if feet_sheet:
+            z = get_z_pos(defs.get(feet_item, {}))
+            layers_to_composite.append(("feet", feet_sheet, z))
+    
+    # 8. Belt
+    belt_item = config.get("belt")
+    belt_color = config.get("belt_color", "brown")
+    if belt_item:
+        belt_sheet = find_spritesheet(belt_item, body_type, belt_color)
+        if belt_sheet:
+            z = get_z_pos(defs.get(belt_item, {}))
+            layers_to_composite.append(("belt", belt_sheet, z))
+    
+    # 9. Cape
+    cape_item = config.get("cape")
+    cape_color = config.get("cape_color", "black")
+    if cape_item:
+        cape_sheet = find_spritesheet(cape_item, body_type, cape_color)
+        if cape_sheet:
+            z = get_z_pos(defs.get(cape_item, {}))
+            layers_to_composite.append(("cape", cape_sheet, z))
+    
+    # 10. Head items
+    head_item = config.get("head")
+    head_color = config.get("head_color", "")
+    if head_item:
+        head_sheet = find_spritesheet(head_item, body_type, head_color)
+        if head_sheet:
+            z = get_z_pos(defs.get(head_item, {}))
+            layers_to_composite.append(("head", head_sheet, z))
     
     # Sort by z-order and composite
     layers_to_composite.sort(key=lambda x: x[2])
@@ -214,60 +313,195 @@ def composite_character(config: dict) -> Image.Image:
     for name, path, z in layers_to_composite:
         try:
             layer_img = Image.open(path).convert("RGBA")
+            # Resize if needed
+            if layer_img.size != (SHEET_WIDTH, SHEET_HEIGHT):
+                if verbose:
+                    print(f"  ~ {name}: resizing from {layer_img.size}")
+                layer_img = layer_img.resize((SHEET_WIDTH, SHEET_HEIGHT), Image.NEAREST)
             result = Image.alpha_composite(result, layer_img)
-            print(f"  + {name}: {path.name}")
+            if verbose:
+                print(f"  + {name}: {path.name} (z={z})")
         except Exception as e:
-            print(f"  ! Failed to load {name}: {e}")
+            if verbose:
+                print(f"  ! Failed to load {name}: {e}")
     
     return result
+
+
+def extract_frame(sheet: Image.Image, row: int, col: int) -> Image.Image:
+    """Extract a single frame from a spritesheet"""
+    x = col * FRAME_WIDTH
+    y = row * FRAME_HEIGHT
+    return sheet.crop((x, y, x + FRAME_WIDTH, y + FRAME_HEIGHT))
 
 
 def generate_random_config() -> dict:
     """Generate a random character configuration"""
     options = get_available_options()
     
+    body_type = random.choice(options["body_types"])
+    skin_colors = options["body"].get("skin_colors", ["light"])
+    eye_colors = options["eyes"].get("colors", ["blue"])
+    
+    # Pick a random hair style
+    hair_styles = list(options["hair"].keys())
+    hair_style = random.choice(hair_styles) if hair_styles and random.random() > 0.1 else ""
+    hair_colors = options["hair"].get(hair_style, ["brown"]) if hair_style else ["brown"]
+    
     config = {
-        "body_type": random.choice(options["body_types"]),
-        "skin_color": random.choice(options["skin_colors"]),
+        "body_type": body_type,
+        "skin_color": random.choice(skin_colors),
+        "eye_color": random.choice(eye_colors) if eye_colors else "blue",
+        "hair_style": hair_style,
+        "hair_color": random.choice(hair_colors) if hair_colors else "brown",
     }
     
-    if options["eye_colors"]:
-        config["eye_color"] = random.choice(options["eye_colors"])
+    # Maybe add beard (25% chance for male/muscular)
+    if body_type in ["male", "muscular"] and random.random() < 0.25:
+        beard_styles = list(options["beard"].keys())
+        if beard_styles:
+            beard_style = random.choice(beard_styles)
+            beard_colors = options["beard"].get(beard_style, [config["hair_color"]])
+            config["beard_style"] = beard_style
+            config["beard_color"] = random.choice(beard_colors) if beard_colors else config["hair_color"]
     
-    if options["hair_styles"]:
-        config["hair_style"] = random.choice(options["hair_styles"])
-        
-    if options["hair_colors"]:
-        config["hair_color"] = random.choice(options["hair_colors"])
+    # Clothing (70% chance each)
+    if random.random() < 0.7:
+        torso_items = list(options["clothing"]["torso"].keys())
+        if torso_items:
+            torso = random.choice(torso_items)
+            colors = options["clothing"]["torso"].get(torso, ["white"])
+            config["torso"] = torso
+            config["torso_color"] = random.choice(colors) if colors else "white"
+    
+    if random.random() < 0.7:
+        legs_items = list(options["clothing"]["legs"].keys())
+        if legs_items:
+            legs = random.choice(legs_items)
+            colors = options["clothing"]["legs"].get(legs, ["white"])
+            config["legs"] = legs
+            config["legs_color"] = random.choice(colors) if colors else "white"
+    
+    if random.random() < 0.5:
+        feet_items = list(options["clothing"]["feet"].keys())
+        if feet_items:
+            feet = random.choice(feet_items)
+            colors = options["clothing"]["feet"].get(feet, ["black"])
+            config["feet"] = feet
+            config["feet_color"] = random.choice(colors) if colors else "black"
     
     return config
 
 
+def image_to_base64(img: Image.Image) -> str:
+    """Convert PIL Image to base64 data URL"""
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    b64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
+    return f"data:image/png;base64,{b64}"
+
+
 def run_ui():
-    """Launch the web-based UI for visual selection"""
+    """Launch the web-based UI for visual selection with real-time compositing API"""
     import http.server
     import socketserver
     import webbrowser
     import threading
+    import urllib.parse
     
-    UI_DIR = Path(__file__).parent / "ui"
+    UI_DIR = SCRIPT_DIR / "ui"
     PORT = 8765
     
     if not UI_DIR.exists():
         print(f"UI directory not found at {UI_DIR}")
-        print("Run: python lpc-builder.py --generate-ui to create it")
         sys.exit(1)
     
-    os.chdir(UI_DIR)
+    # Generate fresh options
+    options = get_available_options()
+    with open(UI_DIR / "options.json", "w") as f:
+        json.dump(options, f, indent=2)
     
-    Handler = http.server.SimpleHTTPRequestHandler
+    class LPCHandler(http.server.SimpleHTTPRequestHandler):
+        """Custom handler with API endpoints for compositing"""
+        
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, directory=str(UI_DIR), **kwargs)
+        
+        def do_GET(self):
+            parsed = urllib.parse.urlparse(self.path)
+            
+            # API: Generate composite spritesheet
+            if parsed.path == "/api/composite":
+                query = urllib.parse.parse_qs(parsed.query)
+                config_json = query.get("config", ["{}"])[0]
+                
+                try:
+                    config = json.loads(config_json)
+                    sheet = composite_character(config, verbose=False)
+                    
+                    # Return as PNG
+                    buffer = io.BytesIO()
+                    sheet.save(buffer, format="PNG")
+                    buffer.seek(0)
+                    
+                    self.send_response(200)
+                    self.send_header("Content-Type", "image/png")
+                    self.send_header("Cache-Control", "no-cache")
+                    self.end_headers()
+                    self.wfile.write(buffer.getvalue())
+                except Exception as e:
+                    self.send_response(500)
+                    self.send_header("Content-Type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"error": str(e)}).encode())
+                return
+            
+            # API: Get single frame as base64
+            if parsed.path == "/api/frame":
+                query = urllib.parse.parse_qs(parsed.query)
+                config_json = query.get("config", ["{}"])[0]
+                row = int(query.get("row", [8])[0])  # Default to walk row
+                col = int(query.get("col", [0])[0])
+                scale = int(query.get("scale", [4])[0])
+                
+                try:
+                    config = json.loads(config_json)
+                    sheet = composite_character(config, verbose=False)
+                    frame = extract_frame(sheet, row, col)
+                    
+                    # Scale up for preview
+                    if scale > 1:
+                        frame = frame.resize(
+                            (frame.width * scale, frame.height * scale),
+                            Image.NEAREST
+                        )
+                    
+                    b64 = image_to_base64(frame)
+                    
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/json")
+                    self.send_header("Cache-Control", "no-cache")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"image": b64}).encode())
+                except Exception as e:
+                    self.send_response(500)
+                    self.send_header("Content-Type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"error": str(e)}).encode())
+                return
+            
+            # Serve static files
+            return super().do_GET()
+        
+        def log_message(self, format, *args):
+            # Suppress request logging
+            pass
     
-    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+    with socketserver.TCPServer(("", PORT), LPCHandler) as httpd:
         url = f"http://localhost:{PORT}"
         print(f"LPC Builder UI running at {url}")
         print("Press Ctrl+C to stop")
         
-        # Open browser
         threading.Timer(0.5, lambda: webbrowser.open(url)).start()
         
         try:
@@ -278,24 +512,21 @@ def run_ui():
 
 def main():
     parser = argparse.ArgumentParser(description="LPC Character Builder")
-    parser.add_argument("--config", "-c", help="JSON config file for character")
+    parser.add_argument("--config", "-c", help="JSON config file or inline JSON string")
     parser.add_argument("--output", "-o", help="Output PNG file path")
-    parser.add_argument("--list-options", action="store_true", help="List all available options")
+    parser.add_argument("--list-options", action="store_true", help="List all available options as JSON")
     parser.add_argument("--random", action="store_true", help="Generate a random character")
     parser.add_argument("--ui", action="store_true", help="Launch web UI")
     parser.add_argument("--batch", help="Batch config JSON file")
     parser.add_argument("--output-dir", help="Output directory for batch mode")
-    parser.add_argument("--generate-ui", action="store_true", help="Generate UI files")
+    parser.add_argument("--quiet", "-q", action="store_true", help="Suppress verbose output")
     
     args = parser.parse_args()
+    verbose = not args.quiet
     
     if args.list_options:
         options = get_available_options()
         print(json.dumps(options, indent=2))
-        return
-    
-    if args.generate_ui:
-        generate_ui_files()
         return
     
     if args.ui:
@@ -304,20 +535,29 @@ def main():
     
     if args.random:
         config = generate_random_config()
-        print("Random config:")
+        print("Generated config:")
         print(json.dumps(config, indent=2))
         
         if args.output:
-            result = composite_character(config)
+            print("\nCompositing...")
+            result = composite_character(config, verbose=verbose)
             result.save(args.output)
             print(f"Saved to {args.output}")
         return
     
     if args.config:
-        with open(args.config, 'r') as f:
-            config = json.load(f)
+        # Handle inline JSON or file path
+        if args.config.strip().startswith("{"):
+            config = json.loads(args.config)
+        else:
+            with open(args.config, 'r') as f:
+                config = json.load(f)
         
-        result = composite_character(config)
+        print("Config:")
+        print(json.dumps(config, indent=2))
+        print("\nCompositing...")
+        
+        result = composite_character(config, verbose=verbose)
         
         output_path = args.output or "character.png"
         result.save(output_path)
@@ -333,28 +573,16 @@ def main():
         
         for i, config in enumerate(batch_configs):
             name = config.get("name", f"character_{i}")
-            result = composite_character(config)
+            print(f"\n[{i+1}/{len(batch_configs)}] {name}")
+            result = composite_character(config, verbose=verbose)
             output_path = output_dir / f"{name}.png"
             result.save(output_path)
-            print(f"Saved: {output_path}")
+            print(f"  -> {output_path}")
+        
+        print(f"\nGenerated {len(batch_configs)} characters in {output_dir}")
         return
     
     parser.print_help()
-
-
-def generate_ui_files():
-    """Generate the web UI files"""
-    ui_dir = Path(__file__).parent / "ui"
-    ui_dir.mkdir(exist_ok=True)
-    
-    # Generate API endpoint info
-    options = get_available_options()
-    
-    with open(ui_dir / "options.json", "w") as f:
-        json.dump(options, f, indent=2)
-    
-    print(f"Generated UI data at {ui_dir}")
-    print("Now create the HTML/CSS/JS files or run: python lpc-builder.py --ui")
 
 
 if __name__ == "__main__":

@@ -4,11 +4,11 @@
         "body_type": "male",
         "skin_color": "light",
         "eye_color": "blue",
-        "hair_style": "short",
-        "hair_color": "brown",
-        "torso_item": "torso_clothes_longsleeve_formal",
+        "hair_style": "plain",
+        "hair_color": "dark brown",
+        "torso": "torso_clothes_longsleeve_laced",
         "torso_color": "white",
-        "legs_item": "legs_pants",
+        "legs": "legs_pants_formal",
         "legs_color": "black"
     },
     {
@@ -18,7 +18,7 @@
         "eye_color": "brown",
         "hair_style": "long",
         "hair_color": "black",
-        "torso_item": "torso_clothes_robe",
+        "torso": "torso_dress_robe",
         "torso_color": "black"
     },
     {
@@ -26,11 +26,11 @@
         "body_type": "male",
         "skin_color": "brown",
         "eye_color": "brown",
-        "hair_style": "short",
+        "hair_style": "plain",
         "hair_color": "black",
-        "torso_item": "torso_clothes_shortsleeve",
+        "torso": "torso_clothes_shortsleeve_collared",
         "torso_color": "blue",
-        "legs_item": "legs_pants",
-        "legs_color": "grey"
+        "legs": "legs_pants_formal",
+        "legs_color": "gray"
     }
 ]

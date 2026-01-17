@@ -1,34 +1,37 @@
 # LPC Character Builder
 
-A dual-mode tool for creating custom LPC (Liberated Pixel Cup) spritesheets.
+A dual-mode tool for creating custom LPC (Liberated Pixel Cup) spritesheets using real ULPC sprites.
 
 ## Modes
 
 ### 1. Visual UI Mode (for humans)
 ```bash
-# Launch the web UI
-python tools/lpc-builder/lpc-builder.py --ui
+npm run lpc:ui
+# or: python tools/lpc-builder/lpc-builder.py --ui
 ```
 Opens a visual picker in your browser where you can:
 - Select body type, skin color, hair, clothes, etc.
-- Preview animations in real-time
-- Export config JSON or download spritesheet
+- Preview animations in real-time (fetched from server)
+- Export full spritesheet PNG or copy config JSON
 
 ### 2. CLI Mode (for AI agents)
 
 #### List available options
 ```bash
-python tools/lpc-builder/lpc-builder.py --list-options
+npm run lpc:list
+# or: python tools/lpc-builder/lpc-builder.py --list-options
 ```
 
-#### Generate from config
+#### Generate from config (file or inline JSON)
 ```bash
 python tools/lpc-builder/lpc-builder.py --config mychar.json --output character.png
+python tools/lpc-builder/lpc-builder.py -c '{"body_type":"male","skin_color":"light"}' -o char.png
 ```
 
 #### Generate random character
 ```bash
-python tools/lpc-builder/lpc-builder.py --random --output random.png
+npm run lpc:random
+# or: python tools/lpc-builder/lpc-builder.py --random --output random.png
 ```
 
 #### Batch generation
@@ -44,17 +47,16 @@ python tools/lpc-builder/lpc-builder.py --batch batch.json --output-dir ./charac
   "body_type": "male",
   "skin_color": "light",
   "eye_color": "blue",
-  "hair_style": "short",
-  "hair_color": "brown",
-  "beard_style": "",
-  "torso_item": "torso_clothes_longsleeve_formal",
+  "hair_style": "plain",
+  "hair_color": "dark brown",
+  "beard_style": "beard",
+  "beard_color": "dark brown",
+  "torso": "torso_clothes_longsleeve_formal",
   "torso_color": "white",
-  "legs_item": "legs_pants",
+  "legs": "legs_pants_formal",
   "legs_color": "black",
-  "feet_item": "feet_shoes",
-  "belt_item": "belt_leather",
-  "head_item": "",
-  "cape_item": ""
+  "feet": "feet_shoes",
+  "feet_color": "black"
 }
 ```
 
@@ -63,39 +65,43 @@ python tools/lpc-builder/lpc-builder.py --batch batch.json --output-dir ./charac
 Simple commands for AI agents to generate characters:
 
 ### Quick Generate
-```
-lpc-builder random --output char_001.png
+```bash
+python tools/lpc-builder/lpc-builder.py --random -o char_001.png
 ```
 
 ### Specific Character
-```
-lpc-builder config '{"body_type":"female","skin_color":"olive","hair_style":"long","hair_color":"black"}' --output judge.png
+```bash
+python tools/lpc-builder/lpc-builder.py -c '{"body_type":"female","skin_color":"olive","hair_style":"long","hair_color":"black"}' -o judge.png
 ```
 
 ### List All Options
-```
-lpc-builder list
+```bash
+python tools/lpc-builder/lpc-builder.py --list-options
 ```
 
 ### Batch Multiple Characters
-```
-lpc-builder batch configs/*.json --output-dir ./generated/sprites/
+```bash
+python tools/lpc-builder/lpc-builder.py --batch batch.json --output-dir ./generated/sprites/
 ```
 
 ## Available Options
 
+Run `--list-options` for the complete list. Common options:
+
 ### Body Types
 - male, female, muscular, teen, child
 
-### Skin Colors
+### Skin Colors  
 - light, amber, olive, taupe, bronze, brown, black
 - lavender, blue, green, zombie_green
+- fur_black, fur_brown, fur_tan, etc.
 
-### Hair Styles
-- bangs, long, short, ponytail, mohawk, afro, curly, etc.
+### Hair Styles (90+)
+- plain, long, short, ponytail, mohawk, afro, curly, etc.
 
 ### Hair Colors
-- black, brown, brunette, auburn, red, ginger, blonde, platinum, white, grey
+- black, brown, dark brown, light brown, chestnut, auburn
+- red, ginger, blonde, platinum, white, gray
 - blue, green, purple, pink (fantasy colors)
 
 ### Eye Colors

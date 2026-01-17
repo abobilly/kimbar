@@ -672,6 +672,47 @@ def draw_fat_boy_lollipop(d, w, h):
     d.ellipse([cx-8, cy+12, cx-2, cy+20], fill=CLOTHES[2], outline=CLOTHES[0])
     d.ellipse([cx+2, cy+12, cx+8, cy+20], fill=CLOTHES[2], outline=CLOTHES[0])
 
+def draw_big_fat_boy_one_tooth_spinner_hat(d, w, h):
+    """64x64 big fat boy with one tooth and spinner hat in top-down 3/4 view"""
+    cx, cy = w // 2, h // 2
+    
+    # Body (big and fat)
+    d.ellipse([cx-16, cy-8, cx+16, cy+16], fill=CLOTHES[2], outline=CLOTHES[0])
+    d.ellipse([cx-14, cy-6, cx+14, cy+14], fill=CLOTHES[3])  # Highlight
+    
+    # Head (big)
+    d.ellipse([cx-12, cy-28, cx+12, cy-8], fill=SKIN[2], outline=SKIN[0])
+    
+    # Hair (messy)
+    d.ellipse([cx-11, cy-30, cx+11, cy-10], fill=HAIR[2], outline=HAIR[0])
+    
+    # Spinner hat (propeller hat)
+    # Hat base
+    d.ellipse([cx-10, cy-32, cx+10, cy-24], fill=RED[2], outline=RED[0])
+    # Propeller blades
+    d.rectangle([cx-15, cy-28, cx+15, cy-26], fill=RED[3])  # Horizontal
+    d.rectangle([cx-1, cy-33, cx+1, cy-23], fill=RED[3])    # Vertical
+    
+    # Eyes
+    d.ellipse([cx-5, cy-20, cx-3, cy-18], fill=(0, 0, 0))
+    d.ellipse([cx+3, cy-20, cx+5, cy-18], fill=(0, 0, 0))
+    
+    # Mouth (one tooth)
+    # Open mouth
+    d.ellipse([cx-4, cy-16, cx+4, cy-10], fill=(0, 0, 0))
+    # One big tooth
+    d.rectangle([cx-1, cy-14, cx+1, cy-12], fill=(255, 255, 255))
+    
+    # Arms (fat)
+    # Left arm
+    d.ellipse([cx-20, cy-4, cx-12, cy+6], fill=SKIN[2], outline=SKIN[0])
+    # Right arm
+    d.ellipse([cx+12, cy-4, cx+20, cy+6], fill=SKIN[2], outline=SKIN[0])
+    
+    # Legs (fat)
+    d.ellipse([cx-10, cy+14, cx-2, cy+24], fill=CLOTHES[2], outline=CLOTHES[0])
+    d.ellipse([cx+2, cy+14, cx+10, cy+24], fill=CLOTHES[2], outline=CLOTHES[0])
+
 # --- OFFICE FURNITURE ---
 
 def draw_bookshelf(d, w, h):
@@ -880,6 +921,7 @@ if __name__ == "__main__":
     
     # Character
     save_to("fat_boy_lollipop", (64, 64), draw_fat_boy_lollipop)
+    save_to("big_fat_boy_one_tooth_spinner_hat", (64, 64), draw_big_fat_boy_one_tooth_spinner_hat)
     
     # Round 4 - SCOTUS Exterior Construction Kit
     exterior_dir = "vendor/props/exterior"
