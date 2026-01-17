@@ -54,17 +54,17 @@ try {
     }
   }
 
-  // Sync vendor/tilesets/ -> public/assets/tilesets/
+  // Sync vendor/tilesets/ -> public/assets/tilesets/ (merge, don't replace)
   try {
-    await fs.rm(TILESETS_DST, { recursive: true, force: true });
-    await copyDir(TILESETS_SRC, TILESETS_DST);
-    console.log(`✅ Synced ${TILESETS_SRC} -> ${TILESETS_DST}`);
-  } catch (e) {
-    if (e.code === 'ENOENT') {
-      console.warn(`⚠️ sync:public skipped tilesets (missing ${TILESETS_SRC})`);
+    const hasSrc = await fs.access(TILESETS_SRC).then(() => true).catch(() => false);
+    if (hasSrc) {
+      await copyDir(TILESETS_SRC, TILESETS_DST);
+      console.log(`✅ Synced ${TILESETS_SRC} -> ${TILESETS_DST}`);
     } else {
-      throw e;
+      console.warn(`⚠️ sync:public skipped tilesets (missing ${TILESETS_SRC})`);
     }
+  } catch (e) {
+    throw e;
   }
 
   // Sync vendor/ui/ -> public/assets/ui/
