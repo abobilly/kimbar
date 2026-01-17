@@ -15,8 +15,12 @@
         /* Path aliases */
         "baseUrl": "src",
         "paths": {
+            "@/*": ["./*"],
             "@content/*": ["content/*"],
-            "@game/*": ["game/*"]
+            "@game/*": ["game/*"],
+            "@world/*": ["world/*"],
+            "@types/*": ["types/*"],
+            "@debug/*": ["debug/*"]
         },
         "allowImportingTsExtensions": true,
         "isolatedModules": true,

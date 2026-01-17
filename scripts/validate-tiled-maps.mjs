@@ -1,194 +1,283 @@
 #!/usr/bin/env node
+/**
+ * Tiled Map Validation Script
+ * 
+ * Validates Tiled JSON maps in public/content/tiled/** against the contract
+ * defined in docs/TILED_PIPELINE.md.
+ * 
+ * Usage: node scripts/validate-tiled-maps.mjs
+ */
+
 import { readFile, readdir, stat } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
 
 const BASE_DIR = path.join(process.cwd(), 'public', 'content', 'tiled');
-const CONTRACT_PATH = path.join(BASE_DIR, 'scotus_tileset_contract.json');
-const CONTRACT_SCHEMA_PATH = path.join(BASE_DIR, 'schemas', 'tiled_contract.schema.json');
-const ROOMS_DIR = path.join(BASE_DIR, 'rooms');
-const TILESETS_DIR = path.join(BASE_DIR, 'tilesets');
+const TILESETS_DIR = path.join(process.cwd(), 'public', 'assets', 'tilesets');
 
-function error(msg) {
-  console.error(`❌ ${msg}`);
-  process.exitCode = 1;
+// Required layers in order
+const REQUIRED_LAYERS = ['Floor', 'Walls', 'Trim', 'Overlays', 'Collision', 'Entities'];
+
+// Valid entity types and their required properties
+const ENTITY_SCHEMA = {
+  PlayerSpawn: {
+    required: ['spawnId'],
+    optional: []
+  },
+  Door: {
+    required: ['toMap', 'toSpawn'],
+    optional: ['facing']
+  },
+  NPC: {
+    required: ['characterId'],
+    optional: ['storyKnot']
+  },
+  EncounterTrigger: {
+    required: ['deckTag', 'count', 'once'],
+    optional: ['rewardId']
+  }
+};
+
+let passed = 0;
+let failed = 0;
+const errors = [];
+
+function logOk(filePath) {
+  console.log(`✓ ${filePath}`);
+  passed++;
 }
 
-function ok(msg) {
-  console.log(`✅ ${msg}`);
+function logError(filePath, message) {
+  console.log(`✗ ${filePath}`);
+  console.log(`  ERROR: ${message}`);
+  errors.push({ file: filePath, error: message });
+  failed++;
 }
 
-function readPngSize(buffer) {
-  const signature = '89504e470d0a1a0a';
-  if (buffer.subarray(0, 8).toString('hex') !== signature) {
-    throw new Error('Invalid PNG signature');
-  }
-  const width = buffer.readUInt32BE(16);
-  const height = buffer.readUInt32BE(20);
-  return { width, height };
+function logFatal(message) {
+  console.error(`\n🛑 FATAL: ${message}`);
+  process.exit(1);
 }
 
-function parseAttributes(tag) {
-  const attrs = {};
-  const regex = /(\w+)="([^"]*)"/g;
-  let match;
-  while ((match = regex.exec(tag))) {
-    attrs[match[1]] = match[2];
-  }
-  return attrs;
-}
-
-function extractLayerNames(xml) {
-  const names = new Set();
-  const layerRegex = /<(layer|objectgroup)[^>]*name="([^"]+)"/g;
-  let match;
-  while ((match = layerRegex.exec(xml))) {
-    names.add(match[2]);
-  }
-  return names;
-}
-
-function extractObjectTypes(xml) {
-  const types = [];
-  const objectRegex = /<object[^>]*type="([^"]+)"[^>]*>/g;
-  let match;
-  while ((match = objectRegex.exec(xml))) {
-    types.push(match[1]);
-  }
-  return types;
-}
-
-function extractTilesetSources(xml) {
-  const sources = [];
-  const regex = /<tileset[^>]*source="([^"]+)"/g;
-  let match;
-  while ((match = regex.exec(xml))) {
-    sources.push(match[1]);
-  }
-  return sources;
-}
-
-async function validateContract() {
-  if (!existsSync(CONTRACT_PATH)) {
-    error(`Missing contract: ${CONTRACT_PATH}`);
-    return null;
-  }
-  if (!existsSync(CONTRACT_SCHEMA_PATH)) {
-    error(`Missing contract schema: ${CONTRACT_SCHEMA_PATH}`);
-    return null;
-  }
-  const contract = JSON.parse(await readFile(CONTRACT_PATH, 'utf-8'));
-  await readFile(CONTRACT_SCHEMA_PATH, 'utf-8');
-  if (!contract.version || !contract.tileSize || !Array.isArray(contract.atlases) || !Array.isArray(contract.tiles)) {
-    error('Contract missing required fields');
-  } else {
-    ok('Contract structure valid');
-  }
-
-  const ids = new Set();
-  for (const tile of contract.tiles || []) {
-    if (ids.has(tile.id)) {
-      error(`Duplicate tile id: ${tile.id}`);
-    }
-    ids.add(tile.id);
-  }
-
-  return contract;
-}
-
-async function validateAtlases(contract) {
-  for (const atlas of contract.atlases || []) {
-    const atlasPath = path.join(BASE_DIR, atlas.path);
-    if (!existsSync(atlasPath)) {
-      error(`Atlas missing: ${atlas.path}`);
-      continue;
-    }
-    const buffer = await readFile(atlasPath);
-    const { width, height } = readPngSize(buffer);
-    if (width > atlas.maxWidth || height > atlas.maxHeight) {
-      error(`Atlas ${atlas.id} exceeds max ${atlas.maxWidth}x${atlas.maxHeight}`);
-    }
-    ok(`Atlas ${atlas.id}: ${width}x${height}`);
-  }
-}
-
-async function validateTilesets() {
-  if (!existsSync(TILESETS_DIR)) {
-    error(`Tilesets dir missing: ${TILESETS_DIR}`);
-    return;
-  }
-  const files = (await readdir(TILESETS_DIR)).filter((name) => name.endsWith('.tsx'));
-  for (const file of files) {
-    const xml = await readFile(path.join(TILESETS_DIR, file), 'utf-8');
-    if (!xml.includes('<tileset')) {
-      error(`Tileset ${file} missing tileset tag`);
-    }
-    if (!xml.includes('<image')) {
-      error(`Tileset ${file} missing image tag`);
-    }
-  }
-  ok(`${files.length} TSX tileset(s) validated`);
-}
-
-async function validateRooms(contract) {
-  if (!existsSync(ROOMS_DIR)) {
-    error(`Rooms dir missing: ${ROOMS_DIR}`);
-    return;
-  }
-  const files = (await readdir(ROOMS_DIR)).filter((name) => name.endsWith('.tmx'));
-  const requiredLayers = ['Floor', 'Walls', 'Trim', 'Overlays', 'Collision', 'Entities'];
-  const allowedTilesetPrefixes = new Set(
-    (contract.atlases || []).map((a) => path.basename(a.tsxPath))
-  );
-  allowedTilesetPrefixes.add('collision.tsx');
-
-  for (const file of files) {
-    const xml = await readFile(path.join(ROOMS_DIR, file), 'utf-8');
-    const layerNames = extractLayerNames(xml);
-    for (const layer of requiredLayers) {
-      if (!layerNames.has(layer)) {
-        error(`${file}: missing layer ${layer}`);
-      }
-    }
-
-    const objectTypes = extractObjectTypes(xml);
-    if (!objectTypes.includes('PlayerSpawn')) {
-      error(`${file}: missing PlayerSpawn entity`);
-    }
-    if (!objectTypes.includes('Door')) {
-      error(`${file}: missing Door entity`);
-    }
-
-    const tilesets = extractTilesetSources(xml);
-    for (const source of tilesets) {
-      const base = path.basename(source);
-      if (!allowedTilesetPrefixes.has(base)) {
-        error(`${file}: unexpected tileset ${source}`);
+/**
+ * Recursively scan for __MACOSX directories
+ */
+async function scanForMacOSX(dir) {
+  const macosxPaths = [];
+  
+  async function scan(currentDir) {
+    if (!existsSync(currentDir)) return;
+    
+    const entries = await readdir(currentDir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(currentDir, entry.name);
+      if (entry.isDirectory()) {
+        if (entry.name === '__MACOSX') {
+          macosxPaths.push(fullPath);
+        }
+        await scan(fullPath);
       }
     }
   }
-  ok(`${files.length} TMX room(s) validated`);
+  
+  await scan(dir);
+  return macosxPaths;
+}
+
+/**
+ * Recursively find all JSON map files (excluding templates)
+ */
+async function findMapFiles(dir, baseDir = dir, depth = 0) {
+  const files = [];
+  
+  if (!existsSync(dir)) return files;
+  
+  const entries = await readdir(dir, { withFileTypes: true });
+  
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    const relativePath = path.relative(baseDir, fullPath);
+    
+    if (entry.isDirectory()) {
+      // Skip non-room-pack directories
+      if (entry.name === 'templates' || entry.name === 'tilesets' ||
+          entry.name === 'tiles' || entry.name === 'schemas' || entry.name === 'rooms') {
+        continue;
+      }
+      const nested = await findMapFiles(fullPath, baseDir, depth + 1);
+      files.push(...nested);
+    } else if (entry.name.endsWith('.json') && !entry.name.startsWith('_')) {
+      // Only include JSON files that are in room pack subdirectories (depth > 0)
+      // Skip root-level JSON files like scotus_tileset_contract.json
+      if (depth > 0) {
+        files.push({ path: fullPath, relativePath });
+      }
+    }
+  }
+  
+  return files;
+}
+
+/**
+ * Get property value from Tiled properties array
+ */
+function getProperty(properties, name) {
+  if (!Array.isArray(properties)) return undefined;
+  const prop = properties.find(p => p.name === name);
+  return prop ? prop.value : undefined;
+}
+
+/**
+ * Validate a single map file
+ */
+async function validateMap(filePath, relativePath) {
+  let map;
+  
+  try {
+    const content = await readFile(filePath, 'utf-8');
+    map = JSON.parse(content);
+  } catch (err) {
+    logError(relativePath, `Failed to parse JSON: ${err.message}`);
+    return false;
+  }
+  
+  const mapErrors = [];
+  
+  // Check tile size (SACRED: 32x32)
+  if (map.tilewidth !== 32 || map.tileheight !== 32) {
+    mapErrors.push(`Invalid tile size: ${map.tilewidth}x${map.tileheight} (must be 32x32)`);
+  }
+  
+  // Check map type
+  if (map.type !== 'map') {
+    mapErrors.push(`Invalid type: "${map.type}" (must be "map")`);
+  }
+  
+  // Check for required layers
+  const layerNames = new Map();
+  if (Array.isArray(map.layers)) {
+    for (const layer of map.layers) {
+      layerNames.set(layer.name, layer);
+    }
+  }
+  
+  for (const requiredLayer of REQUIRED_LAYERS) {
+    if (!layerNames.has(requiredLayer)) {
+      mapErrors.push(`Missing required layer "${requiredLayer}"`);
+    }
+  }
+  
+  // Check Entities layer is objectgroup
+  const entitiesLayer = layerNames.get('Entities');
+  if (entitiesLayer && entitiesLayer.type !== 'objectgroup') {
+    mapErrors.push(`"Entities" layer must be type "objectgroup", got "${entitiesLayer.type}"`);
+  }
+  
+  // Check tile layers are tilelayer
+  for (const name of ['Floor', 'Walls', 'Trim', 'Overlays', 'Collision']) {
+    const layer = layerNames.get(name);
+    if (layer && layer.type !== 'tilelayer') {
+      mapErrors.push(`"${name}" layer must be type "tilelayer", got "${layer.type}"`);
+    }
+  }
+  
+  // Validate entities
+  if (entitiesLayer && Array.isArray(entitiesLayer.objects)) {
+    for (const obj of entitiesLayer.objects) {
+      if (!obj.type) {
+        mapErrors.push(`Object "${obj.name || obj.id}" has no type property`);
+        continue;
+      }
+      
+      const schema = ENTITY_SCHEMA[obj.type];
+      if (!schema) {
+        mapErrors.push(`Object "${obj.name || obj.id}" has invalid type "${obj.type}" (valid: ${Object.keys(ENTITY_SCHEMA).join(', ')})`);
+        continue;
+      }
+      
+      // Check required properties
+      for (const reqProp of schema.required) {
+        const value = getProperty(obj.properties, reqProp);
+        if (value === undefined || value === null || value === '') {
+          mapErrors.push(`${obj.type} "${obj.name || obj.id}" missing required property "${reqProp}"`);
+        }
+      }
+    }
+  }
+  
+  if (mapErrors.length > 0) {
+    console.log(`✗ ${relativePath}`);
+    for (const err of mapErrors) {
+      console.log(`  ERROR: ${err}`);
+      errors.push({ file: relativePath, error: err });
+    }
+    failed++;
+    return false;
+  }
+  
+  logOk(relativePath);
+  return true;
 }
 
 async function main() {
-  console.log('🧩 Validating Tiled pipeline...');
-  const contract = await validateContract();
-  if (contract) {
-    await validateAtlases(contract);
-  }
-  await validateTilesets();
-  if (contract) {
-    await validateRooms(contract);
-  }
-
-  if (process.exitCode === 1) {
-    console.error('Tiled validation failed.');
+  console.log('🗺️  Tiled Map Validation');
+  console.log('========================\n');
+  
+  // FATAL CHECK: Scan for __MACOSX directories
+  console.log('Checking for __MACOSX directories...');
+  
+  const tiledMacOSX = await scanForMacOSX(BASE_DIR);
+  const tilesetMacOSX = await scanForMacOSX(TILESETS_DIR);
+  const allMacOSX = [...tiledMacOSX, ...tilesetMacOSX];
+  
+  if (allMacOSX.length > 0) {
+    console.error('\n🛑 FATAL: __MACOSX directories found!\n');
+    for (const macPath of allMacOSX) {
+      console.error(`  ${macPath}`);
+    }
+    console.error('\nRemove these directories before proceeding:');
+    console.error('  rm -rf public/content/tiled/**/__MACOSX');
+    console.error('  rm -rf public/assets/tilesets/**/__MACOSX');
     process.exit(1);
   }
-  console.log('✅ Tiled validation passed.');
+  console.log('✓ No __MACOSX directories found\n');
+  
+  // Find and validate map files
+  console.log('Validating Tiled JSON maps...\n');
+  
+  if (!existsSync(BASE_DIR)) {
+    console.error(`Base directory not found: ${BASE_DIR}`);
+    process.exit(1);
+  }
+  
+  const mapFiles = await findMapFiles(BASE_DIR, BASE_DIR);
+  
+  if (mapFiles.length === 0) {
+    console.log('No JSON map files found to validate.');
+    console.log('\nValidation: 0 maps found');
+    process.exit(0);
+  }
+  
+  // Sort files for deterministic output
+  mapFiles.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
+  
+  for (const { path: filePath, relativePath } of mapFiles) {
+    await validateMap(filePath, relativePath);
+  }
+  
+  // Summary
+  console.log(`\nValidation: ${passed} passed, ${failed} failed`);
+  
+  if (failed > 0) {
+    process.exit(1);
+  }
+  
+  console.log('\n✅ All Tiled maps valid');
+  process.exit(0);
 }
 
 main().catch((err) => {
-  console.error(`❌ ${err.message}`);
+  console.error(`\n❌ Unexpected error: ${err.message}`);
+  console.error(err.stack);
   process.exit(1);
 });

@@ -27,6 +27,118 @@
 
 ---
 
+## 2. Recent Changes: Tiled Pipeline Implementation Complete (January 17, 2026)
+
+### What Was Done
+
+Implemented a complete Tiled-based room authoring pipeline with validation, compilation, and runtime loading:
+
+**New Files Created:**
+- `public/content/tiled/templates/room-template.json` — Canonical room template (20×15 tiles, all 6 layers)
+- `public/content/tiled/supreme-court/` — Room pack with 4 rooms (lobby, courtroom_main, hallway, chambers_roberts)
+- `scripts/compile-tiled-maps.mjs` — Compiles Tiled JSON → LevelData
+- `src/content/level-registry.ts` — Level path registry
+- `src/content/level-loader.ts` — Async LevelData loader with caching
+- `src/world/entity-spawner.ts` — Entity spawner (PlayerSpawn, Door, NPC, EncounterTrigger)
+- `src/types/level-data.ts` — TypeScript interfaces for LevelData
+- `src/debug/level-test.ts` — Debug test module (`window.levelTest`)
+
+**Modified Files:**
+- `docs/TILED_PIPELINE.md` — Full contract specification
+- `scripts/validate-tiled-maps.mjs` — Rewrote for JSON validation + `__MACOSX` guard
+- `package.json` — Added `validate:tiled`, `compile:tiled`, `build:tiled` npm scripts
+- `.gitignore` — Added `**/__MACOSX/`, `**/.DS_Store`, `**/._*` patterns
+- `.husky/pre-commit` — Added guard for `__MACOSX` and `._*` files
+- `tsconfig.json` — Path aliases (`@/`, `@world/`, `@types/`, `@debug/`)
+- `vite/config.dev.mjs`, `vite/config.prod.mjs` — Vite resolve aliases
+
+**Deleted:**
+- `public/assets/tilesets/lpc/__MACOSX/**` — Removed macOS artifacts
+
+### How to Author a New Room
+
+1. **Copy Template**
+   - Copy `public/content/tiled/templates/room-template.json` to your room pack directory
+   - Example: `public/content/tiled/my-pack/new_room.json`
+
+2. **Required Layers** (all must be present, exact names)
+   - `Floor` — Tile Layer
+   - `Walls` — Tile Layer
+   - `Trim` — Tile Layer
+   - `Overlays` — Tile Layer
+   - `Collision` — Tile Layer
+   - `Entities` — Object Layer
+
+3. **Add Entities** (in Entities layer)
+   - `PlayerSpawn`: Set `type="PlayerSpawn"`, add property `spawnId` (string)
+   - `Door`: Set `type="Door"`, add properties `toMap` (string), `toSpawn` (string), optional `facing`
+   - `NPC`: Set `type="NPC"`, add property `characterId` (string), optional `storyKnot`
+   - `EncounterTrigger`: Set `type="EncounterTrigger"`, add properties `deckTag` (string), `count` (int), `once` (bool)
+
+4. **Validate + Compile**
+   ```bash
+   npm run build:tiled
+   ```
+
+5. **Verify in Game**
+   ```bash
+   npm run dev
+   # In browser console:
+   await window.levelTest.testLoadLevel('my-pack/new_room')
+   ```
+
+### Canonical Paths
+
+| Purpose | Path |
+|---------|------|
+| Room Template | `public/content/tiled/templates/room-template.json` |
+| Example Room | `public/content/tiled/supreme-court/lobby.json` |
+| Compiled Output | `generated/levels/supreme-court/lobby.json` |
+
+### Verification Commands
+
+```bash
+# Validate all Tiled maps
+npm run validate:tiled
+
+# Compile Tiled → LevelData
+npm run compile:tiled
+
+# Both in sequence
+npm run build:tiled
+
+# Full content pipeline (includes Tiled)
+npm run prepare:content
+
+# Run game
+npm run dev
+```
+
+### macOS Artifact Protection (Multi-Layer)
+
+Three layers prevent `__MACOSX` and `._*` files from polluting the repo:
+
+1. **`.gitignore`** — Patterns: `**/__MACOSX/`, `**/.DS_Store`, `**/._*`
+2. **`.husky/pre-commit`** — Blocks commits containing these patterns
+3. **`scripts/validate-tiled-maps.mjs`** — Errors if artifacts detected in Tiled directories
+
+### What Remains / Next Steps
+
+- **Integration**: Wire compiled levels into actual game flow (currently only `window.levelTest` for manual testing)
+- **Tileset finalization**: Validate tileset references in room maps match actual tileset files
+- **Entity wiring**: Connect Door transitions to room loading, NPC to character registry, EncounterTrigger to flashcard system
+- **LDtk migration**: Decide whether to migrate existing `content/rooms/*.json` to Tiled format
+
+### Invariants/Hazards
+
+- Tile IDs in `scotus_tileset_contract.json` are **append-only**
+- All tiles are 32×32; atlases must be ≤2048×2048
+- Rooms must include all 6 layers: Floor, Walls, Trim, Overlays, Collision, Entities
+- Generated levels go to `generated/levels/`, never to `public/`
+- Runtime loads via level-registry, not hardcoded paths
+
+---
+
 ## 2. Recent Changes: MCP Tooling Constraint (January 17, 2026)
 
 ### What Was Done

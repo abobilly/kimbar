@@ -12,11 +12,15 @@ dist
 dist-ssr
 *.local
 
+# macOS artifacts (NEVER commit)
+**/__MACOSX/
+**/.DS_Store
+**/._*
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
@@ -24,7 +28,7 @@ dist-ssr
 *.sw?
 .claude/
 
-# Generated outputs (never commit)
+# Generated outputs (NEVER commit)
 generated/*
 !generated/README.md
 public/generated/**
