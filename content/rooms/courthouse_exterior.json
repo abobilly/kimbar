@@ -57,20 +57,42 @@
         },
         {
             "type": "Prop",
-            "x": 1,
-            "y": 14,
+            "x": 2,
+            "y": 13,
             "id": "tree_left",
             "properties": {
-                "sprite": "tree"
+                "sprite": "prop.lpc_tree_11",
+                "collision": false
             }
         },
         {
             "type": "Prop",
-            "x": 24,
-            "y": 14,
+            "x": 6,
+            "y": 12,
+            "id": "tree_left_mid",
+            "properties": {
+                "sprite": "prop.lpc_tree_05",
+                "collision": false
+            }
+        },
+        {
+            "type": "Prop",
+            "x": 19,
+            "y": 12,
+            "id": "tree_right_mid",
+            "properties": {
+                "sprite": "prop.lpc_tree_07",
+                "collision": false
+            }
+        },
+        {
+            "type": "Prop",
+            "x": 23,
+            "y": 13,
             "id": "tree_right",
             "properties": {
-                "sprite": "tree"
+                "sprite": "prop.lpc_tree_13",
+                "collision": false
             }
         },
         {
@@ -89,6 +111,16 @@
             "id": "bench_right",
             "properties": {
                 "sprite": "bench"
+            }
+        },
+        {
+            "type": "Prop",
+            "x": 12,
+            "y": 7,
+            "id": "door_prop_front",
+            "properties": {
+                "sprite": "prop.lpc_door_wood_tall_arched_window_01",
+                "collision": false
             }
         },
         {

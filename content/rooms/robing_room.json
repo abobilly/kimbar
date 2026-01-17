@@ -42,6 +42,26 @@
                 "targetLevel": "scotus_lobby",
                 "sprite": "door_robing"
             }
+        },
+        {
+            "type": "Prop",
+            "x": 4,
+            "y": 5,
+            "id": "wardrobe_left",
+            "properties": {
+                "sprite": "prop.lpc_container_cabinet_wood_tall_01",
+                "collision": true
+            }
+        },
+        {
+            "type": "Prop",
+            "x": 10,
+            "y": 5,
+            "id": "wardrobe_right",
+            "properties": {
+                "sprite": "prop.lpc_container_cabinet_wood_tall_02",
+                "collision": true
+            }
         }
     ],
     "connections": [

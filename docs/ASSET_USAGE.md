@@ -59,6 +59,16 @@ If an asset should only appear outside (Supreme Court exterior):
 
 This keeps exterior-only assets scoped to the relevant room.
 
+## Door & Tree Refresh
+
+We replaced the placeholder `tree`/`door_courthouse` visuals with LPC-sourced props in several rooms:
+
+- `courthouse_exterior` now anchors the steps with `prop.lpc_tree_11`, `prop.lpc_tree_05`, `prop.lpc_tree_07`, and `prop.lpc_tree_13`, plus a decorative `prop.lpc_door_wood_tall_arched_window_01` beside the entrance.
+- `scotus_lobby` mirrors the same tree palette and pairs it with `prop.lpc_door_double_white_glass_01` on the south door.
+- The `robing_room` now shows two wardrobe cabinets (`prop.lpc_container_cabinet_wood_tall_{01,02}`) to better sell the clothes area.
+
+Update these sections by editing their room specs (and optionally `content/placement_drafts/prop_placements.json`) and rerun `npm run gen:ldtk` + `npm run sync:public` so LDtk and `public` stay in sync.
+
 ## Used-Asset Report
 
 The report lists assets actually referenced by content:

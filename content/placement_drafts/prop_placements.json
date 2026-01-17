@@ -309,6 +309,61 @@
           "sprite": "prop.scotus_exterior_building",
           "collision": false
         }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.lpc_tree_11",
+        "zone": "trees",
+        "x": 2,
+        "y": 13,
+        "properties": {
+          "sprite": "prop.lpc_tree_11",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.lpc_tree_05",
+        "zone": "trees",
+        "x": 6,
+        "y": 12,
+        "properties": {
+          "sprite": "prop.lpc_tree_05",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.lpc_tree_07",
+        "zone": "trees",
+        "x": 19,
+        "y": 12,
+        "properties": {
+          "sprite": "prop.lpc_tree_07",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.lpc_tree_13",
+        "zone": "trees",
+        "x": 23,
+        "y": 13,
+        "properties": {
+          "sprite": "prop.lpc_tree_13",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.lpc_door_wood_tall_arched_window_01",
+        "zone": "doorway",
+        "x": 11,
+        "y": 7,
+        "properties": {
+          "sprite": "prop.lpc_door_wood_tall_arched_window_01",
+          "collision": false
+        }
       }
     ],
     "courtroom_main": [
@@ -539,6 +594,28 @@
           "sprite": "prop.robe_rack",
           "collision": true
         }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.lpc_container_cabinet_wood_tall_01",
+        "zone": "storage",
+        "x": 4,
+        "y": 5,
+        "properties": {
+          "sprite": "prop.lpc_container_cabinet_wood_tall_01",
+          "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.lpc_container_cabinet_wood_tall_02",
+        "zone": "storage",
+        "x": 10,
+        "y": 5,
+        "properties": {
+          "sprite": "prop.lpc_container_cabinet_wood_tall_02",
+          "collision": true
+        }
       }
     ],
     "room.scotus_hall_01": [
@@ -630,6 +707,39 @@
         "properties": {
           "sprite": "prop.xray_belt",
           "collision": true
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.lpc_tree_17",
+        "zone": "trees",
+        "x": 3,
+        "y": 4,
+        "properties": {
+          "sprite": "prop.lpc_tree_17",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.lpc_tree_19",
+        "zone": "trees",
+        "x": 17,
+        "y": 4,
+        "properties": {
+          "sprite": "prop.lpc_tree_19",
+          "collision": false
+        }
+      },
+      {
+        "type": "Prop",
+        "id": "prop.lpc_door_double_white_glass_01",
+        "zone": "doorway",
+        "x": 10,
+        "y": 12,
+        "properties": {
+          "sprite": "prop.lpc_door_double_white_glass_01",
+          "collision": false
         }
       }
     ]

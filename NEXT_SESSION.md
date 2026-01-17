@@ -1,5 +1,5 @@
 # Kim Bar - Agent Handoff Document
-**Last Update**: January 17, 2026
+**Last Update**: January 16, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
@@ -43,11 +43,23 @@
 
 - Rooms with interior (non-edge) doors may map to the nearest edge side; keep doors on edges for deterministic entry placement.
 
-## 2. Recent Changes: Object Tile Regen to tmp (January 16, 2026)
+## 3. Recent Changes: Procedural-Context Agent Port to Qwen Code CLI (January 16, 2026)
 
 ### What Was Done
 
-- Regenerated all `tile.object.*` PNGs to `tmp/tiles` (127 files) using `python scripts/generate-tiles-batch.py --tile tile.object --mode ai --output tmp/tiles`
+- Created `port_procedural_agent.py` script to port the procedural art benchmark agent to Qwen code CLI (via Ollama API) for fine-tuning.
+- The script reads `tools/procedural_art_benchmark.py`, sends it to Qwen2.5-Coder via Ollama API with a fine-tuning prompt, and saves the improved code to `procedural_art_benchmark_finetuned.py`.
+
+### How to Use
+
+- Ensure Ollama is running with `qwen2.5-coder` model pulled (`ollama pull qwen2.5-coder`).
+- Run `python port_procedural_agent.py` to fine-tune the procedural art benchmark code.
+- Review the generated `procedural_art_benchmark_finetuned.py` and replace the original if satisfactory.
+
+### Invariants/Hazards
+
+- Requires Ollama running on localhost:11434.
+- The fine-tuned code should maintain Python compatibility and the same API.
 - Output is 32x32 RGBA with transparency preserved; no changes made to `generated/` or `public/generated/`
 
 ### Notes
@@ -137,6 +149,22 @@ referenced by game content (sprites, props, tilesets).
 ```bash
 npm run import:scotus
 npm run import:lpc
+npm run sync:public
+```
+
+## 2. Recent Changes: Door & Tree Asset Refresh (January 16, 2026)
+
+### What Was Done
+
+- Replaced the placeholder `tree` sprites on the Supreme Court steps with `prop.lpc_tree_11`, `prop.lpc_tree_05`, `prop.lpc_tree_07`, and `prop.lpc_tree_13` plus a layered `prop.lpc_door_wood_tall_arched_window_01` accent.
+- Added matching LPC tree props and `prop.lpc_door_double_white_glass_01` to the lobby so the interior entrances match the exterior material.
+- Grove panels were added to the robing room with `prop.lpc_container_cabinet_wood_tall_{01,02}` so the clothes area pairs better with the new assets.
+- Placement drafts were updated to reflect the new door/tree props, and the LDtk rooms were regenerated.
+
+### How To Use
+
+```bash
+npm run gen:ldtk
 npm run sync:public
 ```
 

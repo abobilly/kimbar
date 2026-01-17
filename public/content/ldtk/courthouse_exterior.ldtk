@@ -485,8 +485,8 @@
             {
               "__identifier": "Prop",
               "__grid": [
-                1,
-                14
+                2,
+                13
               ],
               "__pivot": [
                 0,
@@ -500,16 +500,24 @@
               "height": 32,
               "defUid": 205,
               "px": [
-                32,
-                448
+                64,
+                416
               ],
               "fieldInstances": [
                 {
                   "__identifier": "sprite",
                   "__type": "String",
-                  "__value": "tree",
+                  "__value": "prop.lpc_tree_11",
                   "__tile": null,
                   "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
                   "realEditorValues": []
                 }
               ]
@@ -517,8 +525,88 @@
             {
               "__identifier": "Prop",
               "__grid": [
-                24,
-                14
+                6,
+                12
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "tree_left_mid",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                192,
+                384
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.lpc_tree_05",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                19,
+                12
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "tree_right_mid",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                608,
+                384
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.lpc_tree_07",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                23,
+                13
               ],
               "__pivot": [
                 0,
@@ -532,16 +620,24 @@
               "height": 32,
               "defUid": 205,
               "px": [
-                768,
-                448
+                736,
+                416
               ],
               "fieldInstances": [
                 {
                   "__identifier": "sprite",
                   "__type": "String",
-                  "__value": "tree",
+                  "__value": "prop.lpc_tree_13",
                   "__tile": null,
                   "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
                   "realEditorValues": []
                 }
               ]
@@ -611,6 +707,46 @@
               ]
             },
             {
+              "__identifier": "Prop",
+              "__grid": [
+                12,
+                7
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "door_prop_front",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                384,
+                224
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.lpc_door_wood_tall_arched_window_01",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
               "__identifier": "Door",
               "__grid": [
                 12,
@@ -655,7 +791,7 @@
               "__tags": [],
               "__tile": null,
               "__smartColor": "#BEBEBE",
-              "iid": "prop_scotus_exterior_building",
+              "iid": "prop_scotus_exterior_building__facade__1",
               "width": 32,
               "height": 32,
               "defUid": 205,
@@ -673,9 +809,257 @@
                   "realEditorValues": []
                 },
                 {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
                   "__identifier": "propId",
                   "__type": "String",
                   "__value": "prop.scotus_exterior_building",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                2,
+                13
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_lpc_tree_11__trees__2",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                64,
+                416
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.lpc_tree_11",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.lpc_tree_11",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                6,
+                12
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_lpc_tree_05__trees__3",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                192,
+                384
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.lpc_tree_05",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.lpc_tree_05",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                19,
+                12
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_lpc_tree_07__trees__4",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                608,
+                384
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.lpc_tree_07",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.lpc_tree_07",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                23,
+                13
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_lpc_tree_13__trees__5",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                736,
+                416
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.lpc_tree_13",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.lpc_tree_13",
+                  "__tile": null,
+                  "defUid": 342,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Prop",
+              "__grid": [
+                11,
+                7
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#BEBEBE",
+              "iid": "prop_lpc_door_wood_tall_arched_window_01__doorway__6",
+              "width": 32,
+              "height": 32,
+              "defUid": 205,
+              "px": [
+                352,
+                224
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "sprite",
+                  "__type": "String",
+                  "__value": "prop.lpc_door_wood_tall_arched_window_01",
+                  "__tile": null,
+                  "defUid": 340,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "collision",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 341,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "propId",
+                  "__type": "String",
+                  "__value": "prop.lpc_door_wood_tall_arched_window_01",
                   "__tile": null,
                   "defUid": 342,
                   "realEditorValues": []

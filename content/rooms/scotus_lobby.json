@@ -78,6 +78,36 @@
         "targetLevel": "courthouse_exterior",
         "sprite": "door_courthouse"
       }
+    },
+    {
+      "type": "Prop",
+      "x": 3,
+      "y": 4,
+      "id": "lobby_tree_left",
+      "properties": {
+        "sprite": "prop.lpc_tree_17",
+        "collision": false
+      }
+    },
+    {
+      "type": "Prop",
+      "x": 17,
+      "y": 4,
+      "id": "lobby_tree_right",
+      "properties": {
+        "sprite": "prop.lpc_tree_19",
+        "collision": false
+      }
+    },
+    {
+      "type": "Prop",
+      "x": 10,
+      "y": 12,
+      "id": "door_prop_lobby",
+      "properties": {
+        "sprite": "prop.lpc_door_double_white_glass_01",
+        "collision": false
+      }
     }
   ],
   "connections": [
