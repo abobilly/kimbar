@@ -5,6 +5,9 @@
  * Copies all build outputs from generated/ to public/generated/
  * and vendor assets (props/tilesets/ui) to public/assets/
  * so they're available at runtime via Phaser loaders.
+ * 
+ * IMPORTANT: Merges into destination instead of replacing, so committed
+ * assets in public/ are preserved when vendor sources don't exist.
  */
 
 import { promises as fs } from "node:fs";
@@ -35,55 +38,39 @@ async function copyDir(src, dst) {
   }
 }
 
-try {
-  // Sync generated/ -> public/generated/
-  await fs.rm(GENERATED_DST, { recursive: true, force: true });
-  await copyDir(GENERATED_SRC, GENERATED_DST);
-  console.log(`✅ Synced ${GENERATED_SRC} -> ${GENERATED_DST}`);
+/** Check if directory exists */
+async function dirExists(p) {
+  return fs.access(p).then(() => true).catch(() => false);
+}
 
-  // Sync vendor/props/ -> public/assets/props/
-  try {
-    await fs.rm(PROPS_DST, { recursive: true, force: true });
-    await copyDir(PROPS_SRC, PROPS_DST);
-    console.log(`✅ Synced ${PROPS_SRC} -> ${PROPS_DST}`);
-  } catch (e) {
-    if (e.code === 'ENOENT') {
-      console.warn(`⚠️ sync:public skipped props (missing ${PROPS_SRC})`);
-    } else {
-      throw e;
-    }
-  }
-
-  // Sync vendor/tilesets/ -> public/assets/tilesets/ (merge, don't replace)
-  try {
-    const hasSrc = await fs.access(TILESETS_SRC).then(() => true).catch(() => false);
-    if (hasSrc) {
-      await copyDir(TILESETS_SRC, TILESETS_DST);
-      console.log(`✅ Synced ${TILESETS_SRC} -> ${TILESETS_DST}`);
-    } else {
-      console.warn(`⚠️ sync:public skipped tilesets (missing ${TILESETS_SRC})`);
-    }
-  } catch (e) {
-    throw e;
-  }
-
-  // Sync vendor/ui/ -> public/assets/ui/
-  try {
-    await fs.rm(UI_DST, { recursive: true, force: true });
-    await copyDir(UI_SRC, UI_DST);
-    console.log(`✅ Synced ${UI_SRC} -> ${UI_DST}`);
-  } catch (e) {
-    if (e.code === 'ENOENT') {
-      console.warn(`⚠️ sync:public skipped ui (missing ${UI_SRC})`);
-    } else {
-      throw e;
-    }
-  }
-} catch (e) {
-  // Allow dev server to run even if generated/ doesn't exist yet
-  if (e.code === 'ENOENT') {
-    console.warn(`⚠️ sync:public skipped (missing ${GENERATED_SRC})`);
+/** Sync src -> dst, merging instead of replacing. Only syncs if src exists. */
+async function syncDir(src, dst, label) {
+  if (await dirExists(src)) {
+    await copyDir(src, dst);
+    console.log(`✅ Synced ${label}: ${src} -> ${dst}`);
+    return true;
   } else {
-    throw e;
+    console.warn(`⚠️ sync:public skipped ${label} (missing ${src})`);
+    return false;
   }
+}
+
+try {
+  // Sync generated/ -> public/generated/ (this one replaces since it's all generated)
+  if (await dirExists(GENERATED_SRC)) {
+    await fs.rm(GENERATED_DST, { recursive: true, force: true });
+    await copyDir(GENERATED_SRC, GENERATED_DST);
+    console.log(`✅ Synced generated: ${GENERATED_SRC} -> ${GENERATED_DST}`);
+  } else {
+    console.warn(`⚠️ sync:public skipped generated (missing ${GENERATED_SRC})`);
+  }
+
+  // Sync vendor dirs -> public/assets/ (merge, preserving committed assets)
+  await syncDir(PROPS_SRC, PROPS_DST, "props");
+  await syncDir(TILESETS_SRC, TILESETS_DST, "tilesets");
+  await syncDir(UI_SRC, UI_DST, "ui");
+
+} catch (e) {
+  console.error(`❌ sync:public failed:`, e.message);
+  throw e;
 }
