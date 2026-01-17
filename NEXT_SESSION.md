@@ -43,11 +43,26 @@
 
 - Rooms with interior (non-edge) doors may map to the nearest edge side; keep doors on edges for deterministic entry placement.
 
-## 3. Recent Changes: Procedural-Context Agent Port to Qwen Code CLI (January 16, 2026)
+## 4. Recent Changes: Generated Missing LDtk Props (January 16, 2026)
 
 ### What Was Done
 
-- Created `port_procedural_agent.py` script to port the procedural art benchmark agent to Qwen code CLI (via Ollama API) for fine-tuning.
+- Added 47 new procedural drawing functions to `make_icons.py` for missing props referenced in LDtk levels.
+- Generated PNG sprites for all missing props: accident_report, badge_stand, bollard, book_ladder, cafeteria_chair, cafeteria_table, camera_rig, card_catalog, caution_cone, cctv_monitor, classical_bust, constitution_scroll, contract_scroll, counsel_chair, counsel_table, deed_ledger, desk_lamp, docket_stack, door_plaque, evidence_board, family_photo_frame, handcuffs, handshake_sculpture, hazard_sign, house_keys, judge_bench, jury_box, locker, map_plot, medical_chart, menu_board, metal_shelf, mirror, podium, press_backdrop, press_chair, procedure_chart, reading_table, robe_rack, scotus_plaque, serving_counter, statue, tape_recorder, toy_blocks, vault_door, vending_machine, warning_light.
+- Added NPC sprites: clerk, reporter, tourist.
+- Added exterior building: scotus_exterior_building.
+- All sprites follow LPC style guidelines (3/4 view, outlines, shading, limited palettes).
+
+### How to Use
+
+- LDtk pipeline should now resolve all previously missing props.
+- Sprites are available in `vendor/props/legal/` and `vendor/props/exterior/`.
+- Re-run content pipeline with `npm run prepare:content` to update registries.
+
+### Invariants/Hazards
+
+- All sprites are 32x32 except judge_bench, scotus_exterior_building, and NPCs (64x64).
+- Maintains deterministic generation for consistent asset loading.
 - The script reads `tools/procedural_art_benchmark.py`, sends it to Qwen2.5-Coder via Ollama API with a fine-tuning prompt, and saves the improved code to `procedural_art_benchmark_finetuned.py`.
 
 ### How to Use
@@ -160,6 +175,7 @@ npm run sync:public
 - Added matching LPC tree props and `prop.lpc_door_double_white_glass_01` to the lobby so the interior entrances match the exterior material.
 - Grove panels were added to the robing room with `prop.lpc_container_cabinet_wood_tall_{01,02}` so the clothes area pairs better with the new assets.
 - Placement drafts were updated to reflect the new door/tree props, and the LDtk rooms were regenerated.
+- The missing-asset spec now defines the `trees/storage/door_zone/south_entry` zones plus the new LPC prop IDs, so validation accepts the updated placement draft.
 
 ### How To Use
 

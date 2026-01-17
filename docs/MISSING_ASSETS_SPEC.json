@@ -49,6 +49,15 @@
             8
           ]
         }
+        ,
+        "trees": {
+          "rect": [
+            0,
+            10,
+            24,
+            14
+          ]
+        }
       }
     },
     "scotus_lobby": {
@@ -104,6 +113,15 @@
             12,
             12,
             14
+          ]
+        }
+        ,
+        "trees": {
+          "rect": [
+            1,
+            2,
+            18,
+            6
           ]
         }
       }
@@ -290,6 +308,15 @@
             1,
             14,
             2
+          ]
+        }
+        ,
+        "storage": {
+          "rect": [
+            3,
+            4,
+            11,
+            6
           ]
         }
       }
@@ -525,6 +552,115 @@
       }
     },
     {
+      "id": "prop.scotus_exterior_building",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        4,
+        2
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "courthouse_exterior"
+        ],
+        "zones": [
+          "facade",
+          "door_zone"
+        ]
+      }
+    },
+    {
+      "id": "prop.lpc_tree_05",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "courthouse_exterior"
+        ],
+        "zones": [
+          "trees"
+        ]
+      }
+    },
+    {
+      "id": "prop.lpc_tree_07",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "courthouse_exterior"
+        ],
+        "zones": [
+          "trees"
+        ]
+      }
+    },
+    {
+      "id": "prop.lpc_tree_11",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "courthouse_exterior"
+        ],
+        "zones": [
+          "trees"
+        ]
+      }
+    },
+    {
+      "id": "prop.lpc_tree_13",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "courthouse_exterior"
+        ],
+        "zones": [
+          "trees"
+        ]
+      }
+    },
+    {
+      "id": "prop.lpc_door_wood_tall_arched_window_01",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        2,
+        2
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "courthouse_exterior"
+        ],
+        "zones": [
+          "door_zone"
+        ]
+      }
+    },
+    {
       "id": "prop.bollard",
       "kind": "prop",
       "priority": "P1",
@@ -587,6 +723,60 @@
         1
       ],
       "collision": true,
+      "placer": {
+        "rooms": [
+          "scotus_lobby"
+        ],
+        "zones": [
+          "south_entry"
+        ]
+      }
+    },
+    {
+      "id": "prop.lpc_tree_17",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "scotus_lobby"
+        ],
+        "zones": [
+          "trees"
+        ]
+      }
+    },
+    {
+      "id": "prop.lpc_tree_19",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        1,
+        1
+      ],
+      "collision": false,
+      "placer": {
+        "rooms": [
+          "scotus_lobby"
+        ],
+        "zones": [
+          "trees"
+        ]
+      }
+    },
+    {
+      "id": "prop.lpc_door_double_white_glass_01",
+      "kind": "prop",
+      "priority": "P0",
+      "footprint": [
+        2,
+        2
+      ],
+      "collision": false,
       "placer": {
         "rooms": [
           "scotus_lobby"
@@ -1010,6 +1200,42 @@
         ],
         "zones": [
           "racks"
+        ]
+      }
+    },
+    {
+      "id": "prop.lpc_container_cabinet_wood_tall_01",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        2,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "robing_room"
+        ],
+        "zones": [
+          "storage"
+        ]
+      }
+    },
+    {
+      "id": "prop.lpc_container_cabinet_wood_tall_02",
+      "kind": "prop",
+      "priority": "P1",
+      "footprint": [
+        2,
+        2
+      ],
+      "collision": true,
+      "placer": {
+        "rooms": [
+          "robing_room"
+        ],
+        "zones": [
+          "storage"
         ]
       }
     },

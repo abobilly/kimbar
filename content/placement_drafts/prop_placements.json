@@ -357,7 +357,7 @@
       {
         "type": "Prop",
         "id": "prop.lpc_door_wood_tall_arched_window_01",
-        "zone": "doorway",
+        "zone": "door_zone",
         "x": 11,
         "y": 7,
         "properties": {
@@ -734,7 +734,7 @@
       {
         "type": "Prop",
         "id": "prop.lpc_door_double_white_glass_01",
-        "zone": "doorway",
+        "zone": "south_entry",
         "x": 10,
         "y": 12,
         "properties": {
