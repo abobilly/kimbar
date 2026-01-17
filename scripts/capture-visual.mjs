@@ -97,17 +97,16 @@ async function main() {
     console.log(`✅ Saved to ${OUTPUT}\n`);
 
     // Also capture console output
-    const logs: string[] = [];
+    const logs = [];
     page.on('console', msg => logs.push(`[${msg.type()}] ${msg.text()}`));
 
     // Quick summary
     console.log('📊 Game state:');
     const consoleLogs = await page.evaluate(() => {
-      // @ts-ignore - accessing game instance
       const game = window.game;
       if (game?.scene?.scenes) {
-        const scenes = game.scene.scenes.map((s: any) => s.scene.key);
-        return { scenes, active: game.scene.getScenes(true).map((s: any) => s.scene.key) };
+        const scenes = game.scene.scenes.map(s => s.scene.key);
+        return { scenes, active: game.scene.getScenes(true).map(s => s.scene.key) };
       }
       return null;
     });

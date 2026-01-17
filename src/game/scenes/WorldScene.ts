@@ -15,6 +15,8 @@ import { EntityData, LevelData, EncounterConfig } from '@content/types';
 import { isLdtkLevel, normalizeLdtkLevel } from '@content/ldtk-normalizer';
 import { validateLdtkLevel, formatValidationErrors } from '@content/ldtk-validator';
 
+type DoorSide = 'north' | 'south' | 'east' | 'west';
+
 export class WorldScene extends Scene {
   // Systems
   private encounterSystem!: EncounterSystem;
@@ -47,6 +49,7 @@ export class WorldScene extends Scene {
   private isLoadingAssets: boolean = false;
   private loadingStartTime: number | null = null;
   private loadingTimer: Phaser.Time.TimerEvent | null = null;
+  private pendingEntrySide: DoorSide | null = null;
 
   // Keyboard controls
   private wasdKeys!: { W: Phaser.Input.Keyboard.Key; A: Phaser.Input.Keyboard.Key; S: Phaser.Input.Keyboard.Key; D: Phaser.Input.Keyboard.Key };
@@ -56,7 +59,7 @@ export class WorldScene extends Scene {
     super('WorldScene');
   }
 
-  async create(data?: { level?: string }): Promise<void> {
+  async create(data?: { level?: string; entrySide?: DoorSide }): Promise<void> {
     // Set up camera system: world camera + UI camera
     this.setupCameras();
 
@@ -81,6 +84,7 @@ export class WorldScene extends Scene {
     // Load level (this also creates the player at spawn point)
     // Use passed level ID or default to lobby
     const levelId = data?.level || 'scotus_lobby';
+    this.pendingEntrySide = data?.entrySide ?? null;
     await this.loadLevel(levelId);
 
     // Create UI (on uiLayer)
@@ -620,7 +624,7 @@ export class WorldScene extends Scene {
       const row: number[] = [];
       for (let x = 0; x < width; x++) {
         const intVal = level.floorGrid[y * width + x];
-        
+
         if (intVal === INT.EMPTY) {
           row.push(0); // Empty tile
         } else if (intVal === INT.WALL) {
@@ -680,7 +684,7 @@ export class WorldScene extends Scene {
 
     // Add tileset image - prefer SCOTUS tiles, fall back to LPC floors
     // For dynamic tilemaps, pass (tilesetName, textureKey) - both must match what Phaser has loaded
-    let tileset = this.textures.exists('scotus_tiles') 
+    let tileset = this.textures.exists('scotus_tiles')
       ? map.addTilesetImage('scotus_tiles', 'scotus_tiles')
       : null;
     if (!tileset && this.textures.exists('floor_tiles')) {
@@ -890,7 +894,8 @@ export class WorldScene extends Scene {
       this.player.destroy();
     }
 
-    const spawn = this.levelData?.playerSpawn || { x: this.scale.width / 2, y: this.scale.height / 2 };
+    const spawn = this.resolveSpawnPoint();
+    this.pendingEntrySide = null;
 
     const spriteKey = this.resolvePlayerSpriteKey();
 
@@ -1131,7 +1136,9 @@ export class WorldScene extends Scene {
       case 'Door':
         const targetLevel = entity.properties?.targetLevel;
         if (targetLevel) {
-          this.scene.restart({ level: targetLevel });
+          const exitSide = this.levelData ? this.getDoorSide(entity, this.levelData) : null;
+          const entrySide = exitSide ? this.getOppositeDoorSide(exitSide) : null;
+          this.scene.restart({ level: targetLevel, entrySide: entrySide ?? undefined });
         }
         break;
     }
@@ -1480,6 +1487,108 @@ export class WorldScene extends Scene {
 
     // Update depth for Y-sorting
     this.player.setDepth(this.player.y);
+  }
+
+  private resolveSpawnPoint(): { x: number; y: number } {
+    const fallback = { x: this.scale.width / 2, y: this.scale.height / 2 };
+    const level = this.levelData;
+    if (!level) return fallback;
+
+    const entrySpawn = this.getEntrySpawnPoint(level);
+    if (entrySpawn) return entrySpawn;
+
+    return level.playerSpawn || fallback;
+  }
+
+  private getEntrySpawnPoint(level: LevelData): { x: number; y: number } | null {
+    const entrySide = this.pendingEntrySide;
+    if (!entrySide) return null;
+
+    const door = this.findDoorForSide(level, entrySide);
+    if (!door) return null;
+
+    const tileSize = level.tileSize || 32;
+    const offset = tileSize;
+    let x = door.x;
+    let y = door.y;
+
+    switch (entrySide) {
+      case 'north':
+        y += offset;
+        break;
+      case 'south':
+        y -= offset;
+        break;
+      case 'east':
+        x -= offset;
+        break;
+      case 'west':
+        x += offset;
+        break;
+    }
+
+    const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+    const padding = tileSize;
+    return {
+      x: clamp(x, padding, level.width - padding),
+      y: clamp(y, padding, level.height - padding)
+    };
+  }
+
+  private findDoorForSide(level: LevelData, side: DoorSide): EntityData | null {
+    const doors = level.entities.filter((entity) => entity.type === 'Door');
+    if (doors.length === 0) return null;
+
+    let bestDoor: EntityData | null = null;
+    let bestDistance = Number.POSITIVE_INFINITY;
+
+    for (const door of doors) {
+      if (this.getDoorSide(door, level) !== side) continue;
+      const distance = this.getEdgeDistance(door, level, side);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        bestDoor = door;
+      }
+    }
+
+    return bestDoor;
+  }
+
+  private getDoorSide(entity: EntityData, level: LevelData): DoorSide {
+    const distances: Record<DoorSide, number> = {
+      north: entity.y,
+      south: level.height - entity.y,
+      west: entity.x,
+      east: level.width - entity.x
+    };
+
+    return (Object.entries(distances) as Array<[DoorSide, number]>).sort((a, b) => a[1] - b[1])[0][0];
+  }
+
+  private getEdgeDistance(entity: EntityData, level: LevelData, side: DoorSide): number {
+    switch (side) {
+      case 'north':
+        return entity.y;
+      case 'south':
+        return level.height - entity.y;
+      case 'west':
+        return entity.x;
+      case 'east':
+        return level.width - entity.x;
+    }
+  }
+
+  private getOppositeDoorSide(side: DoorSide): DoorSide {
+    switch (side) {
+      case 'north':
+        return 'south';
+      case 'south':
+        return 'north';
+      case 'east':
+        return 'west';
+      case 'west':
+        return 'east';
+    }
   }
 
   private getAnimDirection(dx: number, dy: number): string {

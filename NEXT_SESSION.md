@@ -27,6 +27,22 @@
 
 ---
 
+## 2. Recent Changes: Door Entry Spawn Fix (January 16, 2026)
+
+### What Was Done
+
+- Door transitions now pass the entry side (derived from the exit door’s position), and the destination room spawns Kim near the matching door side with an inward offset.
+- If no door matches the entry side, fallback uses the room’s default spawn.
+
+### How to Use
+
+- No content changes required; door transitions now place Kim at the correct door automatically.
+- Door placement must remain near room edges for side detection to be accurate.
+
+### Invariants/Hazards
+
+- Rooms with interior (non-edge) doors may map to the nearest edge side; keep doors on edges for deterministic entry placement.
+
 ## 2. Recent Changes: Object Tile Regen to tmp (January 16, 2026)
 
 ### What Was Done
