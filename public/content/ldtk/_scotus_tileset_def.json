@@ -1,0 +1,2618 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-01-16T23:22:14.268Z",
+  "tileSize": 32,
+  "stats": {
+    "total": 230,
+    "available": 230,
+    "missing": 0,
+    "categories": 10
+  },
+  "tilesetDef": {
+    "__cWid": 16,
+    "__cHei": 15,
+    "identifier": "SCOTUS_Tiles",
+    "uid": 54695,
+    "relPath": "../../../generated/tiles/_combined_tileset.png",
+    "embedAtlas": null,
+    "pxWid": 512,
+    "pxHei": 480,
+    "tileGridSize": 32,
+    "spacing": 0,
+    "padding": 0,
+    "tags": [
+      "scotus",
+      "interior",
+      "courthouse"
+    ],
+    "tagsSourceEnumUid": null,
+    "enumTags": [
+      {
+        "enumValueId": "floor",
+        "tileIds": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ]
+      },
+      {
+        "enumValueId": "wall",
+        "tileIds": [
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27
+        ]
+      },
+      {
+        "enumValueId": "trim",
+        "tileIds": [
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49
+        ]
+      },
+      {
+        "enumValueId": "door",
+        "tileIds": [
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56
+        ]
+      },
+      {
+        "enumValueId": "column",
+        "tileIds": [
+          57,
+          58,
+          59
+        ]
+      },
+      {
+        "enumValueId": "steps",
+        "tileIds": [
+          60,
+          61,
+          62,
+          63,
+          64
+        ]
+      },
+      {
+        "enumValueId": "ground",
+        "tileIds": [
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74
+        ]
+      },
+      {
+        "enumValueId": "rug",
+        "tileIds": [
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84
+        ]
+      },
+      {
+        "enumValueId": "object",
+        "tileIds": [
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211
+        ]
+      },
+      {
+        "enumValueId": "decal",
+        "tileIds": [
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229
+        ]
+      }
+    ],
+    "customData": [
+      {
+        "tileId": 0,
+        "data": "{\"id\":\"tile.floor.cafeteria_tile_base\",\"autotile\":true,\"subcategory\":\"tile\",\"description\":\"Light checker or speckle; variants don't create visible seams\"}"
+      },
+      {
+        "tileId": 1,
+        "data": "{\"id\":\"tile.floor.chambers_carpet_base\",\"autotile\":true,\"subcategory\":\"carpet\",\"description\":\"Muted, professional carpet\"}"
+      },
+      {
+        "tileId": 2,
+        "data": "{\"id\":\"tile.floor.court_carpet_runner_base\",\"autotile\":true,\"subcategory\":\"carpet\",\"description\":\"Runner leading to the bench\"}"
+      },
+      {
+        "tileId": 3,
+        "data": "{\"id\":\"tile.floor.court_wood_base\",\"autotile\":true,\"subcategory\":\"wood\",\"description\":\"Warm wood planks; plank seams every ~6-8px; 2-3 shade steps\"}"
+      },
+      {
+        "tileId": 4,
+        "data": "{\"id\":\"tile.floor.hall_marble_base\",\"autotile\":true,\"subcategory\":\"marble\",\"description\":\"Cleaner than lobby; fewer motifs\"}"
+      },
+      {
+        "tileId": 5,
+        "data": "{\"id\":\"tile.floor.library_rug_base\",\"autotile\":true,\"subcategory\":\"rug\",\"description\":\"Scholar vibe but playful green rug\"}"
+      },
+      {
+        "tileId": 6,
+        "data": "{\"id\":\"tile.floor.library_wood_base\",\"autotile\":true,\"subcategory\":\"wood\",\"description\":\"Slightly richer than courtroom wood\"}"
+      },
+      {
+        "tileId": 7,
+        "data": "{\"id\":\"tile.floor.lobby_mosaic_base\",\"autotile\":false,\"subcategory\":\"mosaic\",\"description\":\"Marble mosaic medallion feel; subtle center motif\"}"
+      },
+      {
+        "tileId": 8,
+        "data": "{\"id\":\"tile.floor.marble.black_inset_base\",\"autotile\":true,\"subcategory\":\"marble\",\"description\":\"Dark marble for borders/inlays; readable but not solid black\"}"
+      },
+      {
+        "tileId": 9,
+        "data": "{\"id\":\"tile.floor.marble.white_base\",\"autotile\":true,\"subcategory\":\"marble\",\"description\":\"Off-white marble with subtle gray veining; 2-3px clusters, low-contrast veining\"}"
+      },
+      {
+        "tileId": 10,
+        "data": "{\"id\":\"tile.floor.marble.white_crack_hairline\",\"autotile\":false,\"subcategory\":\"marble\",\"description\":\"Subtle single hairline crack (2-4px wide), tiles cleanly\"}"
+      },
+      {
+        "tileId": 11,
+        "data": "{\"id\":\"tile.floor.marble.white_variantA\",\"autotile\":false,\"subcategory\":\"marble\",\"description\":\"Variant A - different vein paths\"}"
+      },
+      {
+        "tileId": 12,
+        "data": "{\"id\":\"tile.floor.marble.white_variantB\",\"autotile\":false,\"subcategory\":\"marble\",\"description\":\"Variant B - different vein paths\"}"
+      },
+      {
+        "tileId": 13,
+        "data": "{\"id\":\"tile.floor.marble.white_variantC\",\"autotile\":false,\"subcategory\":\"marble\",\"description\":\"Variant C - different vein paths\"}"
+      },
+      {
+        "tileId": 14,
+        "data": "{\"id\":\"tile.floor.press_carpet_base\",\"autotile\":true,\"subcategory\":\"carpet\",\"description\":\"Darker carpet to contrast equipment; subtle pattern\"}"
+      },
+      {
+        "tileId": 15,
+        "data": "{\"id\":\"tile.floor.robing_rug_base\",\"autotile\":true,\"subcategory\":\"rug\",\"description\":\"Small muted rug\"}"
+      },
+      {
+        "tileId": 16,
+        "data": "{\"id\":\"tile.floor.vault_stone_base\",\"autotile\":true,\"subcategory\":\"stone\",\"description\":\"Cooler grays; fewer details\"}"
+      },
+      {
+        "tileId": 17,
+        "data": "{\"id\":\"tile.wall.interior_stone_corner_inner\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Interior stone wall inner corner\"}"
+      },
+      {
+        "tileId": 18,
+        "data": "{\"id\":\"tile.wall.interior_stone_corner_outer\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Interior stone wall outer corner\"}"
+      },
+      {
+        "tileId": 19,
+        "data": "{\"id\":\"tile.wall.interior_stone_endcap\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Interior stone wall endcap\"}"
+      },
+      {
+        "tileId": 20,
+        "data": "{\"id\":\"tile.wall.interior_stone_straight\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Interior stone wall - top face + tiny vertical lip, top-down wallcap style\"}"
+      },
+      {
+        "tileId": 21,
+        "data": "{\"id\":\"tile.wall.interior_woodpanel_corner_inner\",\"autotile\":false,\"subcategory\":\"wood\",\"description\":\"Wood panel wall inner corner\"}"
+      },
+      {
+        "tileId": 22,
+        "data": "{\"id\":\"tile.wall.interior_woodpanel_corner_outer\",\"autotile\":false,\"subcategory\":\"wood\",\"description\":\"Wood panel wall outer corner\"}"
+      },
+      {
+        "tileId": 23,
+        "data": "{\"id\":\"tile.wall.interior_woodpanel_endcap\",\"autotile\":false,\"subcategory\":\"wood\",\"description\":\"Wood panel wall endcap\"}"
+      },
+      {
+        "tileId": 24,
+        "data": "{\"id\":\"tile.wall.interior_woodpanel_straight\",\"autotile\":false,\"subcategory\":\"wood\",\"description\":\"Wood panel wall - subtle vertical grain, no hard AA\"}"
+      },
+      {
+        "tileId": 25,
+        "data": "{\"id\":\"tile.wall.vault_reinforced_corner\",\"autotile\":false,\"subcategory\":\"vault\",\"description\":\"Vault wall corner\"}"
+      },
+      {
+        "tileId": 26,
+        "data": "{\"id\":\"tile.wall.vault_reinforced_endcap\",\"autotile\":false,\"subcategory\":\"vault\",\"description\":\"Vault wall endcap\"}"
+      },
+      {
+        "tileId": 27,
+        "data": "{\"id\":\"tile.wall.vault_reinforced_straight\",\"autotile\":false,\"subcategory\":\"vault\",\"description\":\"Vault wall with rivet clusters aligned to tile edges\"}"
+      },
+      {
+        "tileId": 28,
+        "data": "{\"id\":\"tile.trim.cafeteria_baseboard_wallcap\",\"autotile\":false,\"subcategory\":\"baseboard\",\"description\":\"Simple baseboard/trim along walls\"}"
+      },
+      {
+        "tileId": 29,
+        "data": "{\"id\":\"tile.trim.hall_runner_border_edge_N\",\"autotile\":false,\"subcategory\":\"runner\",\"description\":\"Narrow runner carpet border edge North\"}"
+      },
+      {
+        "tileId": 30,
+        "data": "{\"id\":\"tile.trim.lobby_mosaic_border_corner_NE\",\"autotile\":false,\"subcategory\":\"mosaic\",\"description\":\"Lobby mosaic border corner NE\"}"
+      },
+      {
+        "tileId": 31,
+        "data": "{\"id\":\"tile.trim.lobby_mosaic_border_edge_N\",\"autotile\":false,\"subcategory\":\"mosaic\",\"description\":\"Lobby mosaic border edge North\"}"
+      },
+      {
+        "tileId": 32,
+        "data": "{\"id\":\"tile.trim.stone_cross\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim cross intersection\"}"
+      },
+      {
+        "tileId": 33,
+        "data": "{\"id\":\"tile.trim.stone_edge_E\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim edge facing East\"}"
+      },
+      {
+        "tileId": 34,
+        "data": "{\"id\":\"tile.trim.stone_edge_N\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim edge facing North; 1-2px highlight on top\"}"
+      },
+      {
+        "tileId": 35,
+        "data": "{\"id\":\"tile.trim.stone_edge_S\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim edge facing South\"}"
+      },
+      {
+        "tileId": 36,
+        "data": "{\"id\":\"tile.trim.stone_edge_W\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim edge facing West\"}"
+      },
+      {
+        "tileId": 37,
+        "data": "{\"id\":\"tile.trim.stone_inner_corner_NE\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim inner corner NE\"}"
+      },
+      {
+        "tileId": 38,
+        "data": "{\"id\":\"tile.trim.stone_inner_corner_NW\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim inner corner NW\"}"
+      },
+      {
+        "tileId": 39,
+        "data": "{\"id\":\"tile.trim.stone_inner_corner_SE\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim inner corner SE\"}"
+      },
+      {
+        "tileId": 40,
+        "data": "{\"id\":\"tile.trim.stone_inner_corner_SW\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim inner corner SW\"}"
+      },
+      {
+        "tileId": 41,
+        "data": "{\"id\":\"tile.trim.stone_outer_corner_NE\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim outer corner NE\"}"
+      },
+      {
+        "tileId": 42,
+        "data": "{\"id\":\"tile.trim.stone_outer_corner_NW\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim outer corner NW\"}"
+      },
+      {
+        "tileId": 43,
+        "data": "{\"id\":\"tile.trim.stone_outer_corner_SE\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim outer corner SE\"}"
+      },
+      {
+        "tileId": 44,
+        "data": "{\"id\":\"tile.trim.stone_outer_corner_SW\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim outer corner SW\"}"
+      },
+      {
+        "tileId": 45,
+        "data": "{\"id\":\"tile.trim.stone_t_junction_E\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim T-junction facing East\"}"
+      },
+      {
+        "tileId": 46,
+        "data": "{\"id\":\"tile.trim.stone_t_junction_N\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim T-junction facing North\"}"
+      },
+      {
+        "tileId": 47,
+        "data": "{\"id\":\"tile.trim.stone_t_junction_S\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim T-junction facing South\"}"
+      },
+      {
+        "tileId": 48,
+        "data": "{\"id\":\"tile.trim.stone_t_junction_W\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone trim T-junction facing West\"}"
+      },
+      {
+        "tileId": 49,
+        "data": "{\"id\":\"tile.trim.wood_border_edge_N\",\"autotile\":false,\"subcategory\":\"wood\",\"description\":\"Wood border edge North for dais/seating\"}"
+      },
+      {
+        "tileId": 50,
+        "data": "{\"id\":\"tile.door.archway_open_stone\",\"autotile\":false,\"subcategory\":\"stone\",\"description\":\"Stone archway - grand hall/lobby transitions\"}"
+      },
+      {
+        "tileId": 51,
+        "data": "{\"id\":\"tile.door.double_wood_closed\",\"autotile\":false,\"subcategory\":\"wood\",\"description\":\"Double wood door closed - top-down threshold + door top edge, brass kickplate hint\"}"
+      },
+      {
+        "tileId": 52,
+        "data": "{\"id\":\"tile.door.double_wood_open\",\"autotile\":false,\"subcategory\":\"wood\",\"description\":\"Double wood door open - dark void + jamb shading, walkable\"}"
+      },
+      {
+        "tileId": 53,
+        "data": "{\"id\":\"tile.door.single_wood_closed\",\"autotile\":false,\"subcategory\":\"wood\",\"description\":\"Single wood door closed\"}"
+      },
+      {
+        "tileId": 54,
+        "data": "{\"id\":\"tile.door.single_wood_open\",\"autotile\":false,\"subcategory\":\"wood\",\"description\":\"Single wood door open\"}"
+      },
+      {
+        "tileId": 55,
+        "data": "{\"id\":\"tile.door.vault_round_closed\",\"autotile\":false,\"subcategory\":\"vault\",\"description\":\"Big round vault door from top-down; simplified wheel spokes\"}"
+      },
+      {
+        "tileId": 56,
+        "data": "{\"id\":\"tile.door.vault_round_open\",\"autotile\":false,\"subcategory\":\"vault\",\"description\":\"Vault door open - dark opening + door edge\"}"
+      },
+      {
+        "tileId": 57,
+        "data": "{\"id\":\"tile.column.round_base\",\"autotile\":false,\"subcategory\":\"round\",\"description\":\"Column base\"}"
+      },
+      {
+        "tileId": 58,
+        "data": "{\"id\":\"tile.column.round_mid\",\"autotile\":false,\"subcategory\":\"round\",\"description\":\"Column shaft middle segment\"}"
+      },
+      {
+        "tileId": 59,
+        "data": "{\"id\":\"tile.column.round_top\",\"autotile\":false,\"subcategory\":\"round\",\"description\":\"Column capital - 2-3 shade steps for depth, not fat\"}"
+      },
+      {
+        "tileId": 60,
+        "data": "{\"id\":\"tile.steps.granite_corner\",\"autotile\":false,\"subcategory\":\"granite\",\"description\":\"Exterior granite step corner\"}"
+      },
+      {
+        "tileId": 61,
+        "data": "{\"id\":\"tile.steps.granite_landing\",\"autotile\":false,\"subcategory\":\"granite\",\"description\":\"Exterior granite landing\"}"
+      },
+      {
+        "tileId": 62,
+        "data": "{\"id\":\"tile.steps.granite_up\",\"autotile\":false,\"subcategory\":\"granite\",\"description\":\"Exterior granite step up\"}"
+      },
+      {
+        "tileId": 63,
+        "data": "{\"id\":\"tile.steps.marble_landing\",\"autotile\":false,\"subcategory\":\"marble\",\"description\":\"Flat landing tile that blends to floor\"}"
+      },
+      {
+        "tileId": 64,
+        "data": "{\"id\":\"tile.steps.marble_up\",\"autotile\":false,\"subcategory\":\"marble\",\"description\":\"Marble step with lip - consistent 'up direction' shading\"}"
+      },
+      {
+        "tileId": 65,
+        "data": "{\"id\":\"tile.ground.grass_base\",\"autotile\":true,\"subcategory\":\"grass\",\"description\":\"Cluster shading; avoid noisy dithering\"}"
+      },
+      {
+        "tileId": 66,
+        "data": "{\"id\":\"tile.ground.grass_edge_to_sidewalk_E\",\"autotile\":false,\"subcategory\":\"grass\",\"description\":\"Grass edge blending to sidewalk East\"}"
+      },
+      {
+        "tileId": 67,
+        "data": "{\"id\":\"tile.ground.grass_edge_to_sidewalk_N\",\"autotile\":false,\"subcategory\":\"grass\",\"description\":\"Grass edge blending to sidewalk North\"}"
+      },
+      {
+        "tileId": 68,
+        "data": "{\"id\":\"tile.ground.grass_edge_to_sidewalk_S\",\"autotile\":false,\"subcategory\":\"grass\",\"description\":\"Grass edge blending to sidewalk South\"}"
+      },
+      {
+        "tileId": 69,
+        "data": "{\"id\":\"tile.ground.grass_edge_to_sidewalk_W\",\"autotile\":false,\"subcategory\":\"grass\",\"description\":\"Grass edge blending to sidewalk West\"}"
+      },
+      {
+        "tileId": 70,
+        "data": "{\"id\":\"tile.ground.sidewalk_corner\",\"autotile\":false,\"subcategory\":\"sidewalk\",\"description\":\"Sidewalk corner for path networks\"}"
+      },
+      {
+        "tileId": 71,
+        "data": "{\"id\":\"tile.ground.sidewalk_cross\",\"autotile\":false,\"subcategory\":\"sidewalk\",\"description\":\"Sidewalk cross intersection\"}"
+      },
+      {
+        "tileId": 72,
+        "data": "{\"id\":\"tile.ground.sidewalk_edge\",\"autotile\":false,\"subcategory\":\"sidewalk\",\"description\":\"Sidewalk edge\"}"
+      },
+      {
+        "tileId": 73,
+        "data": "{\"id\":\"tile.ground.sidewalk_stone_base\",\"autotile\":true,\"subcategory\":\"sidewalk\",\"description\":\"Slab seams aligned to tile edges\"}"
+      },
+      {
+        "tileId": 74,
+        "data": "{\"id\":\"tile.ground.sidewalk_t_junction\",\"autotile\":false,\"subcategory\":\"sidewalk\",\"description\":\"Sidewalk T-junction\"}"
+      },
+      {
+        "tileId": 75,
+        "data": "{\"id\":\"tile.rug.blue_base\",\"autotile\":true,\"subcategory\":\"blue\",\"description\":\"Blue rug for chambers/cafeteria committee room vibe\"}"
+      },
+      {
+        "tileId": 76,
+        "data": "{\"id\":\"tile.rug.red_base\",\"autotile\":true,\"subcategory\":\"red\",\"description\":\"Rich red rug with subtle Greek key/courthouse pattern, seamless\"}"
+      },
+      {
+        "tileId": 77,
+        "data": "{\"id\":\"tile.rug.red_border_corner_NE\",\"autotile\":false,\"subcategory\":\"red\",\"description\":\"Red rug border corner NE\"}"
+      },
+      {
+        "tileId": 78,
+        "data": "{\"id\":\"tile.rug.red_border_corner_NW\",\"autotile\":false,\"subcategory\":\"red\",\"description\":\"Red rug border corner NW\"}"
+      },
+      {
+        "tileId": 79,
+        "data": "{\"id\":\"tile.rug.red_border_corner_SE\",\"autotile\":false,\"subcategory\":\"red\",\"description\":\"Red rug border corner SE\"}"
+      },
+      {
+        "tileId": 80,
+        "data": "{\"id\":\"tile.rug.red_border_corner_SW\",\"autotile\":false,\"subcategory\":\"red\",\"description\":\"Red rug border corner SW\"}"
+      },
+      {
+        "tileId": 81,
+        "data": "{\"id\":\"tile.rug.red_border_edge_E\",\"autotile\":false,\"subcategory\":\"red\",\"description\":\"Red rug border edge East\"}"
+      },
+      {
+        "tileId": 82,
+        "data": "{\"id\":\"tile.rug.red_border_edge_N\",\"autotile\":false,\"subcategory\":\"red\",\"description\":\"Red rug border edge North\"}"
+      },
+      {
+        "tileId": 83,
+        "data": "{\"id\":\"tile.rug.red_border_edge_S\",\"autotile\":false,\"subcategory\":\"red\",\"description\":\"Red rug border edge South\"}"
+      },
+      {
+        "tileId": 84,
+        "data": "{\"id\":\"tile.rug.red_border_edge_W\",\"autotile\":false,\"subcategory\":\"red\",\"description\":\"Red rug border edge West\"}"
+      },
+      {
+        "tileId": 85,
+        "data": "{\"id\":\"tile.object.archive_box\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Cardboard box with lid; label area as 2-3px light rectangle\"}"
+      },
+      {
+        "tileId": 86,
+        "data": "{\"id\":\"tile.object.argument_clock\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Tiny clock prop - good for puzzles/timers\"}"
+      },
+      {
+        "tileId": 87,
+        "data": "{\"id\":\"tile.object.ball_paperweight\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Kavanaugh flavor: sports nod (simple circle)\"}"
+      },
+      {
+        "tileId": 88,
+        "data": "{\"id\":\"tile.object.bench_front_left\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Judicial bench front left - visible front paneling + top lip\"}"
+      },
+      {
+        "tileId": 89,
+        "data": "{\"id\":\"tile.object.bench_front_mid\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Judicial bench front middle\"}"
+      },
+      {
+        "tileId": 90,
+        "data": "{\"id\":\"tile.object.bench_front_right\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Judicial bench front right\"}"
+      },
+      {
+        "tileId": 91,
+        "data": "{\"id\":\"tile.object.bench_marble_left\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Marble bench left segment (3 tiles wide total)\"}"
+      },
+      {
+        "tileId": 92,
+        "data": "{\"id\":\"tile.object.bench_marble_mid\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Marble bench middle segment\"}"
+      },
+      {
+        "tileId": 93,
+        "data": "{\"id\":\"tile.object.bench_marble_right\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Marble bench right segment\"}"
+      },
+      {
+        "tileId": 94,
+        "data": "{\"id\":\"tile.object.bench_park_left\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Park bench left segment\"}"
+      },
+      {
+        "tileId": 95,
+        "data": "{\"id\":\"tile.object.bench_park_mid\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Park bench middle\"}"
+      },
+      {
+        "tileId": 96,
+        "data": "{\"id\":\"tile.object.bench_park_right\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Park bench right\"}"
+      },
+      {
+        "tileId": 97,
+        "data": "{\"id\":\"tile.object.bench_steps_left\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Dais access steps left\"}"
+      },
+      {
+        "tileId": 98,
+        "data": "{\"id\":\"tile.object.bench_steps_right\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Dais access steps right\"}"
+      },
+      {
+        "tileId": 99,
+        "data": "{\"id\":\"tile.object.bench_top_left\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Judicial bench top left - tiny black mic dots\"}"
+      },
+      {
+        "tileId": 100,
+        "data": "{\"id\":\"tile.object.bench_top_mid\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Judicial bench top middle with gavel spot\"}"
+      },
+      {
+        "tileId": 101,
+        "data": "{\"id\":\"tile.object.bench_top_right\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Judicial bench top right\"}"
+      },
+      {
+        "tileId": 102,
+        "data": "{\"id\":\"tile.object.bench_wood_left\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Wood bench left segment\"}"
+      },
+      {
+        "tileId": 103,
+        "data": "{\"id\":\"tile.object.bench_wood_mid\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Wood bench middle\"}"
+      },
+      {
+        "tileId": 104,
+        "data": "{\"id\":\"tile.object.bench_wood_right\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Wood bench right\"}"
+      },
+      {
+        "tileId": 105,
+        "data": "{\"id\":\"tile.object.book_awards\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Sotomayor flavor: award books\"}"
+      },
+      {
+        "tileId": 106,
+        "data": "{\"id\":\"tile.object.book_stack_flashcards_hidden\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Study contraband pile\"}"
+      },
+      {
+        "tileId": 107,
+        "data": "{\"id\":\"tile.object.bookcase_base\",\"autotile\":false,\"subcategory\":\"bookcase\",\"description\":\"Bookcase base with shadow/feet\"}"
+      },
+      {
+        "tileId": 108,
+        "data": "{\"id\":\"tile.object.bookcase_books_variantA\",\"autotile\":false,\"subcategory\":\"bookcase\",\"description\":\"Book spine variant A - prevent repetition\"}"
+      },
+      {
+        "tileId": 109,
+        "data": "{\"id\":\"tile.object.bookcase_books_variantB\",\"autotile\":false,\"subcategory\":\"bookcase\",\"description\":\"Book spine variant B\"}"
+      },
+      {
+        "tileId": 110,
+        "data": "{\"id\":\"tile.object.bookcase_books_variantC\",\"autotile\":false,\"subcategory\":\"bookcase\",\"description\":\"Book spine variant C\"}"
+      },
+      {
+        "tileId": 111,
+        "data": "{\"id\":\"tile.object.bookcase_corner_inner\",\"autotile\":false,\"subcategory\":\"bookcase\",\"description\":\"Bookcase inner corner for wall turns\"}"
+      },
+      {
+        "tileId": 112,
+        "data": "{\"id\":\"tile.object.bookcase_corner_outer\",\"autotile\":false,\"subcategory\":\"bookcase\",\"description\":\"Bookcase outer corner\"}"
+      },
+      {
+        "tileId": 113,
+        "data": "{\"id\":\"tile.object.bookcase_endcap_left\",\"autotile\":false,\"subcategory\":\"bookcase\",\"description\":\"Bookcase left endcap\"}"
+      },
+      {
+        "tileId": 114,
+        "data": "{\"id\":\"tile.object.bookcase_endcap_right\",\"autotile\":false,\"subcategory\":\"bookcase\",\"description\":\"Bookcase right endcap\"}"
+      },
+      {
+        "tileId": 115,
+        "data": "{\"id\":\"tile.object.bookcase_mid\",\"autotile\":false,\"subcategory\":\"bookcase\",\"description\":\"Bookcase middle with books\"}"
+      },
+      {
+        "tileId": 116,
+        "data": "{\"id\":\"tile.object.bookcase_top\",\"autotile\":false,\"subcategory\":\"bookcase\",\"description\":\"Bookcase top with visible lip\"}"
+      },
+      {
+        "tileId": 117,
+        "data": "{\"id\":\"tile.object.bookshelf_small\",\"autotile\":false,\"subcategory\":\"bookcase\",\"description\":\"Different from library: fewer books, more folders\"}"
+      },
+      {
+        "tileId": 118,
+        "data": "{\"id\":\"tile.object.booth_left\",\"autotile\":false,\"subcategory\":\"booth\",\"description\":\"Booth left - back + seat implied\"}"
+      },
+      {
+        "tileId": 119,
+        "data": "{\"id\":\"tile.object.booth_mid\",\"autotile\":false,\"subcategory\":\"booth\",\"description\":\"Booth middle\"}"
+      },
+      {
+        "tileId": 120,
+        "data": "{\"id\":\"tile.object.booth_right\",\"autotile\":false,\"subcategory\":\"booth\",\"description\":\"Booth right\"}"
+      },
+      {
+        "tileId": 121,
+        "data": "{\"id\":\"tile.object.boots_corner\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Gorsuch flavor: outdoorsy nod\"}"
+      },
+      {
+        "tileId": 122,
+        "data": "{\"id\":\"tile.object.cable_coil\",\"autotile\":false,\"subcategory\":\"equipment\",\"description\":\"Cable loops - standalone prop\"}"
+      },
+      {
+        "tileId": 123,
+        "data": "{\"id\":\"tile.object.calendar_doodle\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Barrett flavor: calendar with doodles\"}"
+      },
+      {
+        "tileId": 124,
+        "data": "{\"id\":\"tile.object.camera_spotlight\",\"autotile\":false,\"subcategory\":\"equipment\",\"description\":\"Light head with bright face; limited highlight, no glow blur\"}"
+      },
+      {
+        "tileId": 125,
+        "data": "{\"id\":\"tile.object.camera_tripod\",\"autotile\":false,\"subcategory\":\"equipment\",\"description\":\"Tripod legs triangular footprint; camera as small box\"}"
+      },
+      {
+        "tileId": 126,
+        "data": "{\"id\":\"tile.object.chair_cafe\",\"autotile\":false,\"subcategory\":\"chair\",\"description\":\"Cafeteria chair\"}"
+      },
+      {
+        "tileId": 127,
+        "data": "{\"id\":\"tile.object.chair_north\",\"autotile\":false,\"subcategory\":\"chair\",\"description\":\"Top-down chair facing north\"}"
+      },
+      {
+        "tileId": 128,
+        "data": "{\"id\":\"tile.object.chair_south\",\"autotile\":false,\"subcategory\":\"chair\",\"description\":\"Top-down chair facing south\"}"
+      },
+      {
+        "tileId": 129,
+        "data": "{\"id\":\"tile.object.children_book\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Jackson flavor: approachable\"}"
+      },
+      {
+        "tileId": 130,
+        "data": "{\"id\":\"tile.object.coat_rack\",\"autotile\":false,\"subcategory\":\"furniture\",\"description\":\"Coat rack with hooks + 1 hanging robe silhouette\"}"
+      },
+      {
+        "tileId": 131,
+        "data": "{\"id\":\"tile.object.coffee_urn\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Strict Scrutiny Roast label\"}"
+      },
+      {
+        "tileId": 132,
+        "data": "{\"id\":\"tile.object.color_coded_tabs\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Barrett flavor: organized\"}"
+      },
+      {
+        "tileId": 133,
+        "data": "{\"id\":\"tile.object.column_exterior_base\",\"autotile\":false,\"subcategory\":\"column\",\"description\":\"Exterior column base\"}"
+      },
+      {
+        "tileId": 134,
+        "data": "{\"id\":\"tile.object.column_exterior_mid\",\"autotile\":false,\"subcategory\":\"column\",\"description\":\"Exterior column middle\"}"
+      },
+      {
+        "tileId": 135,
+        "data": "{\"id\":\"tile.object.column_exterior_top\",\"autotile\":false,\"subcategory\":\"column\",\"description\":\"Exterior column top - cooler palette than interior\"}"
+      },
+      {
+        "tileId": 136,
+        "data": "{\"id\":\"tile.object.counsel_table_left\",\"autotile\":false,\"subcategory\":\"table\",\"description\":\"Counsel table left segment\"}"
+      },
+      {
+        "tileId": 137,
+        "data": "{\"id\":\"tile.object.counsel_table_mid\",\"autotile\":false,\"subcategory\":\"table\",\"description\":\"Counsel table middle segment\"}"
+      },
+      {
+        "tileId": 138,
+        "data": "{\"id\":\"tile.object.counsel_table_papers_variant\",\"autotile\":false,\"subcategory\":\"table\",\"description\":\"Counsel table with papers/books\"}"
+      },
+      {
+        "tileId": 139,
+        "data": "{\"id\":\"tile.object.counsel_table_right\",\"autotile\":false,\"subcategory\":\"table\",\"description\":\"Counsel table right segment\"}"
+      },
+      {
+        "tileId": 140,
+        "data": "{\"id\":\"tile.object.evidence_bag\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Tiny 'Exhibit A-ish' label\"}"
+      },
+      {
+        "tileId": 141,
+        "data": "{\"id\":\"tile.object.family_photo_cluster\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Sotomayor flavor: warm accents\"}"
+      },
+      {
+        "tileId": 142,
+        "data": "{\"id\":\"tile.object.file_cabinet\",\"autotile\":false,\"subcategory\":\"furniture\",\"description\":\"Metal file cabinet\"}"
+      },
+      {
+        "tileId": 143,
+        "data": "{\"id\":\"tile.object.file_cart\",\"autotile\":false,\"subcategory\":\"furniture\",\"description\":\"Small rolling cart silhouette\"}"
+      },
+      {
+        "tileId": 144,
+        "data": "{\"id\":\"tile.object.flagpole_base\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Flagpole base - pole implied extending up\"}"
+      },
+      {
+        "tileId": 145,
+        "data": "{\"id\":\"tile.object.gallery_bench_left\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Gallery bench left - subtle wear\"}"
+      },
+      {
+        "tileId": 146,
+        "data": "{\"id\":\"tile.object.gallery_bench_mid\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Gallery bench middle\"}"
+      },
+      {
+        "tileId": 147,
+        "data": "{\"id\":\"tile.object.gallery_bench_right\",\"autotile\":false,\"subcategory\":\"bench\",\"description\":\"Gallery bench right\"}"
+      },
+      {
+        "tileId": 148,
+        "data": "{\"id\":\"tile.object.gavel_on_block\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Single tile gavel prop\"}"
+      },
+      {
+        "tileId": 149,
+        "data": "{\"id\":\"tile.object.information_desk_center\",\"autotile\":false,\"subcategory\":\"desk\",\"description\":\"Information desk center\"}"
+      },
+      {
+        "tileId": 150,
+        "data": "{\"id\":\"tile.object.information_desk_corner\",\"autotile\":false,\"subcategory\":\"desk\",\"description\":\"Information desk corner with papers (2-3px clusters)\"}"
+      },
+      {
+        "tileId": 151,
+        "data": "{\"id\":\"tile.object.information_desk_edge\",\"autotile\":false,\"subcategory\":\"desk\",\"description\":\"Information desk edge\"}"
+      },
+      {
+        "tileId": 152,
+        "data": "{\"id\":\"tile.object.lamp_table\",\"autotile\":false,\"subcategory\":\"lighting\",\"description\":\"Tiny green banker's lamp classic\"}"
+      },
+      {
+        "tileId": 153,
+        "data": "{\"id\":\"tile.object.large_lamp\",\"autotile\":false,\"subcategory\":\"lighting\",\"description\":\"Alito flavor: heavier wood aesthetic\"}"
+      },
+      {
+        "tileId": 154,
+        "data": "{\"id\":\"tile.object.laundry_bin\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Satirical: 'Robe Integrity Unit' label\"}"
+      },
+      {
+        "tileId": 155,
+        "data": "{\"id\":\"tile.object.locker_bank_left\",\"autotile\":false,\"subcategory\":\"locker\",\"description\":\"Locker bank left for wider runs\"}"
+      },
+      {
+        "tileId": 156,
+        "data": "{\"id\":\"tile.object.locker_bank_mid\",\"autotile\":false,\"subcategory\":\"locker\",\"description\":\"Locker bank middle\"}"
+      },
+      {
+        "tileId": 157,
+        "data": "{\"id\":\"tile.object.locker_bank_right\",\"autotile\":false,\"subcategory\":\"locker\",\"description\":\"Locker bank right\"}"
+      },
+      {
+        "tileId": 158,
+        "data": "{\"id\":\"tile.object.locker_single\",\"autotile\":false,\"subcategory\":\"locker\",\"description\":\"Single metal locker from top-down; vent slits as 2-px dashes\"}"
+      },
+      {
+        "tileId": 159,
+        "data": "{\"id\":\"tile.object.menu_board\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Today's Special: Judicial Activism Nachos\"}"
+      },
+      {
+        "tileId": 160,
+        "data": "{\"id\":\"tile.object.microphone_stand\",\"autotile\":false,\"subcategory\":\"equipment\",\"description\":\"Stand base + mic head\"}"
+      },
+      {
+        "tileId": 161,
+        "data": "{\"id\":\"tile.object.mirror_vertical\",\"autotile\":false,\"subcategory\":\"furniture\",\"description\":\"Mirror tile: highlight edge, stylized sheen, no reflections\"}"
+      },
+      {
+        "tileId": 162,
+        "data": "{\"id\":\"tile.object.mug_custom\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Custom mug - text implied by 2-3px marks\"}"
+      },
+      {
+        "tileId": 163,
+        "data": "{\"id\":\"tile.object.neat_inbox\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Roberts flavor: tidy inbox\"}"
+      },
+      {
+        "tileId": 164,
+        "data": "{\"id\":\"tile.object.office_chair\",\"autotile\":false,\"subcategory\":\"chair\",\"description\":\"Executive office chair\"}"
+      },
+      {
+        "tileId": 165,
+        "data": "{\"id\":\"tile.object.office_desk_NE\",\"autotile\":false,\"subcategory\":\"desk\",\"description\":\"2x2 desk NE corner\"}"
+      },
+      {
+        "tileId": 166,
+        "data": "{\"id\":\"tile.object.office_desk_NW\",\"autotile\":false,\"subcategory\":\"desk\",\"description\":\"2x2 desk NW corner - top surface with blotter\"}"
+      },
+      {
+        "tileId": 167,
+        "data": "{\"id\":\"tile.object.office_desk_SE\",\"autotile\":false,\"subcategory\":\"desk\",\"description\":\"2x2 desk SE corner\"}"
+      },
+      {
+        "tileId": 168,
+        "data": "{\"id\":\"tile.object.office_desk_SW\",\"autotile\":false,\"subcategory\":\"desk\",\"description\":\"2x2 desk SW corner - front lip\"}"
+      },
+      {
+        "tileId": 169,
+        "data": "{\"id\":\"tile.object.old_book_rare\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Thomas flavor: sparse archival\"}"
+      },
+      {
+        "tileId": 170,
+        "data": "{\"id\":\"tile.object.pillar_plaque\",\"autotile\":false,\"subcategory\":\"plaque\",\"description\":\"Plaque tile for exhibits - swappable\"}"
+      },
+      {
+        "tileId": 171,
+        "data": "{\"id\":\"tile.object.plant_office\",\"autotile\":false,\"subcategory\":\"plant\",\"description\":\"Office plant in pot\"}"
+      },
+      {
+        "tileId": 172,
+        "data": "{\"id\":\"tile.object.podium\",\"autotile\":false,\"subcategory\":\"furniture\",\"description\":\"1x1 podium; add emblem decal separately\"}"
+      },
+      {
+        "tileId": 173,
+        "data": "{\"id\":\"tile.object.postit_cluster\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Jackson flavor: post-it notes cluster\"}"
+      },
+      {
+        "tileId": 174,
+        "data": "{\"id\":\"tile.object.potted_plant_round\",\"autotile\":false,\"subcategory\":\"plant\",\"description\":\"Classic LPC prop - playful 'constitution fern'\"}"
+      },
+      {
+        "tileId": 175,
+        "data": "{\"id\":\"tile.object.reading_chair\",\"autotile\":false,\"subcategory\":\"chair\",\"description\":\"Library reading chair with green cushion\"}"
+      },
+      {
+        "tileId": 176,
+        "data": "{\"id\":\"tile.object.reading_table_NE\",\"autotile\":false,\"subcategory\":\"table\",\"description\":\"Reading table 2x2 NE corner\"}"
+      },
+      {
+        "tileId": 177,
+        "data": "{\"id\":\"tile.object.reading_table_NW\",\"autotile\":false,\"subcategory\":\"table\",\"description\":\"Reading table 2x2 NW corner - consistent wood grain\"}"
+      },
+      {
+        "tileId": 178,
+        "data": "{\"id\":\"tile.object.reading_table_SE\",\"autotile\":false,\"subcategory\":\"table\",\"description\":\"Reading table 2x2 SE corner\"}"
+      },
+      {
+        "tileId": 179,
+        "data": "{\"id\":\"tile.object.reading_table_SW\",\"autotile\":false,\"subcategory\":\"table\",\"description\":\"Reading table 2x2 SW corner\"}"
+      },
+      {
+        "tileId": 180,
+        "data": "{\"id\":\"tile.object.redacted_folder\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Folder with black redaction bars - funny and readable\"}"
+      },
+      {
+        "tileId": 181,
+        "data": "{\"id\":\"tile.object.rope_segment_corner\",\"autotile\":false,\"subcategory\":\"rope\",\"description\":\"Rope segment corner\"}"
+      },
+      {
+        "tileId": 182,
+        "data": "{\"id\":\"tile.object.rope_segment_horizontal\",\"autotile\":false,\"subcategory\":\"rope\",\"description\":\"Rope segment horizontal\"}"
+      },
+      {
+        "tileId": 183,
+        "data": "{\"id\":\"tile.object.rope_segment_vertical\",\"autotile\":false,\"subcategory\":\"rope\",\"description\":\"Rope segment vertical\"}"
+      },
+      {
+        "tileId": 184,
+        "data": "{\"id\":\"tile.object.rope_stanchion_single\",\"autotile\":false,\"subcategory\":\"rope\",\"description\":\"Brass post + red rope nub for queue lines\"}"
+      },
+      {
+        "tileId": 185,
+        "data": "{\"id\":\"tile.object.serving_counter_left\",\"autotile\":false,\"subcategory\":\"counter\",\"description\":\"Serving counter left with sneeze-guard highlight line\"}"
+      },
+      {
+        "tileId": 186,
+        "data": "{\"id\":\"tile.object.serving_counter_mid\",\"autotile\":false,\"subcategory\":\"counter\",\"description\":\"Serving counter middle\"}"
+      },
+      {
+        "tileId": 187,
+        "data": "{\"id\":\"tile.object.serving_counter_right\",\"autotile\":false,\"subcategory\":\"counter\",\"description\":\"Serving counter right\"}"
+      },
+      {
+        "tileId": 188,
+        "data": "{\"id\":\"tile.object.shelf_metal_base\",\"autotile\":false,\"subcategory\":\"shelf\",\"description\":\"Metal shelf base\"}"
+      },
+      {
+        "tileId": 189,
+        "data": "{\"id\":\"tile.object.shelf_metal_left_end\",\"autotile\":false,\"subcategory\":\"shelf\",\"description\":\"Metal shelf left terminator\"}"
+      },
+      {
+        "tileId": 190,
+        "data": "{\"id\":\"tile.object.shelf_metal_mid\",\"autotile\":false,\"subcategory\":\"shelf\",\"description\":\"Metal shelf middle\"}"
+      },
+      {
+        "tileId": 191,
+        "data": "{\"id\":\"tile.object.shelf_metal_right_end\",\"autotile\":false,\"subcategory\":\"shelf\",\"description\":\"Metal shelf right terminator\"}"
+      },
+      {
+        "tileId": 192,
+        "data": "{\"id\":\"tile.object.shelf_metal_top\",\"autotile\":false,\"subcategory\":\"shelf\",\"description\":\"Metal shelf top for stackable vertical shelves\"}"
+      },
+      {
+        "tileId": 193,
+        "data": "{\"id\":\"tile.object.shrub_round\",\"autotile\":false,\"subcategory\":\"plant\",\"description\":\"Round decorative shrub\"}"
+      },
+      {
+        "tileId": 194,
+        "data": "{\"id\":\"tile.object.side_table\",\"autotile\":false,\"subcategory\":\"furniture\",\"description\":\"Small side table\"}"
+      },
+      {
+        "tileId": 195,
+        "data": "{\"id\":\"tile.object.snack_stash\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Kagan flavor: playful chaos\"}"
+      },
+      {
+        "tileId": 196,
+        "data": "{\"id\":\"tile.object.stack_flashcards\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Index cards with colored tabs\"}"
+      },
+      {
+        "tileId": 197,
+        "data": "{\"id\":\"tile.object.stack_opinions\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Paper pile with colored tabs\"}"
+      },
+      {
+        "tileId": 198,
+        "data": "{\"id\":\"tile.object.statue_base\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Statue base for 2x2 statue assembly\"}"
+      },
+      {
+        "tileId": 199,
+        "data": "{\"id\":\"tile.object.statue_plinth_base\",\"autotile\":false,\"subcategory\":\"plinth\",\"description\":\"Statue plinth base\"}"
+      },
+      {
+        "tileId": 200,
+        "data": "{\"id\":\"tile.object.statue_plinth_mid\",\"autotile\":false,\"subcategory\":\"plinth\",\"description\":\"Statue plinth middle segment\"}"
+      },
+      {
+        "tileId": 201,
+        "data": "{\"id\":\"tile.object.statue_plinth_top\",\"autotile\":false,\"subcategory\":\"plinth\",\"description\":\"Statue plinth top for 1-tile-wide stacks\"}"
+      },
+      {
+        "tileId": 202,
+        "data": "{\"id\":\"tile.object.table_round_center\",\"autotile\":false,\"subcategory\":\"table\",\"description\":\"Round cafeteria table center\"}"
+      },
+      {
+        "tileId": 203,
+        "data": "{\"id\":\"tile.object.table_round_edge_variant\",\"autotile\":false,\"subcategory\":\"table\",\"description\":\"Round table edge variant\"}"
+      },
+      {
+        "tileId": 204,
+        "data": "{\"id\":\"tile.object.thick_casebook\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Alito flavor: thick legal tomes\"}"
+      },
+      {
+        "tileId": 205,
+        "data": "{\"id\":\"tile.object.trash_bin\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Trash bin - satire label optional\"}"
+      },
+      {
+        "tileId": 206,
+        "data": "{\"id\":\"tile.object.tray_stack\",\"autotile\":false,\"subcategory\":\"prop\",\"description\":\"Stack of cafeteria trays\"}"
+      },
+      {
+        "tileId": 207,
+        "data": "{\"id\":\"tile.object.tree_small_canopy\",\"autotile\":false,\"subcategory\":\"plant\",\"description\":\"LPC-style top-down tree canopy\"}"
+      },
+      {
+        "tileId": 208,
+        "data": "{\"id\":\"tile.object.vending_machine\",\"autotile\":false,\"subcategory\":\"furniture\",\"description\":\"Top-down simplified; bright label block\"}"
+      },
+      {
+        "tileId": 209,
+        "data": "{\"id\":\"tile.object.wall_sconce_left\",\"autotile\":false,\"subcategory\":\"lighting\",\"description\":\"Wall sconce left - soft glow implied by lighter halo pixels, no blur\"}"
+      },
+      {
+        "tileId": 210,
+        "data": "{\"id\":\"tile.object.wall_sconce_right\",\"autotile\":false,\"subcategory\":\"lighting\",\"description\":\"Wall sconce right\"}"
+      },
+      {
+        "tileId": 211,
+        "data": "{\"id\":\"tile.object.window_topdown\",\"autotile\":false,\"subcategory\":\"architecture\",\"description\":\"Window as floor decal near wall\"}"
+      },
+      {
+        "tileId": 212,
+        "data": "{\"id\":\"tile.decal.diploma_generic\",\"autotile\":false,\"subcategory\":\"decor\",\"description\":\"Generic diploma frame\"}"
+      },
+      {
+        "tileId": 213,
+        "data": "{\"id\":\"tile.decal.funny_quote_plaque\",\"autotile\":false,\"subcategory\":\"plaque\",\"description\":\"Kagan flavor: humor plaque\"}"
+      },
+      {
+        "tileId": 214,
+        "data": "{\"id\":\"tile.decal.map_dc\",\"autotile\":false,\"subcategory\":\"decor\",\"description\":\"Tiny gag: Jurisdiction of Vibes\"}"
+      },
+      {
+        "tileId": 215,
+        "data": "{\"id\":\"tile.decal.minimalist_wall\",\"autotile\":false,\"subcategory\":\"decor\",\"description\":\"Thomas flavor: minimalist\"}"
+      },
+      {
+        "tileId": 216,
+        "data": "{\"id\":\"tile.decal.nameplate_justice_generic\",\"autotile\":false,\"subcategory\":\"plaque\",\"description\":\"Simple plaque block for justice names\"}"
+      },
+      {
+        "tileId": 217,
+        "data": "{\"id\":\"tile.decal.photo_frame_generic\",\"autotile\":false,\"subcategory\":\"decor\",\"description\":\"Generic photo frame\"}"
+      },
+      {
+        "tileId": 218,
+        "data": "{\"id\":\"tile.decal.plaque_generic\",\"autotile\":false,\"subcategory\":\"plaque\",\"description\":\"Blank plaque - palette-swap per room\"}"
+      },
+      {
+        "tileId": 219,
+        "data": "{\"id\":\"tile.decal.rulebook_warning\",\"autotile\":false,\"subcategory\":\"sign\",\"description\":\"Tiny 'No grandstanding' gag\"}"
+      },
+      {
+        "tileId": 220,
+        "data": "{\"id\":\"tile.decal.rules_chart\",\"autotile\":false,\"subcategory\":\"decor\",\"description\":\"Roberts flavor: rules chart\"}"
+      },
+      {
+        "tileId": 221,
+        "data": "{\"id\":\"tile.decal.sign_flashcards_required\",\"autotile\":false,\"subcategory\":\"sign\",\"description\":\"Tiny card icon\"}"
+      },
+      {
+        "tileId": 222,
+        "data": "{\"id\":\"tile.decal.sign_hot_take_zone\",\"autotile\":false,\"subcategory\":\"sign\",\"description\":\"Press room humor sign\"}"
+      },
+      {
+        "tileId": 223,
+        "data": "{\"id\":\"tile.decal.sign_hours\",\"autotile\":false,\"subcategory\":\"sign\",\"description\":\"Open 9-5, Closed for Drama\"}"
+      },
+      {
+        "tileId": 224,
+        "data": "{\"id\":\"tile.decal.sign_no_cameras\",\"autotile\":false,\"subcategory\":\"sign\",\"description\":\"Satirical: tiny camera with X\"}"
+      },
+      {
+        "tileId": 225,
+        "data": "{\"id\":\"tile.decal.sign_no_filming_but_okay_flashcards\",\"autotile\":false,\"subcategory\":\"sign\",\"description\":\"Absurdist humor sign\"}"
+      },
+      {
+        "tileId": 226,
+        "data": "{\"id\":\"tile.decal.sign_no_loitering_except_clerks\",\"autotile\":false,\"subcategory\":\"sign\",\"description\":\"Exterior humor sign\"}"
+      },
+      {
+        "tileId": 227,
+        "data": "{\"id\":\"tile.decal.sign_off_the_record\",\"autotile\":false,\"subcategory\":\"sign\",\"description\":\"Press room humor sign\"}"
+      },
+      {
+        "tileId": 228,
+        "data": "{\"id\":\"tile.decal.sign_quiet_please\",\"autotile\":false,\"subcategory\":\"sign\",\"description\":\"Library quiet sign\"}"
+      },
+      {
+        "tileId": 229,
+        "data": "{\"id\":\"tile.decal.sign_shhh_or_else\",\"autotile\":false,\"subcategory\":\"sign\",\"description\":\"Cartoon gavel icon - library humor\"}"
+      }
+    ],
+    "savedSelections": [],
+    "cachedPixelData": null
+  },
+  "tileMapping": {
+    "tile.floor.cafeteria_tile_base": {
+      "tilesetUid": 54695,
+      "tileId": 0,
+      "x": 0,
+      "y": 0
+    },
+    "tile.floor.chambers_carpet_base": {
+      "tilesetUid": 54695,
+      "tileId": 1,
+      "x": 32,
+      "y": 0
+    },
+    "tile.floor.court_carpet_runner_base": {
+      "tilesetUid": 54695,
+      "tileId": 2,
+      "x": 64,
+      "y": 0
+    },
+    "tile.floor.court_wood_base": {
+      "tilesetUid": 54695,
+      "tileId": 3,
+      "x": 96,
+      "y": 0
+    },
+    "tile.floor.hall_marble_base": {
+      "tilesetUid": 54695,
+      "tileId": 4,
+      "x": 128,
+      "y": 0
+    },
+    "tile.floor.library_rug_base": {
+      "tilesetUid": 54695,
+      "tileId": 5,
+      "x": 160,
+      "y": 0
+    },
+    "tile.floor.library_wood_base": {
+      "tilesetUid": 54695,
+      "tileId": 6,
+      "x": 192,
+      "y": 0
+    },
+    "tile.floor.lobby_mosaic_base": {
+      "tilesetUid": 54695,
+      "tileId": 7,
+      "x": 224,
+      "y": 0
+    },
+    "tile.floor.marble.black_inset_base": {
+      "tilesetUid": 54695,
+      "tileId": 8,
+      "x": 256,
+      "y": 0
+    },
+    "tile.floor.marble.white_base": {
+      "tilesetUid": 54695,
+      "tileId": 9,
+      "x": 288,
+      "y": 0
+    },
+    "tile.floor.marble.white_crack_hairline": {
+      "tilesetUid": 54695,
+      "tileId": 10,
+      "x": 320,
+      "y": 0
+    },
+    "tile.floor.marble.white_variantA": {
+      "tilesetUid": 54695,
+      "tileId": 11,
+      "x": 352,
+      "y": 0
+    },
+    "tile.floor.marble.white_variantB": {
+      "tilesetUid": 54695,
+      "tileId": 12,
+      "x": 384,
+      "y": 0
+    },
+    "tile.floor.marble.white_variantC": {
+      "tilesetUid": 54695,
+      "tileId": 13,
+      "x": 416,
+      "y": 0
+    },
+    "tile.floor.press_carpet_base": {
+      "tilesetUid": 54695,
+      "tileId": 14,
+      "x": 448,
+      "y": 0
+    },
+    "tile.floor.robing_rug_base": {
+      "tilesetUid": 54695,
+      "tileId": 15,
+      "x": 480,
+      "y": 0
+    },
+    "tile.floor.vault_stone_base": {
+      "tilesetUid": 54695,
+      "tileId": 16,
+      "x": 0,
+      "y": 32
+    },
+    "tile.wall.interior_stone_corner_inner": {
+      "tilesetUid": 54695,
+      "tileId": 17,
+      "x": 32,
+      "y": 32
+    },
+    "tile.wall.interior_stone_corner_outer": {
+      "tilesetUid": 54695,
+      "tileId": 18,
+      "x": 64,
+      "y": 32
+    },
+    "tile.wall.interior_stone_endcap": {
+      "tilesetUid": 54695,
+      "tileId": 19,
+      "x": 96,
+      "y": 32
+    },
+    "tile.wall.interior_stone_straight": {
+      "tilesetUid": 54695,
+      "tileId": 20,
+      "x": 128,
+      "y": 32
+    },
+    "tile.wall.interior_woodpanel_corner_inner": {
+      "tilesetUid": 54695,
+      "tileId": 21,
+      "x": 160,
+      "y": 32
+    },
+    "tile.wall.interior_woodpanel_corner_outer": {
+      "tilesetUid": 54695,
+      "tileId": 22,
+      "x": 192,
+      "y": 32
+    },
+    "tile.wall.interior_woodpanel_endcap": {
+      "tilesetUid": 54695,
+      "tileId": 23,
+      "x": 224,
+      "y": 32
+    },
+    "tile.wall.interior_woodpanel_straight": {
+      "tilesetUid": 54695,
+      "tileId": 24,
+      "x": 256,
+      "y": 32
+    },
+    "tile.wall.vault_reinforced_corner": {
+      "tilesetUid": 54695,
+      "tileId": 25,
+      "x": 288,
+      "y": 32
+    },
+    "tile.wall.vault_reinforced_endcap": {
+      "tilesetUid": 54695,
+      "tileId": 26,
+      "x": 320,
+      "y": 32
+    },
+    "tile.wall.vault_reinforced_straight": {
+      "tilesetUid": 54695,
+      "tileId": 27,
+      "x": 352,
+      "y": 32
+    },
+    "tile.trim.cafeteria_baseboard_wallcap": {
+      "tilesetUid": 54695,
+      "tileId": 28,
+      "x": 384,
+      "y": 32
+    },
+    "tile.trim.hall_runner_border_edge_N": {
+      "tilesetUid": 54695,
+      "tileId": 29,
+      "x": 416,
+      "y": 32
+    },
+    "tile.trim.lobby_mosaic_border_corner_NE": {
+      "tilesetUid": 54695,
+      "tileId": 30,
+      "x": 448,
+      "y": 32
+    },
+    "tile.trim.lobby_mosaic_border_edge_N": {
+      "tilesetUid": 54695,
+      "tileId": 31,
+      "x": 480,
+      "y": 32
+    },
+    "tile.trim.stone_cross": {
+      "tilesetUid": 54695,
+      "tileId": 32,
+      "x": 0,
+      "y": 64
+    },
+    "tile.trim.stone_edge_E": {
+      "tilesetUid": 54695,
+      "tileId": 33,
+      "x": 32,
+      "y": 64
+    },
+    "tile.trim.stone_edge_N": {
+      "tilesetUid": 54695,
+      "tileId": 34,
+      "x": 64,
+      "y": 64
+    },
+    "tile.trim.stone_edge_S": {
+      "tilesetUid": 54695,
+      "tileId": 35,
+      "x": 96,
+      "y": 64
+    },
+    "tile.trim.stone_edge_W": {
+      "tilesetUid": 54695,
+      "tileId": 36,
+      "x": 128,
+      "y": 64
+    },
+    "tile.trim.stone_inner_corner_NE": {
+      "tilesetUid": 54695,
+      "tileId": 37,
+      "x": 160,
+      "y": 64
+    },
+    "tile.trim.stone_inner_corner_NW": {
+      "tilesetUid": 54695,
+      "tileId": 38,
+      "x": 192,
+      "y": 64
+    },
+    "tile.trim.stone_inner_corner_SE": {
+      "tilesetUid": 54695,
+      "tileId": 39,
+      "x": 224,
+      "y": 64
+    },
+    "tile.trim.stone_inner_corner_SW": {
+      "tilesetUid": 54695,
+      "tileId": 40,
+      "x": 256,
+      "y": 64
+    },
+    "tile.trim.stone_outer_corner_NE": {
+      "tilesetUid": 54695,
+      "tileId": 41,
+      "x": 288,
+      "y": 64
+    },
+    "tile.trim.stone_outer_corner_NW": {
+      "tilesetUid": 54695,
+      "tileId": 42,
+      "x": 320,
+      "y": 64
+    },
+    "tile.trim.stone_outer_corner_SE": {
+      "tilesetUid": 54695,
+      "tileId": 43,
+      "x": 352,
+      "y": 64
+    },
+    "tile.trim.stone_outer_corner_SW": {
+      "tilesetUid": 54695,
+      "tileId": 44,
+      "x": 384,
+      "y": 64
+    },
+    "tile.trim.stone_t_junction_E": {
+      "tilesetUid": 54695,
+      "tileId": 45,
+      "x": 416,
+      "y": 64
+    },
+    "tile.trim.stone_t_junction_N": {
+      "tilesetUid": 54695,
+      "tileId": 46,
+      "x": 448,
+      "y": 64
+    },
+    "tile.trim.stone_t_junction_S": {
+      "tilesetUid": 54695,
+      "tileId": 47,
+      "x": 480,
+      "y": 64
+    },
+    "tile.trim.stone_t_junction_W": {
+      "tilesetUid": 54695,
+      "tileId": 48,
+      "x": 0,
+      "y": 96
+    },
+    "tile.trim.wood_border_edge_N": {
+      "tilesetUid": 54695,
+      "tileId": 49,
+      "x": 32,
+      "y": 96
+    },
+    "tile.door.archway_open_stone": {
+      "tilesetUid": 54695,
+      "tileId": 50,
+      "x": 64,
+      "y": 96
+    },
+    "tile.door.double_wood_closed": {
+      "tilesetUid": 54695,
+      "tileId": 51,
+      "x": 96,
+      "y": 96
+    },
+    "tile.door.double_wood_open": {
+      "tilesetUid": 54695,
+      "tileId": 52,
+      "x": 128,
+      "y": 96
+    },
+    "tile.door.single_wood_closed": {
+      "tilesetUid": 54695,
+      "tileId": 53,
+      "x": 160,
+      "y": 96
+    },
+    "tile.door.single_wood_open": {
+      "tilesetUid": 54695,
+      "tileId": 54,
+      "x": 192,
+      "y": 96
+    },
+    "tile.door.vault_round_closed": {
+      "tilesetUid": 54695,
+      "tileId": 55,
+      "x": 224,
+      "y": 96
+    },
+    "tile.door.vault_round_open": {
+      "tilesetUid": 54695,
+      "tileId": 56,
+      "x": 256,
+      "y": 96
+    },
+    "tile.column.round_base": {
+      "tilesetUid": 54695,
+      "tileId": 57,
+      "x": 288,
+      "y": 96
+    },
+    "tile.column.round_mid": {
+      "tilesetUid": 54695,
+      "tileId": 58,
+      "x": 320,
+      "y": 96
+    },
+    "tile.column.round_top": {
+      "tilesetUid": 54695,
+      "tileId": 59,
+      "x": 352,
+      "y": 96
+    },
+    "tile.steps.granite_corner": {
+      "tilesetUid": 54695,
+      "tileId": 60,
+      "x": 384,
+      "y": 96
+    },
+    "tile.steps.granite_landing": {
+      "tilesetUid": 54695,
+      "tileId": 61,
+      "x": 416,
+      "y": 96
+    },
+    "tile.steps.granite_up": {
+      "tilesetUid": 54695,
+      "tileId": 62,
+      "x": 448,
+      "y": 96
+    },
+    "tile.steps.marble_landing": {
+      "tilesetUid": 54695,
+      "tileId": 63,
+      "x": 480,
+      "y": 96
+    },
+    "tile.steps.marble_up": {
+      "tilesetUid": 54695,
+      "tileId": 64,
+      "x": 0,
+      "y": 128
+    },
+    "tile.ground.grass_base": {
+      "tilesetUid": 54695,
+      "tileId": 65,
+      "x": 32,
+      "y": 128
+    },
+    "tile.ground.grass_edge_to_sidewalk_E": {
+      "tilesetUid": 54695,
+      "tileId": 66,
+      "x": 64,
+      "y": 128
+    },
+    "tile.ground.grass_edge_to_sidewalk_N": {
+      "tilesetUid": 54695,
+      "tileId": 67,
+      "x": 96,
+      "y": 128
+    },
+    "tile.ground.grass_edge_to_sidewalk_S": {
+      "tilesetUid": 54695,
+      "tileId": 68,
+      "x": 128,
+      "y": 128
+    },
+    "tile.ground.grass_edge_to_sidewalk_W": {
+      "tilesetUid": 54695,
+      "tileId": 69,
+      "x": 160,
+      "y": 128
+    },
+    "tile.ground.sidewalk_corner": {
+      "tilesetUid": 54695,
+      "tileId": 70,
+      "x": 192,
+      "y": 128
+    },
+    "tile.ground.sidewalk_cross": {
+      "tilesetUid": 54695,
+      "tileId": 71,
+      "x": 224,
+      "y": 128
+    },
+    "tile.ground.sidewalk_edge": {
+      "tilesetUid": 54695,
+      "tileId": 72,
+      "x": 256,
+      "y": 128
+    },
+    "tile.ground.sidewalk_stone_base": {
+      "tilesetUid": 54695,
+      "tileId": 73,
+      "x": 288,
+      "y": 128
+    },
+    "tile.ground.sidewalk_t_junction": {
+      "tilesetUid": 54695,
+      "tileId": 74,
+      "x": 320,
+      "y": 128
+    },
+    "tile.rug.blue_base": {
+      "tilesetUid": 54695,
+      "tileId": 75,
+      "x": 352,
+      "y": 128
+    },
+    "tile.rug.red_base": {
+      "tilesetUid": 54695,
+      "tileId": 76,
+      "x": 384,
+      "y": 128
+    },
+    "tile.rug.red_border_corner_NE": {
+      "tilesetUid": 54695,
+      "tileId": 77,
+      "x": 416,
+      "y": 128
+    },
+    "tile.rug.red_border_corner_NW": {
+      "tilesetUid": 54695,
+      "tileId": 78,
+      "x": 448,
+      "y": 128
+    },
+    "tile.rug.red_border_corner_SE": {
+      "tilesetUid": 54695,
+      "tileId": 79,
+      "x": 480,
+      "y": 128
+    },
+    "tile.rug.red_border_corner_SW": {
+      "tilesetUid": 54695,
+      "tileId": 80,
+      "x": 0,
+      "y": 160
+    },
+    "tile.rug.red_border_edge_E": {
+      "tilesetUid": 54695,
+      "tileId": 81,
+      "x": 32,
+      "y": 160
+    },
+    "tile.rug.red_border_edge_N": {
+      "tilesetUid": 54695,
+      "tileId": 82,
+      "x": 64,
+      "y": 160
+    },
+    "tile.rug.red_border_edge_S": {
+      "tilesetUid": 54695,
+      "tileId": 83,
+      "x": 96,
+      "y": 160
+    },
+    "tile.rug.red_border_edge_W": {
+      "tilesetUid": 54695,
+      "tileId": 84,
+      "x": 128,
+      "y": 160
+    },
+    "tile.object.archive_box": {
+      "tilesetUid": 54695,
+      "tileId": 85,
+      "x": 160,
+      "y": 160
+    },
+    "tile.object.argument_clock": {
+      "tilesetUid": 54695,
+      "tileId": 86,
+      "x": 192,
+      "y": 160
+    },
+    "tile.object.ball_paperweight": {
+      "tilesetUid": 54695,
+      "tileId": 87,
+      "x": 224,
+      "y": 160
+    },
+    "tile.object.bench_front_left": {
+      "tilesetUid": 54695,
+      "tileId": 88,
+      "x": 256,
+      "y": 160
+    },
+    "tile.object.bench_front_mid": {
+      "tilesetUid": 54695,
+      "tileId": 89,
+      "x": 288,
+      "y": 160
+    },
+    "tile.object.bench_front_right": {
+      "tilesetUid": 54695,
+      "tileId": 90,
+      "x": 320,
+      "y": 160
+    },
+    "tile.object.bench_marble_left": {
+      "tilesetUid": 54695,
+      "tileId": 91,
+      "x": 352,
+      "y": 160
+    },
+    "tile.object.bench_marble_mid": {
+      "tilesetUid": 54695,
+      "tileId": 92,
+      "x": 384,
+      "y": 160
+    },
+    "tile.object.bench_marble_right": {
+      "tilesetUid": 54695,
+      "tileId": 93,
+      "x": 416,
+      "y": 160
+    },
+    "tile.object.bench_park_left": {
+      "tilesetUid": 54695,
+      "tileId": 94,
+      "x": 448,
+      "y": 160
+    },
+    "tile.object.bench_park_mid": {
+      "tilesetUid": 54695,
+      "tileId": 95,
+      "x": 480,
+      "y": 160
+    },
+    "tile.object.bench_park_right": {
+      "tilesetUid": 54695,
+      "tileId": 96,
+      "x": 0,
+      "y": 192
+    },
+    "tile.object.bench_steps_left": {
+      "tilesetUid": 54695,
+      "tileId": 97,
+      "x": 32,
+      "y": 192
+    },
+    "tile.object.bench_steps_right": {
+      "tilesetUid": 54695,
+      "tileId": 98,
+      "x": 64,
+      "y": 192
+    },
+    "tile.object.bench_top_left": {
+      "tilesetUid": 54695,
+      "tileId": 99,
+      "x": 96,
+      "y": 192
+    },
+    "tile.object.bench_top_mid": {
+      "tilesetUid": 54695,
+      "tileId": 100,
+      "x": 128,
+      "y": 192
+    },
+    "tile.object.bench_top_right": {
+      "tilesetUid": 54695,
+      "tileId": 101,
+      "x": 160,
+      "y": 192
+    },
+    "tile.object.bench_wood_left": {
+      "tilesetUid": 54695,
+      "tileId": 102,
+      "x": 192,
+      "y": 192
+    },
+    "tile.object.bench_wood_mid": {
+      "tilesetUid": 54695,
+      "tileId": 103,
+      "x": 224,
+      "y": 192
+    },
+    "tile.object.bench_wood_right": {
+      "tilesetUid": 54695,
+      "tileId": 104,
+      "x": 256,
+      "y": 192
+    },
+    "tile.object.book_awards": {
+      "tilesetUid": 54695,
+      "tileId": 105,
+      "x": 288,
+      "y": 192
+    },
+    "tile.object.book_stack_flashcards_hidden": {
+      "tilesetUid": 54695,
+      "tileId": 106,
+      "x": 320,
+      "y": 192
+    },
+    "tile.object.bookcase_base": {
+      "tilesetUid": 54695,
+      "tileId": 107,
+      "x": 352,
+      "y": 192
+    },
+    "tile.object.bookcase_books_variantA": {
+      "tilesetUid": 54695,
+      "tileId": 108,
+      "x": 384,
+      "y": 192
+    },
+    "tile.object.bookcase_books_variantB": {
+      "tilesetUid": 54695,
+      "tileId": 109,
+      "x": 416,
+      "y": 192
+    },
+    "tile.object.bookcase_books_variantC": {
+      "tilesetUid": 54695,
+      "tileId": 110,
+      "x": 448,
+      "y": 192
+    },
+    "tile.object.bookcase_corner_inner": {
+      "tilesetUid": 54695,
+      "tileId": 111,
+      "x": 480,
+      "y": 192
+    },
+    "tile.object.bookcase_corner_outer": {
+      "tilesetUid": 54695,
+      "tileId": 112,
+      "x": 0,
+      "y": 224
+    },
+    "tile.object.bookcase_endcap_left": {
+      "tilesetUid": 54695,
+      "tileId": 113,
+      "x": 32,
+      "y": 224
+    },
+    "tile.object.bookcase_endcap_right": {
+      "tilesetUid": 54695,
+      "tileId": 114,
+      "x": 64,
+      "y": 224
+    },
+    "tile.object.bookcase_mid": {
+      "tilesetUid": 54695,
+      "tileId": 115,
+      "x": 96,
+      "y": 224
+    },
+    "tile.object.bookcase_top": {
+      "tilesetUid": 54695,
+      "tileId": 116,
+      "x": 128,
+      "y": 224
+    },
+    "tile.object.bookshelf_small": {
+      "tilesetUid": 54695,
+      "tileId": 117,
+      "x": 160,
+      "y": 224
+    },
+    "tile.object.booth_left": {
+      "tilesetUid": 54695,
+      "tileId": 118,
+      "x": 192,
+      "y": 224
+    },
+    "tile.object.booth_mid": {
+      "tilesetUid": 54695,
+      "tileId": 119,
+      "x": 224,
+      "y": 224
+    },
+    "tile.object.booth_right": {
+      "tilesetUid": 54695,
+      "tileId": 120,
+      "x": 256,
+      "y": 224
+    },
+    "tile.object.boots_corner": {
+      "tilesetUid": 54695,
+      "tileId": 121,
+      "x": 288,
+      "y": 224
+    },
+    "tile.object.cable_coil": {
+      "tilesetUid": 54695,
+      "tileId": 122,
+      "x": 320,
+      "y": 224
+    },
+    "tile.object.calendar_doodle": {
+      "tilesetUid": 54695,
+      "tileId": 123,
+      "x": 352,
+      "y": 224
+    },
+    "tile.object.camera_spotlight": {
+      "tilesetUid": 54695,
+      "tileId": 124,
+      "x": 384,
+      "y": 224
+    },
+    "tile.object.camera_tripod": {
+      "tilesetUid": 54695,
+      "tileId": 125,
+      "x": 416,
+      "y": 224
+    },
+    "tile.object.chair_cafe": {
+      "tilesetUid": 54695,
+      "tileId": 126,
+      "x": 448,
+      "y": 224
+    },
+    "tile.object.chair_north": {
+      "tilesetUid": 54695,
+      "tileId": 127,
+      "x": 480,
+      "y": 224
+    },
+    "tile.object.chair_south": {
+      "tilesetUid": 54695,
+      "tileId": 128,
+      "x": 0,
+      "y": 256
+    },
+    "tile.object.children_book": {
+      "tilesetUid": 54695,
+      "tileId": 129,
+      "x": 32,
+      "y": 256
+    },
+    "tile.object.coat_rack": {
+      "tilesetUid": 54695,
+      "tileId": 130,
+      "x": 64,
+      "y": 256
+    },
+    "tile.object.coffee_urn": {
+      "tilesetUid": 54695,
+      "tileId": 131,
+      "x": 96,
+      "y": 256
+    },
+    "tile.object.color_coded_tabs": {
+      "tilesetUid": 54695,
+      "tileId": 132,
+      "x": 128,
+      "y": 256
+    },
+    "tile.object.column_exterior_base": {
+      "tilesetUid": 54695,
+      "tileId": 133,
+      "x": 160,
+      "y": 256
+    },
+    "tile.object.column_exterior_mid": {
+      "tilesetUid": 54695,
+      "tileId": 134,
+      "x": 192,
+      "y": 256
+    },
+    "tile.object.column_exterior_top": {
+      "tilesetUid": 54695,
+      "tileId": 135,
+      "x": 224,
+      "y": 256
+    },
+    "tile.object.counsel_table_left": {
+      "tilesetUid": 54695,
+      "tileId": 136,
+      "x": 256,
+      "y": 256
+    },
+    "tile.object.counsel_table_mid": {
+      "tilesetUid": 54695,
+      "tileId": 137,
+      "x": 288,
+      "y": 256
+    },
+    "tile.object.counsel_table_papers_variant": {
+      "tilesetUid": 54695,
+      "tileId": 138,
+      "x": 320,
+      "y": 256
+    },
+    "tile.object.counsel_table_right": {
+      "tilesetUid": 54695,
+      "tileId": 139,
+      "x": 352,
+      "y": 256
+    },
+    "tile.object.evidence_bag": {
+      "tilesetUid": 54695,
+      "tileId": 140,
+      "x": 384,
+      "y": 256
+    },
+    "tile.object.family_photo_cluster": {
+      "tilesetUid": 54695,
+      "tileId": 141,
+      "x": 416,
+      "y": 256
+    },
+    "tile.object.file_cabinet": {
+      "tilesetUid": 54695,
+      "tileId": 142,
+      "x": 448,
+      "y": 256
+    },
+    "tile.object.file_cart": {
+      "tilesetUid": 54695,
+      "tileId": 143,
+      "x": 480,
+      "y": 256
+    },
+    "tile.object.flagpole_base": {
+      "tilesetUid": 54695,
+      "tileId": 144,
+      "x": 0,
+      "y": 288
+    },
+    "tile.object.gallery_bench_left": {
+      "tilesetUid": 54695,
+      "tileId": 145,
+      "x": 32,
+      "y": 288
+    },
+    "tile.object.gallery_bench_mid": {
+      "tilesetUid": 54695,
+      "tileId": 146,
+      "x": 64,
+      "y": 288
+    },
+    "tile.object.gallery_bench_right": {
+      "tilesetUid": 54695,
+      "tileId": 147,
+      "x": 96,
+      "y": 288
+    },
+    "tile.object.gavel_on_block": {
+      "tilesetUid": 54695,
+      "tileId": 148,
+      "x": 128,
+      "y": 288
+    },
+    "tile.object.information_desk_center": {
+      "tilesetUid": 54695,
+      "tileId": 149,
+      "x": 160,
+      "y": 288
+    },
+    "tile.object.information_desk_corner": {
+      "tilesetUid": 54695,
+      "tileId": 150,
+      "x": 192,
+      "y": 288
+    },
+    "tile.object.information_desk_edge": {
+      "tilesetUid": 54695,
+      "tileId": 151,
+      "x": 224,
+      "y": 288
+    },
+    "tile.object.lamp_table": {
+      "tilesetUid": 54695,
+      "tileId": 152,
+      "x": 256,
+      "y": 288
+    },
+    "tile.object.large_lamp": {
+      "tilesetUid": 54695,
+      "tileId": 153,
+      "x": 288,
+      "y": 288
+    },
+    "tile.object.laundry_bin": {
+      "tilesetUid": 54695,
+      "tileId": 154,
+      "x": 320,
+      "y": 288
+    },
+    "tile.object.locker_bank_left": {
+      "tilesetUid": 54695,
+      "tileId": 155,
+      "x": 352,
+      "y": 288
+    },
+    "tile.object.locker_bank_mid": {
+      "tilesetUid": 54695,
+      "tileId": 156,
+      "x": 384,
+      "y": 288
+    },
+    "tile.object.locker_bank_right": {
+      "tilesetUid": 54695,
+      "tileId": 157,
+      "x": 416,
+      "y": 288
+    },
+    "tile.object.locker_single": {
+      "tilesetUid": 54695,
+      "tileId": 158,
+      "x": 448,
+      "y": 288
+    },
+    "tile.object.menu_board": {
+      "tilesetUid": 54695,
+      "tileId": 159,
+      "x": 480,
+      "y": 288
+    },
+    "tile.object.microphone_stand": {
+      "tilesetUid": 54695,
+      "tileId": 160,
+      "x": 0,
+      "y": 320
+    },
+    "tile.object.mirror_vertical": {
+      "tilesetUid": 54695,
+      "tileId": 161,
+      "x": 32,
+      "y": 320
+    },
+    "tile.object.mug_custom": {
+      "tilesetUid": 54695,
+      "tileId": 162,
+      "x": 64,
+      "y": 320
+    },
+    "tile.object.neat_inbox": {
+      "tilesetUid": 54695,
+      "tileId": 163,
+      "x": 96,
+      "y": 320
+    },
+    "tile.object.office_chair": {
+      "tilesetUid": 54695,
+      "tileId": 164,
+      "x": 128,
+      "y": 320
+    },
+    "tile.object.office_desk_NE": {
+      "tilesetUid": 54695,
+      "tileId": 165,
+      "x": 160,
+      "y": 320
+    },
+    "tile.object.office_desk_NW": {
+      "tilesetUid": 54695,
+      "tileId": 166,
+      "x": 192,
+      "y": 320
+    },
+    "tile.object.office_desk_SE": {
+      "tilesetUid": 54695,
+      "tileId": 167,
+      "x": 224,
+      "y": 320
+    },
+    "tile.object.office_desk_SW": {
+      "tilesetUid": 54695,
+      "tileId": 168,
+      "x": 256,
+      "y": 320
+    },
+    "tile.object.old_book_rare": {
+      "tilesetUid": 54695,
+      "tileId": 169,
+      "x": 288,
+      "y": 320
+    },
+    "tile.object.pillar_plaque": {
+      "tilesetUid": 54695,
+      "tileId": 170,
+      "x": 320,
+      "y": 320
+    },
+    "tile.object.plant_office": {
+      "tilesetUid": 54695,
+      "tileId": 171,
+      "x": 352,
+      "y": 320
+    },
+    "tile.object.podium": {
+      "tilesetUid": 54695,
+      "tileId": 172,
+      "x": 384,
+      "y": 320
+    },
+    "tile.object.postit_cluster": {
+      "tilesetUid": 54695,
+      "tileId": 173,
+      "x": 416,
+      "y": 320
+    },
+    "tile.object.potted_plant_round": {
+      "tilesetUid": 54695,
+      "tileId": 174,
+      "x": 448,
+      "y": 320
+    },
+    "tile.object.reading_chair": {
+      "tilesetUid": 54695,
+      "tileId": 175,
+      "x": 480,
+      "y": 320
+    },
+    "tile.object.reading_table_NE": {
+      "tilesetUid": 54695,
+      "tileId": 176,
+      "x": 0,
+      "y": 352
+    },
+    "tile.object.reading_table_NW": {
+      "tilesetUid": 54695,
+      "tileId": 177,
+      "x": 32,
+      "y": 352
+    },
+    "tile.object.reading_table_SE": {
+      "tilesetUid": 54695,
+      "tileId": 178,
+      "x": 64,
+      "y": 352
+    },
+    "tile.object.reading_table_SW": {
+      "tilesetUid": 54695,
+      "tileId": 179,
+      "x": 96,
+      "y": 352
+    },
+    "tile.object.redacted_folder": {
+      "tilesetUid": 54695,
+      "tileId": 180,
+      "x": 128,
+      "y": 352
+    },
+    "tile.object.rope_segment_corner": {
+      "tilesetUid": 54695,
+      "tileId": 181,
+      "x": 160,
+      "y": 352
+    },
+    "tile.object.rope_segment_horizontal": {
+      "tilesetUid": 54695,
+      "tileId": 182,
+      "x": 192,
+      "y": 352
+    },
+    "tile.object.rope_segment_vertical": {
+      "tilesetUid": 54695,
+      "tileId": 183,
+      "x": 224,
+      "y": 352
+    },
+    "tile.object.rope_stanchion_single": {
+      "tilesetUid": 54695,
+      "tileId": 184,
+      "x": 256,
+      "y": 352
+    },
+    "tile.object.serving_counter_left": {
+      "tilesetUid": 54695,
+      "tileId": 185,
+      "x": 288,
+      "y": 352
+    },
+    "tile.object.serving_counter_mid": {
+      "tilesetUid": 54695,
+      "tileId": 186,
+      "x": 320,
+      "y": 352
+    },
+    "tile.object.serving_counter_right": {
+      "tilesetUid": 54695,
+      "tileId": 187,
+      "x": 352,
+      "y": 352
+    },
+    "tile.object.shelf_metal_base": {
+      "tilesetUid": 54695,
+      "tileId": 188,
+      "x": 384,
+      "y": 352
+    },
+    "tile.object.shelf_metal_left_end": {
+      "tilesetUid": 54695,
+      "tileId": 189,
+      "x": 416,
+      "y": 352
+    },
+    "tile.object.shelf_metal_mid": {
+      "tilesetUid": 54695,
+      "tileId": 190,
+      "x": 448,
+      "y": 352
+    },
+    "tile.object.shelf_metal_right_end": {
+      "tilesetUid": 54695,
+      "tileId": 191,
+      "x": 480,
+      "y": 352
+    },
+    "tile.object.shelf_metal_top": {
+      "tilesetUid": 54695,
+      "tileId": 192,
+      "x": 0,
+      "y": 384
+    },
+    "tile.object.shrub_round": {
+      "tilesetUid": 54695,
+      "tileId": 193,
+      "x": 32,
+      "y": 384
+    },
+    "tile.object.side_table": {
+      "tilesetUid": 54695,
+      "tileId": 194,
+      "x": 64,
+      "y": 384
+    },
+    "tile.object.snack_stash": {
+      "tilesetUid": 54695,
+      "tileId": 195,
+      "x": 96,
+      "y": 384
+    },
+    "tile.object.stack_flashcards": {
+      "tilesetUid": 54695,
+      "tileId": 196,
+      "x": 128,
+      "y": 384
+    },
+    "tile.object.stack_opinions": {
+      "tilesetUid": 54695,
+      "tileId": 197,
+      "x": 160,
+      "y": 384
+    },
+    "tile.object.statue_base": {
+      "tilesetUid": 54695,
+      "tileId": 198,
+      "x": 192,
+      "y": 384
+    },
+    "tile.object.statue_plinth_base": {
+      "tilesetUid": 54695,
+      "tileId": 199,
+      "x": 224,
+      "y": 384
+    },
+    "tile.object.statue_plinth_mid": {
+      "tilesetUid": 54695,
+      "tileId": 200,
+      "x": 256,
+      "y": 384
+    },
+    "tile.object.statue_plinth_top": {
+      "tilesetUid": 54695,
+      "tileId": 201,
+      "x": 288,
+      "y": 384
+    },
+    "tile.object.table_round_center": {
+      "tilesetUid": 54695,
+      "tileId": 202,
+      "x": 320,
+      "y": 384
+    },
+    "tile.object.table_round_edge_variant": {
+      "tilesetUid": 54695,
+      "tileId": 203,
+      "x": 352,
+      "y": 384
+    },
+    "tile.object.thick_casebook": {
+      "tilesetUid": 54695,
+      "tileId": 204,
+      "x": 384,
+      "y": 384
+    },
+    "tile.object.trash_bin": {
+      "tilesetUid": 54695,
+      "tileId": 205,
+      "x": 416,
+      "y": 384
+    },
+    "tile.object.tray_stack": {
+      "tilesetUid": 54695,
+      "tileId": 206,
+      "x": 448,
+      "y": 384
+    },
+    "tile.object.tree_small_canopy": {
+      "tilesetUid": 54695,
+      "tileId": 207,
+      "x": 480,
+      "y": 384
+    },
+    "tile.object.vending_machine": {
+      "tilesetUid": 54695,
+      "tileId": 208,
+      "x": 0,
+      "y": 416
+    },
+    "tile.object.wall_sconce_left": {
+      "tilesetUid": 54695,
+      "tileId": 209,
+      "x": 32,
+      "y": 416
+    },
+    "tile.object.wall_sconce_right": {
+      "tilesetUid": 54695,
+      "tileId": 210,
+      "x": 64,
+      "y": 416
+    },
+    "tile.object.window_topdown": {
+      "tilesetUid": 54695,
+      "tileId": 211,
+      "x": 96,
+      "y": 416
+    },
+    "tile.decal.diploma_generic": {
+      "tilesetUid": 54695,
+      "tileId": 212,
+      "x": 128,
+      "y": 416
+    },
+    "tile.decal.funny_quote_plaque": {
+      "tilesetUid": 54695,
+      "tileId": 213,
+      "x": 160,
+      "y": 416
+    },
+    "tile.decal.map_dc": {
+      "tilesetUid": 54695,
+      "tileId": 214,
+      "x": 192,
+      "y": 416
+    },
+    "tile.decal.minimalist_wall": {
+      "tilesetUid": 54695,
+      "tileId": 215,
+      "x": 224,
+      "y": 416
+    },
+    "tile.decal.nameplate_justice_generic": {
+      "tilesetUid": 54695,
+      "tileId": 216,
+      "x": 256,
+      "y": 416
+    },
+    "tile.decal.photo_frame_generic": {
+      "tilesetUid": 54695,
+      "tileId": 217,
+      "x": 288,
+      "y": 416
+    },
+    "tile.decal.plaque_generic": {
+      "tilesetUid": 54695,
+      "tileId": 218,
+      "x": 320,
+      "y": 416
+    },
+    "tile.decal.rulebook_warning": {
+      "tilesetUid": 54695,
+      "tileId": 219,
+      "x": 352,
+      "y": 416
+    },
+    "tile.decal.rules_chart": {
+      "tilesetUid": 54695,
+      "tileId": 220,
+      "x": 384,
+      "y": 416
+    },
+    "tile.decal.sign_flashcards_required": {
+      "tilesetUid": 54695,
+      "tileId": 221,
+      "x": 416,
+      "y": 416
+    },
+    "tile.decal.sign_hot_take_zone": {
+      "tilesetUid": 54695,
+      "tileId": 222,
+      "x": 448,
+      "y": 416
+    },
+    "tile.decal.sign_hours": {
+      "tilesetUid": 54695,
+      "tileId": 223,
+      "x": 480,
+      "y": 416
+    },
+    "tile.decal.sign_no_cameras": {
+      "tilesetUid": 54695,
+      "tileId": 224,
+      "x": 0,
+      "y": 448
+    },
+    "tile.decal.sign_no_filming_but_okay_flashcards": {
+      "tilesetUid": 54695,
+      "tileId": 225,
+      "x": 32,
+      "y": 448
+    },
+    "tile.decal.sign_no_loitering_except_clerks": {
+      "tilesetUid": 54695,
+      "tileId": 226,
+      "x": 64,
+      "y": 448
+    },
+    "tile.decal.sign_off_the_record": {
+      "tilesetUid": 54695,
+      "tileId": 227,
+      "x": 96,
+      "y": 448
+    },
+    "tile.decal.sign_quiet_please": {
+      "tilesetUid": 54695,
+      "tileId": 228,
+      "x": 128,
+      "y": 448
+    },
+    "tile.decal.sign_shhh_or_else": {
+      "tilesetUid": 54695,
+      "tileId": 229,
+      "x": 160,
+      "y": 448
+    }
+  }
+}

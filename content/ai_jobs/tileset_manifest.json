@@ -1,0 +1,2341 @@
+{
+  "$schema": "../../schemas/TilesetManifest.schema.json",
+  "version": "1.0",
+  "tileSize": 32,
+  "lightDirection": "NW",
+  "pixelGuidelines": {
+    "shadingMethod": "cluster",
+    "maxPaletteSteps": 5,
+    "avoidDithering": true,
+    "seamDiscipline": "no_border_termination",
+    "antiAliasing": "palette_steps_only"
+  },
+  "categories": {
+    "floor": { "prefix": "tile.floor", "defaultAutotile": true },
+    "trim": { "prefix": "tile.trim", "defaultAutotile": false },
+    "wall": { "prefix": "tile.wall", "defaultAutotile": false },
+    "door": { "prefix": "tile.door", "defaultAutotile": false },
+    "column": { "prefix": "tile.column", "defaultAutotile": false },
+    "rug": { "prefix": "tile.rug", "defaultAutotile": true },
+    "decal": { "prefix": "tile.decal", "defaultAutotile": false },
+    "object": { "prefix": "tile.object", "defaultAutotile": false },
+    "ground": { "prefix": "tile.ground", "defaultAutotile": true },
+    "steps": { "prefix": "tile.steps", "defaultAutotile": false }
+  },
+  "tiles": [
+    {
+      "id": "tile.floor.marble.white_base",
+      "category": "floor",
+      "subcategory": "marble",
+      "autotile": true,
+      "variants": 3,
+      "palette": ["#F8F8F8", "#E8E8E8", "#D0D0D0", "#B0B0B0"],
+      "description": "Off-white marble with subtle gray veining; 2-3px clusters, low-contrast veining",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.floor.marble.white_variantA",
+      "category": "floor",
+      "subcategory": "marble",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#E8E8E8", "#D0D0D0", "#B0B0B0"],
+      "description": "Variant A - different vein paths",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.floor.marble.white_variantB",
+      "category": "floor",
+      "subcategory": "marble",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#E8E8E8", "#D0D0D0", "#B0B0B0"],
+      "description": "Variant B - different vein paths",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.floor.marble.white_variantC",
+      "category": "floor",
+      "subcategory": "marble",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#E8E8E8", "#D0D0D0", "#B0B0B0"],
+      "description": "Variant C - different vein paths",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.floor.marble.white_crack_hairline",
+      "category": "floor",
+      "subcategory": "marble",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#E8E8E8", "#D0D0D0", "#B0B0B0", "#808080"],
+      "description": "Subtle single hairline crack (2-4px wide), tiles cleanly",
+      "rooms": ["*"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.floor.marble.black_inset_base",
+      "category": "floor",
+      "subcategory": "marble",
+      "autotile": true,
+      "variants": 2,
+      "palette": ["#404040", "#303030", "#202020", "#181818"],
+      "description": "Dark marble for borders/inlays; readable but not solid black",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.trim.stone_edge_N",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim edge facing North; 1-2px highlight on top",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.trim.stone_edge_E",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim edge facing East",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.trim.stone_edge_S",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim edge facing South",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.trim.stone_edge_W",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim edge facing West",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.trim.stone_outer_corner_NE",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim outer corner NE",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.trim.stone_outer_corner_NW",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim outer corner NW",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.trim.stone_outer_corner_SE",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim outer corner SE",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.trim.stone_outer_corner_SW",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim outer corner SW",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.trim.stone_inner_corner_NE",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim inner corner NE",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.trim.stone_inner_corner_NW",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim inner corner NW",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.trim.stone_inner_corner_SE",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim inner corner SE",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.trim.stone_inner_corner_SW",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim inner corner SW",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.trim.stone_t_junction_N",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim T-junction facing North",
+      "rooms": ["*"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.trim.stone_t_junction_E",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim T-junction facing East",
+      "rooms": ["*"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.trim.stone_t_junction_S",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim T-junction facing South",
+      "rooms": ["*"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.trim.stone_t_junction_W",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim T-junction facing West",
+      "rooms": ["*"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.trim.stone_cross",
+      "category": "trim",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#606060"],
+      "description": "Stone trim cross intersection",
+      "rooms": ["*"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.wall.interior_stone_straight",
+      "category": "wall",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#D8D8D8", "#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Interior stone wall - top face + tiny vertical lip, top-down wallcap style",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.wall.interior_stone_corner_outer",
+      "category": "wall",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#D8D8D8", "#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Interior stone wall outer corner",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.wall.interior_stone_corner_inner",
+      "category": "wall",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#D8D8D8", "#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Interior stone wall inner corner",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.wall.interior_stone_endcap",
+      "category": "wall",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#D8D8D8", "#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Interior stone wall endcap",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.wall.interior_woodpanel_straight",
+      "category": "wall",
+      "subcategory": "wood",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#2E1B06"],
+      "description": "Wood panel wall - subtle vertical grain, no hard AA",
+      "rooms": ["chambers_*", "robing_room", "library"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.wall.interior_woodpanel_corner_outer",
+      "category": "wall",
+      "subcategory": "wood",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#2E1B06"],
+      "description": "Wood panel wall outer corner",
+      "rooms": ["chambers_*", "robing_room", "library"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.wall.interior_woodpanel_corner_inner",
+      "category": "wall",
+      "subcategory": "wood",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#2E1B06"],
+      "description": "Wood panel wall inner corner",
+      "rooms": ["chambers_*", "robing_room", "library"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.wall.interior_woodpanel_endcap",
+      "category": "wall",
+      "subcategory": "wood",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#2E1B06"],
+      "description": "Wood panel wall endcap",
+      "rooms": ["chambers_*", "robing_room", "library"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.door.double_wood_closed",
+      "category": "door",
+      "subcategory": "wood",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#D4AF37"],
+      "description": "Double wood door closed - top-down threshold + door top edge, brass kickplate hint",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.door.double_wood_open",
+      "category": "door",
+      "subcategory": "wood",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#202020"],
+      "description": "Double wood door open - dark void + jamb shading, walkable",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.door.single_wood_closed",
+      "category": "door",
+      "subcategory": "wood",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#D4AF37"],
+      "description": "Single wood door closed",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.door.single_wood_open",
+      "category": "door",
+      "subcategory": "wood",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#202020"],
+      "description": "Single wood door open",
+      "rooms": ["*"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.door.archway_open_stone",
+      "category": "door",
+      "subcategory": "stone",
+      "autotile": false,
+      "palette": ["#D8D8D8", "#C0C0C0", "#A0A0A0", "#202020"],
+      "description": "Stone archway - grand hall/lobby transitions",
+      "rooms": ["scotus_lobby", "room.scotus_hall_01"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.column.round_top",
+      "category": "column",
+      "subcategory": "round",
+      "autotile": false,
+      "palette": ["#F0F0F0", "#D8D8D8", "#C0C0C0", "#A0A0A0"],
+      "description": "Column capital - 2-3 shade steps for depth, not fat",
+      "rooms": ["scotus_lobby", "courtroom_main", "courthouse_exterior"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.column.round_mid",
+      "category": "column",
+      "subcategory": "round",
+      "autotile": false,
+      "palette": ["#F0F0F0", "#D8D8D8", "#C0C0C0", "#A0A0A0"],
+      "description": "Column shaft middle segment",
+      "rooms": ["scotus_lobby", "courtroom_main", "courthouse_exterior"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.column.round_base",
+      "category": "column",
+      "subcategory": "round",
+      "autotile": false,
+      "palette": ["#F0F0F0", "#D8D8D8", "#C0C0C0", "#A0A0A0"],
+      "description": "Column base",
+      "rooms": ["scotus_lobby", "courtroom_main", "courthouse_exterior"],
+      "priority": "P0"
+    },
+    {
+      "id": "tile.rug.red_base",
+      "category": "rug",
+      "subcategory": "red",
+      "autotile": true,
+      "variants": 2,
+      "palette": ["#8B0000", "#6B0000", "#4B0000", "#D4AF37"],
+      "description": "Rich red rug with subtle Greek key/courthouse pattern, seamless",
+      "rooms": ["courtroom_main", "scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.rug.red_border_edge_N",
+      "category": "rug",
+      "subcategory": "red",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#4B0000", "#D4AF37"],
+      "description": "Red rug border edge North",
+      "rooms": ["courtroom_main", "scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.rug.red_border_edge_E",
+      "category": "rug",
+      "subcategory": "red",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#4B0000", "#D4AF37"],
+      "description": "Red rug border edge East",
+      "rooms": ["courtroom_main", "scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.rug.red_border_edge_S",
+      "category": "rug",
+      "subcategory": "red",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#4B0000", "#D4AF37"],
+      "description": "Red rug border edge South",
+      "rooms": ["courtroom_main", "scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.rug.red_border_edge_W",
+      "category": "rug",
+      "subcategory": "red",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#4B0000", "#D4AF37"],
+      "description": "Red rug border edge West",
+      "rooms": ["courtroom_main", "scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.rug.red_border_corner_NE",
+      "category": "rug",
+      "subcategory": "red",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#4B0000", "#D4AF37"],
+      "description": "Red rug border corner NE",
+      "rooms": ["courtroom_main", "scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.rug.red_border_corner_NW",
+      "category": "rug",
+      "subcategory": "red",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#4B0000", "#D4AF37"],
+      "description": "Red rug border corner NW",
+      "rooms": ["courtroom_main", "scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.rug.red_border_corner_SE",
+      "category": "rug",
+      "subcategory": "red",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#4B0000", "#D4AF37"],
+      "description": "Red rug border corner SE",
+      "rooms": ["courtroom_main", "scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.rug.red_border_corner_SW",
+      "category": "rug",
+      "subcategory": "red",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#4B0000", "#D4AF37"],
+      "description": "Red rug border corner SW",
+      "rooms": ["courtroom_main", "scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.rug.blue_base",
+      "category": "rug",
+      "subcategory": "blue",
+      "autotile": true,
+      "variants": 2,
+      "palette": ["#1E3A5F", "#152D4A", "#0D1F35", "#D4AF37"],
+      "description": "Blue rug for chambers/cafeteria committee room vibe",
+      "rooms": ["chambers_*", "cafeteria"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.decal.sign_no_cameras",
+      "category": "decal",
+      "subcategory": "sign",
+      "autotile": false,
+      "palette": ["#FFFFFF", "#FF0000", "#000000"],
+      "description": "Satirical: tiny camera with X",
+      "rooms": ["courtroom_main", "press_room"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.decal.sign_flashcards_required",
+      "category": "decal",
+      "subcategory": "sign",
+      "autotile": false,
+      "palette": ["#FFFFFF", "#1E3A5F", "#000000"],
+      "description": "Tiny card icon",
+      "rooms": ["*"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.decal.sign_quiet_please",
+      "category": "decal",
+      "subcategory": "sign",
+      "autotile": false,
+      "palette": ["#FFFFFF", "#000000"],
+      "description": "Library quiet sign",
+      "rooms": ["library"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.decal.plaque_generic",
+      "category": "decal",
+      "subcategory": "plaque",
+      "autotile": false,
+      "palette": ["#D4AF37", "#B8960C", "#8B7500"],
+      "description": "Blank plaque - palette-swap per room",
+      "rooms": ["*"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.floor.lobby_mosaic_base",
+      "category": "floor",
+      "subcategory": "mosaic",
+      "autotile": false,
+      "variants": 3,
+      "palette": ["#F8F8F8", "#E8E8E8", "#D4AF37", "#1E3A5F"],
+      "description": "Marble mosaic medallion feel; subtle center motif",
+      "rooms": ["scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.trim.lobby_mosaic_border_edge_N",
+      "category": "trim",
+      "subcategory": "mosaic",
+      "autotile": false,
+      "palette": ["#D4AF37", "#B8960C", "#1E3A5F"],
+      "description": "Lobby mosaic border edge North",
+      "rooms": ["scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.trim.lobby_mosaic_border_corner_NE",
+      "category": "trim",
+      "subcategory": "mosaic",
+      "autotile": false,
+      "palette": ["#D4AF37", "#B8960C", "#1E3A5F"],
+      "description": "Lobby mosaic border corner NE",
+      "rooms": ["scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.steps.marble_up",
+      "category": "steps",
+      "subcategory": "marble",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#E8E8E8", "#D0D0D0", "#A0A0A0"],
+      "description": "Marble step with lip - consistent 'up direction' shading",
+      "rooms": ["scotus_lobby", "courtroom_main", "courthouse_exterior"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.steps.marble_landing",
+      "category": "steps",
+      "subcategory": "marble",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#E8E8E8", "#D0D0D0"],
+      "description": "Flat landing tile that blends to floor",
+      "rooms": ["scotus_lobby", "courtroom_main", "courthouse_exterior"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.object.rope_stanchion_single",
+      "category": "object",
+      "subcategory": "rope",
+      "autotile": false,
+      "palette": ["#D4AF37", "#B8960C", "#8B0000"],
+      "description": "Brass post + red rope nub for queue lines",
+      "rooms": ["scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.object.rope_segment_horizontal",
+      "category": "object",
+      "subcategory": "rope",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#D4AF37"],
+      "description": "Rope segment horizontal",
+      "rooms": ["scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.object.rope_segment_vertical",
+      "category": "object",
+      "subcategory": "rope",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#D4AF37"],
+      "description": "Rope segment vertical",
+      "rooms": ["scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.object.rope_segment_corner",
+      "category": "object",
+      "subcategory": "rope",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#D4AF37"],
+      "description": "Rope segment corner",
+      "rooms": ["scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.object.bench_marble_left",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#F0F0F0", "#D8D8D8", "#C0C0C0", "#A0A0A0"],
+      "description": "Marble bench left segment (3 tiles wide total)",
+      "rooms": ["scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.object.bench_marble_mid",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#F0F0F0", "#D8D8D8", "#C0C0C0", "#A0A0A0"],
+      "description": "Marble bench middle segment",
+      "rooms": ["scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.object.bench_marble_right",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#F0F0F0", "#D8D8D8", "#C0C0C0", "#A0A0A0"],
+      "description": "Marble bench right segment",
+      "rooms": ["scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.object.information_desk_corner",
+      "category": "object",
+      "subcategory": "desk",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#D4AF37", "#F8F8F8"],
+      "description": "Information desk corner with papers (2-3px clusters)",
+      "rooms": ["scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.object.information_desk_edge",
+      "category": "object",
+      "subcategory": "desk",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#D4AF37"],
+      "description": "Information desk edge",
+      "rooms": ["scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.object.information_desk_center",
+      "category": "object",
+      "subcategory": "desk",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#D4AF37", "#F8F8F8"],
+      "description": "Information desk center",
+      "rooms": ["scotus_lobby"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.object.pillar_plaque",
+      "category": "object",
+      "subcategory": "plaque",
+      "autotile": false,
+      "palette": ["#D4AF37", "#B8960C", "#8B7500"],
+      "description": "Plaque tile for exhibits - swappable",
+      "rooms": ["scotus_lobby", "room.scotus_hall_01"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.floor.hall_marble_base",
+      "category": "floor",
+      "subcategory": "marble",
+      "autotile": true,
+      "variants": 2,
+      "palette": ["#F8F8F8", "#E8E8E8", "#D0D0D0", "#B0B0B0"],
+      "description": "Cleaner than lobby; fewer motifs",
+      "rooms": ["room.scotus_hall_01"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.trim.hall_runner_border_edge_N",
+      "category": "trim",
+      "subcategory": "runner",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#4B0000"],
+      "description": "Narrow runner carpet border edge North",
+      "rooms": ["room.scotus_hall_01"],
+      "priority": "P1"
+    },
+    {
+      "id": "tile.object.statue_plinth_top",
+      "category": "object",
+      "subcategory": "plinth",
+      "autotile": false,
+      "palette": ["#F0F0F0", "#D8D8D8", "#C0C0C0", "#A0A0A0"],
+      "description": "Statue plinth top for 1-tile-wide stacks",
+      "rooms": ["room.scotus_hall_01", "scotus_lobby"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.statue_plinth_mid",
+      "category": "object",
+      "subcategory": "plinth",
+      "autotile": false,
+      "palette": ["#F0F0F0", "#D8D8D8", "#C0C0C0", "#A0A0A0"],
+      "description": "Statue plinth middle segment",
+      "rooms": ["room.scotus_hall_01", "scotus_lobby"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.statue_plinth_base",
+      "category": "object",
+      "subcategory": "plinth",
+      "autotile": false,
+      "palette": ["#F0F0F0", "#D8D8D8", "#C0C0C0", "#A0A0A0"],
+      "description": "Statue plinth base",
+      "rooms": ["room.scotus_hall_01", "scotus_lobby"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.wall_sconce_left",
+      "category": "object",
+      "subcategory": "lighting",
+      "autotile": false,
+      "palette": ["#D4AF37", "#B8960C", "#FFF8DC", "#FFE4B5"],
+      "description": "Wall sconce left - soft glow implied by lighter halo pixels, no blur",
+      "rooms": ["room.scotus_hall_01", "library", "chambers_*"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.wall_sconce_right",
+      "category": "object",
+      "subcategory": "lighting",
+      "autotile": false,
+      "palette": ["#D4AF37", "#B8960C", "#FFF8DC", "#FFE4B5"],
+      "description": "Wall sconce right",
+      "rooms": ["room.scotus_hall_01", "library", "chambers_*"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.potted_plant_round",
+      "category": "object",
+      "subcategory": "plant",
+      "autotile": false,
+      "palette": ["#228B22", "#2E8B57", "#8B4513", "#6B3E0A"],
+      "description": "Classic LPC prop - playful 'constitution fern'",
+      "rooms": ["room.scotus_hall_01", "chambers_*", "library"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.floor.court_wood_base",
+      "category": "floor",
+      "subcategory": "wood",
+      "autotile": true,
+      "variants": 3,
+      "palette": ["#A0522D", "#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Warm wood planks; plank seams every ~6-8px; 2-3 shade steps",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.trim.wood_border_edge_N",
+      "category": "trim",
+      "subcategory": "wood",
+      "autotile": false,
+      "palette": ["#A0522D", "#8B4513", "#6B3E0A"],
+      "description": "Wood border edge North for dais/seating",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.floor.court_carpet_runner_base",
+      "category": "floor",
+      "subcategory": "carpet",
+      "autotile": true,
+      "palette": ["#8B0000", "#6B0000", "#4B0000"],
+      "description": "Runner leading to the bench",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.bench_front_left",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#D4AF37"],
+      "description": "Judicial bench front left - visible front paneling + top lip",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.bench_front_mid",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#D4AF37"],
+      "description": "Judicial bench front middle",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.bench_front_right",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#D4AF37"],
+      "description": "Judicial bench front right",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.bench_top_left",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#000000"],
+      "description": "Judicial bench top left - tiny black mic dots",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.bench_top_mid",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#000000"],
+      "description": "Judicial bench top middle with gavel spot",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.bench_top_right",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#000000"],
+      "description": "Judicial bench top right",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.bench_steps_left",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#A0522D", "#8B4513", "#6B3E0A"],
+      "description": "Dais access steps left",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.bench_steps_right",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#A0522D", "#8B4513", "#6B3E0A"],
+      "description": "Dais access steps right",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.counsel_table_left",
+      "category": "object",
+      "subcategory": "table",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Counsel table left segment",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.counsel_table_mid",
+      "category": "object",
+      "subcategory": "table",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Counsel table middle segment",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.counsel_table_right",
+      "category": "object",
+      "subcategory": "table",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Counsel table right segment",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.counsel_table_papers_variant",
+      "category": "object",
+      "subcategory": "table",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#F8F8F8", "#E8E8E8"],
+      "description": "Counsel table with papers/books",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.chair_north",
+      "category": "object",
+      "subcategory": "chair",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Top-down chair facing north",
+      "rooms": ["courtroom_main", "chambers_*"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.chair_south",
+      "category": "object",
+      "subcategory": "chair",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Top-down chair facing south",
+      "rooms": ["courtroom_main", "chambers_*"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.gallery_bench_left",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Gallery bench left - subtle wear",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.gallery_bench_mid",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Gallery bench middle",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.gallery_bench_right",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Gallery bench right",
+      "rooms": ["courtroom_main"],
+      "priority": "P2"
+    },
+    {
+      "id": "tile.object.gavel_on_block",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#D4AF37"],
+      "description": "Single tile gavel prop",
+      "rooms": ["courtroom_main"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.object.stack_flashcards",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#E8E8E8", "#FF6B6B", "#4ECDC4", "#FFE66D"],
+      "description": "Index cards with colored tabs",
+      "rooms": ["courtroom_main", "library", "chambers_*"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.decal.rulebook_warning",
+      "category": "decal",
+      "subcategory": "sign",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#FF0000", "#000000"],
+      "description": "Tiny 'No grandstanding' gag",
+      "rooms": ["courtroom_main"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.floor.robing_rug_base",
+      "category": "floor",
+      "subcategory": "rug",
+      "autotile": true,
+      "palette": ["#4A4A4A", "#3A3A3A", "#2A2A2A"],
+      "description": "Small muted rug",
+      "rooms": ["robing_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.locker_single",
+      "category": "object",
+      "subcategory": "locker",
+      "autotile": false,
+      "palette": ["#808080", "#606060", "#404040"],
+      "description": "Single metal locker from top-down; vent slits as 2-px dashes",
+      "rooms": ["robing_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.locker_bank_left",
+      "category": "object",
+      "subcategory": "locker",
+      "autotile": false,
+      "palette": ["#808080", "#606060", "#404040"],
+      "description": "Locker bank left for wider runs",
+      "rooms": ["robing_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.locker_bank_mid",
+      "category": "object",
+      "subcategory": "locker",
+      "autotile": false,
+      "palette": ["#808080", "#606060", "#404040"],
+      "description": "Locker bank middle",
+      "rooms": ["robing_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.locker_bank_right",
+      "category": "object",
+      "subcategory": "locker",
+      "autotile": false,
+      "palette": ["#808080", "#606060", "#404040"],
+      "description": "Locker bank right",
+      "rooms": ["robing_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.coat_rack",
+      "category": "object",
+      "subcategory": "furniture",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#000000"],
+      "description": "Coat rack with hooks + 1 hanging robe silhouette",
+      "rooms": ["robing_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.mirror_vertical",
+      "category": "object",
+      "subcategory": "furniture",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#E8F4FF"],
+      "description": "Mirror tile: highlight edge, stylized sheen, no reflections",
+      "rooms": ["robing_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.bench_wood_left",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Wood bench left segment",
+      "rooms": ["robing_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.bench_wood_mid",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Wood bench middle",
+      "rooms": ["robing_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.bench_wood_right",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Wood bench right",
+      "rooms": ["robing_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.laundry_bin",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#808080", "#606060", "#F8F8F8"],
+      "description": "Satirical: 'Robe Integrity Unit' label",
+      "rooms": ["robing_room"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.floor.press_carpet_base",
+      "category": "floor",
+      "subcategory": "carpet",
+      "autotile": true,
+      "variants": 2,
+      "palette": ["#2A2A2A", "#1A1A1A", "#0A0A0A"],
+      "description": "Darker carpet to contrast equipment; subtle pattern",
+      "rooms": ["press_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.camera_tripod",
+      "category": "object",
+      "subcategory": "equipment",
+      "autotile": false,
+      "palette": ["#404040", "#202020", "#000000"],
+      "description": "Tripod legs triangular footprint; camera as small box",
+      "rooms": ["press_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.camera_spotlight",
+      "category": "object",
+      "subcategory": "equipment",
+      "autotile": false,
+      "palette": ["#404040", "#202020", "#FFFFA0"],
+      "description": "Light head with bright face; limited highlight, no glow blur",
+      "rooms": ["press_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.microphone_stand",
+      "category": "object",
+      "subcategory": "equipment",
+      "autotile": false,
+      "palette": ["#404040", "#202020", "#C0C0C0"],
+      "description": "Stand base + mic head",
+      "rooms": ["press_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.cable_coil",
+      "category": "object",
+      "subcategory": "equipment",
+      "autotile": false,
+      "palette": ["#000000", "#202020", "#404040"],
+      "description": "Cable loops - standalone prop",
+      "rooms": ["press_room"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.podium",
+      "category": "object",
+      "subcategory": "furniture",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#D4AF37"],
+      "description": "1x1 podium; add emblem decal separately",
+      "rooms": ["press_room", "courtroom_main"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.decal.sign_hot_take_zone",
+      "category": "decal",
+      "subcategory": "sign",
+      "autotile": false,
+      "palette": ["#FFFFFF", "#FF6B6B", "#000000"],
+      "description": "Press room humor sign",
+      "rooms": ["press_room"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.decal.sign_off_the_record",
+      "category": "decal",
+      "subcategory": "sign",
+      "autotile": false,
+      "palette": ["#FFFFFF", "#1E3A5F", "#000000"],
+      "description": "Press room humor sign",
+      "rooms": ["press_room"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.decal.sign_no_filming_but_okay_flashcards",
+      "category": "decal",
+      "subcategory": "sign",
+      "autotile": false,
+      "palette": ["#FFFFFF", "#FF0000", "#4ECDC4"],
+      "description": "Absurdist humor sign",
+      "rooms": ["press_room"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.floor.vault_stone_base",
+      "category": "floor",
+      "subcategory": "stone",
+      "autotile": true,
+      "variants": 2,
+      "palette": ["#808080", "#606060", "#404040", "#303030"],
+      "description": "Cooler grays; fewer details",
+      "rooms": ["records_vault"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.wall.vault_reinforced_straight",
+      "category": "wall",
+      "subcategory": "vault",
+      "autotile": false,
+      "palette": ["#606060", "#404040", "#303030", "#D4AF37"],
+      "description": "Vault wall with rivet clusters aligned to tile edges",
+      "rooms": ["records_vault"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.wall.vault_reinforced_corner",
+      "category": "wall",
+      "subcategory": "vault",
+      "autotile": false,
+      "palette": ["#606060", "#404040", "#303030", "#D4AF37"],
+      "description": "Vault wall corner",
+      "rooms": ["records_vault"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.wall.vault_reinforced_endcap",
+      "category": "wall",
+      "subcategory": "vault",
+      "autotile": false,
+      "palette": ["#606060", "#404040", "#303030", "#D4AF37"],
+      "description": "Vault wall endcap",
+      "rooms": ["records_vault"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.door.vault_round_closed",
+      "category": "door",
+      "subcategory": "vault",
+      "autotile": false,
+      "palette": ["#606060", "#404040", "#303030", "#D4AF37"],
+      "description": "Big round vault door from top-down; simplified wheel spokes",
+      "rooms": ["records_vault"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.door.vault_round_open",
+      "category": "door",
+      "subcategory": "vault",
+      "autotile": false,
+      "palette": ["#606060", "#404040", "#202020", "#000000"],
+      "description": "Vault door open - dark opening + door edge",
+      "rooms": ["records_vault"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.shelf_metal_top",
+      "category": "object",
+      "subcategory": "shelf",
+      "autotile": false,
+      "palette": ["#808080", "#606060", "#404040"],
+      "description": "Metal shelf top for stackable vertical shelves",
+      "rooms": ["records_vault"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.shelf_metal_mid",
+      "category": "object",
+      "subcategory": "shelf",
+      "autotile": false,
+      "palette": ["#808080", "#606060", "#404040"],
+      "description": "Metal shelf middle",
+      "rooms": ["records_vault"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.shelf_metal_base",
+      "category": "object",
+      "subcategory": "shelf",
+      "autotile": false,
+      "palette": ["#808080", "#606060", "#404040"],
+      "description": "Metal shelf base",
+      "rooms": ["records_vault"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.shelf_metal_left_end",
+      "category": "object",
+      "subcategory": "shelf",
+      "autotile": false,
+      "palette": ["#808080", "#606060", "#404040"],
+      "description": "Metal shelf left terminator",
+      "rooms": ["records_vault"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.shelf_metal_right_end",
+      "category": "object",
+      "subcategory": "shelf",
+      "autotile": false,
+      "palette": ["#808080", "#606060", "#404040"],
+      "description": "Metal shelf right terminator",
+      "rooms": ["records_vault"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.archive_box",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#D2B48C", "#C4A882", "#B69B76", "#F8F8F8"],
+      "description": "Cardboard box with lid; label area as 2-3px light rectangle",
+      "rooms": ["records_vault"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.file_cart",
+      "category": "object",
+      "subcategory": "furniture",
+      "autotile": false,
+      "palette": ["#808080", "#606060", "#404040"],
+      "description": "Small rolling cart silhouette",
+      "rooms": ["records_vault"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.evidence_bag",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#E8E8E8", "#FF0000"],
+      "description": "Tiny 'Exhibit A-ish' label",
+      "rooms": ["records_vault"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.object.redacted_folder",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#D2B48C", "#000000", "#F8F8F8"],
+      "description": "Folder with black redaction bars - funny and readable",
+      "rooms": ["records_vault"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.floor.library_wood_base",
+      "category": "floor",
+      "subcategory": "wood",
+      "autotile": true,
+      "variants": 3,
+      "palette": ["#A0522D", "#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Slightly richer than courtroom wood",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.floor.library_rug_base",
+      "category": "floor",
+      "subcategory": "rug",
+      "autotile": true,
+      "palette": ["#2E4A2E", "#1E3A1E", "#0E2A0E"],
+      "description": "Scholar vibe but playful green rug",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.bookcase_top",
+      "category": "object",
+      "subcategory": "bookcase",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Bookcase top with visible lip",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.bookcase_mid",
+      "category": "object",
+      "subcategory": "bookcase",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#8B0000", "#1E3A5F", "#228B22"],
+      "description": "Bookcase middle with books",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.bookcase_base",
+      "category": "object",
+      "subcategory": "bookcase",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#202020"],
+      "description": "Bookcase base with shadow/feet",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.bookcase_corner_inner",
+      "category": "object",
+      "subcategory": "bookcase",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Bookcase inner corner for wall turns",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.bookcase_corner_outer",
+      "category": "object",
+      "subcategory": "bookcase",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Bookcase outer corner",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.bookcase_endcap_left",
+      "category": "object",
+      "subcategory": "bookcase",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Bookcase left endcap",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.bookcase_endcap_right",
+      "category": "object",
+      "subcategory": "bookcase",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Bookcase right endcap",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.bookcase_books_variantA",
+      "category": "object",
+      "subcategory": "bookcase",
+      "autotile": false,
+      "palette": ["#8B4513", "#8B0000", "#1E3A5F", "#228B22", "#D4AF37"],
+      "description": "Book spine variant A - prevent repetition",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.bookcase_books_variantB",
+      "category": "object",
+      "subcategory": "bookcase",
+      "autotile": false,
+      "palette": ["#8B4513", "#4B0082", "#FF6B6B", "#4ECDC4", "#D4AF37"],
+      "description": "Book spine variant B",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.bookcase_books_variantC",
+      "category": "object",
+      "subcategory": "bookcase",
+      "autotile": false,
+      "palette": ["#8B4513", "#2E4A2E", "#8B4513", "#A0522D", "#D4AF37"],
+      "description": "Book spine variant C",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.reading_table_NW",
+      "category": "object",
+      "subcategory": "table",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Reading table 2x2 NW corner - consistent wood grain",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.reading_table_NE",
+      "category": "object",
+      "subcategory": "table",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Reading table 2x2 NE corner",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.reading_table_SW",
+      "category": "object",
+      "subcategory": "table",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Reading table 2x2 SW corner",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.reading_table_SE",
+      "category": "object",
+      "subcategory": "table",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Reading table 2x2 SE corner",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.reading_chair",
+      "category": "object",
+      "subcategory": "chair",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#2E4A2E"],
+      "description": "Library reading chair with green cushion",
+      "rooms": ["library"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.lamp_table",
+      "category": "object",
+      "subcategory": "lighting",
+      "autotile": false,
+      "palette": ["#D4AF37", "#B8960C", "#228B22", "#FFF8DC"],
+      "description": "Tiny green banker's lamp classic",
+      "rooms": ["library", "chambers_*"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.book_stack_flashcards_hidden",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#8B4513", "#F8F8F8", "#FF6B6B", "#4ECDC4"],
+      "description": "Study contraband pile",
+      "rooms": ["library"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.decal.sign_shhh_or_else",
+      "category": "decal",
+      "subcategory": "sign",
+      "autotile": false,
+      "palette": ["#FFFFFF", "#000000", "#8B4513"],
+      "description": "Cartoon gavel icon - library humor",
+      "rooms": ["library"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.floor.cafeteria_tile_base",
+      "category": "floor",
+      "subcategory": "tile",
+      "autotile": true,
+      "variants": 3,
+      "palette": ["#E8E8E8", "#D8D8D8", "#C8C8C8", "#B8B8B8"],
+      "description": "Light checker or speckle; variants don't create visible seams",
+      "rooms": ["cafeteria"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.trim.cafeteria_baseboard_wallcap",
+      "category": "trim",
+      "subcategory": "baseboard",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Simple baseboard/trim along walls",
+      "rooms": ["cafeteria"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.table_round_center",
+      "category": "object",
+      "subcategory": "table",
+      "autotile": false,
+      "palette": ["#F0F0F0", "#D8D8D8", "#C0C0C0"],
+      "description": "Round cafeteria table center",
+      "rooms": ["cafeteria"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.table_round_edge_variant",
+      "category": "object",
+      "subcategory": "table",
+      "autotile": false,
+      "palette": ["#F0F0F0", "#D8D8D8", "#C0C0C0"],
+      "description": "Round table edge variant",
+      "rooms": ["cafeteria"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.chair_cafe",
+      "category": "object",
+      "subcategory": "chair",
+      "autotile": false,
+      "palette": ["#404040", "#303030", "#202020"],
+      "description": "Cafeteria chair",
+      "rooms": ["cafeteria"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.booth_left",
+      "category": "object",
+      "subcategory": "booth",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#4B0000", "#8B4513"],
+      "description": "Booth left - back + seat implied",
+      "rooms": ["cafeteria"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.booth_mid",
+      "category": "object",
+      "subcategory": "booth",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#4B0000", "#8B4513"],
+      "description": "Booth middle",
+      "rooms": ["cafeteria"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.booth_right",
+      "category": "object",
+      "subcategory": "booth",
+      "autotile": false,
+      "palette": ["#8B0000", "#6B0000", "#4B0000", "#8B4513"],
+      "description": "Booth right",
+      "rooms": ["cafeteria"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.serving_counter_left",
+      "category": "object",
+      "subcategory": "counter",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#E8F4FF"],
+      "description": "Serving counter left with sneeze-guard highlight line",
+      "rooms": ["cafeteria"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.serving_counter_mid",
+      "category": "object",
+      "subcategory": "counter",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#E8F4FF"],
+      "description": "Serving counter middle",
+      "rooms": ["cafeteria"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.serving_counter_right",
+      "category": "object",
+      "subcategory": "counter",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080", "#E8F4FF"],
+      "description": "Serving counter right",
+      "rooms": ["cafeteria"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.tray_stack",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Stack of cafeteria trays",
+      "rooms": ["cafeteria"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.vending_machine",
+      "category": "object",
+      "subcategory": "furniture",
+      "autotile": false,
+      "palette": ["#404040", "#303030", "#FF6B6B", "#4ECDC4"],
+      "description": "Top-down simplified; bright label block",
+      "rooms": ["cafeteria"],
+      "priority": "P4"
+    },
+    {
+      "id": "tile.object.menu_board",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#000000", "#FFFFFF", "#FFE66D"],
+      "description": "Today's Special: Judicial Activism Nachos",
+      "rooms": ["cafeteria"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.object.coffee_urn",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#6B3E0A"],
+      "description": "Strict Scrutiny Roast label",
+      "rooms": ["cafeteria"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.ground.grass_base",
+      "category": "ground",
+      "subcategory": "grass",
+      "autotile": true,
+      "variants": 3,
+      "palette": ["#228B22", "#2E8B57", "#3CB371", "#90EE90"],
+      "description": "Cluster shading; avoid noisy dithering",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.ground.grass_edge_to_sidewalk_N",
+      "category": "ground",
+      "subcategory": "grass",
+      "autotile": false,
+      "palette": ["#228B22", "#2E8B57", "#C0C0C0", "#A0A0A0"],
+      "description": "Grass edge blending to sidewalk North",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.ground.grass_edge_to_sidewalk_E",
+      "category": "ground",
+      "subcategory": "grass",
+      "autotile": false,
+      "palette": ["#228B22", "#2E8B57", "#C0C0C0", "#A0A0A0"],
+      "description": "Grass edge blending to sidewalk East",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.ground.grass_edge_to_sidewalk_S",
+      "category": "ground",
+      "subcategory": "grass",
+      "autotile": false,
+      "palette": ["#228B22", "#2E8B57", "#C0C0C0", "#A0A0A0"],
+      "description": "Grass edge blending to sidewalk South",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.ground.grass_edge_to_sidewalk_W",
+      "category": "ground",
+      "subcategory": "grass",
+      "autotile": false,
+      "palette": ["#228B22", "#2E8B57", "#C0C0C0", "#A0A0A0"],
+      "description": "Grass edge blending to sidewalk West",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.ground.sidewalk_stone_base",
+      "category": "ground",
+      "subcategory": "sidewalk",
+      "autotile": true,
+      "variants": 2,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Slab seams aligned to tile edges",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.ground.sidewalk_corner",
+      "category": "ground",
+      "subcategory": "sidewalk",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Sidewalk corner for path networks",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.ground.sidewalk_edge",
+      "category": "ground",
+      "subcategory": "sidewalk",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Sidewalk edge",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.ground.sidewalk_t_junction",
+      "category": "ground",
+      "subcategory": "sidewalk",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Sidewalk T-junction",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.ground.sidewalk_cross",
+      "category": "ground",
+      "subcategory": "sidewalk",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Sidewalk cross intersection",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.steps.granite_up",
+      "category": "steps",
+      "subcategory": "granite",
+      "autotile": false,
+      "palette": ["#E0E0E0", "#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Exterior granite step up",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.steps.granite_landing",
+      "category": "steps",
+      "subcategory": "granite",
+      "autotile": false,
+      "palette": ["#E0E0E0", "#C0C0C0", "#A0A0A0"],
+      "description": "Exterior granite landing",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.steps.granite_corner",
+      "category": "steps",
+      "subcategory": "granite",
+      "autotile": false,
+      "palette": ["#E0E0E0", "#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Exterior granite step corner",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.object.column_exterior_top",
+      "category": "object",
+      "subcategory": "column",
+      "autotile": false,
+      "palette": ["#E0E0E0", "#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Exterior column top - cooler palette than interior",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.object.column_exterior_mid",
+      "category": "object",
+      "subcategory": "column",
+      "autotile": false,
+      "palette": ["#E0E0E0", "#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Exterior column middle",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.object.column_exterior_base",
+      "category": "object",
+      "subcategory": "column",
+      "autotile": false,
+      "palette": ["#E0E0E0", "#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Exterior column base",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.object.flagpole_base",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#C0C0C0", "#A0A0A0", "#808080"],
+      "description": "Flagpole base - pole implied extending up",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.object.bench_park_left",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#404040"],
+      "description": "Park bench left segment",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.object.bench_park_mid",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#404040"],
+      "description": "Park bench middle",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.object.bench_park_right",
+      "category": "object",
+      "subcategory": "bench",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#404040"],
+      "description": "Park bench right",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.object.tree_small_canopy",
+      "category": "object",
+      "subcategory": "plant",
+      "autotile": false,
+      "palette": ["#228B22", "#2E8B57", "#3CB371", "#8B4513"],
+      "description": "LPC-style top-down tree canopy",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.object.shrub_round",
+      "category": "object",
+      "subcategory": "plant",
+      "autotile": false,
+      "palette": ["#228B22", "#2E8B57", "#3CB371"],
+      "description": "Round decorative shrub",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.object.trash_bin",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#404040", "#303030", "#228B22"],
+      "description": "Trash bin - satire label optional",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.object.statue_base",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#808080", "#606060", "#404040"],
+      "description": "Statue base for 2x2 statue assembly",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P5"
+    },
+    {
+      "id": "tile.decal.sign_hours",
+      "category": "decal",
+      "subcategory": "sign",
+      "autotile": false,
+      "palette": ["#FFFFFF", "#000000", "#D4AF37"],
+      "description": "Open 9-5, Closed for Drama",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.decal.sign_no_loitering_except_clerks",
+      "category": "decal",
+      "subcategory": "sign",
+      "autotile": false,
+      "palette": ["#FFFFFF", "#FF0000", "#000000"],
+      "description": "Exterior humor sign",
+      "rooms": ["courthouse_exterior"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.floor.chambers_carpet_base",
+      "category": "floor",
+      "subcategory": "carpet",
+      "autotile": true,
+      "variants": 2,
+      "palette": ["#1E3A5F", "#152D4A", "#0D1F35"],
+      "description": "Muted, professional carpet",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.office_desk_NW",
+      "category": "object",
+      "subcategory": "desk",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A", "#228B22"],
+      "description": "2x2 desk NW corner - top surface with blotter",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.office_desk_NE",
+      "category": "object",
+      "subcategory": "desk",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "2x2 desk NE corner",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.office_desk_SW",
+      "category": "object",
+      "subcategory": "desk",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "2x2 desk SW corner - front lip",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.office_desk_SE",
+      "category": "object",
+      "subcategory": "desk",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "2x2 desk SE corner",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.office_chair",
+      "category": "object",
+      "subcategory": "chair",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#000000", "#2E4A2E"],
+      "description": "Executive office chair",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.side_table",
+      "category": "object",
+      "subcategory": "furniture",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Small side table",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.file_cabinet",
+      "category": "object",
+      "subcategory": "furniture",
+      "autotile": false,
+      "palette": ["#606060", "#404040", "#303030", "#D4AF37"],
+      "description": "Metal file cabinet",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.bookshelf_small",
+      "category": "object",
+      "subcategory": "bookcase",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#D2B48C", "#F8F8F8"],
+      "description": "Different from library: fewer books, more folders",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.window_topdown",
+      "category": "object",
+      "subcategory": "architecture",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#87CEEB", "#B0E0E6"],
+      "description": "Window as floor decal near wall",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.plant_office",
+      "category": "object",
+      "subcategory": "plant",
+      "autotile": false,
+      "palette": ["#228B22", "#2E8B57", "#8B4513", "#6B3E0A"],
+      "description": "Office plant in pot",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.decal.diploma_generic",
+      "category": "decal",
+      "subcategory": "decor",
+      "autotile": false,
+      "palette": ["#8B4513", "#F8F8F8", "#D4AF37"],
+      "description": "Generic diploma frame",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.decal.map_dc",
+      "category": "decal",
+      "subcategory": "decor",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#1E3A5F", "#D4AF37"],
+      "description": "Tiny gag: Jurisdiction of Vibes",
+      "rooms": ["chambers_*"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.decal.photo_frame_generic",
+      "category": "decal",
+      "subcategory": "decor",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#F8F8F8"],
+      "description": "Generic photo frame",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.mug_custom",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#E8E8E8", "#6B3E0A"],
+      "description": "Custom mug - text implied by 2-3px marks",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.stack_opinions",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#E8E8E8", "#FF6B6B", "#4ECDC4", "#FFE66D"],
+      "description": "Paper pile with colored tabs",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.argument_clock",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#D4AF37", "#000000"],
+      "description": "Tiny clock prop - good for puzzles/timers",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.decal.nameplate_justice_generic",
+      "category": "decal",
+      "subcategory": "plaque",
+      "autotile": false,
+      "palette": ["#D4AF37", "#B8960C", "#000000"],
+      "description": "Simple plaque block for justice names",
+      "rooms": ["chambers_*"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.neat_inbox",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#808080", "#F8F8F8", "#E8E8E8"],
+      "description": "Roberts flavor: tidy inbox",
+      "rooms": ["chambers_roberts"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.decal.rules_chart",
+      "category": "decal",
+      "subcategory": "decor",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#000000", "#1E3A5F"],
+      "description": "Roberts flavor: rules chart",
+      "rooms": ["chambers_roberts"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.object.old_book_rare",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#D4AF37"],
+      "description": "Thomas flavor: sparse archival",
+      "rooms": ["chambers_thomas"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.decal.minimalist_wall",
+      "category": "decal",
+      "subcategory": "decor",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#E8E8E8"],
+      "description": "Thomas flavor: minimalist",
+      "rooms": ["chambers_thomas"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.object.family_photo_cluster",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#F8F8F8", "#FFE4B5"],
+      "description": "Sotomayor flavor: warm accents",
+      "rooms": ["chambers_sotomayor"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.book_awards",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#D4AF37", "#B8960C", "#8B4513"],
+      "description": "Sotomayor flavor: award books",
+      "rooms": ["chambers_sotomayor"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.snack_stash",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#FF6B6B", "#4ECDC4", "#FFE66D", "#F8F8F8"],
+      "description": "Kagan flavor: playful chaos",
+      "rooms": ["chambers_kagan"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.decal.funny_quote_plaque",
+      "category": "decal",
+      "subcategory": "plaque",
+      "autotile": false,
+      "palette": ["#D4AF37", "#B8960C", "#F8F8F8"],
+      "description": "Kagan flavor: humor plaque",
+      "rooms": ["chambers_kagan"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.object.large_lamp",
+      "category": "object",
+      "subcategory": "lighting",
+      "autotile": false,
+      "palette": ["#D4AF37", "#B8960C", "#228B22", "#FFF8DC"],
+      "description": "Alito flavor: heavier wood aesthetic",
+      "rooms": ["chambers_alito"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.thick_casebook",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Alito flavor: thick legal tomes",
+      "rooms": ["chambers_alito"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.color_coded_tabs",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#FF6B6B", "#4ECDC4", "#FFE66D", "#9B59B6"],
+      "description": "Barrett flavor: organized",
+      "rooms": ["chambers_barrett"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.calendar_doodle",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#F8F8F8", "#E8E8E8", "#000000", "#FF6B6B"],
+      "description": "Barrett flavor: calendar with doodles",
+      "rooms": ["chambers_barrett"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.object.boots_corner",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#8B4513", "#6B3E0A", "#4A2C0A"],
+      "description": "Gorsuch flavor: outdoorsy nod",
+      "rooms": ["chambers_gorsuch"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.object.ball_paperweight",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#A0522D", "#8B4513", "#F8F8F8"],
+      "description": "Kavanaugh flavor: sports nod (simple circle)",
+      "rooms": ["chambers_kavanaugh"],
+      "priority": "P6"
+    },
+    {
+      "id": "tile.object.children_book",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#FF6B6B", "#4ECDC4", "#FFE66D", "#F8F8F8"],
+      "description": "Jackson flavor: approachable",
+      "rooms": ["chambers_jackson"],
+      "priority": "P3"
+    },
+    {
+      "id": "tile.object.postit_cluster",
+      "category": "object",
+      "subcategory": "prop",
+      "autotile": false,
+      "palette": ["#FFE66D", "#FF6B6B", "#4ECDC4", "#9B59B6"],
+      "description": "Jackson flavor: post-it notes cluster",
+      "rooms": ["chambers_jackson"],
+      "priority": "P3"
+    }
+  ]
+}

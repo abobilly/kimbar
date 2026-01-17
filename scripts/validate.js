@@ -29,6 +29,9 @@ const INK_PUBLIC_DIR = './public/generated/ink';
 const CONTRACT_PATH = './content/content_contract.json';
 const PLACEMENT_DRAFTS_DIR = './content/placement_drafts';
 const PLACEMENT_SPEC_PATH = './docs/MISSING_ASSETS_SPEC.json';
+const TILESET_MANIFEST_PATH = './content/ai_jobs/tileset_manifest.json';
+const ROOM_TILE_REQUIREMENTS_PATH = './content/ai_jobs/room_tile_requirements.json';
+const GENERATED_TILES_DIR = './generated/tiles';
 
 let hardErrors = [];
 let policySkips = [];
@@ -660,6 +663,99 @@ async function validatePlacementDrafts(schemas) {
   }
 }
 
+async function validateTileCompleteness() {
+  console.log('\n🧱 Validating Tile Completeness...');
+
+  // Skip if manifest doesn't exist (tiles not yet being tracked)
+  if (!existsSync(TILESET_MANIFEST_PATH)) {
+    warn('No tileset manifest found - tile validation skipped');
+    return;
+  }
+
+  if (!existsSync(ROOM_TILE_REQUIREMENTS_PATH)) {
+    warn('No room tile requirements found - tile validation skipped');
+    return;
+  }
+
+  let manifest, requirements;
+  try {
+    manifest = await loadJson(TILESET_MANIFEST_PATH);
+    requirements = await loadJson(ROOM_TILE_REQUIREMENTS_PATH);
+  } catch (e) {
+    error(`Failed to load tile manifest/requirements: ${e.message}`);
+    return;
+  }
+
+  const definedTiles = new Set(manifest.tiles?.map(t => t.id) || []);
+  const generatedTiles = new Set();
+
+  // Scan generated tiles directory
+  if (existsSync(GENERATED_TILES_DIR)) {
+    try {
+      const files = await readdir(GENERATED_TILES_DIR);
+      for (const file of files) {
+        if (file.endsWith('.png')) {
+          // tile.floor.marble.white_base.png -> tile.floor.marble.white_base
+          generatedTiles.add(file.replace('.png', ''));
+        }
+      }
+    } catch (e) {
+      warn(`Could not scan generated tiles: ${e.message}`);
+    }
+  }
+
+  const totalDefined = definedTiles.size;
+  const totalGenerated = generatedTiles.size;
+  const completionPct = totalDefined > 0 ? Math.round((totalGenerated / totalDefined) * 100) : 0;
+
+  ok(`Tile manifest: ${totalDefined} defined, ${totalGenerated} generated (${completionPct}%)`);
+
+  // Check each room for required tiles
+  const rooms = requirements.rooms || {};
+  let roomsChecked = 0;
+  let roomsMissing = 0;
+
+  for (const [roomId, roomSpec] of Object.entries(rooms)) {
+    const requiredPatterns = roomSpec.required || [];
+    const uniquePatterns = roomSpec.unique || [];
+    const allPatterns = [...requiredPatterns, ...uniquePatterns];
+
+    let missingForRoom = [];
+
+    for (const pattern of allPatterns) {
+      // Pattern can be exact ID or wildcard (tile.floor.marble.*)
+      if (pattern.endsWith('*')) {
+        const prefix = pattern.slice(0, -1);
+        const hasMatch = [...generatedTiles].some(id => id.startsWith(prefix));
+        if (!hasMatch) {
+          // Check if at least defined in manifest
+          const definedMatch = [...definedTiles].some(id => id.startsWith(prefix));
+          if (definedMatch) {
+            missingForRoom.push(pattern);
+          }
+        }
+      } else {
+        if (!generatedTiles.has(pattern) && definedTiles.has(pattern)) {
+          missingForRoom.push(pattern);
+        }
+      }
+    }
+
+    roomsChecked++;
+    if (missingForRoom.length > 0) {
+      roomsMissing++;
+      // Only warn, don't error - tiles are generated incrementally
+      warn(`Room '${roomId}' missing ${missingForRoom.length} tile(s): ${missingForRoom.slice(0, 3).join(', ')}${missingForRoom.length > 3 ? '...' : ''}`);
+    }
+  }
+
+  if (roomsMissing > 0) {
+    console.log(`  📋 ${roomsChecked} rooms checked, ${roomsMissing} have missing tiles`);
+  } else if (roomsChecked > 0 && totalGenerated > 0) {
+    ok(`All ${roomsChecked} rooms have required tiles`);
+  }
+}
+
 async function main() {
   console.log('🔍 Kim Bar Content Validator\n');
   console.log('='.repeat(50));
@@ -687,6 +783,7 @@ async function main() {
   await validateRoomSpecs(schemas, registry, contract);
   await validateLpcStyleGuide(contract);
   await validatePlacementDrafts(schemas);
+  await validateTileCompleteness();
 
   // Summary
   console.log('\n' + '='.repeat(50));

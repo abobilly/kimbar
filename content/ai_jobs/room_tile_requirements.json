@@ -1,0 +1,508 @@
+{
+  "$schema": "../../schemas/RoomTileRequirements.schema.json",
+  "version": "1.0",
+  "rooms": {
+    "scotus_lobby": {
+      "displayName": "Grand Entry Lobby",
+      "priority": "P1",
+      "required": [
+        "tile.floor.marble.white_*",
+        "tile.floor.marble.black_inset_*",
+        "tile.trim.stone_*",
+        "tile.wall.interior_stone_*",
+        "tile.door.double_wood_*",
+        "tile.door.archway_open_stone",
+        "tile.column.round_*"
+      ],
+      "unique": [
+        "tile.floor.lobby_mosaic_*",
+        "tile.trim.lobby_mosaic_*",
+        "tile.steps.marble_*",
+        "tile.object.rope_*",
+        "tile.object.bench_marble_*",
+        "tile.object.information_desk_*",
+        "tile.object.pillar_plaque"
+      ],
+      "optional": [
+        "tile.decal.sign_*",
+        "tile.decal.plaque_generic",
+        "tile.rug.red_*"
+      ],
+      "reusePct": 45,
+      "uniqueCount": 16,
+      "totalEstimate": 35
+    },
+    "room.scotus_hall_01": {
+      "displayName": "Hallway / Connector",
+      "priority": "P1",
+      "required": [
+        "tile.floor.marble.white_*",
+        "tile.trim.stone_*",
+        "tile.wall.interior_stone_*",
+        "tile.door.single_wood_*"
+      ],
+      "unique": [
+        "tile.floor.hall_marble_*",
+        "tile.trim.hall_runner_*",
+        "tile.object.statue_plinth_*",
+        "tile.object.wall_sconce_*",
+        "tile.object.potted_plant_round"
+      ],
+      "optional": [
+        "tile.decal.plaque_generic"
+      ],
+      "reusePct": 70,
+      "uniqueCount": 10,
+      "totalEstimate": 25
+    },
+    "courtroom_main": {
+      "displayName": "Supreme Court Courtroom",
+      "priority": "P2",
+      "required": [
+        "tile.trim.stone_*",
+        "tile.wall.interior_stone_*",
+        "tile.door.double_wood_*",
+        "tile.column.round_*"
+      ],
+      "unique": [
+        "tile.floor.court_wood_*",
+        "tile.trim.wood_border_*",
+        "tile.floor.court_carpet_runner_*",
+        "tile.object.bench_front_*",
+        "tile.object.bench_top_*",
+        "tile.object.bench_steps_*",
+        "tile.object.counsel_table_*",
+        "tile.object.chair_north",
+        "tile.object.chair_south",
+        "tile.object.gallery_bench_*",
+        "tile.object.gavel_on_block",
+        "tile.object.stack_flashcards",
+        "tile.object.podium"
+      ],
+      "optional": [
+        "tile.decal.rulebook_warning",
+        "tile.rug.red_*"
+      ],
+      "reusePct": 30,
+      "uniqueCount": 25,
+      "totalEstimate": 40
+    },
+    "robing_room": {
+      "displayName": "Pre-Court Preparation",
+      "priority": "P4",
+      "required": [
+        "tile.floor.court_wood_*",
+        "tile.wall.interior_woodpanel_*",
+        "tile.door.single_wood_*"
+      ],
+      "unique": [
+        "tile.floor.robing_rug_*",
+        "tile.object.locker_*",
+        "tile.object.coat_rack",
+        "tile.object.mirror_vertical",
+        "tile.object.bench_wood_*",
+        "tile.object.laundry_bin"
+      ],
+      "optional": [],
+      "reusePct": 50,
+      "uniqueCount": 12,
+      "totalEstimate": 20
+    },
+    "press_room": {
+      "displayName": "Media Room",
+      "priority": "P4",
+      "required": [
+        "tile.wall.interior_stone_*",
+        "tile.door.double_wood_*"
+      ],
+      "unique": [
+        "tile.floor.press_carpet_*",
+        "tile.object.camera_tripod",
+        "tile.object.camera_spotlight",
+        "tile.object.microphone_stand",
+        "tile.object.cable_coil",
+        "tile.object.podium"
+      ],
+      "optional": [
+        "tile.decal.sign_hot_take_zone",
+        "tile.decal.sign_off_the_record",
+        "tile.decal.sign_no_filming_but_okay_flashcards"
+      ],
+      "reusePct": 40,
+      "uniqueCount": 9,
+      "totalEstimate": 18
+    },
+    "records_vault": {
+      "displayName": "Secure Archive",
+      "priority": "P4",
+      "required": [],
+      "unique": [
+        "tile.floor.vault_stone_*",
+        "tile.wall.vault_reinforced_*",
+        "tile.door.vault_round_*",
+        "tile.object.shelf_metal_*",
+        "tile.object.archive_box",
+        "tile.object.file_cart"
+      ],
+      "optional": [
+        "tile.object.evidence_bag",
+        "tile.object.redacted_folder"
+      ],
+      "reusePct": 15,
+      "uniqueCount": 15,
+      "totalEstimate": 18
+    },
+    "library": {
+      "displayName": "Library / Quiet Hub",
+      "priority": "P4",
+      "required": [
+        "tile.wall.interior_woodpanel_*",
+        "tile.door.single_wood_*"
+      ],
+      "unique": [
+        "tile.floor.library_wood_*",
+        "tile.floor.library_rug_*",
+        "tile.object.bookcase_*",
+        "tile.object.reading_table_*",
+        "tile.object.reading_chair",
+        "tile.object.lamp_table"
+      ],
+      "optional": [
+        "tile.object.book_stack_flashcards_hidden",
+        "tile.decal.sign_shhh_or_else",
+        "tile.object.wall_sconce_*",
+        "tile.object.potted_plant_round"
+      ],
+      "reusePct": 35,
+      "uniqueCount": 20,
+      "totalEstimate": 30
+    },
+    "cafeteria": {
+      "displayName": "Comic Relief Hub",
+      "priority": "P4",
+      "required": [
+        "tile.wall.interior_stone_*",
+        "tile.door.double_wood_*"
+      ],
+      "unique": [
+        "tile.floor.cafeteria_tile_*",
+        "tile.trim.cafeteria_baseboard_*",
+        "tile.object.table_round_*",
+        "tile.object.chair_cafe",
+        "tile.object.booth_*",
+        "tile.object.serving_counter_*",
+        "tile.object.tray_stack",
+        "tile.object.vending_machine"
+      ],
+      "optional": [
+        "tile.object.menu_board",
+        "tile.object.coffee_urn"
+      ],
+      "reusePct": 30,
+      "uniqueCount": 16,
+      "totalEstimate": 22
+    },
+    "courthouse_exterior": {
+      "displayName": "Courthouse Exterior",
+      "priority": "P5",
+      "required": [],
+      "unique": [
+        "tile.ground.grass_*",
+        "tile.ground.sidewalk_*",
+        "tile.steps.granite_*",
+        "tile.object.column_exterior_*",
+        "tile.object.flagpole_base",
+        "tile.object.bench_park_*",
+        "tile.object.tree_small_canopy",
+        "tile.object.shrub_round",
+        "tile.object.trash_bin",
+        "tile.object.statue_base"
+      ],
+      "optional": [
+        "tile.decal.sign_hours",
+        "tile.decal.sign_no_loitering_except_clerks"
+      ],
+      "reusePct": 10,
+      "uniqueCount": 25,
+      "totalEstimate": 28
+    },
+    "chambers_roberts": {
+      "displayName": "Chief Justice Roberts' Chambers",
+      "priority": "P3",
+      "required": [
+        "tile.floor.chambers_carpet_*",
+        "tile.wall.interior_woodpanel_*",
+        "tile.door.single_wood_*",
+        "tile.object.office_desk_*",
+        "tile.object.office_chair",
+        "tile.object.side_table",
+        "tile.object.file_cabinet",
+        "tile.object.bookshelf_small",
+        "tile.object.plant_office",
+        "tile.decal.diploma_generic",
+        "tile.decal.photo_frame_generic",
+        "tile.object.mug_custom",
+        "tile.object.stack_opinions",
+        "tile.object.argument_clock",
+        "tile.decal.nameplate_justice_generic"
+      ],
+      "unique": [
+        "tile.object.neat_inbox"
+      ],
+      "optional": [
+        "tile.decal.rules_chart"
+      ],
+      "reusePct": 92,
+      "uniqueCount": 1,
+      "totalEstimate": 25
+    },
+    "chambers_thomas": {
+      "displayName": "Justice Thomas' Chambers",
+      "priority": "P3",
+      "required": [
+        "tile.floor.chambers_carpet_*",
+        "tile.wall.interior_woodpanel_*",
+        "tile.door.single_wood_*",
+        "tile.object.office_desk_*",
+        "tile.object.office_chair",
+        "tile.object.side_table",
+        "tile.object.file_cabinet",
+        "tile.object.bookshelf_small",
+        "tile.object.plant_office",
+        "tile.decal.diploma_generic",
+        "tile.decal.photo_frame_generic",
+        "tile.object.mug_custom",
+        "tile.object.stack_opinions",
+        "tile.object.argument_clock",
+        "tile.decal.nameplate_justice_generic"
+      ],
+      "unique": [
+        "tile.object.old_book_rare"
+      ],
+      "optional": [
+        "tile.decal.minimalist_wall"
+      ],
+      "reusePct": 92,
+      "uniqueCount": 1,
+      "totalEstimate": 25
+    },
+    "chambers_alito": {
+      "displayName": "Justice Alito's Chambers",
+      "priority": "P3",
+      "required": [
+        "tile.floor.chambers_carpet_*",
+        "tile.wall.interior_woodpanel_*",
+        "tile.door.single_wood_*",
+        "tile.object.office_desk_*",
+        "tile.object.office_chair",
+        "tile.object.side_table",
+        "tile.object.file_cabinet",
+        "tile.object.bookshelf_small",
+        "tile.object.plant_office",
+        "tile.decal.diploma_generic",
+        "tile.decal.photo_frame_generic",
+        "tile.object.mug_custom",
+        "tile.object.stack_opinions",
+        "tile.object.argument_clock",
+        "tile.decal.nameplate_justice_generic"
+      ],
+      "unique": [
+        "tile.object.large_lamp",
+        "tile.object.thick_casebook"
+      ],
+      "optional": [],
+      "reusePct": 88,
+      "uniqueCount": 2,
+      "totalEstimate": 26
+    },
+    "chambers_sotomayor": {
+      "displayName": "Justice Sotomayor's Chambers",
+      "priority": "P3",
+      "required": [
+        "tile.floor.chambers_carpet_*",
+        "tile.wall.interior_woodpanel_*",
+        "tile.door.single_wood_*",
+        "tile.object.office_desk_*",
+        "tile.object.office_chair",
+        "tile.object.side_table",
+        "tile.object.file_cabinet",
+        "tile.object.bookshelf_small",
+        "tile.object.plant_office",
+        "tile.decal.diploma_generic",
+        "tile.decal.photo_frame_generic",
+        "tile.object.mug_custom",
+        "tile.object.stack_opinions",
+        "tile.object.argument_clock",
+        "tile.decal.nameplate_justice_generic"
+      ],
+      "unique": [
+        "tile.object.family_photo_cluster",
+        "tile.object.book_awards"
+      ],
+      "optional": [],
+      "reusePct": 88,
+      "uniqueCount": 2,
+      "totalEstimate": 26
+    },
+    "chambers_kagan": {
+      "displayName": "Justice Kagan's Chambers",
+      "priority": "P3",
+      "required": [
+        "tile.floor.chambers_carpet_*",
+        "tile.wall.interior_woodpanel_*",
+        "tile.door.single_wood_*",
+        "tile.object.office_desk_*",
+        "tile.object.office_chair",
+        "tile.object.side_table",
+        "tile.object.file_cabinet",
+        "tile.object.bookshelf_small",
+        "tile.object.plant_office",
+        "tile.decal.diploma_generic",
+        "tile.decal.photo_frame_generic",
+        "tile.object.mug_custom",
+        "tile.object.stack_opinions",
+        "tile.object.argument_clock",
+        "tile.decal.nameplate_justice_generic"
+      ],
+      "unique": [],
+      "optional": [
+        "tile.object.snack_stash",
+        "tile.decal.funny_quote_plaque"
+      ],
+      "reusePct": 96,
+      "uniqueCount": 0,
+      "totalEstimate": 24
+    },
+    "chambers_gorsuch": {
+      "displayName": "Justice Gorsuch's Chambers",
+      "priority": "P3",
+      "required": [
+        "tile.floor.chambers_carpet_*",
+        "tile.wall.interior_woodpanel_*",
+        "tile.door.single_wood_*",
+        "tile.object.office_desk_*",
+        "tile.object.office_chair",
+        "tile.object.side_table",
+        "tile.object.file_cabinet",
+        "tile.object.bookshelf_small",
+        "tile.object.plant_office",
+        "tile.decal.diploma_generic",
+        "tile.decal.photo_frame_generic",
+        "tile.object.mug_custom",
+        "tile.object.stack_opinions",
+        "tile.object.argument_clock",
+        "tile.decal.nameplate_justice_generic"
+      ],
+      "unique": [],
+      "optional": [
+        "tile.object.boots_corner"
+      ],
+      "reusePct": 96,
+      "uniqueCount": 0,
+      "totalEstimate": 24
+    },
+    "chambers_kavanaugh": {
+      "displayName": "Justice Kavanaugh's Chambers",
+      "priority": "P3",
+      "required": [
+        "tile.floor.chambers_carpet_*",
+        "tile.wall.interior_woodpanel_*",
+        "tile.door.single_wood_*",
+        "tile.object.office_desk_*",
+        "tile.object.office_chair",
+        "tile.object.side_table",
+        "tile.object.file_cabinet",
+        "tile.object.bookshelf_small",
+        "tile.object.plant_office",
+        "tile.decal.diploma_generic",
+        "tile.decal.photo_frame_generic",
+        "tile.object.mug_custom",
+        "tile.object.stack_opinions",
+        "tile.object.argument_clock",
+        "tile.decal.nameplate_justice_generic"
+      ],
+      "unique": [],
+      "optional": [
+        "tile.object.ball_paperweight"
+      ],
+      "reusePct": 96,
+      "uniqueCount": 0,
+      "totalEstimate": 24
+    },
+    "chambers_barrett": {
+      "displayName": "Justice Barrett's Chambers",
+      "priority": "P3",
+      "required": [
+        "tile.floor.chambers_carpet_*",
+        "tile.wall.interior_woodpanel_*",
+        "tile.door.single_wood_*",
+        "tile.object.office_desk_*",
+        "tile.object.office_chair",
+        "tile.object.side_table",
+        "tile.object.file_cabinet",
+        "tile.object.bookshelf_small",
+        "tile.object.plant_office",
+        "tile.decal.diploma_generic",
+        "tile.decal.photo_frame_generic",
+        "tile.object.mug_custom",
+        "tile.object.stack_opinions",
+        "tile.object.argument_clock",
+        "tile.decal.nameplate_justice_generic"
+      ],
+      "unique": [
+        "tile.object.color_coded_tabs"
+      ],
+      "optional": [
+        "tile.object.calendar_doodle"
+      ],
+      "reusePct": 92,
+      "uniqueCount": 1,
+      "totalEstimate": 25
+    },
+    "chambers_jackson": {
+      "displayName": "Justice Jackson's Chambers",
+      "priority": "P3",
+      "required": [
+        "tile.floor.chambers_carpet_*",
+        "tile.wall.interior_woodpanel_*",
+        "tile.door.single_wood_*",
+        "tile.object.office_desk_*",
+        "tile.object.office_chair",
+        "tile.object.side_table",
+        "tile.object.file_cabinet",
+        "tile.object.bookshelf_small",
+        "tile.object.plant_office",
+        "tile.decal.diploma_generic",
+        "tile.decal.photo_frame_generic",
+        "tile.object.mug_custom",
+        "tile.object.stack_opinions",
+        "tile.object.argument_clock",
+        "tile.decal.nameplate_justice_generic"
+      ],
+      "unique": [
+        "tile.object.children_book",
+        "tile.object.postit_cluster"
+      ],
+      "optional": [],
+      "reusePct": 88,
+      "uniqueCount": 2,
+      "totalEstimate": 26
+    }
+  },
+  "summary": {
+    "totalRooms": 18,
+    "sharedCoreTiles": 50,
+    "uniqueTilesAcrossAllRooms": 180,
+    "totalTileDefinitions": 230,
+    "chambersReusePercent": 92,
+    "generationJobs": {
+      "P0_shared_core": 50,
+      "P1_lobby_hall": 26,
+      "P2_courtroom": 25,
+      "P3_chambers_kit": 30,
+      "P4_support_rooms": 65,
+      "P5_exterior": 25,
+      "P6_humor_decals": 25
+    }
+  }
+}

@@ -1,0 +1,1382 @@
+{
+  "tile.floor.cafeteria_tile_base": {
+    "tilesetUid": 54695,
+    "tileId": 0,
+    "x": 0,
+    "y": 0
+  },
+  "tile.floor.chambers_carpet_base": {
+    "tilesetUid": 54695,
+    "tileId": 1,
+    "x": 32,
+    "y": 0
+  },
+  "tile.floor.court_carpet_runner_base": {
+    "tilesetUid": 54695,
+    "tileId": 2,
+    "x": 64,
+    "y": 0
+  },
+  "tile.floor.court_wood_base": {
+    "tilesetUid": 54695,
+    "tileId": 3,
+    "x": 96,
+    "y": 0
+  },
+  "tile.floor.hall_marble_base": {
+    "tilesetUid": 54695,
+    "tileId": 4,
+    "x": 128,
+    "y": 0
+  },
+  "tile.floor.library_rug_base": {
+    "tilesetUid": 54695,
+    "tileId": 5,
+    "x": 160,
+    "y": 0
+  },
+  "tile.floor.library_wood_base": {
+    "tilesetUid": 54695,
+    "tileId": 6,
+    "x": 192,
+    "y": 0
+  },
+  "tile.floor.lobby_mosaic_base": {
+    "tilesetUid": 54695,
+    "tileId": 7,
+    "x": 224,
+    "y": 0
+  },
+  "tile.floor.marble.black_inset_base": {
+    "tilesetUid": 54695,
+    "tileId": 8,
+    "x": 256,
+    "y": 0
+  },
+  "tile.floor.marble.white_base": {
+    "tilesetUid": 54695,
+    "tileId": 9,
+    "x": 288,
+    "y": 0
+  },
+  "tile.floor.marble.white_crack_hairline": {
+    "tilesetUid": 54695,
+    "tileId": 10,
+    "x": 320,
+    "y": 0
+  },
+  "tile.floor.marble.white_variantA": {
+    "tilesetUid": 54695,
+    "tileId": 11,
+    "x": 352,
+    "y": 0
+  },
+  "tile.floor.marble.white_variantB": {
+    "tilesetUid": 54695,
+    "tileId": 12,
+    "x": 384,
+    "y": 0
+  },
+  "tile.floor.marble.white_variantC": {
+    "tilesetUid": 54695,
+    "tileId": 13,
+    "x": 416,
+    "y": 0
+  },
+  "tile.floor.press_carpet_base": {
+    "tilesetUid": 54695,
+    "tileId": 14,
+    "x": 448,
+    "y": 0
+  },
+  "tile.floor.robing_rug_base": {
+    "tilesetUid": 54695,
+    "tileId": 15,
+    "x": 480,
+    "y": 0
+  },
+  "tile.floor.vault_stone_base": {
+    "tilesetUid": 54695,
+    "tileId": 16,
+    "x": 0,
+    "y": 32
+  },
+  "tile.wall.interior_stone_corner_inner": {
+    "tilesetUid": 54695,
+    "tileId": 17,
+    "x": 32,
+    "y": 32
+  },
+  "tile.wall.interior_stone_corner_outer": {
+    "tilesetUid": 54695,
+    "tileId": 18,
+    "x": 64,
+    "y": 32
+  },
+  "tile.wall.interior_stone_endcap": {
+    "tilesetUid": 54695,
+    "tileId": 19,
+    "x": 96,
+    "y": 32
+  },
+  "tile.wall.interior_stone_straight": {
+    "tilesetUid": 54695,
+    "tileId": 20,
+    "x": 128,
+    "y": 32
+  },
+  "tile.wall.interior_woodpanel_corner_inner": {
+    "tilesetUid": 54695,
+    "tileId": 21,
+    "x": 160,
+    "y": 32
+  },
+  "tile.wall.interior_woodpanel_corner_outer": {
+    "tilesetUid": 54695,
+    "tileId": 22,
+    "x": 192,
+    "y": 32
+  },
+  "tile.wall.interior_woodpanel_endcap": {
+    "tilesetUid": 54695,
+    "tileId": 23,
+    "x": 224,
+    "y": 32
+  },
+  "tile.wall.interior_woodpanel_straight": {
+    "tilesetUid": 54695,
+    "tileId": 24,
+    "x": 256,
+    "y": 32
+  },
+  "tile.wall.vault_reinforced_corner": {
+    "tilesetUid": 54695,
+    "tileId": 25,
+    "x": 288,
+    "y": 32
+  },
+  "tile.wall.vault_reinforced_endcap": {
+    "tilesetUid": 54695,
+    "tileId": 26,
+    "x": 320,
+    "y": 32
+  },
+  "tile.wall.vault_reinforced_straight": {
+    "tilesetUid": 54695,
+    "tileId": 27,
+    "x": 352,
+    "y": 32
+  },
+  "tile.trim.cafeteria_baseboard_wallcap": {
+    "tilesetUid": 54695,
+    "tileId": 28,
+    "x": 384,
+    "y": 32
+  },
+  "tile.trim.hall_runner_border_edge_N": {
+    "tilesetUid": 54695,
+    "tileId": 29,
+    "x": 416,
+    "y": 32
+  },
+  "tile.trim.lobby_mosaic_border_corner_NE": {
+    "tilesetUid": 54695,
+    "tileId": 30,
+    "x": 448,
+    "y": 32
+  },
+  "tile.trim.lobby_mosaic_border_edge_N": {
+    "tilesetUid": 54695,
+    "tileId": 31,
+    "x": 480,
+    "y": 32
+  },
+  "tile.trim.stone_cross": {
+    "tilesetUid": 54695,
+    "tileId": 32,
+    "x": 0,
+    "y": 64
+  },
+  "tile.trim.stone_edge_E": {
+    "tilesetUid": 54695,
+    "tileId": 33,
+    "x": 32,
+    "y": 64
+  },
+  "tile.trim.stone_edge_N": {
+    "tilesetUid": 54695,
+    "tileId": 34,
+    "x": 64,
+    "y": 64
+  },
+  "tile.trim.stone_edge_S": {
+    "tilesetUid": 54695,
+    "tileId": 35,
+    "x": 96,
+    "y": 64
+  },
+  "tile.trim.stone_edge_W": {
+    "tilesetUid": 54695,
+    "tileId": 36,
+    "x": 128,
+    "y": 64
+  },
+  "tile.trim.stone_inner_corner_NE": {
+    "tilesetUid": 54695,
+    "tileId": 37,
+    "x": 160,
+    "y": 64
+  },
+  "tile.trim.stone_inner_corner_NW": {
+    "tilesetUid": 54695,
+    "tileId": 38,
+    "x": 192,
+    "y": 64
+  },
+  "tile.trim.stone_inner_corner_SE": {
+    "tilesetUid": 54695,
+    "tileId": 39,
+    "x": 224,
+    "y": 64
+  },
+  "tile.trim.stone_inner_corner_SW": {
+    "tilesetUid": 54695,
+    "tileId": 40,
+    "x": 256,
+    "y": 64
+  },
+  "tile.trim.stone_outer_corner_NE": {
+    "tilesetUid": 54695,
+    "tileId": 41,
+    "x": 288,
+    "y": 64
+  },
+  "tile.trim.stone_outer_corner_NW": {
+    "tilesetUid": 54695,
+    "tileId": 42,
+    "x": 320,
+    "y": 64
+  },
+  "tile.trim.stone_outer_corner_SE": {
+    "tilesetUid": 54695,
+    "tileId": 43,
+    "x": 352,
+    "y": 64
+  },
+  "tile.trim.stone_outer_corner_SW": {
+    "tilesetUid": 54695,
+    "tileId": 44,
+    "x": 384,
+    "y": 64
+  },
+  "tile.trim.stone_t_junction_E": {
+    "tilesetUid": 54695,
+    "tileId": 45,
+    "x": 416,
+    "y": 64
+  },
+  "tile.trim.stone_t_junction_N": {
+    "tilesetUid": 54695,
+    "tileId": 46,
+    "x": 448,
+    "y": 64
+  },
+  "tile.trim.stone_t_junction_S": {
+    "tilesetUid": 54695,
+    "tileId": 47,
+    "x": 480,
+    "y": 64
+  },
+  "tile.trim.stone_t_junction_W": {
+    "tilesetUid": 54695,
+    "tileId": 48,
+    "x": 0,
+    "y": 96
+  },
+  "tile.trim.wood_border_edge_N": {
+    "tilesetUid": 54695,
+    "tileId": 49,
+    "x": 32,
+    "y": 96
+  },
+  "tile.door.archway_open_stone": {
+    "tilesetUid": 54695,
+    "tileId": 50,
+    "x": 64,
+    "y": 96
+  },
+  "tile.door.double_wood_closed": {
+    "tilesetUid": 54695,
+    "tileId": 51,
+    "x": 96,
+    "y": 96
+  },
+  "tile.door.double_wood_open": {
+    "tilesetUid": 54695,
+    "tileId": 52,
+    "x": 128,
+    "y": 96
+  },
+  "tile.door.single_wood_closed": {
+    "tilesetUid": 54695,
+    "tileId": 53,
+    "x": 160,
+    "y": 96
+  },
+  "tile.door.single_wood_open": {
+    "tilesetUid": 54695,
+    "tileId": 54,
+    "x": 192,
+    "y": 96
+  },
+  "tile.door.vault_round_closed": {
+    "tilesetUid": 54695,
+    "tileId": 55,
+    "x": 224,
+    "y": 96
+  },
+  "tile.door.vault_round_open": {
+    "tilesetUid": 54695,
+    "tileId": 56,
+    "x": 256,
+    "y": 96
+  },
+  "tile.column.round_base": {
+    "tilesetUid": 54695,
+    "tileId": 57,
+    "x": 288,
+    "y": 96
+  },
+  "tile.column.round_mid": {
+    "tilesetUid": 54695,
+    "tileId": 58,
+    "x": 320,
+    "y": 96
+  },
+  "tile.column.round_top": {
+    "tilesetUid": 54695,
+    "tileId": 59,
+    "x": 352,
+    "y": 96
+  },
+  "tile.steps.granite_corner": {
+    "tilesetUid": 54695,
+    "tileId": 60,
+    "x": 384,
+    "y": 96
+  },
+  "tile.steps.granite_landing": {
+    "tilesetUid": 54695,
+    "tileId": 61,
+    "x": 416,
+    "y": 96
+  },
+  "tile.steps.granite_up": {
+    "tilesetUid": 54695,
+    "tileId": 62,
+    "x": 448,
+    "y": 96
+  },
+  "tile.steps.marble_landing": {
+    "tilesetUid": 54695,
+    "tileId": 63,
+    "x": 480,
+    "y": 96
+  },
+  "tile.steps.marble_up": {
+    "tilesetUid": 54695,
+    "tileId": 64,
+    "x": 0,
+    "y": 128
+  },
+  "tile.ground.grass_base": {
+    "tilesetUid": 54695,
+    "tileId": 65,
+    "x": 32,
+    "y": 128
+  },
+  "tile.ground.grass_edge_to_sidewalk_E": {
+    "tilesetUid": 54695,
+    "tileId": 66,
+    "x": 64,
+    "y": 128
+  },
+  "tile.ground.grass_edge_to_sidewalk_N": {
+    "tilesetUid": 54695,
+    "tileId": 67,
+    "x": 96,
+    "y": 128
+  },
+  "tile.ground.grass_edge_to_sidewalk_S": {
+    "tilesetUid": 54695,
+    "tileId": 68,
+    "x": 128,
+    "y": 128
+  },
+  "tile.ground.grass_edge_to_sidewalk_W": {
+    "tilesetUid": 54695,
+    "tileId": 69,
+    "x": 160,
+    "y": 128
+  },
+  "tile.ground.sidewalk_corner": {
+    "tilesetUid": 54695,
+    "tileId": 70,
+    "x": 192,
+    "y": 128
+  },
+  "tile.ground.sidewalk_cross": {
+    "tilesetUid": 54695,
+    "tileId": 71,
+    "x": 224,
+    "y": 128
+  },
+  "tile.ground.sidewalk_edge": {
+    "tilesetUid": 54695,
+    "tileId": 72,
+    "x": 256,
+    "y": 128
+  },
+  "tile.ground.sidewalk_stone_base": {
+    "tilesetUid": 54695,
+    "tileId": 73,
+    "x": 288,
+    "y": 128
+  },
+  "tile.ground.sidewalk_t_junction": {
+    "tilesetUid": 54695,
+    "tileId": 74,
+    "x": 320,
+    "y": 128
+  },
+  "tile.rug.blue_base": {
+    "tilesetUid": 54695,
+    "tileId": 75,
+    "x": 352,
+    "y": 128
+  },
+  "tile.rug.red_base": {
+    "tilesetUid": 54695,
+    "tileId": 76,
+    "x": 384,
+    "y": 128
+  },
+  "tile.rug.red_border_corner_NE": {
+    "tilesetUid": 54695,
+    "tileId": 77,
+    "x": 416,
+    "y": 128
+  },
+  "tile.rug.red_border_corner_NW": {
+    "tilesetUid": 54695,
+    "tileId": 78,
+    "x": 448,
+    "y": 128
+  },
+  "tile.rug.red_border_corner_SE": {
+    "tilesetUid": 54695,
+    "tileId": 79,
+    "x": 480,
+    "y": 128
+  },
+  "tile.rug.red_border_corner_SW": {
+    "tilesetUid": 54695,
+    "tileId": 80,
+    "x": 0,
+    "y": 160
+  },
+  "tile.rug.red_border_edge_E": {
+    "tilesetUid": 54695,
+    "tileId": 81,
+    "x": 32,
+    "y": 160
+  },
+  "tile.rug.red_border_edge_N": {
+    "tilesetUid": 54695,
+    "tileId": 82,
+    "x": 64,
+    "y": 160
+  },
+  "tile.rug.red_border_edge_S": {
+    "tilesetUid": 54695,
+    "tileId": 83,
+    "x": 96,
+    "y": 160
+  },
+  "tile.rug.red_border_edge_W": {
+    "tilesetUid": 54695,
+    "tileId": 84,
+    "x": 128,
+    "y": 160
+  },
+  "tile.object.archive_box": {
+    "tilesetUid": 54695,
+    "tileId": 85,
+    "x": 160,
+    "y": 160
+  },
+  "tile.object.argument_clock": {
+    "tilesetUid": 54695,
+    "tileId": 86,
+    "x": 192,
+    "y": 160
+  },
+  "tile.object.ball_paperweight": {
+    "tilesetUid": 54695,
+    "tileId": 87,
+    "x": 224,
+    "y": 160
+  },
+  "tile.object.bench_front_left": {
+    "tilesetUid": 54695,
+    "tileId": 88,
+    "x": 256,
+    "y": 160
+  },
+  "tile.object.bench_front_mid": {
+    "tilesetUid": 54695,
+    "tileId": 89,
+    "x": 288,
+    "y": 160
+  },
+  "tile.object.bench_front_right": {
+    "tilesetUid": 54695,
+    "tileId": 90,
+    "x": 320,
+    "y": 160
+  },
+  "tile.object.bench_marble_left": {
+    "tilesetUid": 54695,
+    "tileId": 91,
+    "x": 352,
+    "y": 160
+  },
+  "tile.object.bench_marble_mid": {
+    "tilesetUid": 54695,
+    "tileId": 92,
+    "x": 384,
+    "y": 160
+  },
+  "tile.object.bench_marble_right": {
+    "tilesetUid": 54695,
+    "tileId": 93,
+    "x": 416,
+    "y": 160
+  },
+  "tile.object.bench_park_left": {
+    "tilesetUid": 54695,
+    "tileId": 94,
+    "x": 448,
+    "y": 160
+  },
+  "tile.object.bench_park_mid": {
+    "tilesetUid": 54695,
+    "tileId": 95,
+    "x": 480,
+    "y": 160
+  },
+  "tile.object.bench_park_right": {
+    "tilesetUid": 54695,
+    "tileId": 96,
+    "x": 0,
+    "y": 192
+  },
+  "tile.object.bench_steps_left": {
+    "tilesetUid": 54695,
+    "tileId": 97,
+    "x": 32,
+    "y": 192
+  },
+  "tile.object.bench_steps_right": {
+    "tilesetUid": 54695,
+    "tileId": 98,
+    "x": 64,
+    "y": 192
+  },
+  "tile.object.bench_top_left": {
+    "tilesetUid": 54695,
+    "tileId": 99,
+    "x": 96,
+    "y": 192
+  },
+  "tile.object.bench_top_mid": {
+    "tilesetUid": 54695,
+    "tileId": 100,
+    "x": 128,
+    "y": 192
+  },
+  "tile.object.bench_top_right": {
+    "tilesetUid": 54695,
+    "tileId": 101,
+    "x": 160,
+    "y": 192
+  },
+  "tile.object.bench_wood_left": {
+    "tilesetUid": 54695,
+    "tileId": 102,
+    "x": 192,
+    "y": 192
+  },
+  "tile.object.bench_wood_mid": {
+    "tilesetUid": 54695,
+    "tileId": 103,
+    "x": 224,
+    "y": 192
+  },
+  "tile.object.bench_wood_right": {
+    "tilesetUid": 54695,
+    "tileId": 104,
+    "x": 256,
+    "y": 192
+  },
+  "tile.object.book_awards": {
+    "tilesetUid": 54695,
+    "tileId": 105,
+    "x": 288,
+    "y": 192
+  },
+  "tile.object.book_stack_flashcards_hidden": {
+    "tilesetUid": 54695,
+    "tileId": 106,
+    "x": 320,
+    "y": 192
+  },
+  "tile.object.bookcase_base": {
+    "tilesetUid": 54695,
+    "tileId": 107,
+    "x": 352,
+    "y": 192
+  },
+  "tile.object.bookcase_books_variantA": {
+    "tilesetUid": 54695,
+    "tileId": 108,
+    "x": 384,
+    "y": 192
+  },
+  "tile.object.bookcase_books_variantB": {
+    "tilesetUid": 54695,
+    "tileId": 109,
+    "x": 416,
+    "y": 192
+  },
+  "tile.object.bookcase_books_variantC": {
+    "tilesetUid": 54695,
+    "tileId": 110,
+    "x": 448,
+    "y": 192
+  },
+  "tile.object.bookcase_corner_inner": {
+    "tilesetUid": 54695,
+    "tileId": 111,
+    "x": 480,
+    "y": 192
+  },
+  "tile.object.bookcase_corner_outer": {
+    "tilesetUid": 54695,
+    "tileId": 112,
+    "x": 0,
+    "y": 224
+  },
+  "tile.object.bookcase_endcap_left": {
+    "tilesetUid": 54695,
+    "tileId": 113,
+    "x": 32,
+    "y": 224
+  },
+  "tile.object.bookcase_endcap_right": {
+    "tilesetUid": 54695,
+    "tileId": 114,
+    "x": 64,
+    "y": 224
+  },
+  "tile.object.bookcase_mid": {
+    "tilesetUid": 54695,
+    "tileId": 115,
+    "x": 96,
+    "y": 224
+  },
+  "tile.object.bookcase_top": {
+    "tilesetUid": 54695,
+    "tileId": 116,
+    "x": 128,
+    "y": 224
+  },
+  "tile.object.bookshelf_small": {
+    "tilesetUid": 54695,
+    "tileId": 117,
+    "x": 160,
+    "y": 224
+  },
+  "tile.object.booth_left": {
+    "tilesetUid": 54695,
+    "tileId": 118,
+    "x": 192,
+    "y": 224
+  },
+  "tile.object.booth_mid": {
+    "tilesetUid": 54695,
+    "tileId": 119,
+    "x": 224,
+    "y": 224
+  },
+  "tile.object.booth_right": {
+    "tilesetUid": 54695,
+    "tileId": 120,
+    "x": 256,
+    "y": 224
+  },
+  "tile.object.boots_corner": {
+    "tilesetUid": 54695,
+    "tileId": 121,
+    "x": 288,
+    "y": 224
+  },
+  "tile.object.cable_coil": {
+    "tilesetUid": 54695,
+    "tileId": 122,
+    "x": 320,
+    "y": 224
+  },
+  "tile.object.calendar_doodle": {
+    "tilesetUid": 54695,
+    "tileId": 123,
+    "x": 352,
+    "y": 224
+  },
+  "tile.object.camera_spotlight": {
+    "tilesetUid": 54695,
+    "tileId": 124,
+    "x": 384,
+    "y": 224
+  },
+  "tile.object.camera_tripod": {
+    "tilesetUid": 54695,
+    "tileId": 125,
+    "x": 416,
+    "y": 224
+  },
+  "tile.object.chair_cafe": {
+    "tilesetUid": 54695,
+    "tileId": 126,
+    "x": 448,
+    "y": 224
+  },
+  "tile.object.chair_north": {
+    "tilesetUid": 54695,
+    "tileId": 127,
+    "x": 480,
+    "y": 224
+  },
+  "tile.object.chair_south": {
+    "tilesetUid": 54695,
+    "tileId": 128,
+    "x": 0,
+    "y": 256
+  },
+  "tile.object.children_book": {
+    "tilesetUid": 54695,
+    "tileId": 129,
+    "x": 32,
+    "y": 256
+  },
+  "tile.object.coat_rack": {
+    "tilesetUid": 54695,
+    "tileId": 130,
+    "x": 64,
+    "y": 256
+  },
+  "tile.object.coffee_urn": {
+    "tilesetUid": 54695,
+    "tileId": 131,
+    "x": 96,
+    "y": 256
+  },
+  "tile.object.color_coded_tabs": {
+    "tilesetUid": 54695,
+    "tileId": 132,
+    "x": 128,
+    "y": 256
+  },
+  "tile.object.column_exterior_base": {
+    "tilesetUid": 54695,
+    "tileId": 133,
+    "x": 160,
+    "y": 256
+  },
+  "tile.object.column_exterior_mid": {
+    "tilesetUid": 54695,
+    "tileId": 134,
+    "x": 192,
+    "y": 256
+  },
+  "tile.object.column_exterior_top": {
+    "tilesetUid": 54695,
+    "tileId": 135,
+    "x": 224,
+    "y": 256
+  },
+  "tile.object.counsel_table_left": {
+    "tilesetUid": 54695,
+    "tileId": 136,
+    "x": 256,
+    "y": 256
+  },
+  "tile.object.counsel_table_mid": {
+    "tilesetUid": 54695,
+    "tileId": 137,
+    "x": 288,
+    "y": 256
+  },
+  "tile.object.counsel_table_papers_variant": {
+    "tilesetUid": 54695,
+    "tileId": 138,
+    "x": 320,
+    "y": 256
+  },
+  "tile.object.counsel_table_right": {
+    "tilesetUid": 54695,
+    "tileId": 139,
+    "x": 352,
+    "y": 256
+  },
+  "tile.object.evidence_bag": {
+    "tilesetUid": 54695,
+    "tileId": 140,
+    "x": 384,
+    "y": 256
+  },
+  "tile.object.family_photo_cluster": {
+    "tilesetUid": 54695,
+    "tileId": 141,
+    "x": 416,
+    "y": 256
+  },
+  "tile.object.file_cabinet": {
+    "tilesetUid": 54695,
+    "tileId": 142,
+    "x": 448,
+    "y": 256
+  },
+  "tile.object.file_cart": {
+    "tilesetUid": 54695,
+    "tileId": 143,
+    "x": 480,
+    "y": 256
+  },
+  "tile.object.flagpole_base": {
+    "tilesetUid": 54695,
+    "tileId": 144,
+    "x": 0,
+    "y": 288
+  },
+  "tile.object.gallery_bench_left": {
+    "tilesetUid": 54695,
+    "tileId": 145,
+    "x": 32,
+    "y": 288
+  },
+  "tile.object.gallery_bench_mid": {
+    "tilesetUid": 54695,
+    "tileId": 146,
+    "x": 64,
+    "y": 288
+  },
+  "tile.object.gallery_bench_right": {
+    "tilesetUid": 54695,
+    "tileId": 147,
+    "x": 96,
+    "y": 288
+  },
+  "tile.object.gavel_on_block": {
+    "tilesetUid": 54695,
+    "tileId": 148,
+    "x": 128,
+    "y": 288
+  },
+  "tile.object.information_desk_center": {
+    "tilesetUid": 54695,
+    "tileId": 149,
+    "x": 160,
+    "y": 288
+  },
+  "tile.object.information_desk_corner": {
+    "tilesetUid": 54695,
+    "tileId": 150,
+    "x": 192,
+    "y": 288
+  },
+  "tile.object.information_desk_edge": {
+    "tilesetUid": 54695,
+    "tileId": 151,
+    "x": 224,
+    "y": 288
+  },
+  "tile.object.lamp_table": {
+    "tilesetUid": 54695,
+    "tileId": 152,
+    "x": 256,
+    "y": 288
+  },
+  "tile.object.large_lamp": {
+    "tilesetUid": 54695,
+    "tileId": 153,
+    "x": 288,
+    "y": 288
+  },
+  "tile.object.laundry_bin": {
+    "tilesetUid": 54695,
+    "tileId": 154,
+    "x": 320,
+    "y": 288
+  },
+  "tile.object.locker_bank_left": {
+    "tilesetUid": 54695,
+    "tileId": 155,
+    "x": 352,
+    "y": 288
+  },
+  "tile.object.locker_bank_mid": {
+    "tilesetUid": 54695,
+    "tileId": 156,
+    "x": 384,
+    "y": 288
+  },
+  "tile.object.locker_bank_right": {
+    "tilesetUid": 54695,
+    "tileId": 157,
+    "x": 416,
+    "y": 288
+  },
+  "tile.object.locker_single": {
+    "tilesetUid": 54695,
+    "tileId": 158,
+    "x": 448,
+    "y": 288
+  },
+  "tile.object.menu_board": {
+    "tilesetUid": 54695,
+    "tileId": 159,
+    "x": 480,
+    "y": 288
+  },
+  "tile.object.microphone_stand": {
+    "tilesetUid": 54695,
+    "tileId": 160,
+    "x": 0,
+    "y": 320
+  },
+  "tile.object.mirror_vertical": {
+    "tilesetUid": 54695,
+    "tileId": 161,
+    "x": 32,
+    "y": 320
+  },
+  "tile.object.mug_custom": {
+    "tilesetUid": 54695,
+    "tileId": 162,
+    "x": 64,
+    "y": 320
+  },
+  "tile.object.neat_inbox": {
+    "tilesetUid": 54695,
+    "tileId": 163,
+    "x": 96,
+    "y": 320
+  },
+  "tile.object.office_chair": {
+    "tilesetUid": 54695,
+    "tileId": 164,
+    "x": 128,
+    "y": 320
+  },
+  "tile.object.office_desk_NE": {
+    "tilesetUid": 54695,
+    "tileId": 165,
+    "x": 160,
+    "y": 320
+  },
+  "tile.object.office_desk_NW": {
+    "tilesetUid": 54695,
+    "tileId": 166,
+    "x": 192,
+    "y": 320
+  },
+  "tile.object.office_desk_SE": {
+    "tilesetUid": 54695,
+    "tileId": 167,
+    "x": 224,
+    "y": 320
+  },
+  "tile.object.office_desk_SW": {
+    "tilesetUid": 54695,
+    "tileId": 168,
+    "x": 256,
+    "y": 320
+  },
+  "tile.object.old_book_rare": {
+    "tilesetUid": 54695,
+    "tileId": 169,
+    "x": 288,
+    "y": 320
+  },
+  "tile.object.pillar_plaque": {
+    "tilesetUid": 54695,
+    "tileId": 170,
+    "x": 320,
+    "y": 320
+  },
+  "tile.object.plant_office": {
+    "tilesetUid": 54695,
+    "tileId": 171,
+    "x": 352,
+    "y": 320
+  },
+  "tile.object.podium": {
+    "tilesetUid": 54695,
+    "tileId": 172,
+    "x": 384,
+    "y": 320
+  },
+  "tile.object.postit_cluster": {
+    "tilesetUid": 54695,
+    "tileId": 173,
+    "x": 416,
+    "y": 320
+  },
+  "tile.object.potted_plant_round": {
+    "tilesetUid": 54695,
+    "tileId": 174,
+    "x": 448,
+    "y": 320
+  },
+  "tile.object.reading_chair": {
+    "tilesetUid": 54695,
+    "tileId": 175,
+    "x": 480,
+    "y": 320
+  },
+  "tile.object.reading_table_NE": {
+    "tilesetUid": 54695,
+    "tileId": 176,
+    "x": 0,
+    "y": 352
+  },
+  "tile.object.reading_table_NW": {
+    "tilesetUid": 54695,
+    "tileId": 177,
+    "x": 32,
+    "y": 352
+  },
+  "tile.object.reading_table_SE": {
+    "tilesetUid": 54695,
+    "tileId": 178,
+    "x": 64,
+    "y": 352
+  },
+  "tile.object.reading_table_SW": {
+    "tilesetUid": 54695,
+    "tileId": 179,
+    "x": 96,
+    "y": 352
+  },
+  "tile.object.redacted_folder": {
+    "tilesetUid": 54695,
+    "tileId": 180,
+    "x": 128,
+    "y": 352
+  },
+  "tile.object.rope_segment_corner": {
+    "tilesetUid": 54695,
+    "tileId": 181,
+    "x": 160,
+    "y": 352
+  },
+  "tile.object.rope_segment_horizontal": {
+    "tilesetUid": 54695,
+    "tileId": 182,
+    "x": 192,
+    "y": 352
+  },
+  "tile.object.rope_segment_vertical": {
+    "tilesetUid": 54695,
+    "tileId": 183,
+    "x": 224,
+    "y": 352
+  },
+  "tile.object.rope_stanchion_single": {
+    "tilesetUid": 54695,
+    "tileId": 184,
+    "x": 256,
+    "y": 352
+  },
+  "tile.object.serving_counter_left": {
+    "tilesetUid": 54695,
+    "tileId": 185,
+    "x": 288,
+    "y": 352
+  },
+  "tile.object.serving_counter_mid": {
+    "tilesetUid": 54695,
+    "tileId": 186,
+    "x": 320,
+    "y": 352
+  },
+  "tile.object.serving_counter_right": {
+    "tilesetUid": 54695,
+    "tileId": 187,
+    "x": 352,
+    "y": 352
+  },
+  "tile.object.shelf_metal_base": {
+    "tilesetUid": 54695,
+    "tileId": 188,
+    "x": 384,
+    "y": 352
+  },
+  "tile.object.shelf_metal_left_end": {
+    "tilesetUid": 54695,
+    "tileId": 189,
+    "x": 416,
+    "y": 352
+  },
+  "tile.object.shelf_metal_mid": {
+    "tilesetUid": 54695,
+    "tileId": 190,
+    "x": 448,
+    "y": 352
+  },
+  "tile.object.shelf_metal_right_end": {
+    "tilesetUid": 54695,
+    "tileId": 191,
+    "x": 480,
+    "y": 352
+  },
+  "tile.object.shelf_metal_top": {
+    "tilesetUid": 54695,
+    "tileId": 192,
+    "x": 0,
+    "y": 384
+  },
+  "tile.object.shrub_round": {
+    "tilesetUid": 54695,
+    "tileId": 193,
+    "x": 32,
+    "y": 384
+  },
+  "tile.object.side_table": {
+    "tilesetUid": 54695,
+    "tileId": 194,
+    "x": 64,
+    "y": 384
+  },
+  "tile.object.snack_stash": {
+    "tilesetUid": 54695,
+    "tileId": 195,
+    "x": 96,
+    "y": 384
+  },
+  "tile.object.stack_flashcards": {
+    "tilesetUid": 54695,
+    "tileId": 196,
+    "x": 128,
+    "y": 384
+  },
+  "tile.object.stack_opinions": {
+    "tilesetUid": 54695,
+    "tileId": 197,
+    "x": 160,
+    "y": 384
+  },
+  "tile.object.statue_base": {
+    "tilesetUid": 54695,
+    "tileId": 198,
+    "x": 192,
+    "y": 384
+  },
+  "tile.object.statue_plinth_base": {
+    "tilesetUid": 54695,
+    "tileId": 199,
+    "x": 224,
+    "y": 384
+  },
+  "tile.object.statue_plinth_mid": {
+    "tilesetUid": 54695,
+    "tileId": 200,
+    "x": 256,
+    "y": 384
+  },
+  "tile.object.statue_plinth_top": {
+    "tilesetUid": 54695,
+    "tileId": 201,
+    "x": 288,
+    "y": 384
+  },
+  "tile.object.table_round_center": {
+    "tilesetUid": 54695,
+    "tileId": 202,
+    "x": 320,
+    "y": 384
+  },
+  "tile.object.table_round_edge_variant": {
+    "tilesetUid": 54695,
+    "tileId": 203,
+    "x": 352,
+    "y": 384
+  },
+  "tile.object.thick_casebook": {
+    "tilesetUid": 54695,
+    "tileId": 204,
+    "x": 384,
+    "y": 384
+  },
+  "tile.object.trash_bin": {
+    "tilesetUid": 54695,
+    "tileId": 205,
+    "x": 416,
+    "y": 384
+  },
+  "tile.object.tray_stack": {
+    "tilesetUid": 54695,
+    "tileId": 206,
+    "x": 448,
+    "y": 384
+  },
+  "tile.object.tree_small_canopy": {
+    "tilesetUid": 54695,
+    "tileId": 207,
+    "x": 480,
+    "y": 384
+  },
+  "tile.object.vending_machine": {
+    "tilesetUid": 54695,
+    "tileId": 208,
+    "x": 0,
+    "y": 416
+  },
+  "tile.object.wall_sconce_left": {
+    "tilesetUid": 54695,
+    "tileId": 209,
+    "x": 32,
+    "y": 416
+  },
+  "tile.object.wall_sconce_right": {
+    "tilesetUid": 54695,
+    "tileId": 210,
+    "x": 64,
+    "y": 416
+  },
+  "tile.object.window_topdown": {
+    "tilesetUid": 54695,
+    "tileId": 211,
+    "x": 96,
+    "y": 416
+  },
+  "tile.decal.diploma_generic": {
+    "tilesetUid": 54695,
+    "tileId": 212,
+    "x": 128,
+    "y": 416
+  },
+  "tile.decal.funny_quote_plaque": {
+    "tilesetUid": 54695,
+    "tileId": 213,
+    "x": 160,
+    "y": 416
+  },
+  "tile.decal.map_dc": {
+    "tilesetUid": 54695,
+    "tileId": 214,
+    "x": 192,
+    "y": 416
+  },
+  "tile.decal.minimalist_wall": {
+    "tilesetUid": 54695,
+    "tileId": 215,
+    "x": 224,
+    "y": 416
+  },
+  "tile.decal.nameplate_justice_generic": {
+    "tilesetUid": 54695,
+    "tileId": 216,
+    "x": 256,
+    "y": 416
+  },
+  "tile.decal.photo_frame_generic": {
+    "tilesetUid": 54695,
+    "tileId": 217,
+    "x": 288,
+    "y": 416
+  },
+  "tile.decal.plaque_generic": {
+    "tilesetUid": 54695,
+    "tileId": 218,
+    "x": 320,
+    "y": 416
+  },
+  "tile.decal.rulebook_warning": {
+    "tilesetUid": 54695,
+    "tileId": 219,
+    "x": 352,
+    "y": 416
+  },
+  "tile.decal.rules_chart": {
+    "tilesetUid": 54695,
+    "tileId": 220,
+    "x": 384,
+    "y": 416
+  },
+  "tile.decal.sign_flashcards_required": {
+    "tilesetUid": 54695,
+    "tileId": 221,
+    "x": 416,
+    "y": 416
+  },
+  "tile.decal.sign_hot_take_zone": {
+    "tilesetUid": 54695,
+    "tileId": 222,
+    "x": 448,
+    "y": 416
+  },
+  "tile.decal.sign_hours": {
+    "tilesetUid": 54695,
+    "tileId": 223,
+    "x": 480,
+    "y": 416
+  },
+  "tile.decal.sign_no_cameras": {
+    "tilesetUid": 54695,
+    "tileId": 224,
+    "x": 0,
+    "y": 448
+  },
+  "tile.decal.sign_no_filming_but_okay_flashcards": {
+    "tilesetUid": 54695,
+    "tileId": 225,
+    "x": 32,
+    "y": 448
+  },
+  "tile.decal.sign_no_loitering_except_clerks": {
+    "tilesetUid": 54695,
+    "tileId": 226,
+    "x": 64,
+    "y": 448
+  },
+  "tile.decal.sign_off_the_record": {
+    "tilesetUid": 54695,
+    "tileId": 227,
+    "x": 96,
+    "y": 448
+  },
+  "tile.decal.sign_quiet_please": {
+    "tilesetUid": 54695,
+    "tileId": 228,
+    "x": 128,
+    "y": 448
+  },
+  "tile.decal.sign_shhh_or_else": {
+    "tilesetUid": 54695,
+    "tileId": 229,
+    "x": 160,
+    "y": 448
+  }
+}

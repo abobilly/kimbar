@@ -68,6 +68,10 @@ function classifyAsset(filePath, contract) {
   if (dir.includes('character') || dir.includes('char') || name.includes('character')) {
     return 'character_sheet';
   }
+  // Generated tiles have specific naming: tile.floor.*, tile.wall.*, etc.
+  if (dir.includes('generated/tiles') || dir.includes('generated\\tiles') || name.startsWith('tile.')) {
+    return 'tile';
+  }
   if (dir.includes('tileset') || dir.includes('tiles')) {
     return 'tileset';
   }
@@ -82,20 +86,28 @@ function classifyAsset(filePath, contract) {
 }
 
 function generateId(filePath, kind) {
-  const name = basename(filePath, extname(filePath))
+  const name = basename(filePath, extname(filePath));
+  
+  // For generated tiles, preserve the full tile.* ID
+  if (kind === 'tile' && name.startsWith('tile.')) {
+    return name;
+  }
+  
+  const cleanName = name
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_|_$/g, '');
 
   const prefix = {
     'character_sheet': 'char',
-    'tileset': 'tile',
+    'tileset': 'tileset',
+    'tile': 'tile',
     'prop': 'prop',
     'ui': 'ui',
     'unknown': 'asset'
   }[kind] || 'asset';
 
-  return `${prefix}.${name}`;
+  return `${prefix}.${cleanName}`;
 }
 
 function getProvenance(filePath) {
@@ -197,6 +209,14 @@ async function validateAsset(filePath, kind, contract) {
           notes.push(`portrait expected ${expectedSize}x${expectedSize}, got ${dimensions.width}x${dimensions.height}`);
         }
       }
+
+      // Validate generated tiles (must be 32x32)
+      if (filePath.includes('generated/tiles/') || filePath.includes('generated\\tiles\\')) {
+        const expectedSize = 32;
+        if (dimensions.width !== expectedSize || dimensions.height !== expectedSize) {
+          notes.push(`tile expected ${expectedSize}x${expectedSize}, got ${dimensions.width}x${dimensions.height}`);
+        }
+      }
     } catch (e) {
       notes.push(`failed to read dimensions: ${e.message}`);
     }
@@ -227,10 +247,16 @@ async function main() {
   const vendorFiles = await scanDirectory(VENDOR_DIR);
   console.log(`   Found ${vendorFiles.length} image file(s) in vendor/`);
 
-  // Scan generated directory (sprites, portraits)
+  // Scan generated directory (sprites, portraits, tiles)
   console.log('\n📁 Scanning generated/ for assets...');
   const generatedFiles = await scanDirectory(GENERATED_DIR);
   console.log(`   Found ${generatedFiles.length} image file(s) in generated/`);
+
+  // Count tiles specifically
+  const tileFiles = generatedFiles.filter(f => f.includes('generated/tiles/') || f.includes('generated\\tiles\\'));
+  if (tileFiles.length > 0) {
+    console.log(`   - ${tileFiles.length} tile(s) in generated/tiles/`);
+  }
 
   const allFiles = [...vendorFiles, ...generatedFiles];
 
