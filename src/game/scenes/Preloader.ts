@@ -53,10 +53,10 @@ export class Preloader extends Scene
         });
 
         // Load floor tileset for level rendering
-        this.load.image('floor_tiles', '/assets/tilesets/lpc/floors.png');
+        this.load.image('floor_tiles', 'assets/tilesets/lpc/floors.png');
         
         // Load SCOTUS-themed tileset (procedurally generated)
-        this.load.image('scotus_tiles', '/generated/tilesets/scotus_tiles.png');
+        this.load.image('scotus_tiles', 'generated/tilesets/scotus_tiles.png');
 
         // Registry-driven asset loading (minimal UI + essentials only)
         if (this.registryData?.sprites) {
