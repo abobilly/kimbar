@@ -47,6 +47,11 @@ async function main() {
 
     // Run validate
     await runCommand('npm', ['run', 'validate']);
+
+    console.log('\n' + '=' .repeat(50));
+
+    // Run tiled validation
+    await runCommand('node', ['scripts/validate-tiled-maps.mjs']);
     
     console.log('\n' + '=' .repeat(50));
     

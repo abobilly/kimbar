@@ -1,5 +1,5 @@
 # Kim Bar - Agent Handoff Document
-**Last Update**: January 16, 2026
+**Last Update**: January 17, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
@@ -836,3 +836,37 @@ npm run build            # Should build successfully
 ---
 
 *End of handoff document.*
+
+---
+
+## 12. Recent Changes: Tiled SCOTUS Pipeline Scaffold (January 17, 2026)
+
+### What Was Done
+
+- Added Tiled pipeline scaffold under `public/content/tiled/`:
+  - `scotus_tileset_contract.json`
+  - `schemas/tiled_contract.schema.json`
+  - `tiles/` atlases copied from SCOTUS sources
+  - `tilesets/` TSX files and a collision tileset
+  - `rooms/` starter TMX shells
+- Added `scripts/build-tiled-tilesets.mjs` (contract-driven TSX generator).
+- Added `scripts/validate-tiled-maps.mjs` with contract, atlas, tileset, and room checks.
+- Wired validation into `scripts/verify.js` and added npm scripts:
+  - `build:tilesets`
+  - `validate:tiled`
+- Added docs: `docs/TILED_PIPELINE.md` and `docs/TILED_SCAFFOLD_INVENTORY.md`.
+
+### How to Use
+
+```bash
+npm run build:tilesets
+npm run validate:tiled
+npm run verify
+```
+
+### Invariants/Hazards
+
+- Tile IDs in `scotus_tileset_contract.json` are **append-only**.
+- All tiles are 32×32; atlases must be ≤2048×2048.
+- Rooms must include layers: Floor, Walls, Trim, Overlays, Collision, Entities.
+- Each room must include a `PlayerSpawn` and a `Door` entity.
