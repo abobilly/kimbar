@@ -1,6 +1,13 @@
 {
   "mcpServers": {
-    "pixel-mcp": {
+    "pixel-mcp-local": {
+      "command": "C:\\Users\\andre\\.claude\\plugins\\cache\\pixel-plugin\\pixel-plugin\\0.5.0\\bin\\pixel-mcp-windows-amd64.exe",
+      "args": [],
+      "env": {
+        "PIXEL_MCP_CONFIG": "C:\\Users\\andre\\.config\\pixel-mcp\\config.json"
+      }
+    },
+    "pixel-mcp-railway": {
       "type": "sse",
       "url": "https://pixel-mcp-server-production.up.railway.app/sse"
     }

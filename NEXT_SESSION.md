@@ -1,5 +1,5 @@
 # Kim Bar - Agent Handoff Document
-**Last Update**: January 17, 2026
+**Last Update**: January 16, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
@@ -26,6 +26,17 @@
 | Deploy | GitHub Actions → Cloudflare Pages | - |
 
 ---
+
+## 2. Recent Changes: Object Tile Regen to tmp (January 16, 2026)
+
+### What Was Done
+
+- Regenerated all `tile.object.*` PNGs to `tmp/tiles` (127 files) using `python scripts/generate-tiles-batch.py --tile tile.object --mode ai --output tmp/tiles`
+- Output is 32x32 RGBA with transparency preserved; no changes made to `generated/` or `public/generated/`
+
+### Notes
+
+- If these are accepted, copy from `tmp/tiles` into the normal pipeline output and run `npm run sync:public`
 
 ## 2. Recent Changes: SCOTUS Tileset Generation (January 17, 2026)
 
