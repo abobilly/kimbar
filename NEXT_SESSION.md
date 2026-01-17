@@ -870,3 +870,21 @@ npm run verify
 - All tiles are 32×32; atlases must be ≤2048×2048.
 - Rooms must include layers: Floor, Walls, Trim, Overlays, Collision, Entities.
 - Each room must include a `PlayerSpawn` and a `Door` entity.
+
+---
+
+## 13. Recent Changes: Tileset Inventory Refresh (January 17, 2026)
+
+### What Was Done
+
+- Replaced `docs/TILED_SCAFFOLD_INVENTORY.md` with a full inventory of TSX/TMX/PNG assets under `public/assets/tilesets/` (counts, references, dimensions, oversized atlas flags).
+
+### How to Use
+
+- When tileset assets change, rescan `public/assets/tilesets/` and update `docs/TILED_SCAFFOLD_INVENTORY.md` to keep the inventory current.
+
+### Invariants/Hazards
+
+- Tile sizes remain 32×32 for TSX entries.
+- Atlases exceeding 2048×2048 should be flagged in the inventory.
+- `__MACOSX` artifacts should be excluded from ingestion.

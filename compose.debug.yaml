@@ -1,0 +1,6 @@
+services:
+  kimbar:
+    image: kimbar
+    build:
+      context: .
+      dockerfile: ./Dockerfile

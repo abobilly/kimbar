@@ -1,0 +1,18 @@
+# Roo file search exclusions for large repos
+public/assets/**
+public/generated/**
+generated/**
+dist/**
+.next/**
+build/**
+vendor/**
+node_modules/**
+coverage/**
+playwright-report/**
+test-results/**
+.tmp/**
+tmp/**
+**/.DS_Store
+**/__MACOSX/**
+**/*.png
+**/*.aseprite
