@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LPC Character Builder</title>
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --surface: #16213e;
+            --surface-2: #0f3460;
+            --accent: #e94560;
+            --text: #eaeaea;
+            --text-dim: #888;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar with controls */
+        .sidebar {
+            width: 320px;
+            background: var(--surface);
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 100vh;
+            border-right: 1px solid var(--surface-2);
+        }
+
+        .sidebar h1 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select,
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--surface-2);
+            border: 1px solid transparent;
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        select:focus,
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Color swatches */
+        .color-swatches {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .swatch {
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.15s;
+        }
+
+        .swatch:hover {
+            transform: scale(1.1);
+        }
+
+        .swatch.selected {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--bg);
+        }
+
+        /* Preview area */
+        .preview-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            background: repeating-conic-gradient(#222 0% 25%, #2a2a2a 0% 50%) 50% / 20px 20px;
+        }
+
+        .preview-container {
+            position: relative;
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        #preview-canvas {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        /* Animation controls */
+        .anim-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .anim-btn {
+            padding: 8px 16px;
+            background: var(--surface-2);
+            border: none;
+            border-radius: 6px;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .anim-btn:hover {
+            background: var(--accent);
+        }
+
+        .anim-btn.active {
+            background: var(--accent);
+        }
+
+        /* Export section */
+        .export-section {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid var(--surface-2);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.1);
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 10px;
+            background: var(--surface-2);
+            border: none;
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: #1a4980;
+        }
+
+        /* Config display */
+        .config-output {
+            background: #0a0a15;
+            border-radius: 6px;
+            padding: 12px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.8rem;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* Loading state */
+        .loading {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Tabs for categories */
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .tab-btn {
+            padding: 6px 12px;
+            background: var(--surface-2);
+            border: none;
+            border-radius: 4px;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .category-content {
+            display: none;
+        }
+
+        .category-content.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <h1>🎮 LPC Character Builder</h1>
+
+        <!-- Category tabs -->
+        <div class="category-tabs">
+            <button class="tab-btn active" data-tab="body">Body</button>
+            <button class="tab-btn" data-tab="face">Face</button>
+            <button class="tab-btn" data-tab="hair">Hair</button>
+            <button class="tab-btn" data-tab="clothes">Clothes</button>
+            <button class="tab-btn" data-tab="accessories">Extras</button>
+        </div>
+
+        <!-- Body tab -->
+        <div class="category-content active" id="tab-body">
+            <div class="control-group">
+                <label>Body Type</label>
+                <select id="body-type">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="muscular">Muscular</option>
+                    <option value="teen">Teen</option>
+                    <option value="child">Child</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>Skin Color</label>
+                <div class="color-swatches" id="skin-colors"></div>
+            </div>
+        </div>
+
+        <!-- Face tab -->
+        <div class="category-content" id="tab-face">
+            <div class="control-group">
+                <label>Eye Color</label>
+                <div class="color-swatches" id="eye-colors"></div>
+            </div>
+
+            <div class="control-group">
+                <label>Nose</label>
+                <select id="nose-style">
+                    <option value="">None</option>
+                    <option value="straight">Straight</option>
+                    <option value="big">Big</option>
+                    <option value="button">Button</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>Ears</label>
+                <select id="ear-style">
+                    <option value="">Human (default)</option>
+                    <option value="elven">Elven</option>
+                    <option value="orcish">Orcish</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Hair tab -->
+        <div class="category-content" id="tab-hair">
+            <div class="control-group">
+                <label>Hair Style</label>
+                <select id="hair-style">
+                    <option value="">Bald</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>Hair Color</label>
+                <div class="color-swatches" id="hair-colors"></div>
+            </div>
+
+            <div class="control-group">
+                <label>Facial Hair</label>
+                <select id="beard-style">
+                    <option value="">None</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Clothes tab -->
+        <div class="category-content" id="tab-clothes">
+            <div class="control-group">
+                <label>Shirt/Top</label>
+                <select id="torso-item"></select>
+            </div>
+
+            <div class="control-group">
+                <label>Top Color</label>
+                <div class="color-swatches" id="torso-colors"></div>
+            </div>
+
+            <div class="control-group">
+                <label>Pants/Bottom</label>
+                <select id="legs-item"></select>
+            </div>
+
+            <div class="control-group">
+                <label>Bottom Color</label>
+                <div class="color-swatches" id="legs-colors"></div>
+            </div>
+
+            <div class="control-group">
+                <label>Footwear</label>
+                <select id="feet-item"></select>
+            </div>
+        </div>
+
+        <!-- Accessories tab -->
+        <div class="category-content" id="tab-accessories">
+            <div class="control-group">
+                <label>Headwear</label>
+                <select id="head-item">
+                    <option value="">None</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>Belt</label>
+                <select id="belt-item">
+                    <option value="">None</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>Cape</label>
+                <select id="cape-item">
+                    <option value="">None</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Export section -->
+        <div class="export-section">
+            <button class="btn-primary" onclick="exportSpritesheet()">💾 Download Spritesheet</button>
+            <button class="btn-secondary" onclick="randomize()">🎲 Randomize</button>
+            <button class="btn-secondary" onclick="copyConfig()" style="margin-top: 10px;">📋 Copy Config JSON</button>
+
+            <div class="config-output" id="config-output">{}</div>
+        </div>
+    </div>
+
+    <div class="preview-area">
+        <div class="preview-container">
+            <canvas id="preview-canvas" width="256" height="256"></canvas>
+
+            <div class="anim-controls">
+                <button class="anim-btn active" data-anim="idle">Idle</button>
+                <button class="anim-btn" data-anim="walk">Walk</button>
+                <button class="anim-btn" data-anim="slash">Slash</button>
+                <button class="anim-btn" data-anim="cast">Cast</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Character config state
+        let config = {
+            body_type: 'male',
+            skin_color: 'light',
+            eye_color: 'blue',
+            hair_style: '',
+            hair_color: 'brown',
+        };
+
+        // Animation state
+        let currentAnim = 'idle';
+        let currentFrame = 0;
+        let animationId = null;
+
+        // LPC animation rows (0-indexed)
+        const ANIMS = {
+            cast: { row: 0, frames: 7 },
+            thrust: { row: 4, frames: 8 },
+            walk: { row: 8, frames: 9 },
+            slash: { row: 12, frames: 6 },
+            idle: { row: 8, frames: 1 }, // Single walk frame for idle
+        };
+
+        // Skin color hex values
+        const SKIN_COLORS = {
+            light: '#ffe0bd',
+            amber: '#ffcc99',
+            olive: '#c9a86c',
+            taupe: '#b39477',
+            bronze: '#c6946b',
+            brown: '#8d5524',
+            black: '#4a312c',
+            lavender: '#c4a4d4',
+            blue: '#6488aa',
+            green: '#7eb060',
+            zombie_green: '#86a17d',
+        };
+
+        // Common clothing colors
+        const CLOTHING_COLORS = {
+            white: '#ffffff',
+            black: '#222222',
+            red: '#c74040',
+            blue: '#4060c7',
+            green: '#40c760',
+            brown: '#8b4513',
+            grey: '#808080',
+            purple: '#8040c7',
+            gold: '#daa520',
+            maroon: '#800020',
+        };
+
+        // Hair colors
+        const HAIR_COLORS = {
+            black: '#1a1a1a',
+            brown: '#4a3728',
+            brunette: '#6b4423',
+            auburn: '#8b4513',
+            red: '#b74040',
+            ginger: '#c77040',
+            blonde: '#d4a44a',
+            platinum: '#e8e0c8',
+            white: '#f0f0f0',
+            grey: '#808080',
+            blue: '#4080c0',
+            green: '#408040',
+            purple: '#804080',
+            pink: '#c040a0',
+        };
+
+        // Eye colors
+        const EYE_COLORS = {
+            blue: '#4488cc',
+            green: '#44aa66',
+            brown: '#8b4513',
+            grey: '#888888',
+            amber: '#cc8844',
+            red: '#cc4444',
+            purple: '#884488',
+            yellow: '#cccc44',
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initColorSwatches();
+            initTabs();
+            initControls();
+            loadOptionsFromServer();
+            updatePreview();
+            startAnimation();
+        });
+
+        function initColorSwatches() {
+            // Skin colors
+            const skinContainer = document.getElementById('skin-colors');
+            for (const [name, hex] of Object.entries(SKIN_COLORS)) {
+                const swatch = createSwatch(name, hex, 'skin_color');
+                skinContainer.appendChild(swatch);
+            }
+
+            // Eye colors
+            const eyeContainer = document.getElementById('eye-colors');
+            for (const [name, hex] of Object.entries(EYE_COLORS)) {
+                const swatch = createSwatch(name, hex, 'eye_color');
+                eyeContainer.appendChild(swatch);
+            }
+
+            // Hair colors
+            const hairContainer = document.getElementById('hair-colors');
+            for (const [name, hex] of Object.entries(HAIR_COLORS)) {
+                const swatch = createSwatch(name, hex, 'hair_color');
+                hairContainer.appendChild(swatch);
+            }
+
+            // Clothing colors
+            const torsoContainer = document.getElementById('torso-colors');
+            const legsContainer = document.getElementById('legs-colors');
+            for (const [name, hex] of Object.entries(CLOTHING_COLORS)) {
+                torsoContainer.appendChild(createSwatch(name, hex, 'torso_color'));
+                legsContainer.appendChild(createSwatch(name, hex, 'legs_color'));
+            }
+        }
+
+        function createSwatch(name, hex, configKey) {
+            const swatch = document.createElement('div');
+            swatch.className = 'swatch';
+            swatch.style.backgroundColor = hex;
+            swatch.title = name;
+            swatch.dataset.value = name;
+            swatch.dataset.key = configKey;
+
+            if (config[configKey] === name) {
+                swatch.classList.add('selected');
+            }
+
+            swatch.addEventListener('click', () => {
+                // Remove selected from siblings
+                swatch.parentElement.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
+                swatch.classList.add('selected');
+                config[configKey] = name;
+                updatePreview();
+            });
+
+            return swatch;
+        }
+
+        function initTabs() {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update buttons
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    // Update content
+                    document.querySelectorAll('.category-content').forEach(c => c.classList.remove('active'));
+                    document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+                });
+            });
+
+            // Animation buttons
+            document.querySelectorAll('.anim-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.anim-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentAnim = btn.dataset.anim;
+                    currentFrame = 0;
+                });
+            });
+        }
+
+        function initControls() {
+            // All select elements
+            document.querySelectorAll('select').forEach(select => {
+                select.addEventListener('change', () => {
+                    const key = select.id.replace('-', '_');
+                    config[key] = select.value;
+                    updatePreview();
+                });
+            });
+        }
+
+        async function loadOptionsFromServer() {
+            try {
+                const response = await fetch('options.json');
+                const options = await response.json();
+
+                // Populate hair styles
+                const hairSelect = document.getElementById('hair-style');
+                options.hair_styles?.forEach(style => {
+                    const opt = document.createElement('option');
+                    opt.value = style;
+                    opt.textContent = style.replace(/_/g, ' ');
+                    hairSelect.appendChild(opt);
+                });
+
+                // Populate beard styles
+                const beardSelect = document.getElementById('beard-style');
+                ['beard', 'mustache', '5oclock_shadow', 'bigstache', 'french'].forEach(style => {
+                    const opt = document.createElement('option');
+                    opt.value = style;
+                    opt.textContent = style.replace(/_/g, ' ');
+                    beardSelect.appendChild(opt);
+                });
+
+            } catch (e) {
+                console.log('Could not load options.json, using defaults');
+            }
+        }
+
+        function updatePreview() {
+            // Update config display
+            document.getElementById('config-output').textContent = JSON.stringify(config, null, 2);
+
+            // In a full implementation, this would composite the layers
+            // For now, draw a placeholder
+            const canvas = document.getElementById('preview-canvas');
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = 'transparent';
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw placeholder character
+            const skinColor = SKIN_COLORS[config.skin_color] || '#ffe0bd';
+            const hairColor = HAIR_COLORS[config.hair_color] || '#4a3728';
+
+            ctx.save();
+            ctx.translate(128, 128);
+
+            // Body
+            ctx.fillStyle = skinColor;
+            ctx.fillRect(-20, -30, 40, 50);
+
+            // Head
+            ctx.fillStyle = skinColor;
+            ctx.beginPath();
+            ctx.arc(0, -45, 25, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Hair (if selected)
+            if (config.hair_style) {
+                ctx.fillStyle = hairColor;
+                ctx.beginPath();
+                ctx.arc(0, -55, 20, Math.PI, 0);
+                ctx.fill();
+            }
+
+            // Eyes
+            const eyeColor = EYE_COLORS[config.eye_color] || '#4488cc';
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(-12, -50, 8, 6);
+            ctx.fillRect(4, -50, 8, 6);
+            ctx.fillStyle = eyeColor;
+            ctx.fillRect(-10, -49, 4, 4);
+            ctx.fillRect(6, -49, 4, 4);
+
+            // Legs
+            ctx.fillStyle = CLOTHING_COLORS[config.legs_color] || '#4060c7';
+            ctx.fillRect(-15, 20, 12, 40);
+            ctx.fillRect(3, 20, 12, 40);
+
+            // Torso clothing
+            if (config.torso_item) {
+                ctx.fillStyle = CLOTHING_COLORS[config.torso_color] || '#c74040';
+                ctx.fillRect(-18, -28, 36, 45);
+            }
+
+            ctx.restore();
+        }
+
+        function startAnimation() {
+            const canvas = document.getElementById('preview-canvas');
+            const ctx = canvas.getContext('2d');
+
+            function animate() {
+                const anim = ANIMS[currentAnim];
+                if (anim) {
+                    currentFrame = (currentFrame + 1) % anim.frames;
+                }
+
+                // Redraw (in full implementation, would update frame from spritesheet)
+                animationId = setTimeout(() => requestAnimationFrame(animate), 150);
+            }
+
+            animate();
+        }
+
+        function randomize() {
+            config.body_type = randomChoice(['male', 'female', 'muscular']);
+            config.skin_color = randomChoice(Object.keys(SKIN_COLORS));
+            config.eye_color = randomChoice(Object.keys(EYE_COLORS));
+            config.hair_color = randomChoice(Object.keys(HAIR_COLORS));
+            config.hair_style = randomChoice(['', 'long', 'short', 'ponytail', 'mohawk']);
+            config.torso_color = randomChoice(Object.keys(CLOTHING_COLORS));
+            config.legs_color = randomChoice(Object.keys(CLOTHING_COLORS));
+
+            // Update UI to match
+            document.getElementById('body-type').value = config.body_type;
+            updateSwatchSelection('skin-colors', config.skin_color);
+            updateSwatchSelection('eye-colors', config.eye_color);
+            updateSwatchSelection('hair-colors', config.hair_color);
+
+            updatePreview();
+        }
+
+        function randomChoice(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function updateSwatchSelection(containerId, value) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.querySelectorAll('.swatch').forEach(s => {
+                s.classList.toggle('selected', s.dataset.value === value);
+            });
+        }
+
+        function exportSpritesheet() {
+            // In full implementation, would trigger server-side generation
+            // For now, save the config
+            const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'character-config.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function copyConfig() {
+            navigator.clipboard.writeText(JSON.stringify(config, null, 2))
+                .then(() => alert('Config copied to clipboard!'));
+        }
+    </script>
+</body>
+
+</html>

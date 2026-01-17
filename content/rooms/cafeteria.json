@@ -5,7 +5,7 @@
     "description": "A rest area where players can save their progress",
     "width": 20,
     "height": 15,
-    "tileset": "courthouse",
+    "tileset": "tileset.scotus_tiles",
     "background": "#2a2a2a",
     "music": "cafeteria_ambient",
     "entities": [

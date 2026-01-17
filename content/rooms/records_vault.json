@@ -5,7 +5,7 @@
     "description": "The secure vault with advanced flashcard challenges",
     "width": 15,
     "height": 12,
-    "tileset": "courthouse",
+    "tileset": "tileset.scotus_tiles",
     "background": "#1a1a1a",
     "music": "vault_ambient",
     "entities": [

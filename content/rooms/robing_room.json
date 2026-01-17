@@ -5,7 +5,7 @@
     "description": "The robing room where outfits can be collected from chests",
     "width": 15,
     "height": 12,
-    "tileset": "courthouse",
+    "tileset": "tileset.scotus_tiles",
     "background": "#2a1a1a",
     "music": "robing_ambient",
     "entities": [

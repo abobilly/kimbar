@@ -5,7 +5,7 @@
     "description": "The private chambers of the Chief Justice - Constitutional Law challenge",
     "width": 15,
     "height": 12,
-    "tileset": "courthouse",
+    "tileset": "tileset.scotus_tiles",
     "background": "#1a2a1a",
     "music": "chambers_ambient",
     "entities": [

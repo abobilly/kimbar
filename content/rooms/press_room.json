@@ -5,7 +5,7 @@
     "description": "The press room where the Court Reporter offers hints",
     "width": 15,
     "height": 12,
-    "tileset": "courthouse",
+    "tileset": "tileset.scotus_tiles",
     "background": "#1a1a2a",
     "music": "press_room_ambient",
     "entities": [

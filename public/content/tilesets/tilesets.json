@@ -227,6 +227,46 @@
       "partsUrl": "/content/tilesets/windows-doors.parts.json"
     },
     {
+      "id": "tileset.scotus_architecture",
+      "url": "/assets/tilesets/scotus_architecture.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 512,
+      "imageHeight": 96,
+      "columns": 16,
+      "rows": 3
+    },
+    {
+      "id": "tileset.scotus_decor",
+      "url": "/assets/tilesets/scotus_decor.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 512,
+      "imageHeight": 32,
+      "columns": 16,
+      "rows": 1
+    },
+    {
+      "id": "tileset.scotus_exterior_building",
+      "url": "/assets/tilesets/scotus_exterior_building.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 480,
+      "imageHeight": 224,
+      "columns": 15,
+      "rows": 7
+    },
+    {
+      "id": "tileset.scotus_floors",
+      "url": "/assets/tilesets/scotus_floors.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 512,
+      "imageHeight": 64,
+      "columns": 16,
+      "rows": 2
+    },
+    {
       "id": "tileset.scotus_tiles",
       "url": "/assets/tilesets/scotus_tiles.png",
       "tileWidth": 32,

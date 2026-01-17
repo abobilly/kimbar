@@ -1,0 +1,36 @@
+[
+    {
+        "name": "lawyer_frank",
+        "body_type": "male",
+        "skin_color": "light",
+        "eye_color": "blue",
+        "hair_style": "short",
+        "hair_color": "brown",
+        "torso_item": "torso_clothes_longsleeve_formal",
+        "torso_color": "white",
+        "legs_item": "legs_pants",
+        "legs_color": "black"
+    },
+    {
+        "name": "judge_chen",
+        "body_type": "female",
+        "skin_color": "olive",
+        "eye_color": "brown",
+        "hair_style": "long",
+        "hair_color": "black",
+        "torso_item": "torso_clothes_robe",
+        "torso_color": "black"
+    },
+    {
+        "name": "clerk_marcus",
+        "body_type": "male",
+        "skin_color": "brown",
+        "eye_color": "brown",
+        "hair_style": "short",
+        "hair_color": "black",
+        "torso_item": "torso_clothes_shortsleeve",
+        "torso_color": "blue",
+        "legs_item": "legs_pants",
+        "legs_color": "grey"
+    }
+]

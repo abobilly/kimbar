@@ -122,6 +122,24 @@ npm run assets:used
 This inspects LDtk levels + registry entries and lists the assets actually
 referenced by game content (sprites, props, tilesets).
 
+## 2. Recent Changes: SCOTUS Source Imports + Room Tileset Wiring (January 16, 2026)
+
+### What Was Done
+
+- Added `scripts/import-scotus-assets.py` + `npm run import:scotus` to copy SCOTUS source tilesets into `vendor/tilesets`.
+- Wired `npm run prepare:content` to run `import:scotus` before `import:lpc`.
+- Updated room specs to use `tileset.scotus_tiles` so room tilesets resolve via registry and show in the used-asset report.
+- Placed `prop.scotus_exterior_building` on the courthouse exterior and removed missing placeholder props.
+- Synced SCOTUS tileset PNGs into `public/assets/tilesets` and registry into `public/content/tilesets`.
+
+### How To Use
+
+```bash
+npm run import:scotus
+npm run import:lpc
+npm run sync:public
+```
+
 ## 2. Recent Changes: SCOTUS Tileset Generation (January 17, 2026)
 
 ### What Was Done

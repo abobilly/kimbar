@@ -5,7 +5,7 @@
   "description": "The grand entrance hall of the Supreme Court building",
   "width": 20,
   "height": 15,
-  "tileset": "courthouse",
+  "tileset": "tileset.scotus_tiles",
   "background": "#1a1a2e",
   "music": "lobby_ambient",
   "entities": [

@@ -5,7 +5,7 @@
     "description": "The iconic marble steps leading to the Supreme Court - the ultimate destination for every aspiring lawyer",
     "width": 25,
     "height": 20,
-    "tileset": "scotus_exterior",
+    "tileset": "tileset.scotus_tiles",
     "background": "#87CEEB",
     "music": "exterior_ambient",
     "entities": [

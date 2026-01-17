@@ -6,7 +6,7 @@ props are registered, and how to generate the used-asset report.
 ## High-Level Flow
 
 1. **Author** content (LDtk levels, room specs, and asset sources).
-2. **Import** external packs (LPC) into `vendor/` and generate parts maps.
+2. **Import** external packs (LPC + SCOTUS) into `vendor/` and generate parts maps.
 3. **Build registry** from source + vendor (`npm run build:chars`).
 4. **Sync** assets into `public/` for runtime (`npm run sync:public`).
 5. **Run report** to list assets actually referenced by LDtk content.
@@ -37,7 +37,8 @@ Tilesets are indexed in `content/tilesets/tilesets.json`. Each entry records:
 - `partsUrl` (optional, for multi-tile object maps like windows/doors)
 - `key` (optional Phaser texture key override, used for legacy names)
 
-Use `npm run import:lpc` to refresh the tileset registry from LPC packs.
+Use `npm run import:scotus` and `npm run import:lpc` to refresh the tileset
+registry from SCOTUS and LPC packs.
 Room specs should reference tilesets using the `tileset.*` registry IDs for
 the report and runtime to resolve them cleanly.
 
@@ -70,6 +71,8 @@ The report lists assets actually referenced by content:
 Run locally:
 
 ```bash
+npm run import:scotus
+npm run import:lpc
 npm run build:chars
 npm run assets:used
 ```

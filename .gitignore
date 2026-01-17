@@ -52,3 +52,15 @@ toolbox.exe
 # Python bytecode
 __pycache__/
 *.pyc
+
+# Local scratch / agent tooling
+.qwen/
+Qwen-Agent/
+code-assistant-manager/
+tmp/
+CLEAN_AGENT_INSTRUCTIONS.md
+temp_test.txt
+test_qwen_transformers.py
+tools/batch_benchmark.py
+tools/procedural_art_benchmark.py
+.github/prompts/procedural-art-improvement.prompt.md

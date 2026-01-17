@@ -5,7 +5,7 @@
     "description": "The grand courtroom where the Chief Justice presides - final boss area",
     "width": 30,
     "height": 20,
-    "tileset": "courthouse",
+    "tileset": "tileset.scotus_tiles",
     "background": "#1a1a2e",
     "music": "courtroom_theme",
     "entities": [

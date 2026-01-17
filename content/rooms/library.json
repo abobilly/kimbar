@@ -5,7 +5,7 @@
     "description": "The law library where the Librarian offers tutorials and study tips",
     "width": 20,
     "height": 15,
-    "tileset": "courthouse",
+    "tileset": "tileset.scotus_tiles",
     "background": "#2a2a1a",
     "music": "library_ambient",
     "entities": [

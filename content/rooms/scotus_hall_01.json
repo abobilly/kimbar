@@ -6,7 +6,7 @@
   "width": 20,
   "height": 15,
   "tileSize": 32,
-  "tileset": "tile.scotus.marble",
+  "tileset": "tileset.scotus_tiles",
   "layers": {
     "floor": "auto",
     "walls": "auto",
