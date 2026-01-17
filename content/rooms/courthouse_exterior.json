@@ -132,6 +132,26 @@
                 "targetLevel": "scotus_lobby",
                 "sprite": "door_courthouse"
             }
+        },
+        {
+            "type": "Door",
+            "x": 3,
+            "y": 9,
+            "id": "door_library_side",
+            "properties": {
+                "targetLevel": "library",
+                "sprite": "door_courthouse"
+            }
+        },
+        {
+            "type": "Door",
+            "x": 22,
+            "y": 9,
+            "id": "door_records_side",
+            "properties": {
+                "targetLevel": "records_vault",
+                "sprite": "door_vault"
+            }
         }
     ],
     "connections": [
@@ -139,6 +159,14 @@
             "direction": "north",
             "targetRoom": "scotus_lobby",
             "spawnId": "spawn_exterior"
+        },
+        {
+            "direction": "west",
+            "targetRoom": "library"
+        },
+        {
+            "direction": "east",
+            "targetRoom": "records_vault"
         }
     ],
     "layout": {

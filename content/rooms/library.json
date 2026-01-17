@@ -35,12 +35,26 @@
                 "targetLevel": "scotus_lobby",
                 "sprite": "door_library"
             }
+        },
+        {
+            "type": "Door",
+            "x": 0,
+            "y": 7,
+            "id": "door_exterior_side",
+            "properties": {
+                "targetLevel": "courthouse_exterior",
+                "sprite": "door_courthouse"
+            }
         }
     ],
     "connections": [
         {
             "direction": "south",
             "targetRoom": "scotus_lobby"
+        },
+        {
+            "direction": "east",
+            "targetRoom": "courthouse_exterior"
         }
     ],
     "_TODO": "LDtk export not yet created - placeholder room spec"

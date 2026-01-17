@@ -713,6 +713,537 @@ def draw_big_fat_boy_one_tooth_spinner_hat(d, w, h):
     d.ellipse([cx-10, cy+14, cx-2, cy+24], fill=CLOTHES[2], outline=CLOTHES[0])
     d.ellipse([cx+2, cy+14, cx+10, cy+24], fill=CLOTHES[2], outline=CLOTHES[0])
 
+def draw_accident_report(d, w, h):
+    """32x32 accident report on clipboard"""
+    # Clipboard
+    d.rectangle([4, 2, w-5, h-2], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([6, 4, w-7, h-4], fill=PAPER[1], outline=PAPER[0])
+    # Clip
+    d.rectangle([w//2-2, 1, w//2+2, 3], fill=BLACK[2], outline=BLACK[0])
+    # Text lines
+    d.line([8, 8, w-9, 8], fill=BLACK[0], width=1)
+    d.line([8, 12, w-9, 12], fill=BLACK[0], width=1)
+    d.line([8, 16, w-9, 16], fill=BLACK[0], width=1)
+
+def draw_badge_stand(d, w, h):
+    """32x32 badge stand"""
+    # Base
+    d.rectangle([w//2-6, h-6, w//2+6, h-2], fill=WOOD[2], outline=WOOD[0])
+    # Pole
+    d.rectangle([w//2-1, 4, w//2+1, h-6], fill=WOOD[2], outline=WOOD[0])
+    # Badge
+    d.ellipse([w//2-8, 2, w//2+8, 18], fill=GOLD[2], outline=GOLD[0])
+    d.ellipse([w//2-6, 4, w//2+6, 16], fill=GOLD[3])
+    # Star
+    d.polygon([(w//2, 6), (w//2+2, 10), (w//2, 8), (w//2-2, 10)], fill=BLACK[0])
+
+def draw_bollard(d, w, h):
+    """32x32 traffic bollard"""
+    # Base
+    d.ellipse([w//2-6, h-8, w//2+6, h-2], fill=BLACK[2], outline=BLACK[0])
+    # Post
+    d.rectangle([w//2-2, 4, w//2+2, h-8], fill=BLACK[2], outline=BLACK[0])
+    # Reflective stripes
+    d.rectangle([w//2-1, 6, w//2+1, 10], fill=(255, 255, 255))
+    d.rectangle([w//2-1, 12, w//2+1, 16], fill=(255, 255, 255))
+
+def draw_book_ladder(d, w, h):
+    """32x32 rolling book ladder"""
+    # Base
+    d.rectangle([2, h-6, w-3, h-2], fill=WOOD[2], outline=WOOD[0])
+    # Wheels
+    d.ellipse([4, h-4, 8, h-2], fill=BLACK[2])
+    d.ellipse([w-9, h-4, w-5, h-2], fill=BLACK[2])
+    # Ladder
+    d.rectangle([w//2-1, 4, w//2+1, h-6], fill=WOOD[2], outline=WOOD[0])
+    # Steps
+    for i in range(3):
+        y = 6 + i*6
+        d.rectangle([w//2-4, y, w//2+4, y+2], fill=WOOD[3], outline=WOOD[0])
+
+def draw_cafeteria_chair(d, w, h):
+    """32x32 cafeteria chair"""
+    # Seat
+    d.rectangle([4, h//2-2, w-5, h//2+2], fill=WOOD[2], outline=WOOD[0])
+    # Back
+    d.rectangle([6, 4, 10, h//2-2], fill=WOOD[2], outline=WOOD[0])
+    # Legs
+    d.rectangle([6, h//2+2, 8, h-3], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([w-9, h//2+2, w-7, h-3], fill=WOOD[2], outline=WOOD[0])
+
+def draw_cafeteria_table(d, w, h):
+    """32x32 cafeteria table"""
+    # Top
+    d.rectangle([2, h//2-4, w-3, h//2], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([4, h//2-2, w-5, h//2], fill=WOOD[3])
+    # Legs
+    d.rectangle([6, h//2, 8, h-3], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([w-9, h//2, w-7, h-3], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([w//2-1, h//2, w//2+1, h-3], fill=WOOD[2], outline=WOOD[0])
+
+def draw_camera_rig(d, w, h):
+    """32x32 camera rig"""
+    # Tripod base
+    d.polygon([(w//2, h-4), (w//2-6, h-2), (w//2+6, h-2)], fill=BLACK[2], outline=BLACK[0])
+    # Legs
+    d.line([w//2, h-4, w//2-4, 8], fill=BLACK[2], width=2)
+    d.line([w//2, h-4, w//2+4, 8], fill=BLACK[2], width=2)
+    # Camera body
+    d.rectangle([w//2-4, 4, w//2+4, 12], fill=BLACK[2], outline=BLACK[0])
+    # Lens
+    d.ellipse([w//2-2, 6, w//2+2, 10], fill=GLASS[1], outline=GLASS[0])
+
+def draw_card_catalog(d, w, h):
+    """32x32 card catalog cabinet"""
+    # Cabinet
+    d.rectangle([2, 4, w-3, h-3], fill=WOOD[2], outline=WOOD[0])
+    # Drawers
+    for i in range(3):
+        y = 6 + i*6
+        d.rectangle([4, y, w-5, y+4], fill=WOOD[3], outline=WOOD[0])
+        # Handle
+        d.rectangle([w//2-1, y+1, w//2+1, y+3], fill=BLACK[2])
+
+def draw_caution_cone(d, w, h):
+    """32x32 caution cone"""
+    # Cone
+    d.polygon([(w//2, 2), (w//2-8, h-3), (w//2+8, h-3)], fill=(255, 255, 0), outline=BLACK[0])
+    # Stripes
+    d.polygon([(w//2, 6), (w//2-6, h-6), (w//2+6, h-6)], fill=BLACK[0])
+
+def draw_cctv_monitor(d, w, h):
+    """32x32 CCTV monitor"""
+    # Screen
+    d.rectangle([6, 6, w-7, h-7], fill=BLACK[2], outline=BLACK[0])
+    d.rectangle([8, 8, w-9, h-9], fill=(0, 128, 0))  # Green screen
+    # Stand
+    d.rectangle([w//2-2, h-6, w//2+2, h-2], fill=BLACK[2], outline=BLACK[0])
+
+def draw_classical_bust(d, w, h):
+    """32x32 classical bust sculpture"""
+    # Pedestal
+    d.rectangle([w//2-4, h-6, w//2+4, h-2], fill=MARBLE[1], outline=MARBLE[0])
+    # Bust
+    d.ellipse([w//2-6, 4, w//2+6, 16], fill=MARBLE[2], outline=MARBLE[0])
+    # Shoulders
+    d.rectangle([w//2-8, 14, w//2+8, 18], fill=MARBLE[2], outline=MARBLE[0])
+
+def draw_constitution_scroll(d, w, h):
+    """32x32 constitution scroll"""
+    # Scroll
+    d.rectangle([4, 6, w-5, h-7], fill=PAPER[1], outline=PAPER[0])
+    # Ribbons
+    d.rectangle([2, 4, 6, h-5], fill=RED[2], outline=RED[0])
+    d.rectangle([w-7, 4, w-3, h-5], fill=RED[2], outline=RED[0])
+    # Text lines
+    for i in range(3):
+        y = 10 + i*4
+        d.line([8, y, w-9, y], fill=BLACK[0], width=1)
+
+def draw_contract_scroll(d, w, h):
+    """32x32 contract scroll"""
+    # Similar to constitution but with seal
+    d.rectangle([4, 6, w-5, h-7], fill=PAPER[1], outline=PAPER[0])
+    d.rectangle([2, 4, 6, h-5], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([w-7, 4, w-3, h-5], fill=WOOD[2], outline=WOOD[0])
+    # Seal
+    d.ellipse([w//2-3, h-10, w//2+3, h-4], fill=RED[2], outline=RED[0])
+
+def draw_counsel_chair(d, w, h):
+    """32x32 counsel chair"""
+    # Similar to cafeteria chair but fancier
+    d.rectangle([4, h//2-2, w-5, h//2+2], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([6, 4, 10, h//2-2], fill=WOOD[2], outline=WOOD[0])
+    # Arms
+    d.rectangle([2, h//2-4, 6, h//2], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([w-7, h//2-4, w-3, h//2], fill=WOOD[2], outline=WOOD[0])
+    # Legs
+    d.rectangle([6, h//2+2, 8, h-3], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([w-9, h//2+2, w-7, h-3], fill=WOOD[2], outline=WOOD[0])
+
+def draw_counsel_table(d, w, h):
+    """32x32 counsel table"""
+    # Table top
+    d.rectangle([2, h//2-4, w-3, h//2], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([4, h//2-2, w-5, h//2], fill=WOOD[3])
+    # Legs
+    d.rectangle([6, h//2, 8, h-3], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([w-9, h//2, w-7, h-3], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([w//2-1, h//2, w//2+1, h-3], fill=WOOD[2], outline=WOOD[0])
+
+def draw_deed_ledger(d, w, h):
+    """32x32 deed ledger book"""
+    # Book
+    d.rectangle([4, 6, w-5, h-3], fill=LEATHER[2], outline=LEATHER[0])
+    # Spine
+    d.rectangle([2, 4, 6, h-1], fill=LEATHER[1], outline=LEATHER[0])
+    # Pages
+    d.rectangle([6, 8, w-7, h-5], fill=PAPER[1], outline=PAPER[0])
+
+def draw_desk_lamp(d, w, h):
+    """32x32 desk lamp"""
+    # Base
+    d.ellipse([w//2-4, h-6, w//2+4, h-2], fill=BLACK[2], outline=BLACK[0])
+    # Arm
+    d.line([w//2, h-6, w//2+6, 8], fill=BLACK[2], width=2)
+    # Shade
+    d.ellipse([w//2+4, 4, w//2+12, 12], fill=GOLD[2], outline=GOLD[0])
+
+def draw_docket_stack(d, w, h):
+    """32x32 docket stack"""
+    # Stack of papers
+    for i in range(3):
+        offset = i*2
+        d.rectangle([4+offset, 6+offset, w-5+offset, h-5+offset], fill=PAPER[1], outline=PAPER[0])
+        d.line([6+offset, 10+offset, w-7+offset, 10+offset], fill=BLACK[0], width=1)
+
+def draw_door_plaque(d, w, h):
+    """32x32 door plaque"""
+    # Plaque
+    d.rectangle([4, 6, w-5, h-7], fill=GOLD[2], outline=GOLD[0])
+    d.rectangle([6, 8, w-7, h-9], fill=GOLD[3])
+    # Text
+    d.line([8, 12, w-9, 12], fill=BLACK[0], width=1)
+    d.line([8, 16, w-9, 16], fill=BLACK[0], width=1)
+
+def draw_evidence_board(d, w, h):
+    """32x32 evidence board"""
+    # Board
+    d.rectangle([2, 2, w-3, h-3], fill=WOOD[2], outline=WOOD[0])
+    # Cork
+    d.rectangle([4, 4, w-5, h-5], fill=(139, 69, 19), outline=WOOD[0])
+    # Pinned papers
+    d.rectangle([8, 8, 16, 16], fill=PAPER[1], outline=PAPER[0])
+    d.rectangle([18, 12, 26, 20], fill=PAPER[1], outline=PAPER[0])
+
+def draw_family_photo_frame(d, w, h):
+    """32x32 family photo frame"""
+    # Frame
+    d.rectangle([2, 2, w-3, h-3], fill=WOOD[2], outline=WOOD[0])
+    # Photo
+    d.rectangle([6, 6, w-7, h-7], fill=(200, 180, 160), outline=WOOD[0])
+    # People silhouettes
+    d.ellipse([10, 12, 14, 18], fill=BLACK[0])
+    d.ellipse([16, 12, 20, 18], fill=BLACK[0])
+
+def draw_handcuffs(d, w, h):
+    """32x32 handcuffs"""
+    # Chain
+    d.line([w//2, 8, w//2, h-9], fill=BLACK[2], width=2)
+    # Cuffs
+    d.ellipse([w//2-6, 2, w//2+6, 14], fill=BLACK[2], outline=BLACK[0])
+    d.ellipse([w//2-6, h-15, w//2+6, h-3], fill=BLACK[2], outline=BLACK[0])
+
+def draw_handshake_sculpture(d, w, h):
+    """32x32 handshake sculpture"""
+    # Base
+    d.rectangle([w//2-4, h-6, w//2+4, h-2], fill=MARBLE[1], outline=MARBLE[0])
+    # Hands
+    d.ellipse([w//2-8, 6, w//2-2, 14], fill=MARBLE[2], outline=MARBLE[0])
+    d.ellipse([w//2+2, 6, w//2+8, 14], fill=MARBLE[2], outline=MARBLE[0])
+
+def draw_hazard_sign(d, w, h):
+    """32x32 hazard sign"""
+    # Triangle
+    d.polygon([(w//2, 2), (w//2-12, h-3), (w//2+12, h-3)], fill=(255, 255, 0), outline=BLACK[0])
+    # Exclamation
+    d.rectangle([w//2-1, 6, w//2+1, 12], fill=BLACK[0])
+    d.rectangle([w//2-1, 16, w//2+1, 18], fill=BLACK[0])
+
+def draw_house_keys(d, w, h):
+    """32x32 house keys"""
+    # Key ring
+    d.ellipse([w//2-2, 2, w//2+2, 6], fill=BLACK[2], outline=BLACK[0])
+    # Keys
+    d.line([w//2, 4, w//2, 12], fill=BLACK[2], width=2)
+    d.rectangle([w//2-3, 10, w//2+3, 14], fill=BLACK[2], outline=BLACK[0])
+    d.line([w//2, 16, w//2, 24], fill=BLACK[2], width=2)
+    d.rectangle([w//2-3, 22, w//2+3, 26], fill=BLACK[2], outline=BLACK[0])
+
+def draw_judge_bench(d, w, h):
+    """64x64 judge bench"""
+    # Bench top
+    d.rectangle([4, h//2-8, w-5, h//2], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([6, h//2-6, w-7, h//2], fill=WOOD[3])
+    # Back
+    d.rectangle([8, 4, 12, h//2-8], fill=WOOD[2], outline=WOOD[0])
+    # Supports
+    d.rectangle([10, h//2, 14, h-4], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([w-15, h//2, w-11, h-4], fill=WOOD[2], outline=WOOD[0])
+
+def draw_jury_box(d, w, h):
+    """32x32 jury box"""
+    # Box
+    d.rectangle([2, 4, w-3, h-3], fill=WOOD[2], outline=WOOD[0])
+    # Seats
+    for i in range(2):
+        for j in range(3):
+            x = 4 + j*8
+            y = 6 + i*8
+            d.rectangle([x, y, x+6, y+6], fill=WOOD[3], outline=WOOD[0])
+
+def draw_locker(d, w, h):
+    """32x32 locker"""
+    # Locker body
+    d.rectangle([2, 2, w-3, h-3], fill=BLACK[2], outline=BLACK[0])
+    # Door
+    d.rectangle([4, 4, w-5, h-5], fill=BLACK[3], outline=BLACK[0])
+    # Handle
+    d.rectangle([w//2-1, h//2-2, w//2+1, h//2+2], fill=BLACK[0])
+
+def draw_map_plot(d, w, h):
+    """32x32 map plot"""
+    # Map
+    d.rectangle([4, 4, w-5, h-5], fill=PAPER[1], outline=PAPER[0])
+    # Grid lines
+    for i in range(1, 4):
+        x = 4 + i*6
+        d.line([x, 4, x, h-5], fill=BLACK[0], width=1)
+        y = 4 + i*6
+        d.line([4, y, w-5, y], fill=BLACK[0], width=1)
+
+def draw_medical_chart(d, w, h):
+    """32x32 medical chart"""
+    # Clipboard
+    d.rectangle([4, 2, w-5, h-2], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([6, 4, w-7, h-4], fill=PAPER[1], outline=PAPER[0])
+    # Clip
+    d.rectangle([w//2-2, 1, w//2+2, 3], fill=BLACK[2], outline=BLACK[0])
+    # Medical symbols
+    d.line([10, 10, 14, 10], fill=RED[0], width=2)
+    d.line([12, 8, 12, 12], fill=RED[0], width=2)
+
+def draw_menu_board(d, w, h):
+    """32x32 menu board"""
+    # Board
+    d.rectangle([2, 2, w-3, h-3], fill=BLACK[2], outline=BLACK[0])
+    # Menu items
+    d.line([6, 8, w-7, 8], fill=(255, 255, 255), width=1)
+    d.line([6, 14, w-7, 14], fill=(255, 255, 255), width=1)
+    d.line([6, 20, w-7, 20], fill=(255, 255, 255), width=1)
+
+def draw_metal_shelf(d, w, h):
+    """32x32 metal shelf"""
+    # Shelves
+    for i in range(3):
+        y = 4 + i*8
+        d.rectangle([2, y, w-3, y+2], fill=BLACK[2], outline=BLACK[0])
+    # Supports
+    d.rectangle([4, 4, 6, h-3], fill=BLACK[2], outline=BLACK[0])
+    d.rectangle([w-7, 4, w-5, h-3], fill=BLACK[2], outline=BLACK[0])
+
+def draw_mirror(d, w, h):
+    """32x32 mirror"""
+    # Frame
+    d.rectangle([2, 2, w-3, h-3], fill=WOOD[2], outline=WOOD[0])
+    # Glass
+    d.rectangle([6, 6, w-7, h-7], fill=GLASS[1], outline=GLASS[0])
+
+def draw_podium(d, w, h):
+    """32x32 podium"""
+    # Top
+    d.rectangle([4, h//2-6, w-5, h//2], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([6, h//2-4, w-7, h//2], fill=WOOD[3])
+    # Front panel
+    d.rectangle([2, h//2, w-3, h-3], fill=WOOD[2], outline=WOOD[0])
+
+def draw_press_backdrop(d, w, h):
+    """32x32 press backdrop"""
+    # Backdrop
+    d.rectangle([2, 2, w-3, h-3], fill=(0, 0, 128), outline=BLACK[0])
+    # Logos
+    d.ellipse([8, 8, 16, 16], fill=(255, 255, 255))
+    d.ellipse([18, 8, 26, 16], fill=(255, 255, 255))
+
+def draw_press_chair(d, w, h):
+    """32x32 press chair"""
+    # Similar to cafeteria chair
+    d.rectangle([4, h//2-2, w-5, h//2+2], fill=BLACK[2], outline=BLACK[0])
+    d.rectangle([6, 4, 10, h//2-2], fill=BLACK[2], outline=BLACK[0])
+    d.rectangle([6, h//2+2, 8, h-3], fill=BLACK[2], outline=BLACK[0])
+    d.rectangle([w-9, h//2+2, w-7, h-3], fill=BLACK[2], outline=BLACK[0])
+
+def draw_procedure_chart(d, w, h):
+    """32x32 procedure chart"""
+    # Chart
+    d.rectangle([4, 4, w-5, h-5], fill=PAPER[1], outline=PAPER[0])
+    # Flow arrows
+    d.polygon([(10, 10), (14, 12), (10, 14)], fill=BLACK[0])
+    d.polygon([(20, 10), (24, 12), (20, 14)], fill=BLACK[0])
+
+def draw_reading_table(d, w, h):
+    """32x32 reading table"""
+    # Table
+    d.rectangle([2, h//2-4, w-3, h//2], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([4, h//2-2, w-5, h//2], fill=WOOD[3])
+    # Legs
+    d.rectangle([6, h//2, 8, h-3], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([w-9, h//2, w-7, h-3], fill=WOOD[2], outline=WOOD[0])
+
+def draw_robe_rack(d, w, h):
+    """32x32 robe rack"""
+    # Rack
+    d.rectangle([w//2-1, 4, w//2+1, h-4], fill=WOOD[2], outline=WOOD[0])
+    # Hooks
+    d.rectangle([w//2-4, 6, w//2-2, 10], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([w//2+2, 6, w//2+4, 10], fill=WOOD[2], outline=WOOD[0])
+    # Robes hanging
+    d.rectangle([w//2-6, 10, w//2-4, h-6], fill=BLACK[2], outline=BLACK[0])
+    d.rectangle([w//2+4, 10, w//2+6, h-6], fill=BLACK[2], outline=BLACK[0])
+
+def draw_scotus_exterior_building(d, w, h):
+    """64x64 SCOTUS exterior building"""
+    # Building facade
+    d.rectangle([4, 8, w-5, h-3], fill=MARBLE[1], outline=MARBLE[0])
+    # Columns
+    for i in range(3):
+        x = 8 + i*16
+        d.rectangle([x, 8, x+4, h-3], fill=MARBLE[2], outline=MARBLE[0])
+    # Pediment
+    d.polygon([(2, 8), (w//2, 2), (w-3, 8)], fill=MARBLE[1], outline=MARBLE[0])
+
+def draw_scotus_plaque(d, w, h):
+    """32x32 SCOTUS plaque"""
+    # Plaque
+    d.rectangle([4, 6, w-5, h-7], fill=BRONZE[2], outline=BRONZE[0])
+    d.rectangle([6, 8, w-7, h-9], fill=BRONZE[3])
+    # Eagle
+    d.polygon([(w//2-4, 12), (w//2, 8), (w//2+4, 12)], fill=BLACK[0])
+    d.ellipse([w//2-2, 10, w//2+2, 14], fill=BLACK[0])
+
+def draw_serving_counter(d, w, h):
+    """32x32 serving counter"""
+    # Counter top
+    d.rectangle([2, h//2-4, w-3, h//2], fill=WOOD[2], outline=WOOD[0])
+    d.rectangle([4, h//2-2, w-5, h//2], fill=WOOD[3])
+    # Front panel
+    d.rectangle([2, h//2, w-3, h-3], fill=WOOD[2], outline=WOOD[0])
+
+def draw_statue(d, w, h):
+    """32x32 statue"""
+    # Base
+    d.rectangle([w//2-4, h-6, w//2+4, h-2], fill=MARBLE[1], outline=MARBLE[0])
+    # Figure
+    d.ellipse([w//2-6, 4, w//2+6, 16], fill=MARBLE[2], outline=MARBLE[0])
+    # Robes
+    d.rectangle([w//2-8, 14, w//2+8, h-6], fill=MARBLE[2], outline=MARBLE[0])
+
+def draw_tape_recorder(d, w, h):
+    """32x32 tape recorder"""
+    # Body
+    d.rectangle([4, 8, w-5, h-3], fill=BLACK[2], outline=BLACK[0])
+    # Reels
+    d.ellipse([8, 10, 16, 18], fill=BLACK[3], outline=BLACK[0])
+    d.ellipse([w-17, 10, w-9, 18], fill=BLACK[3], outline=BLACK[0])
+    # Controls
+    d.rectangle([w//2-2, h-8, w//2+2, h-4], fill=RED[2], outline=RED[0])
+
+def draw_toy_blocks(d, w, h):
+    """32x32 toy blocks"""
+    # Block 1
+    d.rectangle([4, 8, 14, 18], fill=RED[2], outline=RED[0])
+    # Block 2
+    d.rectangle([10, 14, 20, 24], fill=(0, 128, 0), outline=BLACK[0])
+    # Block 3
+    d.rectangle([16, 6, 26, 16], fill=(0, 0, 255), outline=BLACK[0])
+
+def draw_vault_door(d, w, h):
+    """32x32 vault door"""
+    # Door
+    d.ellipse([2, 2, w-3, h-3], fill=BLACK[2], outline=BLACK[0])
+    # Handle
+    d.ellipse([w//2-4, h//2-4, w//2+4, h//2+4], fill=BLACK[3], outline=BLACK[0])
+    d.rectangle([w//2-1, h//2-6, w//2+1, h//2+6], fill=BLACK[3], outline=BLACK[0])
+
+def draw_vending_machine(d, w, h):
+    """32x32 vending machine"""
+    # Machine
+    d.rectangle([4, 2, w-5, h-3], fill=BLACK[2], outline=BLACK[0])
+    # Glass
+    d.rectangle([6, 4, w-7, h-8], fill=GLASS[1], outline=GLASS[0])
+    # Products
+    d.rectangle([8, 6, 12, 10], fill=RED[2])
+    d.rectangle([14, 6, 18, 10], fill=(255, 255, 0))
+    # Coin slot
+    d.rectangle([w//2-1, h-6, w//2+1, h-4], fill=BLACK[0])
+
+def draw_warning_light(d, w, h):
+    """32x32 warning light"""
+    # Base
+    d.rectangle([w//2-2, h-6, w//2+2, h-2], fill=BLACK[2], outline=BLACK[0])
+    # Pole
+    d.rectangle([w//2-1, 4, w//2+1, h-6], fill=BLACK[2], outline=BLACK[0])
+    # Light
+    d.ellipse([w//2-6, 2, w//2+6, 14], fill=(255, 255, 0), outline=BLACK[0])
+
+# NPCs
+def draw_clerk(d, w, h):
+    """64x64 court clerk NPC"""
+    cx, cy = w // 2, h // 2
+    # Body
+    d.ellipse([cx-12, cy-4, cx+12, cy+12], fill=CLOTHES[2], outline=CLOTHES[0])
+    # Head
+    d.ellipse([cx-8, cy-20, cx+8, cy-4], fill=SKIN[2], outline=SKIN[0])
+    # Hair
+    d.ellipse([cx-7, cy-22, cx+7, cy-6], fill=HAIR[2], outline=HAIR[0])
+    # Eyes
+    d.ellipse([cx-3, cy-14, cx-1, cy-12], fill=(0, 0, 0))
+    d.ellipse([cx+1, cy-14, cx+3, cy-12], fill=(0, 0, 0))
+    # Mouth
+    d.arc([cx-2, cy-10, cx+2, cy-8], 0, 180, fill=(0, 0, 0), width=1)
+    # Arms
+    d.ellipse([cx-16, cy, cx-10, cy+6], fill=SKIN[2], outline=SKIN[0])
+    d.ellipse([cx+10, cy, cx+16, cy+6], fill=SKIN[2], outline=SKIN[0])
+    # Legs
+    d.ellipse([cx-6, cy+10, cx, cy+18], fill=CLOTHES[2], outline=CLOTHES[0])
+    d.ellipse([cx, cy+10, cx+6, cy+18], fill=CLOTHES[2], outline=CLOTHES[0])
+
+def draw_reporter(d, w, h):
+    """64x64 reporter NPC"""
+    cx, cy = w // 2, h // 2
+    # Body
+    d.ellipse([cx-12, cy-4, cx+12, cy+12], fill=CLOTHES[2], outline=CLOTHES[0])
+    # Head
+    d.ellipse([cx-8, cy-20, cx+8, cy-4], fill=SKIN[2], outline=SKIN[0])
+    # Hair
+    d.ellipse([cx-7, cy-22, cx+7, cy-6], fill=HAIR[2], outline=HAIR[0])
+    # Eyes
+    d.ellipse([cx-3, cy-14, cx-1, cy-12], fill=(0, 0, 0))
+    d.ellipse([cx+1, cy-14, cx+3, cy-12], fill=(0, 0, 0))
+    # Mouth
+    d.arc([cx-2, cy-10, cx+2, cy-8], 0, 180, fill=(0, 0, 0), width=1)
+    # Arms
+    d.ellipse([cx-16, cy, cx-10, cy+6], fill=SKIN[2], outline=SKIN[0])
+    d.ellipse([cx+10, cy, cx+16, cy+6], fill=SKIN[2], outline=SKIN[0])
+    # Legs
+    d.ellipse([cx-6, cy+10, cx, cy+18], fill=CLOTHES[2], outline=CLOTHES[0])
+    d.ellipse([cx, cy+10, cx+6, cy+18], fill=CLOTHES[2], outline=CLOTHES[0])
+    # Notebook
+    d.rectangle([cx+14, cy-2, cx+20, cy+8], fill=PAPER[1], outline=PAPER[0])
+
+def draw_tourist(d, w, h):
+    """64x64 tourist NPC"""
+    cx, cy = w // 2, h // 2
+    # Body
+    d.ellipse([cx-12, cy-4, cx+12, cy+12], fill=CLOTHES[2], outline=CLOTHES[0])
+    # Head
+    d.ellipse([cx-8, cy-20, cx+8, cy-4], fill=SKIN[2], outline=SKIN[0])
+    # Hair
+    d.ellipse([cx-7, cy-22, cx+7, cy-6], fill=HAIR[2], outline=HAIR[0])
+    # Eyes
+    d.ellipse([cx-3, cy-14, cx-1, cy-12], fill=(0, 0, 0))
+    d.ellipse([cx+1, cy-14, cx+3, cy-12], fill=(0, 0, 0))
+    # Mouth
+    d.arc([cx-2, cy-10, cx+2, cy-8], 0, 180, fill=(0, 0, 0), width=1)
+    # Arms
+    d.ellipse([cx-16, cy, cx-10, cy+6], fill=SKIN[2], outline=SKIN[0])
+    d.ellipse([cx+10, cy, cx+16, cy+6], fill=SKIN[2], outline=SKIN[0])
+    # Legs
+    d.ellipse([cx-6, cy+10, cx, cy+18], fill=CLOTHES[2], outline=CLOTHES[0])
+    d.ellipse([cx, cy+10, cx+6, cy+18], fill=CLOTHES[2], outline=CLOTHES[0])
+    # Camera
+    d.rectangle([cx-18, cy-4, cx-12, cy+2], fill=BLACK[2], outline=BLACK[0])
+
 # --- OFFICE FURNITURE ---
 
 def draw_bookshelf(d, w, h):
@@ -911,17 +1442,71 @@ if __name__ == "__main__":
     save_to("quill_pen_crossed_proc", (32, 16), draw_quill_pen_crossed)
     
     # Round 6 - Deliberation Room
-    save_to("conference_table_proc", (64, 48), draw_conference_table)
+    save_to("conference_table_proc", (64, 64), draw_conference_table)
     
     # Round 7 - Office Furniture
-    save_to("bookshelf_proc", (32, 48), draw_bookshelf)
-    save_to("file_cabinet_proc", (32, 48), draw_file_cabinet)
+    save_to("bookshelf_proc", (32, 64), draw_bookshelf)
+    save_to("file_cabinet_proc", (32, 64), draw_file_cabinet)
     save_to("laptop_proc", (32, 32), draw_laptop)
-    save_to("whiteboard_proc", (48, 32), draw_whiteboard)
+    save_to("whiteboard_proc", (64, 32), draw_whiteboard)
     
     # Character
     save_to("fat_boy_lollipop", (64, 64), draw_fat_boy_lollipop)
     save_to("big_fat_boy_one_tooth_spinner_hat", (64, 64), draw_big_fat_boy_one_tooth_spinner_hat)
+    
+    # Missing props from LDtk pipeline
+    save_to("accident_report_proc", (32, 32), draw_accident_report)
+    save_to("badge_stand_proc", (32, 32), draw_badge_stand)
+    save_to("bollard_proc", (32, 32), draw_bollard)
+    save_to("book_ladder_proc", (32, 64), draw_book_ladder)
+    save_to("cafeteria_chair_proc", (32, 32), draw_cafeteria_chair)
+    save_to("cafeteria_table_proc", (64, 32), draw_cafeteria_table)
+    save_to("camera_rig_proc", (48, 32), draw_camera_rig)
+    save_to("card_catalog_proc", (32, 64), draw_card_catalog)
+    save_to("caution_cone_proc", (32, 32), draw_caution_cone)
+    save_to("cctv_monitor_proc", (32, 32), draw_cctv_monitor)
+    save_to("classical_bust_proc", (32, 64), draw_classical_bust)
+    save_to("constitution_scroll_proc", (32, 32), draw_constitution_scroll)
+    save_to("contract_scroll_proc", (32, 32), draw_contract_scroll)
+    save_to("counsel_chair_proc", (32, 32), draw_counsel_chair)
+    save_to("counsel_table_proc", (32, 64), draw_counsel_table)
+    save_to("deed_ledger_proc", (32, 32), draw_deed_ledger)
+    save_to("desk_lamp_proc", (16, 32), draw_desk_lamp)
+    save_to("docket_stack_proc", (32, 32), draw_docket_stack)
+    save_to("door_plaque_proc", (32, 32), draw_door_plaque)
+    save_to("evidence_board_proc", (32, 64), draw_evidence_board)
+    save_to("family_photo_frame_proc", (32, 32), draw_family_photo_frame)
+    save_to("handcuffs_proc", (32, 32), draw_handcuffs)
+    save_to("handshake_sculpture_proc", (32, 32), draw_handshake_sculpture)
+    save_to("hazard_sign_proc", (32, 32), draw_hazard_sign)
+    save_to("house_keys_proc", (32, 32), draw_house_keys)
+    save_to("judge_bench_proc", (64, 64), draw_judge_bench)
+    save_to("jury_box_proc", (48, 64), draw_jury_box)
+    save_to("locker_proc", (32, 64), draw_locker)
+    save_to("map_plot_proc", (32, 32), draw_map_plot)
+    save_to("medical_chart_proc", (32, 32), draw_medical_chart)
+    save_to("menu_board_proc", (32, 32), draw_menu_board)
+    save_to("metal_shelf_proc", (64, 64), draw_metal_shelf)
+    save_to("mirror_proc", (32, 32), draw_mirror)
+    save_to("podium_proc", (32, 64), draw_podium)
+    save_to("press_backdrop_proc", (96, 32), draw_press_backdrop)
+    save_to("press_chair_proc", (32, 32), draw_press_chair)
+    save_to("procedure_chart_proc", (32, 32), draw_procedure_chart)
+    save_to("reading_table_proc", (32, 64), draw_reading_table)
+    save_to("robe_rack_proc", (32, 64), draw_robe_rack)
+    save_to("scotus_plaque_proc", (32, 32), draw_scotus_plaque)
+    save_to("serving_counter_proc", (64, 32), draw_serving_counter)
+    save_to("statue_proc", (32, 64), draw_statue)
+    save_to("tape_recorder_proc", (32, 32), draw_tape_recorder)
+    save_to("toy_blocks_proc", (32, 32), draw_toy_blocks)
+    save_to("vault_door_proc", (32, 64), draw_vault_door)
+    save_to("vending_machine_proc", (32, 64), draw_vending_machine)
+    save_to("warning_light_proc", (32, 32), draw_warning_light)
+    
+    # NPCs
+    save_to("clerk_proc", (64, 64), draw_clerk)
+    save_to("reporter_proc", (64, 64), draw_reporter)
+    save_to("tourist_proc", (64, 64), draw_tourist)
     
     # Round 4 - SCOTUS Exterior Construction Kit
     exterior_dir = "vendor/props/exterior"
@@ -940,6 +1525,7 @@ if __name__ == "__main__":
     save_exterior("scotus_stairs", (32, 32), draw_scotus_stairs)
     save_exterior("scotus_pediment", (64, 32), draw_scotus_pediment)
     save_exterior("scotus_entablature", (64, 16), draw_scotus_entablature)
+    save_exterior("scotus_exterior_building", (64, 64), draw_scotus_exterior_building)
     
     # Outdoor Props
     save_exterior("lamp_post", (16, 64), draw_lamp_post)

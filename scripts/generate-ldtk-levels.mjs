@@ -7,6 +7,7 @@ const ROOMS_DIR = path.join(__dirname, '../content/rooms');
 const OUTPUT_DIR = path.join(__dirname, '../public/content/ldtk');
 const PLACEMENT_DRAFT_PATH = path.join(__dirname, '../content/placement_drafts/prop_placements.json');
 const TILE_SIZE = 32;
+const TILE_MAPPING_PATH = path.join(__dirname, '../public/content/ldtk/_tile_mapping.json');
 
 // Ensure output directory exists
 if (!fs.existsSync(OUTPUT_DIR)) {
@@ -62,6 +63,94 @@ function buildPlacementEntities(roomId, drafts) {
       properties
     };
   });
+}
+
+const ROOM_FLOOR_OVERRIDES = {
+  cafeteria: 'tile.floor.cafeteria_tile_base',
+  courtroom_main: 'tile.floor.court_carpet_runner_base',
+  library: 'tile.floor.library_wood_base',
+  records_vault: 'tile.floor.vault_stone_base',
+  robing_room: 'tile.floor.robing_rug_base',
+  press_room: 'tile.floor.press_carpet_base',
+  scotus_lobby: 'tile.floor.lobby_mosaic_base',
+  'room.scotus_hall_01': 'tile.floor.hall_marble_base'
+};
+
+function collectDoorCoords(roomSpec) {
+  const coords = new Set();
+  for (const entity of roomSpec.entities || []) {
+    if (entity.type === 'Door' && Number.isInteger(entity.x) && Number.isInteger(entity.y)) {
+      coords.add(`${entity.x},${entity.y}`);
+    }
+  }
+  return coords;
+}
+
+function chooseTileName(roomSpec, x, y, width, height, doorCoords) {
+  const isDoor = doorCoords.has(`${x},${y}`);
+  const isTop = y === 0;
+  const isBottom = y === height - 1;
+  const isLeft = x === 0;
+  const isRight = x === width - 1;
+  const isEdge = isTop || isBottom || isLeft || isRight;
+
+  if (isDoor) {
+    if (roomSpec.id === 'courthouse_exterior') {
+      return 'tile.ground.sidewalk_stone_base';
+    }
+    return ROOM_FLOOR_OVERRIDES[roomSpec.id] || 'tile.floor.marble.white_base';
+  }
+
+  if (roomSpec.id === 'courthouse_exterior') {
+    const center = Math.floor(width / 2);
+    if (Math.abs(x - center) <= 1 && y >= 3 && y <= height - 2) {
+      return 'tile.ground.sidewalk_stone_base';
+    }
+  }
+
+  if (isEdge) {
+    if ((isTop && isLeft) || (isTop && isRight) || (isBottom && isLeft) || (isBottom && isRight)) {
+      return 'tile.wall.interior_stone_corner_outer';
+    }
+    return 'tile.wall.interior_stone_straight';
+  }
+
+  const override = ROOM_FLOOR_OVERRIDES[roomSpec.id];
+  if (override) {
+    return override;
+  }
+
+  return roomSpec.id === 'records_vault' ? 'tile.floor.vault_stone_base' : 'tile.floor.marble.white_base';
+}
+
+function buildGridTiles(roomSpec, tileMapping) {
+  if (!tileMapping || Object.keys(tileMapping).length === 0) {
+    return [];
+  }
+
+  const width = roomSpec.width;
+  const height = roomSpec.height;
+  const doorCoords = collectDoorCoords(roomSpec);
+  const tiles = [];
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const tileName = chooseTileName(roomSpec, x, y, width, height, doorCoords);
+      const tileInfo = tileMapping[tileName];
+      if (!tileInfo) continue;
+      tiles.push({
+        tileId: tileInfo.tileId,
+        px: [x * TILE_SIZE, y * TILE_SIZE],
+        srcRect: [tileInfo.x, tileInfo.y, TILE_SIZE, TILE_SIZE],
+        tUid: tileInfo.tileId + 1000,
+        f: 0,
+        d: 0,
+        __grid: [x, y]
+      });
+    }
+  }
+
+  return tiles;
 }
 
 // 1. Define LDtk Definitions (Layers, Entities, Fields)
@@ -237,6 +326,7 @@ console.log(`Generated ${path.join(OUTPUT_DIR, '_template.ldtk')}`);
 // 3. Process Rooms
 const roomFiles = fs.readdirSync(ROOMS_DIR).filter(f => f.endsWith('.json'));
 const placementDrafts = loadPlacementDrafts();
+const tileMapping = fs.existsSync(TILE_MAPPING_PATH) ? readJson(TILE_MAPPING_PATH) : {};
 
 roomFiles.sort(); // Stable order
 
@@ -394,6 +484,8 @@ roomFiles.forEach(file => {
   // 3. Floor (IntGrid) - fill with tile value 1 (Ground) for all cells
   const floorCsv = new Array(gridCount).fill(1);
 
+  const floorTiles = buildGridTiles(roomSpec, tileMapping);
+
   level.layerInstances.push({
     __identifier: "Floor",
     __type: "IntGrid",
@@ -416,7 +508,7 @@ roomFiles.forEach(file => {
     autoLayerTiles: [],
     seed: 0,
     overrideTilesetUid: null,
-    gridTiles: [],
+    gridTiles: floorTiles,
     entityInstances: []
   });
 

@@ -164,30 +164,30 @@ These are authored in `vendor/props/` and synced by scripts.
 
 ### legal
 
-- prop.argument_lectern_proc
-- prop.briefcase_proc
-- prop.clock_proc
-- prop.conference_table_proc
-- prop.court_seal_proc
-- prop.courtroom_railing_proc
-- prop.evidence_box_proc
-- prop.exit_sign_proc
-- prop.flag_stand_proc
-- prop.gavel_block_proc
-- prop.gavel_proc
-- prop.jury_bench_proc
-- prop.law_book_proc
-- prop.legal_document_proc
-- prop.microphone_proc
-- prop.nameplate_proc
-- prop.paper_stack_proc
-- prop.pewter_mug_proc
-- prop.quill_pen_crossed_proc
-- prop.quill_pen_proc
-- prop.scales_of_justice_proc
-- prop.spittoon_proc
-- prop.water_pitcher_proc
-- prop.witness_stand_proc
+- prop.argument_lectern
+- prop.briefcase
+- prop.clock
+- prop.conference_table
+- prop.court_seal
+- prop.courtroom_railing
+- prop.evidence_box
+- prop.exit_sign
+- prop.flag_stand
+- prop.gavel_block
+- prop.gavel
+- prop.jury_bench
+- prop.law_book
+- prop.legal_document
+- prop.microphone
+- prop.nameplate
+- prop.paper_stack
+- prop.pewter_mug
+- prop.quill_pen_crossed
+- prop.quill_pen
+- prop.scales_of_justice
+- prop.spittoon
+- prop.water_pitcher
+- prop.witness_stand
 
 ### office (normalized IDs)
 

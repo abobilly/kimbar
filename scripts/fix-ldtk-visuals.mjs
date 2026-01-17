@@ -25,20 +25,20 @@ const INT_VALUES = {
 
 // Prop sprite mapping - maps entity IDs to actual prop sprites
 const PROP_SPRITE_MAP = {
-  'prop_banner': 'prop.flag_proc',
-  'prop_couch': 'prop.seating_area_proc',
-  'prop_info_desk': 'prop.reception_desk_proc',
-  'prop_metal_detector': 'prop.metal_detector_proc',
-  'prop_stanchion': 'prop.rope_stanchion_proc',
-  'prop_xray_belt': 'prop.security_scanner_proc',
+  'prop_banner': 'prop.flag',
+  'prop_couch': 'prop.seating_area',
+  'prop_info_desk': 'prop.reception_desk',
+  'prop_metal_detector': 'prop.metal_detector',
+  'prop_stanchion': 'prop.rope_stanchion',
+  'prop_xray_belt': 'prop.security_scanner',
   'prop_bench': 'prop.bench',
   'prop_plant': 'prop.planter',
-  'prop_bookshelf': 'prop.bookshelf_proc',
-  'prop_desk': 'prop.desk_proc',
-  'prop_chair': 'prop.chair_proc',
-  'prop_gavel': 'prop.gavel_proc',
-  'prop_lectern': 'prop.argument_lectern_proc',
-  'prop_file_cabinet': 'prop.file_cabinet_proc'
+  'prop_bookshelf': 'prop.bookshelf',
+  'prop_desk': 'prop.desk',
+  'prop_chair': 'prop.chair',
+  'prop_gavel': 'prop.gavel',
+  'prop_lectern': 'prop.argument_lectern',
+  'prop_file_cabinet': 'prop.file_cabinet'
 };
 
 async function loadLdtk(filename) {

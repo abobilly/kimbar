@@ -37,12 +37,26 @@
                 "targetLevel": "scotus_hall_01",
                 "sprite": "door_vault"
             }
+        },
+        {
+            "type": "Door",
+            "x": 14,
+            "y": 6,
+            "id": "door_exterior_side",
+            "properties": {
+                "targetLevel": "courthouse_exterior",
+                "sprite": "door_vault"
+            }
         }
     ],
     "connections": [
         {
             "direction": "south",
             "targetRoom": "scotus_hall_01"
+        },
+        {
+            "direction": "east",
+            "targetRoom": "courthouse_exterior"
         }
     ],
     "_TODO": "LDtk export not yet created - placeholder room spec. 'all' deckTag may need special handling."

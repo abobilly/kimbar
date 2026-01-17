@@ -98,6 +98,8 @@ function generateId(filePath, kind) {
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_|_$/g, '');
 
+  const normalized = cleanName.replace(/_proc$/, '') || cleanName;
+
   const prefix = {
     'character_sheet': 'char',
     'tileset': 'tileset',
@@ -107,7 +109,7 @@ function generateId(filePath, kind) {
     'unknown': 'asset'
   }[kind] || 'asset';
 
-  return `${prefix}.${cleanName}`;
+  return `${prefix}.${normalized}`;
 }
 
 function getProvenance(filePath) {

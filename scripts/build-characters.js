@@ -40,7 +40,8 @@ function normalizePropName(fileName) {
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_+|_+$/g, '')
     .replace(/_+/g, '_');
-  return normalized;
+  const stripped = normalized.replace(/_proc$/, '') || normalized;
+  return stripped;
 }
 
 function buildPropId(category, name, usedIds) {

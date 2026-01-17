@@ -24,29 +24,29 @@ const UI_SPRITE_IDS = [
 ];
 
 const PROP_ALIAS_MAP = {
-  'prop.banner': 'prop.flag_stand_proc',
+  'prop.banner': 'prop.flag_stand',
   'prop.couch': 'prop.bench',
   'prop.info_desk': 'prop.desk_ornate',
-  'prop.metal_detector': 'prop.exit_sign_proc',
+  'prop.metal_detector': 'prop.exit_sign',
   'prop.stanchion': 'prop.flagpole',
-  'prop.xray_belt': 'prop.briefcase_proc',
+  'prop.xray_belt': 'prop.briefcase',
   'prop.desk': 'prop.desk_ornate',
   'prop.chair': 'prop.bench',
   'prop.plant': 'prop.planter',
-  'prop.bookshelf': 'prop.bookshelf_proc',
-  'prop.lectern': 'prop.argument_lectern_proc',
-  'prop.gavel': 'prop.gavel_proc',
-  'prop.file_cabinet': 'prop.file_cabinet_proc',
-  'prop.clock': 'prop.clock_proc',
-  'prop.laptop': 'prop.laptop_proc',
-  'prop.microphone': 'prop.microphone_proc',
-  'prop.whiteboard': 'prop.whiteboard_proc',
+  'prop.bookshelf': 'prop.bookshelf',
+  'prop.lectern': 'prop.argument_lectern',
+  'prop.gavel': 'prop.gavel',
+  'prop.file_cabinet': 'prop.file_cabinet',
+  'prop.clock': 'prop.clock',
+  'prop.laptop': 'prop.laptop',
+  'prop.microphone': 'prop.microphone',
+  'prop.whiteboard': 'prop.whiteboard',
   'prop.water_cooler': 'prop.water_cooler',
   'prop.coffee_maker': 'prop.coffee_maker',
-  'prop.scales': 'prop.scales_of_justice_proc',
-  'prop.witness_stand': 'prop.witness_stand_proc',
-  'prop.jury_bench': 'prop.jury_bench_proc',
-  'prop.railing': 'prop.courtroom_railing_proc'
+  'prop.scales': 'prop.scales_of_justice',
+  'prop.witness_stand': 'prop.witness_stand',
+  'prop.jury_bench': 'prop.jury_bench',
+  'prop.railing': 'prop.courtroom_railing'
 };
 
 function normalizePropName(value) {

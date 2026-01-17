@@ -46,6 +46,7 @@
         "gen:ai:missing": "node scripts/generate-ai-jobs-from-spec.mjs",
         "gen:placements": "node scripts/generate-placement-drafts.mjs",
         "gen:robes": "python tools/tailor/generate_male_robe.py && python tools/tailor/generate_female_robe.py",
+        "create:char": "node scripts/create-character.js",
         "tailor:robes": "cd tools/tailor && python run_pipeline.py",
         "lpc:ui": "python tools/lpc-builder/lpc-builder.py --ui",
         "lpc:random": "python tools/lpc-builder/lpc-builder.py --random",
