@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 import type { Registry } from '../../content/registry';
-import { queueRegistrySpriteLoads } from '@game/services/asset-loader';
+import { queueRegistrySpriteLoads, queueRegistryTilesetLoads } from '@game/services/asset-loader';
 import { ensureCharacterAnims } from '@game/utils/characterAnims';
 
 // Debug flag: log asset loading info to console
@@ -52,11 +52,24 @@ export class Preloader extends Scene
             loadingText.setText(`Loading... ${Math.floor(progress * 100)}%`);
         });
 
-        // Load floor tileset for level rendering
-        this.load.image('floor_tiles', 'assets/tilesets/lpc/floors.png');
-        
-        // Load SCOTUS-themed tileset
-        this.load.image('scotus_tiles', 'assets/tilesets/scotus_tiles.png');
+        if (this.registryData?.tilesets) {
+            const tilesetIds = [
+                'tileset.scotus_tiles',
+                'tileset.lpc_floors',
+                'tileset.lpc_windows_doors'
+            ].filter((id) => Boolean(this.registryData?.tilesets?.[id]));
+
+            queueRegistryTilesetLoads(this, tilesetIds, this.registryData);
+
+            if (DEBUG_ASSETS) {
+                console.log('[Preloader] Tilesets queued:', tilesetIds);
+            }
+        } else {
+            // Fallback: hardcoded tilesets if registry not available
+            this.load.image('floor_tiles', 'assets/tilesets/lpc/floors.png');
+            this.load.image('scotus_tiles', 'assets/tilesets/scotus_tiles.png');
+            this.load.image('lpc_windows_doors', 'assets/tilesets/lpc/windows-doors.png');
+        }
 
         // Registry-driven asset loading (minimal UI + essentials only)
         if (this.registryData?.sprites) {

@@ -32,6 +32,8 @@ const PLACEMENT_SPEC_PATH = './docs/MISSING_ASSETS_SPEC.json';
 const TILESET_MANIFEST_PATH = './content/ai_jobs/tileset_manifest.json';
 const ROOM_TILE_REQUIREMENTS_PATH = './content/ai_jobs/room_tile_requirements.json';
 const GENERATED_TILES_DIR = './generated/tiles';
+const TILESET_REGISTRY_PATH = './content/tilesets/tilesets.json';
+const TILESET_PARTS_DIR = './content/tilesets';
 
 let hardErrors = [];
 let policySkips = [];
@@ -177,6 +179,68 @@ async function validateRegistry(schemas, contract) {
   } catch (e) {
     error(`Failed to parse registry: ${e.message}`);
     return null;
+  }
+}
+
+async function validateTilesets(schemas) {
+  console.log('\n🧱 Validating Tilesets...');
+
+  if (!existsSync(TILESET_REGISTRY_PATH)) {
+    warn('Tileset registry not found - run npm run import:lpc first');
+    return;
+  }
+
+  try {
+    const tilesetRegistry = await loadJson(TILESET_REGISTRY_PATH);
+    if (schemas.TilesetRegistry) {
+      const valid = schemas.TilesetRegistry(tilesetRegistry);
+      if (!valid) {
+        for (const err of schemas.TilesetRegistry.errors) {
+          error(`Tileset registry ${err.instancePath}: ${err.message}`);
+        }
+      } else {
+        ok('Tileset registry schema valid');
+      }
+    }
+
+    const tilesets = tilesetRegistry.tilesets || [];
+    ok(`${tilesets.length} tileset(s) indexed`);
+  } catch (e) {
+    error(`Failed to parse tileset registry: ${e.message}`);
+  }
+
+  if (!schemas.TilesetParts) {
+    return;
+  }
+
+  if (!existsSync(TILESET_PARTS_DIR)) {
+    warn('Tileset parts directory missing');
+    return;
+  }
+
+  const partFiles = (await readdir(TILESET_PARTS_DIR))
+    .filter(name => name.endsWith('.parts.json'))
+    .sort((a, b) => a.localeCompare(b));
+
+  if (partFiles.length === 0) {
+    warn('No tileset parts maps found');
+    return;
+  }
+
+  for (const file of partFiles) {
+    try {
+      const data = await loadJson(join(TILESET_PARTS_DIR, file));
+      const valid = schemas.TilesetParts(data);
+      if (!valid) {
+        for (const err of schemas.TilesetParts.errors) {
+          error(`Tileset parts ${file}${err.instancePath}: ${err.message}`);
+        }
+      } else {
+        ok(`${file}: schema valid`);
+      }
+    } catch (e) {
+      error(`Failed to parse tileset parts ${file}: ${e.message}`);
+    }
   }
 }
 
@@ -772,6 +836,8 @@ async function main() {
 
   // Validate registry
   const registry = await validateRegistry(schemas, contract);
+
+  await validateTilesets(schemas);
 
   // Validate registry-driven content
   await validateFlashcardPacks(schemas, registry, contract);

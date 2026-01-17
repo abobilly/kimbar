@@ -1,0 +1,2032 @@
+{
+  "schema": "kimbar.tileset.parts.v1",
+  "image": "windows-doors.png",
+  "tilesetPath": "/assets/tilesets/lpc/windows-doors.png",
+  "tileWidth": 32,
+  "tileHeight": 32,
+  "columns": 32,
+  "rows": 32,
+  "objects": {
+    "obj.arch.brick_dark_01": {
+      "tileX": 24,
+      "tileY": 17,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 24,
+          "tileY": 17,
+          "tileIndex": 568
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 25,
+          "tileY": 17,
+          "tileIndex": 569
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 24,
+          "tileY": 18,
+          "tileIndex": 600
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 25,
+          "tileY": 18,
+          "tileIndex": 601
+        }
+      ],
+      "propId": "prop.lpc_arch_brick_dark_01",
+      "notes": null
+    },
+    "obj.arch.brick_light_01": {
+      "tileX": 27,
+      "tileY": 17,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 27,
+          "tileY": 17,
+          "tileIndex": 571
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 28,
+          "tileY": 17,
+          "tileIndex": 572
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 27,
+          "tileY": 18,
+          "tileIndex": 603
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 28,
+          "tileY": 18,
+          "tileIndex": 604
+        }
+      ],
+      "propId": "prop.lpc_arch_brick_light_01",
+      "notes": null
+    },
+    "obj.arch.stone_round_large_01": {
+      "tileX": 30,
+      "tileY": 14,
+      "tilesWide": 2,
+      "tilesHigh": 3,
+      "pixelWidth": 64,
+      "pixelHeight": 96,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 30,
+          "tileY": 14,
+          "tileIndex": 478
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 31,
+          "tileY": 14,
+          "tileIndex": 479
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 30,
+          "tileY": 15,
+          "tileIndex": 510
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 31,
+          "tileY": 15,
+          "tileIndex": 511
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "tileX": 30,
+          "tileY": 16,
+          "tileIndex": 542
+        },
+        {
+          "dx": 1,
+          "dy": 2,
+          "tileX": 31,
+          "tileY": 16,
+          "tileIndex": 543
+        }
+      ],
+      "propId": "prop.lpc_arch_stone_round_large_01",
+      "notes": null
+    },
+    "obj.container.cabinet_wood_tall_01": {
+      "tileX": 26,
+      "tileY": 23,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 26,
+          "tileY": 23,
+          "tileIndex": 762
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 27,
+          "tileY": 23,
+          "tileIndex": 763
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 26,
+          "tileY": 24,
+          "tileIndex": 794
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 27,
+          "tileY": 24,
+          "tileIndex": 795
+        }
+      ],
+      "propId": "prop.lpc_container_cabinet_wood_tall_01",
+      "notes": null
+    },
+    "obj.container.cabinet_wood_tall_02": {
+      "tileX": 26,
+      "tileY": 25,
+      "tilesWide": 2,
+      "tilesHigh": 3,
+      "pixelWidth": 64,
+      "pixelHeight": 96,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 26,
+          "tileY": 25,
+          "tileIndex": 826
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 27,
+          "tileY": 25,
+          "tileIndex": 827
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 26,
+          "tileY": 26,
+          "tileIndex": 858
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 27,
+          "tileY": 26,
+          "tileIndex": 859
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "tileX": 26,
+          "tileY": 27,
+          "tileIndex": 890
+        },
+        {
+          "dx": 1,
+          "dy": 2,
+          "tileX": 27,
+          "tileY": 27,
+          "tileIndex": 891
+        }
+      ],
+      "propId": "prop.lpc_container_cabinet_wood_tall_02",
+      "notes": null
+    },
+    "obj.door.double_white_glass_01": {
+      "tileX": 28,
+      "tileY": 30,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 28,
+          "tileY": 30,
+          "tileIndex": 988
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 28,
+          "tileY": 31,
+          "tileIndex": 1020
+        }
+      ],
+      "propId": "prop.lpc_door_double_white_glass_01",
+      "notes": null
+    },
+    "obj.door.double_white_glass_02": {
+      "tileX": 30,
+      "tileY": 30,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 30,
+          "tileY": 30,
+          "tileIndex": 990
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 30,
+          "tileY": 31,
+          "tileIndex": 1022
+        }
+      ],
+      "propId": "prop.lpc_door_double_white_glass_02",
+      "notes": null
+    },
+    "obj.door.double_wood_red_01": {
+      "tileX": 28,
+      "tileY": 25,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 28,
+          "tileY": 25,
+          "tileIndex": 828
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 29,
+          "tileY": 25,
+          "tileIndex": 829
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 28,
+          "tileY": 26,
+          "tileIndex": 860
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 29,
+          "tileY": 26,
+          "tileIndex": 861
+        }
+      ],
+      "propId": "prop.lpc_door_double_wood_red_01",
+      "notes": null
+    },
+    "obj.door.shrine_small_01": {
+      "tileX": 30,
+      "tileY": 19,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 30,
+          "tileY": 19,
+          "tileIndex": 638
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 30,
+          "tileY": 20,
+          "tileIndex": 670
+        }
+      ],
+      "propId": "prop.lpc_door_shrine_small_01",
+      "notes": null
+    },
+    "obj.door.vault_iron_studded_01": {
+      "tileX": 28,
+      "tileY": 23,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 28,
+          "tileY": 23,
+          "tileIndex": 764
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 29,
+          "tileY": 23,
+          "tileIndex": 765
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 28,
+          "tileY": 24,
+          "tileIndex": 796
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 29,
+          "tileY": 24,
+          "tileIndex": 797
+        }
+      ],
+      "propId": "prop.lpc_door_vault_iron_studded_01",
+      "notes": null
+    },
+    "obj.door.wood_arched_plain_01": {
+      "tileX": 25,
+      "tileY": 28,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 25,
+          "tileY": 28,
+          "tileIndex": 921
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 25,
+          "tileY": 29,
+          "tileIndex": 953
+        }
+      ],
+      "propId": "prop.lpc_door_wood_arched_plain_01",
+      "notes": null
+    },
+    "obj.door.wood_arched_plain_02": {
+      "tileX": 27,
+      "tileY": 28,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 27,
+          "tileY": 28,
+          "tileIndex": 923
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 27,
+          "tileY": 29,
+          "tileIndex": 955
+        }
+      ],
+      "propId": "prop.lpc_door_wood_arched_plain_02",
+      "notes": null
+    },
+    "obj.door.wood_arched_stoneframe_pair_vertical_01": {
+      "tileX": 20,
+      "tileY": 22,
+      "tilesWide": 2,
+      "tilesHigh": 5,
+      "pixelWidth": 64,
+      "pixelHeight": 160,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 20,
+          "tileY": 22,
+          "tileIndex": 724
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 21,
+          "tileY": 22,
+          "tileIndex": 725
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 20,
+          "tileY": 23,
+          "tileIndex": 756
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 21,
+          "tileY": 23,
+          "tileIndex": 757
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "tileX": 20,
+          "tileY": 24,
+          "tileIndex": 788
+        },
+        {
+          "dx": 1,
+          "dy": 2,
+          "tileX": 21,
+          "tileY": 24,
+          "tileIndex": 789
+        },
+        {
+          "dx": 0,
+          "dy": 3,
+          "tileX": 20,
+          "tileY": 25,
+          "tileIndex": 820
+        },
+        {
+          "dx": 1,
+          "dy": 3,
+          "tileX": 21,
+          "tileY": 25,
+          "tileIndex": 821
+        },
+        {
+          "dx": 0,
+          "dy": 4,
+          "tileX": 20,
+          "tileY": 26,
+          "tileIndex": 852
+        },
+        {
+          "dx": 1,
+          "dy": 4,
+          "tileX": 21,
+          "tileY": 26,
+          "tileIndex": 853
+        }
+      ],
+      "propId": "prop.lpc_door_wood_arched_stoneframe_pair_vertical_01",
+      "notes": "This bounding box contains two similar arched stone-framed doors stacked vertically with no transparent separator; split manually if you need them as separate sprites."
+    },
+    "obj.door.wood_tall_arched_01": {
+      "tileX": 22,
+      "tileY": 30,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 22,
+          "tileY": 30,
+          "tileIndex": 982
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 22,
+          "tileY": 31,
+          "tileIndex": 1014
+        }
+      ],
+      "propId": "prop.lpc_door_wood_tall_arched_01",
+      "notes": null
+    },
+    "obj.door.wood_tall_arched_roundwindow_01": {
+      "tileX": 25,
+      "tileY": 30,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 25,
+          "tileY": 30,
+          "tileIndex": 985
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 25,
+          "tileY": 31,
+          "tileIndex": 1017
+        }
+      ],
+      "propId": "prop.lpc_door_wood_tall_arched_roundwindow_01",
+      "notes": null
+    },
+    "obj.door.wood_tall_arched_roundwindow_02": {
+      "tileX": 27,
+      "tileY": 30,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 27,
+          "tileY": 30,
+          "tileIndex": 987
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 27,
+          "tileY": 31,
+          "tileIndex": 1019
+        }
+      ],
+      "propId": "prop.lpc_door_wood_tall_arched_roundwindow_02",
+      "notes": null
+    },
+    "obj.door.wood_tall_arched_window_01": {
+      "tileX": 24,
+      "tileY": 30,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 24,
+          "tileY": 30,
+          "tileIndex": 984
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 24,
+          "tileY": 31,
+          "tileIndex": 1016
+        }
+      ],
+      "propId": "prop.lpc_door_wood_tall_arched_window_01",
+      "notes": null
+    },
+    "obj.doorway.stone_grate_closed_01": {
+      "tileX": 24,
+      "tileY": 22,
+      "tilesWide": 2,
+      "tilesHigh": 3,
+      "pixelWidth": 64,
+      "pixelHeight": 96,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 24,
+          "tileY": 22,
+          "tileIndex": 728
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 25,
+          "tileY": 22,
+          "tileIndex": 729
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 24,
+          "tileY": 23,
+          "tileIndex": 760
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 25,
+          "tileY": 23,
+          "tileIndex": 761
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "tileX": 24,
+          "tileY": 24,
+          "tileIndex": 792
+        },
+        {
+          "dx": 1,
+          "dy": 2,
+          "tileX": 25,
+          "tileY": 24,
+          "tileIndex": 793
+        }
+      ],
+      "propId": "prop.lpc_doorway_stone_grate_closed_01",
+      "notes": null
+    },
+    "obj.doorway.stone_grate_open_01": {
+      "tileX": 22,
+      "tileY": 22,
+      "tilesWide": 2,
+      "tilesHigh": 3,
+      "pixelWidth": 64,
+      "pixelHeight": 96,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 22,
+          "tileY": 22,
+          "tileIndex": 726
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 23,
+          "tileY": 22,
+          "tileIndex": 727
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 22,
+          "tileY": 23,
+          "tileIndex": 758
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 23,
+          "tileY": 23,
+          "tileIndex": 759
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "tileX": 22,
+          "tileY": 24,
+          "tileIndex": 790
+        },
+        {
+          "dx": 1,
+          "dy": 2,
+          "tileX": 23,
+          "tileY": 24,
+          "tileIndex": 791
+        }
+      ],
+      "propId": "prop.lpc_doorway_stone_grate_open_01",
+      "notes": null
+    },
+    "obj.frame.stone_doorway_dark_01": {
+      "tileX": 24,
+      "tileY": 10,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 24,
+          "tileY": 10,
+          "tileIndex": 344
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 25,
+          "tileY": 10,
+          "tileIndex": 345
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 24,
+          "tileY": 11,
+          "tileIndex": 376
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 25,
+          "tileY": 11,
+          "tileIndex": 377
+        }
+      ],
+      "propId": "prop.lpc_frame_stone_doorway_dark_01",
+      "notes": null
+    },
+    "obj.frame.stone_doorway_dark_02": {
+      "tileX": 27,
+      "tileY": 10,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 27,
+          "tileY": 10,
+          "tileIndex": 347
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 28,
+          "tileY": 10,
+          "tileIndex": 348
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 27,
+          "tileY": 11,
+          "tileIndex": 379
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 28,
+          "tileY": 11,
+          "tileIndex": 380
+        }
+      ],
+      "propId": "prop.lpc_frame_stone_doorway_dark_02",
+      "notes": null
+    },
+    "obj.frame.stone_doorway_dark_03": {
+      "tileX": 24,
+      "tileY": 12,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 24,
+          "tileY": 12,
+          "tileIndex": 408
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 25,
+          "tileY": 12,
+          "tileIndex": 409
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 24,
+          "tileY": 13,
+          "tileIndex": 440
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 25,
+          "tileY": 13,
+          "tileIndex": 441
+        }
+      ],
+      "propId": "prop.lpc_frame_stone_doorway_dark_03",
+      "notes": null
+    },
+    "obj.frame.window_wood_tall_empty_01": {
+      "tileX": 20,
+      "tileY": 6,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 20,
+          "tileY": 6,
+          "tileIndex": 212
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 20,
+          "tileY": 7,
+          "tileIndex": 244
+        }
+      ],
+      "propId": "prop.lpc_frame_window_wood_tall_empty_01",
+      "notes": null
+    },
+    "obj.frame.wood_doorway_open_01": {
+      "tileX": 24,
+      "tileY": 0,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 24,
+          "tileY": 0,
+          "tileIndex": 24
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 25,
+          "tileY": 0,
+          "tileIndex": 25
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 24,
+          "tileY": 1,
+          "tileIndex": 56
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 25,
+          "tileY": 1,
+          "tileIndex": 57
+        }
+      ],
+      "propId": "prop.lpc_frame_wood_doorway_open_01",
+      "notes": null
+    },
+    "obj.frame.wood_doorway_open_02": {
+      "tileX": 27,
+      "tileY": 0,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 27,
+          "tileY": 0,
+          "tileIndex": 27
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 28,
+          "tileY": 0,
+          "tileIndex": 28
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 27,
+          "tileY": 1,
+          "tileIndex": 59
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 28,
+          "tileY": 1,
+          "tileIndex": 60
+        }
+      ],
+      "propId": "prop.lpc_frame_wood_doorway_open_02",
+      "notes": null
+    },
+    "obj.frame.wood_doorway_open_03": {
+      "tileX": 24,
+      "tileY": 2,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 24,
+          "tileY": 2,
+          "tileIndex": 88
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 25,
+          "tileY": 2,
+          "tileIndex": 89
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 24,
+          "tileY": 3,
+          "tileIndex": 120
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 25,
+          "tileY": 3,
+          "tileIndex": 121
+        }
+      ],
+      "propId": "prop.lpc_frame_wood_doorway_open_03",
+      "notes": null
+    },
+    "obj.frame.wood_doorway_tall_01": {
+      "tileX": 27,
+      "tileY": 15,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 27,
+          "tileY": 15,
+          "tileIndex": 507
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 28,
+          "tileY": 15,
+          "tileIndex": 508
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 27,
+          "tileY": 16,
+          "tileIndex": 539
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 28,
+          "tileY": 16,
+          "tileIndex": 540
+        }
+      ],
+      "propId": "prop.lpc_frame_wood_doorway_tall_01",
+      "notes": null
+    },
+    "obj.gateway.wood_wide_open_01": {
+      "tileX": 27,
+      "tileY": 19,
+      "tilesWide": 3,
+      "tilesHigh": 2,
+      "pixelWidth": 96,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 27,
+          "tileY": 19,
+          "tileIndex": 635
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 28,
+          "tileY": 19,
+          "tileIndex": 636
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "tileX": 29,
+          "tileY": 19,
+          "tileIndex": 637
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 27,
+          "tileY": 20,
+          "tileIndex": 667
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 28,
+          "tileY": 20,
+          "tileIndex": 668
+        },
+        {
+          "dx": 2,
+          "dy": 1,
+          "tileX": 29,
+          "tileY": 20,
+          "tileIndex": 669
+        }
+      ],
+      "propId": "prop.lpc_gateway_wood_wide_open_01",
+      "notes": null
+    },
+    "obj.hardware.bar_latch_horizontal_01": {
+      "tileX": 31,
+      "tileY": 21,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 31,
+          "tileY": 21,
+          "tileIndex": 703
+        }
+      ],
+      "propId": "prop.lpc_hardware_bar_latch_horizontal_01",
+      "notes": null
+    },
+    "obj.hardware.bolt_round_01": {
+      "tileX": 30,
+      "tileY": 21,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 30,
+          "tileY": 21,
+          "tileIndex": 702
+        }
+      ],
+      "propId": "prop.lpc_hardware_bolt_round_01",
+      "notes": null
+    },
+    "obj.hardware.bolt_tiny_01": {
+      "tileX": 30,
+      "tileY": 22,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 30,
+          "tileY": 22,
+          "tileIndex": 734
+        }
+      ],
+      "propId": "prop.lpc_hardware_bolt_tiny_01",
+      "notes": null
+    },
+    "obj.hardware.door_knob_ring_01": {
+      "tileX": 31,
+      "tileY": 21,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 31,
+          "tileY": 21,
+          "tileIndex": 703
+        }
+      ],
+      "propId": "prop.lpc_hardware_door_knob_ring_01",
+      "notes": null
+    },
+    "obj.hardware.keyhole_plate_vertical_01": {
+      "tileX": 31,
+      "tileY": 21,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 31,
+          "tileY": 21,
+          "tileIndex": 703
+        }
+      ],
+      "propId": "prop.lpc_hardware_keyhole_plate_vertical_01",
+      "notes": null
+    },
+    "obj.hardware.keyhole_plate_vertical_02": {
+      "tileX": 30,
+      "tileY": 21,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 30,
+          "tileY": 21,
+          "tileIndex": 702
+        }
+      ],
+      "propId": "prop.lpc_hardware_keyhole_plate_vertical_02",
+      "notes": null
+    },
+    "obj.hardware.pin_tiny_01": {
+      "tileX": 31,
+      "tileY": 22,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 31,
+          "tileY": 22,
+          "tileIndex": 735
+        }
+      ],
+      "propId": "prop.lpc_hardware_pin_tiny_01",
+      "notes": null
+    },
+    "obj.hardware.pin_tiny_02": {
+      "tileX": 31,
+      "tileY": 22,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 31,
+          "tileY": 22,
+          "tileIndex": 735
+        }
+      ],
+      "propId": "prop.lpc_hardware_pin_tiny_02",
+      "notes": null
+    },
+    "obj.hardware.plate_lock_small_01": {
+      "tileX": 30,
+      "tileY": 22,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 30,
+          "tileY": 22,
+          "tileIndex": 734
+        }
+      ],
+      "propId": "prop.lpc_hardware_plate_lock_small_01",
+      "notes": null
+    },
+    "obj.hardware.post_tiny_01": {
+      "tileX": 31,
+      "tileY": 22,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 31,
+          "tileY": 22,
+          "tileIndex": 735
+        }
+      ],
+      "propId": "prop.lpc_hardware_post_tiny_01",
+      "notes": null
+    },
+    "obj.hardware.ring_handle_medium_01": {
+      "tileX": 30,
+      "tileY": 22,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 30,
+          "tileY": 22,
+          "tileIndex": 734
+        }
+      ],
+      "propId": "prop.lpc_hardware_ring_handle_medium_01",
+      "notes": null
+    },
+    "obj.hardware.ring_handle_small_01": {
+      "tileX": 30,
+      "tileY": 22,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 30,
+          "tileY": 22,
+          "tileIndex": 734
+        }
+      ],
+      "propId": "prop.lpc_hardware_ring_handle_small_01",
+      "notes": null
+    },
+    "obj.panel.wood_planks_dark_01": {
+      "tileX": 26,
+      "tileY": 3,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 26,
+          "tileY": 3,
+          "tileIndex": 122
+        }
+      ],
+      "propId": "prop.lpc_panel_wood_planks_dark_01",
+      "notes": null
+    },
+    "obj.panel.wood_planks_dark_02": {
+      "tileX": 28,
+      "tileY": 3,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 28,
+          "tileY": 3,
+          "tileIndex": 124
+        }
+      ],
+      "propId": "prop.lpc_panel_wood_planks_dark_02",
+      "notes": null
+    },
+    "obj.pillar.wood_pair_thin_01": {
+      "tileX": 30,
+      "tileY": 0,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 30,
+          "tileY": 0,
+          "tileIndex": 30
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 30,
+          "tileY": 1,
+          "tileIndex": 62
+        }
+      ],
+      "propId": "prop.lpc_pillar_wood_pair_thin_01",
+      "notes": null
+    },
+    "obj.pillar.wood_pair_thin_02": {
+      "tileX": 30,
+      "tileY": 3,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 30,
+          "tileY": 3,
+          "tileIndex": 126
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 30,
+          "tileY": 4,
+          "tileIndex": 158
+        }
+      ],
+      "propId": "prop.lpc_pillar_wood_pair_thin_02",
+      "notes": null
+    },
+    "obj.platform.stone_wide_01": {
+      "tileX": 24,
+      "tileY": 15,
+      "tilesWide": 3,
+      "tilesHigh": 1,
+      "pixelWidth": 96,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 24,
+          "tileY": 15,
+          "tileIndex": 504
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 25,
+          "tileY": 15,
+          "tileIndex": 505
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "tileX": 26,
+          "tileY": 15,
+          "tileIndex": 506
+        }
+      ],
+      "propId": "prop.lpc_platform_stone_wide_01",
+      "notes": null
+    },
+    "obj.portico.white_simple_01": {
+      "tileX": 24,
+      "tileY": 5,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 24,
+          "tileY": 5,
+          "tileIndex": 184
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 25,
+          "tileY": 5,
+          "tileIndex": 185
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 24,
+          "tileY": 6,
+          "tileIndex": 216
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 25,
+          "tileY": 6,
+          "tileIndex": 217
+        }
+      ],
+      "propId": "prop.lpc_portico_white_simple_01",
+      "notes": null
+    },
+    "obj.portico.white_simple_02": {
+      "tileX": 27,
+      "tileY": 5,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 27,
+          "tileY": 5,
+          "tileIndex": 187
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 28,
+          "tileY": 5,
+          "tileIndex": 188
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 27,
+          "tileY": 6,
+          "tileIndex": 219
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 28,
+          "tileY": 6,
+          "tileIndex": 220
+        }
+      ],
+      "propId": "prop.lpc_portico_white_simple_02",
+      "notes": null
+    },
+    "obj.portico.white_simple_03": {
+      "tileX": 24,
+      "tileY": 7,
+      "tilesWide": 2,
+      "tilesHigh": 2,
+      "pixelWidth": 64,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 24,
+          "tileY": 7,
+          "tileIndex": 248
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 25,
+          "tileY": 7,
+          "tileIndex": 249
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 24,
+          "tileY": 8,
+          "tileIndex": 280
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "tileX": 25,
+          "tileY": 8,
+          "tileIndex": 281
+        }
+      ],
+      "propId": "prop.lpc_portico_white_simple_03",
+      "notes": null
+    },
+    "obj.sign.plaque_small_01": {
+      "tileX": 30,
+      "tileY": 17,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 30,
+          "tileY": 17,
+          "tileIndex": 574
+        }
+      ],
+      "propId": "prop.lpc_sign_plaque_small_01",
+      "notes": null
+    },
+    "obj.step.stone_dark_01": {
+      "tileX": 26,
+      "tileY": 13,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 26,
+          "tileY": 13,
+          "tileIndex": 442
+        }
+      ],
+      "propId": "prop.lpc_step_stone_dark_01",
+      "notes": null
+    },
+    "obj.step.stone_dark_02": {
+      "tileX": 28,
+      "tileY": 13,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 28,
+          "tileY": 13,
+          "tileIndex": 444
+        }
+      ],
+      "propId": "prop.lpc_step_stone_dark_02",
+      "notes": null
+    },
+    "obj.step.stone_light_01": {
+      "tileX": 26,
+      "tileY": 8,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 26,
+          "tileY": 8,
+          "tileIndex": 282
+        }
+      ],
+      "propId": "prop.lpc_step_stone_light_01",
+      "notes": null
+    },
+    "obj.step.stone_light_02": {
+      "tileX": 28,
+      "tileY": 8,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 28,
+          "tileY": 8,
+          "tileIndex": 284
+        }
+      ],
+      "propId": "prop.lpc_step_stone_light_02",
+      "notes": null
+    },
+    "obj.step.wood_small_01": {
+      "tileX": 31,
+      "tileY": 19,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 31,
+          "tileY": 19,
+          "tileIndex": 639
+        }
+      ],
+      "propId": "prop.lpc_step_wood_small_01",
+      "notes": null
+    },
+    "obj.window.blue_small_4pane_01": {
+      "tileX": 21,
+      "tileY": 0,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 21,
+          "tileY": 0,
+          "tileIndex": 21
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 21,
+          "tileY": 1,
+          "tileIndex": 53
+        }
+      ],
+      "propId": "prop.lpc_window_blue_small_4pane_01",
+      "notes": null
+    },
+    "obj.window.blue_small_4pane_02": {
+      "tileX": 21,
+      "tileY": 2,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 21,
+          "tileY": 2,
+          "tileIndex": 85
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 21,
+          "tileY": 3,
+          "tileIndex": 117
+        }
+      ],
+      "propId": "prop.lpc_window_blue_small_4pane_02",
+      "notes": null
+    },
+    "obj.window.blue_tall_6pane_01": {
+      "tileX": 20,
+      "tileY": 0,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 20,
+          "tileY": 0,
+          "tileIndex": 20
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 20,
+          "tileY": 1,
+          "tileIndex": 52
+        }
+      ],
+      "propId": "prop.lpc_window_blue_tall_6pane_01",
+      "notes": null
+    },
+    "obj.window.blue_tall_grid_01": {
+      "tileX": 22,
+      "tileY": 4,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 22,
+          "tileY": 4,
+          "tileIndex": 150
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 22,
+          "tileY": 5,
+          "tileIndex": 182
+        }
+      ],
+      "propId": "prop.lpc_window_blue_tall_grid_01",
+      "notes": null
+    },
+    "obj.window.blue_tiny_2pane_01": {
+      "tileX": 20,
+      "tileY": 2,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 20,
+          "tileY": 2,
+          "tileIndex": 84
+        }
+      ],
+      "propId": "prop.lpc_window_blue_tiny_2pane_01",
+      "notes": null
+    },
+    "obj.window.blue_wide_8pane_01": {
+      "tileX": 20,
+      "tileY": 4,
+      "tilesWide": 2,
+      "tilesHigh": 1,
+      "pixelWidth": 64,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 20,
+          "tileY": 4,
+          "tileIndex": 148
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 21,
+          "tileY": 4,
+          "tileIndex": 149
+        }
+      ],
+      "propId": "prop.lpc_window_blue_wide_8pane_01",
+      "notes": null
+    },
+    "obj.window.brown_small_4pane_01": {
+      "tileX": 21,
+      "tileY": 6,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 21,
+          "tileY": 6,
+          "tileIndex": 213
+        }
+      ],
+      "propId": "prop.lpc_window_brown_small_4pane_01",
+      "notes": null
+    },
+    "obj.window.brown_small_4pane_02": {
+      "tileX": 22,
+      "tileY": 6,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 22,
+          "tileY": 6,
+          "tileIndex": 214
+        }
+      ],
+      "propId": "prop.lpc_window_brown_small_4pane_02",
+      "notes": null
+    },
+    "obj.window.brown_small_4pane_03": {
+      "tileX": 21,
+      "tileY": 7,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 21,
+          "tileY": 7,
+          "tileIndex": 245
+        }
+      ],
+      "propId": "prop.lpc_window_brown_small_4pane_03",
+      "notes": null
+    },
+    "obj.window.brown_tall_6pane_01": {
+      "tileX": 20,
+      "tileY": 14,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 20,
+          "tileY": 14,
+          "tileIndex": 468
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 20,
+          "tileY": 15,
+          "tileIndex": 500
+        }
+      ],
+      "propId": "prop.lpc_window_brown_tall_6pane_01",
+      "notes": null
+    },
+    "obj.window.brown_wide_grate_01": {
+      "tileX": 20,
+      "tileY": 5,
+      "tilesWide": 2,
+      "tilesHigh": 1,
+      "pixelWidth": 64,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 20,
+          "tileY": 5,
+          "tileIndex": 180
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "tileX": 21,
+          "tileY": 5,
+          "tileIndex": 181
+        }
+      ],
+      "propId": "prop.lpc_window_brown_wide_grate_01",
+      "notes": null
+    },
+    "obj.window.stone_arch_glass_01": {
+      "tileX": 20,
+      "tileY": 12,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 20,
+          "tileY": 12,
+          "tileIndex": 404
+        }
+      ],
+      "propId": "prop.lpc_window_stone_arch_glass_01",
+      "notes": null
+    },
+    "obj.window.stone_arch_grated_01": {
+      "tileX": 22,
+      "tileY": 12,
+      "tilesWide": 1,
+      "tilesHigh": 2,
+      "pixelWidth": 32,
+      "pixelHeight": 64,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 22,
+          "tileY": 12,
+          "tileIndex": 406
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "tileX": 22,
+          "tileY": 13,
+          "tileIndex": 438
+        }
+      ],
+      "propId": "prop.lpc_window_stone_arch_grated_01",
+      "notes": null
+    },
+    "obj.window.stone_round_oculus_01": {
+      "tileX": 21,
+      "tileY": 12,
+      "tilesWide": 1,
+      "tilesHigh": 1,
+      "pixelWidth": 32,
+      "pixelHeight": 32,
+      "parts": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "tileX": 21,
+          "tileY": 12,
+          "tileIndex": 405
+        }
+      ],
+      "propId": "prop.lpc_window_stone_round_oculus_01",
+      "notes": null
+    }
+  },
+  "skipped": [
+    {
+      "id": "cluster.doors_row_arched_01",
+      "reason": "cluster"
+    },
+    {
+      "id": "cluster.doors_row_arched_02",
+      "reason": "cluster"
+    },
+    {
+      "id": "cluster.doors_row_mixed_01",
+      "reason": "cluster"
+    },
+    {
+      "id": "cluster.doors_row_mixed_02",
+      "reason": "cluster"
+    },
+    {
+      "id": "cluster.left_mid_windows_doors_mix_01",
+      "reason": "cluster"
+    }
+  ]
+}

@@ -30,6 +30,11 @@ SKY = [(100, 140, 180), (150, 190, 220), (200, 220, 240), (240, 248, 255)] # Dee
 FOLIAGE = [(15, 30, 15), (34, 80, 34), (46, 120, 46), (80, 160, 80), (120, 180, 100)] # Outline, Dark, Mid, Light, Highlight
 SILVER = [(30, 30, 35), (100, 100, 110), (192, 192, 192), (240, 248, 255)] # Outline, Dark, Silver, Shine
 
+# Character Palettes
+SKIN = [(40, 25, 15), (120, 80, 50), (160, 110, 70), (200, 150, 100)] # Outline, Shadow, Mid, Light
+HAIR = [(20, 10, 5), (60, 30, 15), (100, 50, 25), (140, 70, 35)] # Outline, Shadow, Mid, Light
+CLOTHES = [(20, 20, 40), (50, 50, 100), (80, 80, 150), (120, 120, 200)] # Outline, Shadow, Mid, Light
+
 # --- DRAWING FUNCTIONS ---
 
 def draw_scales(d, w, h):
@@ -629,6 +634,44 @@ def draw_planter(d, w, h):
     for ox in [-8, 8]:
         d.ellipse([cx+ox-2, 8, cx+ox+2, 14], fill=FOLIAGE[2])
 
+def draw_fat_boy_lollipop(d, w, h):
+    """64x64 little fat boy holding a lollipop in top-down 3/4 view"""
+    cx, cy = w // 2, h // 2
+    
+    # Body (round/fat)
+    d.ellipse([cx-14, cy-6, cx+14, cy+14], fill=CLOTHES[2], outline=CLOTHES[0])
+    d.ellipse([cx-12, cy-4, cx+12, cy+12], fill=CLOTHES[3])  # Highlight
+    
+    # Head
+    d.ellipse([cx-10, cy-24, cx+10, cy-8], fill=SKIN[2], outline=SKIN[0])
+    
+    # Hair
+    d.ellipse([cx-9, cy-26, cx+9, cy-10], fill=HAIR[2], outline=HAIR[0])
+    
+    # Eyes
+    d.ellipse([cx-4, cy-18, cx-2, cy-16], fill=(0, 0, 0))
+    d.ellipse([cx+2, cy-18, cx+4, cy-16], fill=(0, 0, 0))
+    
+    # Mouth (smile)
+    d.arc([cx-3, cy-14, cx+3, cy-12], 0, 180, fill=(0, 0, 0), width=1)
+    
+    # Arms
+    # Left arm
+    d.ellipse([cx-18, cy-2, cx-12, cy+4], fill=SKIN[2], outline=SKIN[0])
+    # Right arm holding lollipop
+    d.ellipse([cx+12, cy-2, cx+18, cy+4], fill=SKIN[2], outline=SKIN[0])
+    
+    # Lollipop stick
+    d.line([cx+15, cy, cx+20, cy-8], fill=WOOD[2], width=2)
+    
+    # Lollipop candy
+    d.ellipse([cx+16, cy-12, cx+24, cy-4], fill=RED[2], outline=RED[0])
+    d.ellipse([cx+18, cy-10, cx+22, cy-6], fill=RED[3])  # Highlight
+    
+    # Legs
+    d.ellipse([cx-8, cy+12, cx-2, cy+20], fill=CLOTHES[2], outline=CLOTHES[0])
+    d.ellipse([cx+2, cy+12, cx+8, cy+20], fill=CLOTHES[2], outline=CLOTHES[0])
+
 # --- OFFICE FURNITURE ---
 
 def draw_bookshelf(d, w, h):
@@ -834,6 +877,9 @@ if __name__ == "__main__":
     save_to("file_cabinet_proc", (32, 48), draw_file_cabinet)
     save_to("laptop_proc", (32, 32), draw_laptop)
     save_to("whiteboard_proc", (48, 32), draw_whiteboard)
+    
+    # Character
+    save_to("fat_boy_lollipop", (64, 64), draw_fat_boy_lollipop)
     
     # Round 4 - SCOTUS Exterior Construction Kit
     exterior_dir = "vendor/props/exterior"

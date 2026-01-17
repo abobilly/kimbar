@@ -1,0 +1,243 @@
+{
+  "sets": {
+    "floor.marble.white": {
+      "base": [
+        "tile.floor.marble.white_base"
+      ],
+      "variants": [
+        "tile.floor.marble.white_variant_01",
+        "tile.floor.marble.white_variant_02",
+        "tile.floor.marble.white_variant_03",
+        "tile.floor.marble.white_variant_04",
+        "tile.floor.marble.white_variant_05",
+        "tile.floor.marble.white_variantA",
+        "tile.floor.marble.white_variantB",
+        "tile.floor.marble.white_variantC",
+        "tile.floor.marble.white_crack_hairline"
+      ],
+      "notes": "Paint interior floors using base+variants with light randomization."
+    },
+    "floor.marble.black_inset": {
+      "tiles": [
+        "tile.floor.marble.black_inset_base"
+      ],
+      "notes": "Use as accent border/inset striping (e.g., 1-tile outlines or checker accents)."
+    },
+    "floor.lobby_mosaic": {
+      "base": [
+        "tile.floor.lobby_mosaic_base"
+      ],
+      "variants": [
+        "tile.floor.lobby_mosaic_variant_01",
+        "tile.floor.lobby_mosaic_variant_02",
+        "tile.floor.lobby_mosaic_variant_03",
+        "tile.floor.lobby_mosaic_variant_04"
+      ],
+      "border": {
+        "edge_N": "tile.trim.lobby_mosaic_border_edge_N",
+        "corner_NE": "tile.trim.lobby_mosaic_border_corner_NE"
+      },
+      "notes": "Use for lobby/entry zones; mosaic border tiles can be rotated/flipped for other edges/corners."
+    },
+    "trim.stone": {
+      "edges": {
+        "N": "tile.trim.stone_edge_N",
+        "E": "tile.trim.stone_edge_E",
+        "S": "tile.trim.stone_edge_S",
+        "W": "tile.trim.stone_edge_W"
+      },
+      "outerCorners": {
+        "NE": "tile.trim.stone_outer_corner_NE",
+        "NW": "tile.trim.stone_outer_corner_NW",
+        "SE": "tile.trim.stone_outer_corner_SE",
+        "SW": "tile.trim.stone_outer_corner_SW"
+      },
+      "innerCorners": {
+        "NE": "tile.trim.stone_inner_corner_NE",
+        "NW": "tile.trim.stone_inner_corner_NW",
+        "SE": "tile.trim.stone_inner_corner_SE",
+        "SW": "tile.trim.stone_inner_corner_SW"
+      },
+      "junctions": {
+        "tN": "tile.trim.stone_t_junction_N",
+        "tE": "tile.trim.stone_t_junction_E",
+        "tS": "tile.trim.stone_t_junction_S",
+        "tW": "tile.trim.stone_t_junction_W",
+        "cross": "tile.trim.stone_cross"
+      },
+      "notes": "These tiles are intended for border/trim lines. Rotate/flip as needed. For LDtk AutoLayer, use adjacency on your Trim IntGrid (or paint manually)."
+    },
+    "wall.interior.stone": {
+      "pieces": {
+        "straight": "tile.wall.interior_stone_straight",
+        "corner_outer": "tile.wall.interior_stone_corner_outer",
+        "corner_inner": "tile.wall.interior_stone_corner_inner",
+        "endcap": "tile.wall.interior_stone_endcap",
+        "t_junction": "tile.wall.interior_stone_t_junction",
+        "cross": "tile.wall.interior_stone_cross"
+      },
+      "doors": {
+        "double_closed": "tile.door.double_wood_closed",
+        "double_open": "tile.door.double_wood_open",
+        "single_closed": "tile.door.single_wood_closed",
+        "single_open": "tile.door.single_wood_open",
+        "archway_open": "tile.door.archway_open_stone"
+      },
+      "notes": "Path-style wall tiles. Place on a dedicated Walls layer (or IntGrid-driven AutoLayer). Rotate/flip tiles for other directions."
+    },
+    "wall.interior.woodpanel": {
+      "pieces": {
+        "straight": "tile.wall.interior_woodpanel_straight",
+        "corner_outer": "tile.wall.interior_woodpanel_corner_outer",
+        "corner_inner": "tile.wall.interior_woodpanel_corner_inner",
+        "endcap": "tile.wall.interior_woodpanel_endcap",
+        "t_junction": "tile.wall.interior_woodpanel_t_junction",
+        "cross": "tile.wall.interior_woodpanel_cross"
+      },
+      "notes": "Use for courtroom/hallway wainscoting zones; rotate/flip as needed."
+    },
+    "rug.red": {
+      "base": "tile.rug.red_base",
+      "edges": {
+        "N": "tile.rug.red_border_edge_N",
+        "E": "tile.rug.red_border_edge_E",
+        "S": "tile.rug.red_border_edge_S",
+        "W": "tile.rug.red_border_edge_W"
+      },
+      "corners": {
+        "NE": "tile.rug.red_border_corner_NE",
+        "NW": "tile.rug.red_border_corner_NW",
+        "SE": "tile.rug.red_border_corner_SE",
+        "SW": "tile.rug.red_border_corner_SW"
+      },
+      "notes": "Paint rugs as filled regions of red_base, then outline with borders/corners."
+    },
+    "props": {
+      "column": {
+        "top": "tile.column.round_top",
+        "mid": "tile.column.round_mid",
+        "base": "tile.column.round_base"
+      },
+      "stanchion": "tile.object.rope_stanchion_single",
+      "signs": [
+        "tile.decal.sign_no_cameras",
+        "tile.decal.sign_flashcards_required",
+        "tile.decal.sign_quiet_please",
+        "tile.decal.plaque_generic"
+      ]
+    }
+  },
+  "ldtkHints": {
+    "recommendedLayerOrder": [
+      "Floors (Tiles)",
+      "Trim (Tiles)",
+      "Rugs (Tiles)",
+      "Walls (Tiles)",
+      "Props/Decals (Tiles)"
+    ],
+    "rotationUse": "LDtk supports tile flipping/rotation on placement; for corner/junction variants, rotate/flip rather than requiring 4 separate tiles."
+  },
+  "tilesets": [
+    {
+      "name": "Floors",
+      "image": "scotus_floors.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "columns": 16,
+      "rows": 2,
+      "json": "scotus_floors.json"
+    },
+    {
+      "name": "Architecture",
+      "image": "scotus_architecture.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "columns": 16,
+      "rows": 3,
+      "json": "scotus_architecture.json"
+    },
+    {
+      "name": "Decor",
+      "image": "scotus_decor.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "columns": 16,
+      "rows": 1,
+      "json": "scotus_decor.json"
+    }
+  ],
+  "tileIdToTileset": {
+    "tile.floor.marble.white_base": "scotus_floors.png",
+    "tile.floor.marble.white_variantA": "scotus_floors.png",
+    "tile.floor.marble.white_variantB": "scotus_floors.png",
+    "tile.floor.marble.white_variantC": "scotus_floors.png",
+    "tile.floor.marble.white_crack_hairline": "scotus_floors.png",
+    "tile.floor.marble.black_inset_base": "scotus_floors.png",
+    "tile.floor.lobby_mosaic_base": "scotus_floors.png",
+    "tile.floor.marble.white_variant_01": "scotus_floors.png",
+    "tile.floor.marble.white_variant_02": "scotus_floors.png",
+    "tile.floor.marble.white_variant_03": "scotus_floors.png",
+    "tile.floor.marble.white_variant_04": "scotus_floors.png",
+    "tile.floor.marble.white_variant_05": "scotus_floors.png",
+    "tile.floor.lobby_mosaic_variant_01": "scotus_floors.png",
+    "tile.floor.lobby_mosaic_variant_02": "scotus_floors.png",
+    "tile.floor.lobby_mosaic_variant_03": "scotus_floors.png",
+    "tile.floor.lobby_mosaic_variant_04": "scotus_floors.png",
+    "tile.trim.lobby_mosaic_border_edge_N": "scotus_floors.png",
+    "tile.trim.lobby_mosaic_border_corner_NE": "scotus_floors.png",
+    "tile.steps.marble_up": "scotus_floors.png",
+    "tile.steps.marble_landing": "scotus_floors.png",
+    "tile.trim.stone_edge_N": "scotus_architecture.png",
+    "tile.trim.stone_edge_E": "scotus_architecture.png",
+    "tile.trim.stone_edge_S": "scotus_architecture.png",
+    "tile.trim.stone_edge_W": "scotus_architecture.png",
+    "tile.trim.stone_outer_corner_NE": "scotus_architecture.png",
+    "tile.trim.stone_outer_corner_NW": "scotus_architecture.png",
+    "tile.trim.stone_outer_corner_SE": "scotus_architecture.png",
+    "tile.trim.stone_outer_corner_SW": "scotus_architecture.png",
+    "tile.trim.stone_inner_corner_NE": "scotus_architecture.png",
+    "tile.trim.stone_inner_corner_NW": "scotus_architecture.png",
+    "tile.trim.stone_inner_corner_SE": "scotus_architecture.png",
+    "tile.trim.stone_inner_corner_SW": "scotus_architecture.png",
+    "tile.trim.stone_t_junction_N": "scotus_architecture.png",
+    "tile.trim.stone_t_junction_E": "scotus_architecture.png",
+    "tile.trim.stone_t_junction_S": "scotus_architecture.png",
+    "tile.trim.stone_t_junction_W": "scotus_architecture.png",
+    "tile.trim.stone_cross": "scotus_architecture.png",
+    "tile.wall.interior_stone_straight": "scotus_architecture.png",
+    "tile.wall.interior_stone_corner_outer": "scotus_architecture.png",
+    "tile.wall.interior_stone_corner_inner": "scotus_architecture.png",
+    "tile.wall.interior_stone_endcap": "scotus_architecture.png",
+    "tile.wall.interior_stone_t_junction": "scotus_architecture.png",
+    "tile.wall.interior_stone_cross": "scotus_architecture.png",
+    "tile.wall.interior_woodpanel_straight": "scotus_architecture.png",
+    "tile.wall.interior_woodpanel_corner_outer": "scotus_architecture.png",
+    "tile.wall.interior_woodpanel_corner_inner": "scotus_architecture.png",
+    "tile.wall.interior_woodpanel_endcap": "scotus_architecture.png",
+    "tile.wall.interior_woodpanel_t_junction": "scotus_architecture.png",
+    "tile.wall.interior_woodpanel_cross": "scotus_architecture.png",
+    "tile.door.double_wood_closed": "scotus_architecture.png",
+    "tile.door.double_wood_open": "scotus_architecture.png",
+    "tile.door.single_wood_closed": "scotus_architecture.png",
+    "tile.door.single_wood_open": "scotus_architecture.png",
+    "tile.door.archway_open_stone": "scotus_architecture.png",
+    "tile.column.round_top": "scotus_architecture.png",
+    "tile.column.round_mid": "scotus_architecture.png",
+    "tile.column.round_base": "scotus_architecture.png",
+    "tile.rug.red_base": "scotus_decor.png",
+    "tile.rug.red_border_edge_N": "scotus_decor.png",
+    "tile.rug.red_border_edge_E": "scotus_decor.png",
+    "tile.rug.red_border_edge_S": "scotus_decor.png",
+    "tile.rug.red_border_edge_W": "scotus_decor.png",
+    "tile.rug.red_border_corner_NE": "scotus_decor.png",
+    "tile.rug.red_border_corner_NW": "scotus_decor.png",
+    "tile.rug.red_border_corner_SE": "scotus_decor.png",
+    "tile.rug.red_border_corner_SW": "scotus_decor.png",
+    "tile.rug.blue_base": "scotus_decor.png",
+    "tile.decal.sign_no_cameras": "scotus_decor.png",
+    "tile.decal.sign_flashcards_required": "scotus_decor.png",
+    "tile.decal.sign_quiet_please": "scotus_decor.png",
+    "tile.decal.plaque_generic": "scotus_decor.png",
+    "tile.object.rope_stanchion_single": "scotus_decor.png"
+  }
+}

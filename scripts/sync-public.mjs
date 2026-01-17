@@ -2,8 +2,9 @@
 /**
  * sync-public.mjs - Sync generated/ and vendor assets to public/
  * 
- * Copies all build outputs from generated/ to public/generated/
- * and vendor assets (props/tilesets/ui) to public/assets/
+ * Copies all build outputs from generated/ to public/generated/,
+ * vendor assets (props/tilesets/ui) to public/assets/,
+ * and authored tileset maps to public/content/tilesets/.
  * so they're available at runtime via Phaser loaders.
  * 
  * IMPORTANT: Merges into destination instead of replacing, so committed
@@ -23,6 +24,8 @@ const TILESETS_SRC = path.resolve("vendor", "tilesets");
 const TILESETS_DST = path.resolve("public", "assets", "tilesets");
 const UI_SRC = path.resolve("vendor", "ui");
 const UI_DST = path.resolve("public", "assets", "ui");
+const TILESET_CONTENT_SRC = path.resolve("content", "tilesets");
+const TILESET_CONTENT_DST = path.resolve("public", "content", "tilesets");
 
 async function copyDir(src, dst) {
   await fs.mkdir(dst, { recursive: true });
@@ -69,6 +72,7 @@ try {
   await syncDir(PROPS_SRC, PROPS_DST, "props");
   await syncDir(TILESETS_SRC, TILESETS_DST, "tilesets");
   await syncDir(UI_SRC, UI_DST, "ui");
+  await syncDir(TILESET_CONTENT_SRC, TILESET_CONTENT_DST, "tileset content");
 
 } catch (e) {
   console.error(`❌ sync:public failed:`, e.message);

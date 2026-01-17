@@ -1,9 +1,9 @@
 import { Scene } from 'phaser';
-import type { Registry, PropEntry, SpriteEntry } from '@content/registry';
+import type { Registry, PropEntry, SpriteEntry, TilesetEntry } from '@content/registry';
 import { getRegistry } from '@content/registry';
 import { ensureCharacterAnims } from '@game/utils/characterAnims';
 
-type RegistrySource = Pick<Registry, 'sprites' | 'props' | 'buildId'>;
+type RegistrySource = Pick<Registry, 'sprites' | 'props' | 'tilesets' | 'buildId'>;
 
 const loaderQueue = new WeakMap<Scene, Promise<void>>();
 
@@ -40,6 +40,11 @@ function resolveSpriteEntry(registry: RegistrySource, id: string): SpriteEntry |
 
 function resolvePropEntry(registry: RegistrySource, id: string): PropEntry | null {
   const entry = registry.props?.[id];
+  return entry ?? null;
+}
+
+function resolveTilesetEntry(registry: RegistrySource, id: string): TilesetEntry | null {
+  const entry = registry.tilesets?.[id];
   return entry ?? null;
 }
 
@@ -107,18 +112,44 @@ export function queueRegistryPropLoads(
   return queued;
 }
 
+export function queueRegistryTilesetLoads(
+  scene: Scene,
+  ids: Iterable<string>,
+  overrideRegistry?: RegistrySource
+): string[] {
+  const registry = getRegistrySource(overrideRegistry);
+  const buildId = registry.buildId ?? 'dev';
+  const queued: string[] = [];
+
+  for (const id of ids) {
+    if (!id) continue;
+    const tileset = resolveTilesetEntry(registry, id);
+    if (!tileset?.url) continue;
+    const key = tileset.key ?? id;
+    if (scene.textures.exists(key)) continue;
+
+    const url = withCacheBust(tileset.url, buildId);
+    scene.load.image(key, url);
+    queued.push(key);
+  }
+
+  return queued;
+}
+
 export async function loadRegistryAssets(
   scene: Scene,
-  assets: { sprites?: Iterable<string>; props?: Iterable<string> },
+  assets: { sprites?: Iterable<string>; props?: Iterable<string>; tilesets?: Iterable<string> },
   overrideRegistry?: RegistrySource
 ): Promise<void> {
   const spriteIds = assets.sprites ?? [];
   const propIds = assets.props ?? [];
+  const tilesetIds = assets.tilesets ?? [];
 
   const spriteQueued = queueRegistrySpriteLoads(scene, spriteIds, overrideRegistry);
   const propQueued = queueRegistryPropLoads(scene, propIds, overrideRegistry);
+  const tilesetQueued = queueRegistryTilesetLoads(scene, tilesetIds, overrideRegistry);
 
-  if (spriteQueued.queued.length === 0 && propQueued.length === 0) {
+  if (spriteQueued.queued.length === 0 && propQueued.length === 0 && tilesetQueued.length === 0) {
     return;
   }
 

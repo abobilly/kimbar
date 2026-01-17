@@ -1,0 +1,362 @@
+{
+  "0": {
+    "tileId": "tile.floor.marble.white_base",
+    "sheet": "scotus_floors.png",
+    "index": 0
+  },
+  "1": {
+    "tileId": "tile.floor.marble.white_variantA",
+    "sheet": "scotus_floors.png",
+    "index": 1
+  },
+  "2": {
+    "tileId": "tile.floor.marble.white_variantB",
+    "sheet": "scotus_floors.png",
+    "index": 2
+  },
+  "3": {
+    "tileId": "tile.floor.marble.white_variantC",
+    "sheet": "scotus_floors.png",
+    "index": 3
+  },
+  "4": {
+    "tileId": "tile.floor.marble.white_crack_hairline",
+    "sheet": "scotus_floors.png",
+    "index": 4
+  },
+  "5": {
+    "tileId": "tile.floor.marble.black_inset_base",
+    "sheet": "scotus_floors.png",
+    "index": 5
+  },
+  "6": {
+    "tileId": "tile.floor.lobby_mosaic_base",
+    "sheet": "scotus_floors.png",
+    "index": 6
+  },
+  "7": {
+    "tileId": "tile.floor.marble.white_variant_01",
+    "sheet": "scotus_floors.png",
+    "index": 7
+  },
+  "8": {
+    "tileId": "tile.floor.marble.white_variant_02",
+    "sheet": "scotus_floors.png",
+    "index": 8
+  },
+  "9": {
+    "tileId": "tile.floor.marble.white_variant_03",
+    "sheet": "scotus_floors.png",
+    "index": 9
+  },
+  "10": {
+    "tileId": "tile.floor.marble.white_variant_04",
+    "sheet": "scotus_floors.png",
+    "index": 10
+  },
+  "11": {
+    "tileId": "tile.floor.marble.white_variant_05",
+    "sheet": "scotus_floors.png",
+    "index": 11
+  },
+  "12": {
+    "tileId": "tile.floor.lobby_mosaic_variant_01",
+    "sheet": "scotus_floors.png",
+    "index": 12
+  },
+  "13": {
+    "tileId": "tile.floor.lobby_mosaic_variant_02",
+    "sheet": "scotus_floors.png",
+    "index": 13
+  },
+  "14": {
+    "tileId": "tile.floor.lobby_mosaic_variant_03",
+    "sheet": "scotus_floors.png",
+    "index": 14
+  },
+  "15": {
+    "tileId": "tile.floor.lobby_mosaic_variant_04",
+    "sheet": "scotus_floors.png",
+    "index": 15
+  },
+  "16": {
+    "tileId": "tile.trim.stone_edge_N",
+    "sheet": "scotus_architecture.png",
+    "index": 0
+  },
+  "17": {
+    "tileId": "tile.trim.stone_edge_E",
+    "sheet": "scotus_architecture.png",
+    "index": 1
+  },
+  "18": {
+    "tileId": "tile.trim.stone_edge_S",
+    "sheet": "scotus_architecture.png",
+    "index": 2
+  },
+  "19": {
+    "tileId": "tile.trim.stone_edge_W",
+    "sheet": "scotus_architecture.png",
+    "index": 3
+  },
+  "20": {
+    "tileId": "tile.trim.stone_outer_corner_NE",
+    "sheet": "scotus_architecture.png",
+    "index": 4
+  },
+  "21": {
+    "tileId": "tile.trim.stone_outer_corner_NW",
+    "sheet": "scotus_architecture.png",
+    "index": 5
+  },
+  "22": {
+    "tileId": "tile.trim.stone_outer_corner_SE",
+    "sheet": "scotus_architecture.png",
+    "index": 6
+  },
+  "23": {
+    "tileId": "tile.trim.stone_outer_corner_SW",
+    "sheet": "scotus_architecture.png",
+    "index": 7
+  },
+  "24": {
+    "tileId": "tile.trim.stone_inner_corner_NE",
+    "sheet": "scotus_architecture.png",
+    "index": 8
+  },
+  "25": {
+    "tileId": "tile.trim.stone_inner_corner_NW",
+    "sheet": "scotus_architecture.png",
+    "index": 9
+  },
+  "26": {
+    "tileId": "tile.trim.stone_inner_corner_SE",
+    "sheet": "scotus_architecture.png",
+    "index": 10
+  },
+  "27": {
+    "tileId": "tile.trim.stone_inner_corner_SW",
+    "sheet": "scotus_architecture.png",
+    "index": 11
+  },
+  "28": {
+    "tileId": "tile.trim.stone_t_junction_N",
+    "sheet": "scotus_architecture.png",
+    "index": 12
+  },
+  "29": {
+    "tileId": "tile.trim.stone_t_junction_E",
+    "sheet": "scotus_architecture.png",
+    "index": 13
+  },
+  "30": {
+    "tileId": "tile.trim.stone_t_junction_S",
+    "sheet": "scotus_architecture.png",
+    "index": 14
+  },
+  "31": {
+    "tileId": "tile.trim.stone_t_junction_W",
+    "sheet": "scotus_architecture.png",
+    "index": 15
+  },
+  "32": {
+    "tileId": "tile.trim.stone_cross",
+    "sheet": "scotus_architecture.png",
+    "index": 16
+  },
+  "33": {
+    "tileId": "tile.wall.interior_stone_straight",
+    "sheet": "scotus_architecture.png",
+    "index": 17
+  },
+  "34": {
+    "tileId": "tile.wall.interior_stone_corner_outer",
+    "sheet": "scotus_architecture.png",
+    "index": 18
+  },
+  "35": {
+    "tileId": "tile.wall.interior_stone_corner_inner",
+    "sheet": "scotus_architecture.png",
+    "index": 19
+  },
+  "36": {
+    "tileId": "tile.wall.interior_stone_endcap",
+    "sheet": "scotus_architecture.png",
+    "index": 20
+  },
+  "37": {
+    "tileId": "tile.wall.interior_stone_t_junction",
+    "sheet": "scotus_architecture.png",
+    "index": 21
+  },
+  "38": {
+    "tileId": "tile.wall.interior_stone_cross",
+    "sheet": "scotus_architecture.png",
+    "index": 22
+  },
+  "39": {
+    "tileId": "tile.wall.interior_woodpanel_straight",
+    "sheet": "scotus_architecture.png",
+    "index": 23
+  },
+  "40": {
+    "tileId": "tile.wall.interior_woodpanel_corner_outer",
+    "sheet": "scotus_architecture.png",
+    "index": 24
+  },
+  "41": {
+    "tileId": "tile.wall.interior_woodpanel_corner_inner",
+    "sheet": "scotus_architecture.png",
+    "index": 25
+  },
+  "42": {
+    "tileId": "tile.wall.interior_woodpanel_endcap",
+    "sheet": "scotus_architecture.png",
+    "index": 26
+  },
+  "43": {
+    "tileId": "tile.wall.interior_woodpanel_t_junction",
+    "sheet": "scotus_architecture.png",
+    "index": 27
+  },
+  "44": {
+    "tileId": "tile.wall.interior_woodpanel_cross",
+    "sheet": "scotus_architecture.png",
+    "index": 28
+  },
+  "45": {
+    "tileId": "tile.door.double_wood_closed",
+    "sheet": "scotus_architecture.png",
+    "index": 29
+  },
+  "46": {
+    "tileId": "tile.door.double_wood_open",
+    "sheet": "scotus_architecture.png",
+    "index": 30
+  },
+  "47": {
+    "tileId": "tile.door.single_wood_closed",
+    "sheet": "scotus_architecture.png",
+    "index": 31
+  },
+  "48": {
+    "tileId": "tile.door.single_wood_open",
+    "sheet": "scotus_architecture.png",
+    "index": 32
+  },
+  "49": {
+    "tileId": "tile.door.archway_open_stone",
+    "sheet": "scotus_architecture.png",
+    "index": 33
+  },
+  "50": {
+    "tileId": "tile.column.round_top",
+    "sheet": "scotus_architecture.png",
+    "index": 34
+  },
+  "51": {
+    "tileId": "tile.column.round_mid",
+    "sheet": "scotus_architecture.png",
+    "index": 35
+  },
+  "52": {
+    "tileId": "tile.column.round_base",
+    "sheet": "scotus_architecture.png",
+    "index": 36
+  },
+  "53": {
+    "tileId": "tile.rug.red_base",
+    "sheet": "scotus_decor.png",
+    "index": 0
+  },
+  "54": {
+    "tileId": "tile.rug.red_border_edge_N",
+    "sheet": "scotus_decor.png",
+    "index": 1
+  },
+  "55": {
+    "tileId": "tile.rug.red_border_edge_E",
+    "sheet": "scotus_decor.png",
+    "index": 2
+  },
+  "56": {
+    "tileId": "tile.rug.red_border_edge_S",
+    "sheet": "scotus_decor.png",
+    "index": 3
+  },
+  "57": {
+    "tileId": "tile.rug.red_border_edge_W",
+    "sheet": "scotus_decor.png",
+    "index": 4
+  },
+  "58": {
+    "tileId": "tile.rug.red_border_corner_NE",
+    "sheet": "scotus_decor.png",
+    "index": 5
+  },
+  "59": {
+    "tileId": "tile.rug.red_border_corner_NW",
+    "sheet": "scotus_decor.png",
+    "index": 6
+  },
+  "60": {
+    "tileId": "tile.rug.red_border_corner_SE",
+    "sheet": "scotus_decor.png",
+    "index": 7
+  },
+  "61": {
+    "tileId": "tile.rug.red_border_corner_SW",
+    "sheet": "scotus_decor.png",
+    "index": 8
+  },
+  "62": {
+    "tileId": "tile.rug.blue_base",
+    "sheet": "scotus_decor.png",
+    "index": 9
+  },
+  "64": {
+    "tileId": "tile.decal.sign_no_cameras",
+    "sheet": "scotus_decor.png",
+    "index": 10
+  },
+  "65": {
+    "tileId": "tile.decal.sign_flashcards_required",
+    "sheet": "scotus_decor.png",
+    "index": 11
+  },
+  "66": {
+    "tileId": "tile.decal.sign_quiet_please",
+    "sheet": "scotus_decor.png",
+    "index": 12
+  },
+  "67": {
+    "tileId": "tile.decal.plaque_generic",
+    "sheet": "scotus_decor.png",
+    "index": 13
+  },
+  "68": {
+    "tileId": "tile.trim.lobby_mosaic_border_edge_N",
+    "sheet": "scotus_floors.png",
+    "index": 16
+  },
+  "69": {
+    "tileId": "tile.trim.lobby_mosaic_border_corner_NE",
+    "sheet": "scotus_floors.png",
+    "index": 17
+  },
+  "70": {
+    "tileId": "tile.steps.marble_up",
+    "sheet": "scotus_floors.png",
+    "index": 18
+  },
+  "71": {
+    "tileId": "tile.steps.marble_landing",
+    "sheet": "scotus_floors.png",
+    "index": 19
+  },
+  "72": {
+    "tileId": "tile.object.rope_stanchion_single",
+    "sheet": "scotus_decor.png",
+    "index": 14
+  }
+}

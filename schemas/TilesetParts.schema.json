@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "TilesetParts.schema.json",
+  "title": "TilesetParts",
+  "type": "object",
+  "required": [
+    "schema",
+    "image",
+    "tilesetPath",
+    "tileWidth",
+    "tileHeight",
+    "columns",
+    "rows",
+    "objects",
+    "skipped"
+  ],
+  "properties": {
+    "schema": {
+      "const": "kimbar.tileset.parts.v1"
+    },
+    "image": {
+      "type": "string"
+    },
+    "tilesetPath": {
+      "type": "string"
+    },
+    "tileWidth": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "tileHeight": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "columns": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "rows": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "objects": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "tileX",
+          "tileY",
+          "tilesWide",
+          "tilesHigh",
+          "pixelWidth",
+          "pixelHeight",
+          "parts",
+          "propId"
+        ],
+        "properties": {
+          "tileX": { "type": "integer", "minimum": 0 },
+          "tileY": { "type": "integer", "minimum": 0 },
+          "tilesWide": { "type": "integer", "minimum": 1 },
+          "tilesHigh": { "type": "integer", "minimum": 1 },
+          "pixelWidth": { "type": "integer", "minimum": 1 },
+          "pixelHeight": { "type": "integer", "minimum": 1 },
+          "propId": { "type": "string" },
+          "notes": { "type": ["string", "null"] },
+          "parts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["dx", "dy", "tileX", "tileY", "tileIndex"],
+              "properties": {
+                "dx": { "type": "integer", "minimum": 0 },
+                "dy": { "type": "integer", "minimum": 0 },
+                "tileX": { "type": "integer", "minimum": 0 },
+                "tileY": { "type": "integer", "minimum": 0 },
+                "tileIndex": { "type": "integer", "minimum": 0 }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "skipped": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "reason"],
+        "properties": {
+          "id": { "type": "string" },
+          "reason": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

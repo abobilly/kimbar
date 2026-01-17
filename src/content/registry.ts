@@ -27,6 +27,19 @@ export interface PropEntry {
   height?: number;
 }
 
+export interface TilesetEntry {
+  id?: string;
+  url: string;
+  key?: string;
+  tileWidth: number;
+  tileHeight: number;
+  imageWidth: number;
+  imageHeight: number;
+  columns: number;
+  rows: number;
+  partsUrl?: string;
+}
+
 export interface ContentRegistry {
   tileSize: number;
   scale: number;
@@ -38,6 +51,7 @@ export interface ContentRegistry {
     topicTags: string[];
   };
   sprites: Record<string, SpriteEntry>;
+  tilesets?: Record<string, TilesetEntry>;
   characters?: Array<{ id: string; name?: string; spriteKey: string; specUrl?: string }>;
   rooms: RoomEntry[];
   flashcardPacks: FlashcardPackEntry[];

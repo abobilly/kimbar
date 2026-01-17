@@ -29,6 +29,7 @@ const FLASHCARDS_DIR = './public/content/cards';
 const INK_SOURCE_DIR = './content/ink';
 const AI_MANIFEST_PATH = './generated/ai-manifest.json';
 const PROPS_DIR = './vendor/props';
+const TILESET_REGISTRY_PATH = './content/tilesets/tilesets.json';
 const PROPS_CATEGORIES = ['legal', 'exterior', 'office'];
 const PROP_SKIP_FILES = new Set(['_ Liberated Palette Ramps.png']);
 
@@ -82,6 +83,7 @@ async function loadRegistryConfig() {
   config.flashcardPacks = [];
   config.ink = [];
   config.props = {};
+  config.tilesets = {};
 
   return config;
 }
@@ -418,6 +420,37 @@ async function scanProps() {
   return props;
 }
 
+async function loadTilesetRegistry() {
+  if (!existsSync(TILESET_REGISTRY_PATH)) {
+    console.log(`📁 No tileset registry found at ${TILESET_REGISTRY_PATH}`);
+    return {};
+  }
+
+  try {
+    const content = await readFile(TILESET_REGISTRY_PATH, 'utf-8');
+    const payload = JSON.parse(content);
+    const entries = Array.isArray(payload) ? payload : payload.tilesets;
+    if (!Array.isArray(entries)) {
+      console.warn('⚠️ Tileset registry missing tilesets array');
+      return {};
+    }
+
+    const ordered = {};
+    const sorted = [...entries].sort((a, b) => (a.id || '').localeCompare(b.id || ''));
+    for (const entry of sorted) {
+      if (!entry?.id || !entry?.url) {
+        console.warn('⚠️ Skipping tileset entry missing id/url');
+        continue;
+      }
+      ordered[entry.id] = { ...entry };
+    }
+    return ordered;
+  } catch (e) {
+    console.error(`⚠️ Failed to parse tileset registry: ${e.message}`);
+    return {};
+  }
+}
+
 /**
  * Load AI-generated assets from generated/ai-manifest.json if it exists.
  * Merges AI sprite entries into the registry sprites object.
@@ -539,6 +572,12 @@ async function main() {
   const propCount = Object.keys(registry.props).length;
   console.log(`  ✅ Found ${propCount} prop(s)`);
 
+  // Load tileset registry
+  console.log('\n🧩 Loading tilesets...');
+  registry.tilesets = await loadTilesetRegistry();
+  const tilesetCount = Object.keys(registry.tilesets).length;
+  console.log(`  ✅ Found ${tilesetCount} tileset(s)`);
+
   // Load AI-generated assets
   console.log('\n🤖 Loading AI-generated assets...');
   const aiManifest = await loadAiManifest();
@@ -578,6 +617,7 @@ async function main() {
     outfits: registry.outfits,
     tags: registry.tags,
     sprites: registry.sprites,
+    tilesets: registry.tilesets,
     characters: registry.characters,
     rooms: registry.rooms,
     flashcardPacks: registry.flashcardPacks,
@@ -595,6 +635,7 @@ async function main() {
   console.log(`   - ${registry.flashcardPacks?.length || 0} flashcard pack(s)`);
   console.log(`   - ${registry.ink?.length || 0} ink story(ies)`);
   console.log(`   - ${propCount} prop(s)`);
+  console.log(`   - ${tilesetCount} tileset(s)`);
   console.log(`   - ${aiSpriteCount} AI-generated sprite(s)`);
 }
 

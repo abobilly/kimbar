@@ -1,5 +1,5 @@
 # Kim Bar - Agent Handoff Document
-**Last Update**: January 16, 2026
+**Last Update**: January 17, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
@@ -54,6 +54,73 @@
 
 - If these are accepted, copy from `tmp/tiles` into the normal pipeline output and run `npm run sync:public`
 - Cleaned chair silhouettes via scripted hole-fill pass; outputs in `tmp/tiles_clean` for review (no changes to `generated/` or `public/generated/`)
+- Generated HF chair variants for comparison: `tmp/tiles_hf64_raw` + downscaled `tmp/tiles_hf64`, and chroma-key experiment in `tmp/tiles_keyed_raw` -> `tmp/tiles_keyed`
+
+## 2. Recent Changes: LPC Asset Imports (January 16, 2026)
+
+### What Was Done
+
+- Added `scripts/import-lpc-assets.py` + `npm run import:lpc` to ingest LPC terrains/victorian tilesets, crop windows/doors, and downscale trees.
+- Imported LPC tilesets to `vendor/tilesets/lpc/terrains` and `vendor/tilesets/lpc/victorian`.
+- Generated windows/doors pairing map at `content/tilesets/windows-doors.parts.json`.
+- Cropped windows/doors props + downscaled trees into `vendor/props/exterior` for registry inclusion.
+- Added credits under `docs/credits/lpc-terrains` and `docs/credits/lpc-victorian`.
+- Updated `src/game/scenes/Preloader.ts` to load `lpc_windows_doors` tileset.
+- Documented conventions in `docs/LPC_IMPORTS.md` and added sources in `content/sources.opengameart.json`.
+
+### How To Use
+
+```bash
+npm run import:lpc
+npm run prepare:content
+npm run sync:public
+```
+
+## 2. Recent Changes: Tileset Registry + LPC Wiring (January 17, 2026)
+
+### What Was Done
+
+- Added tileset registry generation to `scripts/import-lpc-assets.py`, outputting `content/tilesets/tilesets.json` with vendor + public tilesets (23 indexed).
+- Added tileset schemas + validation: `schemas/TilesetRegistry.schema.json`, `schemas/TilesetParts.schema.json`, and validation in `scripts/validate.js`.
+- Registry now includes tilesets; `scripts/build-characters.js` merges tilesets into `generated/registry.json`.
+- Runtime wiring: `src/game/services/asset-loader.ts` loads tilesets, `src/game/scenes/Preloader.ts` queues them from registry, `src/game/scenes/WorldScene.ts` resolves tilesets via registry and falls back to legacy keys.
+- Added helper `src/content/tilesets.ts` for tileset lookup + parts map loading.
+- `scripts/sync-public.mjs` now syncs `content/tilesets` to `public/content/tilesets` for runtime access.
+
+### Quarantine Notes (from `npm run prepare:content`)
+
+- `generated/quarantine.ndjson` has 7 entries, all ULPC palette or oddball spritesheet widths (not multiples of 64):
+  - `vendor/lpc/Universal-LPC-Spritesheet-Character-Generator/palettes/*.png`
+  - `vendor/lpc/Universal-LPC-Spritesheet-Character-Generator/spritesheets/feet/shoes/female/sara.png`
+  - `vendor/lpc/Universal-LPC-Spritesheet-Character-Generator/spritesheets/legs/skirts/child/red.png`
+
+### How To Use
+
+```bash
+npm run import:lpc
+npm run prepare:content
+npm run sync:public
+```
+
+## 2. Recent Changes: Used Assets Report Bot (January 17, 2026)
+
+### What Was Done
+
+- Added used-asset report script: `scripts/list-used-assets.mjs`.
+- Added npm entry: `npm run assets:used` (writes `generated/used_assets.md`).
+- Added GitHub Action `.github/workflows/used-assets.yml` to run on push and
+  publish the report in the job summary + artifact.
+- Documentation added in `docs/ASSET_USAGE.md` and updated in `docs/LPC_IMPORTS.md`.
+
+### How To Use
+
+```bash
+npm run build:chars
+npm run assets:used
+```
+
+This inspects LDtk levels + registry entries and lists the assets actually
+referenced by game content (sprites, props, tilesets).
 
 ## 2. Recent Changes: SCOTUS Tileset Generation (January 17, 2026)
 

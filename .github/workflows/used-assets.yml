@@ -1,0 +1,43 @@
+name: Used Assets Report
+
+on:
+    push:
+        branches: [main]
+    workflow_dispatch:
+
+jobs:
+    used-assets:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  submodules: recursive
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: "npm"
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build registry
+              run: node scripts/build-characters.js
+
+            - name: Generate used-assets report
+              run: node scripts/list-used-assets.mjs --format md --output generated/used_assets.md
+
+            - name: Publish report to summary
+              run: |
+                  echo "## Used Assets Report" >> $GITHUB_STEP_SUMMARY
+                  cat generated/used_assets.md >> $GITHUB_STEP_SUMMARY
+
+            - name: Upload report artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: used-assets-report
+                  path: generated/used_assets.md
+                  retention-days: 7

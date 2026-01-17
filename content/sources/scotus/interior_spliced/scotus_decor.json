@@ -1,0 +1,116 @@
+{
+  "tileWidth": 32,
+  "tileHeight": 32,
+  "columns": 16,
+  "rows": 1,
+  "tileCount": 15,
+  "imageWidth": 512,
+  "imageHeight": 32,
+  "tiles": {
+    "tile.rug.red_base": {
+      "index": 0,
+      "x": 0,
+      "y": 0,
+      "col": 0,
+      "row": 0
+    },
+    "tile.rug.red_border_edge_N": {
+      "index": 1,
+      "x": 32,
+      "y": 0,
+      "col": 1,
+      "row": 0
+    },
+    "tile.rug.red_border_edge_E": {
+      "index": 2,
+      "x": 64,
+      "y": 0,
+      "col": 2,
+      "row": 0
+    },
+    "tile.rug.red_border_edge_S": {
+      "index": 3,
+      "x": 96,
+      "y": 0,
+      "col": 3,
+      "row": 0
+    },
+    "tile.rug.red_border_edge_W": {
+      "index": 4,
+      "x": 128,
+      "y": 0,
+      "col": 4,
+      "row": 0
+    },
+    "tile.rug.red_border_corner_NE": {
+      "index": 5,
+      "x": 160,
+      "y": 0,
+      "col": 5,
+      "row": 0
+    },
+    "tile.rug.red_border_corner_NW": {
+      "index": 6,
+      "x": 192,
+      "y": 0,
+      "col": 6,
+      "row": 0
+    },
+    "tile.rug.red_border_corner_SE": {
+      "index": 7,
+      "x": 224,
+      "y": 0,
+      "col": 7,
+      "row": 0
+    },
+    "tile.rug.red_border_corner_SW": {
+      "index": 8,
+      "x": 256,
+      "y": 0,
+      "col": 8,
+      "row": 0
+    },
+    "tile.rug.blue_base": {
+      "index": 9,
+      "x": 288,
+      "y": 0,
+      "col": 9,
+      "row": 0
+    },
+    "tile.decal.sign_no_cameras": {
+      "index": 10,
+      "x": 320,
+      "y": 0,
+      "col": 10,
+      "row": 0
+    },
+    "tile.decal.sign_flashcards_required": {
+      "index": 11,
+      "x": 352,
+      "y": 0,
+      "col": 11,
+      "row": 0
+    },
+    "tile.decal.sign_quiet_please": {
+      "index": 12,
+      "x": 384,
+      "y": 0,
+      "col": 12,
+      "row": 0
+    },
+    "tile.decal.plaque_generic": {
+      "index": 13,
+      "x": 416,
+      "y": 0,
+      "col": 13,
+      "row": 0
+    },
+    "tile.object.rope_stanchion_single": {
+      "index": 14,
+      "x": 448,
+      "y": 0,
+      "col": 14,
+      "row": 0
+    }
+  }
+}

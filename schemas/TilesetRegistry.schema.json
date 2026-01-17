@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "TilesetRegistry.schema.json",
+  "title": "TilesetRegistry",
+  "type": "object",
+  "required": ["schema", "tileSize", "tilesets"],
+  "properties": {
+    "schema": {
+      "const": "kimbar.tileset.registry.v1"
+    },
+    "tileSize": {
+      "type": "integer",
+      "enum": [16, 32, 64]
+    },
+    "tilesets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "url",
+          "tileWidth",
+          "tileHeight",
+          "imageWidth",
+          "imageHeight",
+          "columns",
+          "rows"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^tileset\\.[a-z0-9_]+$"
+          },
+          "url": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "tileWidth": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "tileHeight": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "imageWidth": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "imageHeight": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "columns": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "rows": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "partsUrl": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

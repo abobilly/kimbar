@@ -22,6 +22,24 @@
       "license": "CC-BY-SA 3.0 / GPL 3.0",
       "type": "git",
       "categories": ["characters", "layers"]
+    },
+    {
+      "id": "lpc-terrains",
+      "name": "LPC Terrains",
+      "description": "Terrain and outdoor tiles (repacked for Kimbar).",
+      "url": "https://opengameart.org/content/lpc-terrains",
+      "license": "CC-BY-SA 4.0",
+      "type": "zip",
+      "categories": ["tiles"]
+    },
+    {
+      "id": "lpc-victorian-preview",
+      "name": "LPC Victorian Town Preview",
+      "description": "Victorian town tiles and props (windows/doors, roofs, bricks, decorations).",
+      "url": "https://opengameart.org/content/lpc-victorian-town-decorations",
+      "license": "CC-BY-SA 4.0",
+      "type": "zip",
+      "categories": ["tiles", "props"]
     }
   ],
   "styleGuide": {

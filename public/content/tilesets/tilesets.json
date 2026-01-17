@@ -1,0 +1,241 @@
+{
+  "schema": "kimbar.tileset.registry.v1",
+  "tileSize": 32,
+  "tilesets": [
+    {
+      "id": "tileset.lpc_castle",
+      "url": "/assets/tilesets/lpc/castle.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 1024,
+      "imageHeight": 192,
+      "columns": 32,
+      "rows": 6
+    },
+    {
+      "id": "tileset.lpc_floors",
+      "url": "/assets/tilesets/lpc/floors.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 1024,
+      "imageHeight": 2048,
+      "columns": 32,
+      "rows": 64,
+      "key": "floor_tiles"
+    },
+    {
+      "id": "tileset.lpc_terrains_terrain_map_v7",
+      "url": "/assets/tilesets/lpc/terrains/terrain-map-v7.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 512,
+      "imageHeight": 31488,
+      "columns": 16,
+      "rows": 984
+    },
+    {
+      "id": "tileset.lpc_terrains_terrain_map_v7_repacked",
+      "url": "/assets/tilesets/lpc/terrains/terrain-map-v7-repacked.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 4096,
+      "imageHeight": 4096,
+      "columns": 128,
+      "rows": 128
+    },
+    {
+      "id": "tileset.lpc_terrains_terrain_v7",
+      "url": "/assets/tilesets/lpc/terrains/terrain-v7.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 1024,
+      "imageHeight": 2048,
+      "columns": 32,
+      "rows": 64
+    },
+    {
+      "id": "tileset.lpc_victorian_bricks",
+      "url": "/assets/tilesets/lpc/victorian/bricks.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 1024,
+      "imageHeight": 2048,
+      "columns": 32,
+      "rows": 64
+    },
+    {
+      "id": "tileset.lpc_victorian_container",
+      "url": "/assets/tilesets/lpc/victorian/container.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 512,
+      "imageHeight": 2048,
+      "columns": 16,
+      "rows": 64
+    },
+    {
+      "id": "tileset.lpc_victorian_food",
+      "url": "/assets/tilesets/lpc/victorian/food.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 1024,
+      "imageHeight": 1024,
+      "columns": 32,
+      "rows": 32
+    },
+    {
+      "id": "tileset.lpc_victorian_roofs",
+      "url": "/assets/tilesets/lpc/victorian/roofs.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 2048,
+      "imageHeight": 2048,
+      "columns": 64,
+      "rows": 64
+    },
+    {
+      "id": "tileset.lpc_victorian_terrain_map_v8",
+      "url": "/assets/tilesets/lpc/victorian/terrain-map-v8.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 512,
+      "imageHeight": 31488,
+      "columns": 16,
+      "rows": 984
+    },
+    {
+      "id": "tileset.lpc_victorian_trees_green",
+      "url": "/assets/tilesets/lpc/victorian/trees-green.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 1024,
+      "imageHeight": 1024,
+      "columns": 32,
+      "rows": 32
+    },
+    {
+      "id": "tileset.lpc_victorian_victorian_accessories",
+      "url": "/assets/tilesets/lpc/victorian/victorian-accessories.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 1024,
+      "imageHeight": 2560,
+      "columns": 32,
+      "rows": 80
+    },
+    {
+      "id": "tileset.lpc_victorian_victorian_garden",
+      "url": "/assets/tilesets/lpc/victorian/victorian-garden.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 512,
+      "imageHeight": 2048,
+      "columns": 16,
+      "rows": 64
+    },
+    {
+      "id": "tileset.lpc_victorian_victorian_mansion",
+      "url": "/assets/tilesets/lpc/victorian/victorian-mansion.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 1024,
+      "imageHeight": 2048,
+      "columns": 32,
+      "rows": 64
+    },
+    {
+      "id": "tileset.lpc_victorian_victorian_market",
+      "url": "/assets/tilesets/lpc/victorian/victorian-market.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 512,
+      "imageHeight": 2560,
+      "columns": 16,
+      "rows": 80
+    },
+    {
+      "id": "tileset.lpc_victorian_victorian_preview",
+      "url": "/assets/tilesets/lpc/victorian/victorian-preview.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 4096,
+      "imageHeight": 4096,
+      "columns": 128,
+      "rows": 128
+    },
+    {
+      "id": "tileset.lpc_victorian_victorian_streets",
+      "url": "/assets/tilesets/lpc/victorian/victorian-streets.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 512,
+      "imageHeight": 3072,
+      "columns": 16,
+      "rows": 96
+    },
+    {
+      "id": "tileset.lpc_victorian_victorian_tenement",
+      "url": "/assets/tilesets/lpc/victorian/victorian-tenement.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 1024,
+      "imageHeight": 3072,
+      "columns": 32,
+      "rows": 96
+    },
+    {
+      "id": "tileset.lpc_victorian_victorian_windows_doors",
+      "url": "/assets/tilesets/lpc/victorian/victorian-windows-doors.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 1024,
+      "imageHeight": 5120,
+      "columns": 32,
+      "rows": 160
+    },
+    {
+      "id": "tileset.lpc_victorian_windows_doors",
+      "url": "/assets/tilesets/lpc/victorian/windows-doors.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 1024,
+      "imageHeight": 1024,
+      "columns": 32,
+      "rows": 32,
+      "partsUrl": "/content/tilesets/windows-doors.parts.json"
+    },
+    {
+      "id": "tileset.lpc_walls",
+      "url": "/assets/tilesets/lpc/walls.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 2048,
+      "imageHeight": 3072,
+      "columns": 64,
+      "rows": 96
+    },
+    {
+      "id": "tileset.lpc_windows_doors",
+      "url": "/assets/tilesets/lpc/windows-doors.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 1024,
+      "imageHeight": 1024,
+      "columns": 32,
+      "rows": 32,
+      "key": "lpc_windows_doors",
+      "partsUrl": "/content/tilesets/windows-doors.parts.json"
+    },
+    {
+      "id": "tileset.scotus_tiles",
+      "url": "/assets/tilesets/scotus_tiles.png",
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "imageWidth": 512,
+      "imageHeight": 480,
+      "columns": 16,
+      "rows": 15,
+      "key": "scotus_tiles"
+    }
+  ]
+}

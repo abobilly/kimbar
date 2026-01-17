@@ -138,6 +138,34 @@
           "height": { "type": "integer", "description": "Image height in pixels" }
         }
       }
+    },
+    "tilesets": {
+      "type": "object",
+      "description": "Tileset definitions (tilemap images)",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "url",
+          "tileWidth",
+          "tileHeight",
+          "imageWidth",
+          "imageHeight",
+          "columns",
+          "rows"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "url": { "type": "string", "description": "Runtime URL for Phaser loader" },
+          "key": { "type": "string", "description": "Optional Phaser texture key override" },
+          "tileWidth": { "type": "integer", "minimum": 1 },
+          "tileHeight": { "type": "integer", "minimum": 1 },
+          "imageWidth": { "type": "integer", "minimum": 1 },
+          "imageHeight": { "type": "integer", "minimum": 1 },
+          "columns": { "type": "integer", "minimum": 1 },
+          "rows": { "type": "integer", "minimum": 1 },
+          "partsUrl": { "type": "string" }
+        }
+      }
     }
   }
 }

@@ -11,6 +11,7 @@ import { layoutHUD } from '@game/ui/layout';
 import { loadRegistryAssets } from '@game/services/asset-loader';
 import { DEPTH_POPUP } from '@game/constants/depth';
 import { loadRegistry, loadFlashcards, getGameState, saveGameState, getRoom, getInkStory, getRegistry } from '@content/registry';
+import { getTilesetKey } from '@content/tilesets';
 import { EntityData, LevelData, EncounterConfig } from '@content/types';
 import { isLdtkLevel, normalizeLdtkLevel } from '@content/ldtk-normalizer';
 import { validateLdtkLevel, formatValidationErrors } from '@content/ldtk-validator';
@@ -682,16 +683,32 @@ export class WorldScene extends Scene {
       tileHeight: tileSize
     });
 
-    // Add tileset image - prefer SCOTUS tiles, fall back to LPC floors
+    // Add tileset image - prefer room tileset, then SCOTUS tiles, fall back to LPC floors
     // For dynamic tilemaps, pass (tilesetName, textureKey) - both must match what Phaser has loaded
-    let tileset = this.textures.exists('scotus_tiles')
-      ? map.addTilesetImage('scotus_tiles', 'scotus_tiles')
-      : null;
-    if (!tileset && this.textures.exists('floor_tiles')) {
-      tileset = map.addTilesetImage('floor_tiles', 'floor_tiles');
+    const candidateIds = [level.tileset, 'tileset.scotus_tiles', 'tileset.lpc_floors'].filter(Boolean);
+    const legacyKeys = ['scotus_tiles', 'floor_tiles'];
+    const seen = new Set<string>();
+    let tileset: Phaser.Tilemaps.Tileset | null = null;
+
+    for (const candidateId of candidateIds) {
+      if (!candidateId || seen.has(candidateId)) continue;
+      seen.add(candidateId);
+      const key = getTilesetKey(candidateId) ?? candidateId;
+      if (!this.textures.exists(key)) continue;
+      tileset = map.addTilesetImage(key, key);
+      if (tileset) break;
     }
+
     if (!tileset) {
-      console.warn('[WorldScene] No tileset texture loaded (tried scotus_tiles, floor_tiles)');
+      for (const key of legacyKeys) {
+        if (!this.textures.exists(key)) continue;
+        tileset = map.addTilesetImage(key, key);
+        if (tileset) break;
+      }
+    }
+
+    if (!tileset) {
+      console.warn('[WorldScene] No tileset texture loaded (tried registry candidates)');
       console.warn('[WorldScene] Available textures:', this.textures.getTextureKeys().filter(k => k.includes('tile')));
       return;
     }
