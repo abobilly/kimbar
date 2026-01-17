@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="128" height="128" tilewidth="32" tileheight="32" infinite="0" nextlayerid="13" nextobjectid="1">
+<map version="1.4" tiledversion="2020.12.18" orientation="orthogonal" renderorder="right-down" width="128" height="128" tilewidth="32" tileheight="32" infinite="0" nextlayerid="13" nextobjectid="1">
  <tileset firstgid="1" source="terrain-map-v8.tsx"/>
  <tileset firstgid="15745" name="vten" tilewidth="32" tileheight="32" tilecount="3072" columns="32">
   <image source="victorian-tenement.png" width="1024" height="3072"/>
