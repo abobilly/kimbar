@@ -1,13 +1,13 @@
 #!/bin/sh
 
-# Check for macOS artifacts in staged files
-if git diff --cached --name-only | grep -q "__MACOSX"; then
-  echo "ERROR: __MACOSX directory detected in staged files. Remove before committing."
+# Check for macOS artifacts in staged added/modified files
+if git diff --cached --name-status | grep -E "^[AM]" | cut -f2 | grep -q "__MACOSX"; then
+  echo "ERROR: __MACOSX directory detected in staged added/modified files. Remove before committing."
   exit 1
 fi
 
-if git diff --cached --name-only | grep -q "/\._"; then
-  echo "ERROR: macOS resource fork (._*) files detected in staged files. Remove before committing."
+if git diff --cached --name-status | grep -E "^[AM]" | cut -f2 | grep -q "/\._"; then
+  echo "ERROR: macOS resource fork (._*) files detected in staged added/modified files. Remove before committing."
   exit 1
 fi
 
