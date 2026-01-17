@@ -1,0 +1,2011 @@
+{
+    "schema": "kimbar.tileset.registry.v1",
+    "tileSize": 32,
+    "tilesets": [
+        {
+            "id": "tileset.lpc_castle",
+            "url": "/assets/tilesets/lpc/castle.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 256,
+            "imageHeight": 608,
+            "columns": 8,
+            "rows": 19
+        },
+        {
+            "id": "tileset.lpc_floors",
+            "url": "/assets/tilesets/lpc/floors.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 1024,
+            "imageHeight": 2048,
+            "columns": 32,
+            "rows": 64,
+            "key": "floor_tiles"
+        },
+        {
+            "id": "tileset.lpc_lpc_floors_floors",
+            "url": "/assets/tilesets/lpc/lpc-floors/floors.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 1024,
+            "imageHeight": 2048,
+            "columns": 32,
+            "rows": 64
+        },
+        {
+            "id": "tileset.lpc_lpc_house_interior_interior",
+            "url": "/assets/tilesets/lpc/LPC_house_interior/interior.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 512,
+            "imageHeight": 512,
+            "columns": 16,
+            "rows": 16
+        },
+        {
+            "id": "tileset.lpc_lpc_house_interior_preview",
+            "url": "/assets/tilesets/lpc/LPC_house_interior/preview.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 1040,
+            "imageHeight": 704,
+            "columns": 32,
+            "rows": 22
+        },
+        {
+            "id": "tileset.lpc_lpc_walls_walls",
+            "url": "/assets/tilesets/lpc/lpc-walls/walls.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 2048,
+            "imageHeight": 3072,
+            "columns": 64,
+            "rows": 96
+        },
+        {
+            "id": "tileset.lpc_lpc_windows_doors_v2_windows_doors",
+            "url": "/assets/tilesets/lpc/lpc-windows-doors-v2/windows-doors.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 1024,
+            "imageHeight": 1024,
+            "columns": 32,
+            "rows": 32
+        },
+        {
+            "id": "tileset.lpc_office_office",
+            "url": "/assets/tilesets/lpc/office/office.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 608,
+            "imageHeight": 368,
+            "columns": 19,
+            "rows": 11
+        },
+        {
+            "id": "tileset.lpc_office_out_chair_0001",
+            "url": "/assets/tilesets/lpc/office/out_chair/0001.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_chair_0002",
+            "url": "/assets/tilesets/lpc/office/out_chair/0002.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_chair_0003",
+            "url": "/assets/tilesets/lpc/office/out_chair/0003.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_chair_0004",
+            "url": "/assets/tilesets/lpc/office/out_chair/0004.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_chair_0005",
+            "url": "/assets/tilesets/lpc/office/out_chair/0005.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_chair_0006",
+            "url": "/assets/tilesets/lpc/office/out_chair/0006.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_chair_0007",
+            "url": "/assets/tilesets/lpc/office/out_chair/0007.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_chair_0008",
+            "url": "/assets/tilesets/lpc/office/out_chair/0008.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_chair_chair",
+            "url": "/assets/tilesets/lpc/office/out_chair/chair.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 256,
+            "imageHeight": 256,
+            "columns": 8,
+            "rows": 8
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0001",
+            "url": "/assets/tilesets/lpc/office/out_floor/0001.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0002",
+            "url": "/assets/tilesets/lpc/office/out_floor/0002.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0003",
+            "url": "/assets/tilesets/lpc/office/out_floor/0003.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0004",
+            "url": "/assets/tilesets/lpc/office/out_floor/0004.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0005",
+            "url": "/assets/tilesets/lpc/office/out_floor/0005.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0006",
+            "url": "/assets/tilesets/lpc/office/out_floor/0006.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0007",
+            "url": "/assets/tilesets/lpc/office/out_floor/0007.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0008",
+            "url": "/assets/tilesets/lpc/office/out_floor/0008.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0009",
+            "url": "/assets/tilesets/lpc/office/out_floor/0009.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0010",
+            "url": "/assets/tilesets/lpc/office/out_floor/0010.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0011",
+            "url": "/assets/tilesets/lpc/office/out_floor/0011.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0012",
+            "url": "/assets/tilesets/lpc/office/out_floor/0012.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0013",
+            "url": "/assets/tilesets/lpc/office/out_floor/0013.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0014",
+            "url": "/assets/tilesets/lpc/office/out_floor/0014.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0015",
+            "url": "/assets/tilesets/lpc/office/out_floor/0015.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_0016",
+            "url": "/assets/tilesets/lpc/office/out_floor/0016.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 32,
+            "columns": 2,
+            "rows": 1
+        },
+        {
+            "id": "tileset.lpc_office_out_floor_carpet",
+            "url": "/assets/tilesets/lpc/office/out_floor/carpet.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 256,
+            "imageHeight": 128,
+            "columns": 8,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0001",
+            "url": "/assets/tilesets/lpc/office/out_walls/0001.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0002",
+            "url": "/assets/tilesets/lpc/office/out_walls/0002.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0003",
+            "url": "/assets/tilesets/lpc/office/out_walls/0003.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0004",
+            "url": "/assets/tilesets/lpc/office/out_walls/0004.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0005",
+            "url": "/assets/tilesets/lpc/office/out_walls/0005.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0006",
+            "url": "/assets/tilesets/lpc/office/out_walls/0006.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0007",
+            "url": "/assets/tilesets/lpc/office/out_walls/0007.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0008",
+            "url": "/assets/tilesets/lpc/office/out_walls/0008.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0009",
+            "url": "/assets/tilesets/lpc/office/out_walls/0009.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0010",
+            "url": "/assets/tilesets/lpc/office/out_walls/0010.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0011",
+            "url": "/assets/tilesets/lpc/office/out_walls/0011.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0012",
+            "url": "/assets/tilesets/lpc/office/out_walls/0012.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0013",
+            "url": "/assets/tilesets/lpc/office/out_walls/0013.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0014",
+            "url": "/assets/tilesets/lpc/office/out_walls/0014.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0015",
+            "url": "/assets/tilesets/lpc/office/out_walls/0015.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0016",
+            "url": "/assets/tilesets/lpc/office/out_walls/0016.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0017",
+            "url": "/assets/tilesets/lpc/office/out_walls/0017.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0018",
+            "url": "/assets/tilesets/lpc/office/out_walls/0018.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0019",
+            "url": "/assets/tilesets/lpc/office/out_walls/0019.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0020",
+            "url": "/assets/tilesets/lpc/office/out_walls/0020.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0021",
+            "url": "/assets/tilesets/lpc/office/out_walls/0021.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0022",
+            "url": "/assets/tilesets/lpc/office/out_walls/0022.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0023",
+            "url": "/assets/tilesets/lpc/office/out_walls/0023.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0024",
+            "url": "/assets/tilesets/lpc/office/out_walls/0024.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0025",
+            "url": "/assets/tilesets/lpc/office/out_walls/0025.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0026",
+            "url": "/assets/tilesets/lpc/office/out_walls/0026.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0027",
+            "url": "/assets/tilesets/lpc/office/out_walls/0027.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0028",
+            "url": "/assets/tilesets/lpc/office/out_walls/0028.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0029",
+            "url": "/assets/tilesets/lpc/office/out_walls/0029.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0030",
+            "url": "/assets/tilesets/lpc/office/out_walls/0030.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0031",
+            "url": "/assets/tilesets/lpc/office/out_walls/0031.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_0032",
+            "url": "/assets/tilesets/lpc/office/out_walls/0032.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 64,
+            "imageHeight": 128,
+            "columns": 2,
+            "rows": 4
+        },
+        {
+            "id": "tileset.lpc_office_out_walls_cubicles",
+            "url": "/assets/tilesets/lpc/office/out_walls/cubicles.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 256,
+            "imageHeight": 1024,
+            "columns": 8,
+            "rows": 32
+        },
+        {
+            "id": "tileset.lpc_stairs",
+            "url": "/assets/tilesets/lpc/stairs.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 256,
+            "imageHeight": 352,
+            "columns": 8,
+            "rows": 11
+        },
+        {
+            "id": "tileset.lpc_terrains_terrain_map_v7",
+            "url": "/assets/tilesets/lpc/terrains/terrain-map-v7.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 512,
+            "imageHeight": 31488,
+            "columns": 16,
+            "rows": 984
+        },
+        {
+            "id": "tileset.lpc_terrains_terrain_map_v7_repacked",
+            "url": "/assets/tilesets/lpc/terrains/terrain-map-v7-repacked.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 4096,
+            "imageHeight": 4096,
+            "columns": 128,
+            "rows": 128
+        },
+        {
+            "id": "tileset.lpc_terrains_terrain_v7",
+            "url": "/assets/tilesets/lpc/terrains/terrain-v7.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 1024,
+            "imageHeight": 2048,
+            "columns": 32,
+            "rows": 64
+        },
+        {
+            "id": "tileset.lpc_victorian_bricks",
+            "url": "/assets/tilesets/lpc/victorian/bricks.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 1024,
+            "imageHeight": 2048,
+            "columns": 32,
+            "rows": 64
+        },
+        {
+            "id": "tileset.lpc_victorian_container",
+            "url": "/assets/tilesets/lpc/victorian/container.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 512,
+            "imageHeight": 2048,
+            "columns": 16,
+            "rows": 64
+        },
+        {
+            "id": "tileset.lpc_victorian_food",
+            "url": "/assets/tilesets/lpc/victorian/food.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 1024,
+            "imageHeight": 1024,
+            "columns": 32,
+            "rows": 32
+        },
+        {
+            "id": "tileset.lpc_victorian_roofs",
+            "url": "/assets/tilesets/lpc/victorian/roofs.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 2048,
+            "imageHeight": 2048,
+            "columns": 64,
+            "rows": 64
+        },
+        {
+            "id": "tileset.lpc_victorian_terrain_map_v8",
+            "url": "/assets/tilesets/lpc/victorian/terrain-map-v8.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 512,
+            "imageHeight": 31488,
+            "columns": 16,
+            "rows": 984
+        },
+        {
+            "id": "tileset.lpc_victorian_trees_green",
+            "url": "/assets/tilesets/lpc/victorian/trees-green.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 1024,
+            "imageHeight": 1024,
+            "columns": 32,
+            "rows": 32
+        },
+        {
+            "id": "tileset.lpc_victorian_victorian_accessories",
+            "url": "/assets/tilesets/lpc/victorian/victorian-accessories.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 1024,
+            "imageHeight": 2560,
+            "columns": 32,
+            "rows": 80
+        },
+        {
+            "id": "tileset.lpc_victorian_victorian_garden",
+            "url": "/assets/tilesets/lpc/victorian/victorian-garden.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 512,
+            "imageHeight": 2048,
+            "columns": 16,
+            "rows": 64
+        },
+        {
+            "id": "tileset.lpc_victorian_victorian_mansion",
+            "url": "/assets/tilesets/lpc/victorian/victorian-mansion.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 1024,
+            "imageHeight": 2048,
+            "columns": 32,
+            "rows": 64
+        },
+        {
+            "id": "tileset.lpc_victorian_victorian_market",
+            "url": "/assets/tilesets/lpc/victorian/victorian-market.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 512,
+            "imageHeight": 2560,
+            "columns": 16,
+            "rows": 80
+        },
+        {
+            "id": "tileset.lpc_victorian_victorian_preview",
+            "url": "/assets/tilesets/lpc/victorian/victorian-preview.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 4096,
+            "imageHeight": 4096,
+            "columns": 128,
+            "rows": 128
+        },
+        {
+            "id": "tileset.lpc_victorian_victorian_streets",
+            "url": "/assets/tilesets/lpc/victorian/victorian-streets.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 512,
+            "imageHeight": 3072,
+            "columns": 16,
+            "rows": 96
+        },
+        {
+            "id": "tileset.lpc_victorian_victorian_tenement",
+            "url": "/assets/tilesets/lpc/victorian/victorian-tenement.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 1024,
+            "imageHeight": 3072,
+            "columns": 32,
+            "rows": 96
+        },
+        {
+            "id": "tileset.lpc_victorian_victorian_windows_doors",
+            "url": "/assets/tilesets/lpc/victorian/victorian-windows-doors.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 1024,
+            "imageHeight": 5120,
+            "columns": 32,
+            "rows": 160
+        },
+        {
+            "id": "tileset.lpc_victorian_windows_doors",
+            "url": "/assets/tilesets/lpc/victorian/windows-doors.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 1024,
+            "imageHeight": 1024,
+            "columns": 32,
+            "rows": 32,
+            "partsUrl": "/content/tilesets/windows-doors.parts.json"
+        },
+        {
+            "id": "tileset.lpc_walls",
+            "url": "/assets/tilesets/lpc/walls.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 2048,
+            "imageHeight": 3072,
+            "columns": 64,
+            "rows": 96
+        },
+        {
+            "id": "tileset.lpc_windows_doors",
+            "url": "/assets/tilesets/lpc/windows-doors.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 1024,
+            "imageHeight": 1024,
+            "columns": 32,
+            "rows": 32,
+            "key": "lpc_windows_doors",
+            "partsUrl": "/content/tilesets/windows-doors.parts.json"
+        },
+        {
+            "id": "tileset.scotus_architecture",
+            "url": "/assets/tilesets/scotus_architecture.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 512,
+            "imageHeight": 96,
+            "columns": 16,
+            "rows": 3
+        },
+        {
+            "id": "tileset.scotus_decor",
+            "url": "/assets/tilesets/scotus_decor.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 512,
+            "imageHeight": 32,
+            "columns": 16,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building",
+            "url": "/assets/tilesets/scotus_exterior_building.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 480,
+            "imageHeight": 224,
+            "columns": 15,
+            "rows": 7
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_column",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/Column.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 256,
+            "imageHeight": 640,
+            "columns": 8,
+            "rows": 20
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_scotus_exterior_building_atlas",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/scotus_exterior_building.atlas.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 480,
+            "imageHeight": 224,
+            "columns": 15,
+            "rows": 7
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c00",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c00.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c01",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c01.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c02",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c02.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c03",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c03.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c04",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c04.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c05",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c05.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c06",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c06.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c07",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c07.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c08",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c08.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c09",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c09.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c10",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c10.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c11",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c11.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c12",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c12.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c13",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c13.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r00c14",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r00c14.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c00",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c00.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c01",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c01.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c02",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c02.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c03",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c03.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c04",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c04.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c05",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c05.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c06",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c06.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c07",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c07.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c08",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c08.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c09",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c09.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c10",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c10.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c11",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c11.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c12",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c12.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c13",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c13.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r01c14",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r01c14.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c00",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c00.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c01",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c01.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c02",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c02.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c03",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c03.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c04",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c04.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c05",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c05.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c06",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c06.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c07",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c07.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c08",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c08.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c09",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c09.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c10",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c10.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c11",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c11.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c12",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c12.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c13",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c13.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r02c14",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r02c14.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c00",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c00.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c01",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c01.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c02",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c02.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c03",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c03.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c04",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c04.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c05",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c05.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c06",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c06.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c07",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c07.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c08",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c08.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c09",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c09.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c10",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c10.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c11",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c11.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c12",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c12.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c13",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c13.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r03c14",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r03c14.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c00",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c00.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c01",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c01.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c02",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c02.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c03",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c03.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c04",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c04.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c05",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c05.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c06",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c06.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c07",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c07.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c08",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c08.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c09",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c09.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c10",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c10.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c11",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c11.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c12",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c12.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c13",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c13.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r04c14",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r04c14.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c00",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c00.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c01",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c01.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c02",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c02.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c03",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c03.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c04",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c04.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c05",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c05.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c06",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c06.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c07",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c07.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c08",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c08.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c09",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c09.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c10",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c10.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c11",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c11.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c12",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c12.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c13",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c13.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r05c14",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r05c14.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c00",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c00.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c01",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c01.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c02",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c02.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c03",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c03.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c04",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c04.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c05",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c05.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c06",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c06.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c07",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c07.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c08",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c08.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c09",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c09.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c10",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c10.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c11",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c11.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c12",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c12.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c13",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c13.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_exterior_building_pack_v2_scotus_exterior_building_v2_tiles_r06c14",
+            "url": "/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/tiles/r06c14.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 32,
+            "imageHeight": 32,
+            "columns": 1,
+            "rows": 1
+        },
+        {
+            "id": "tileset.scotus_floors",
+            "url": "/assets/tilesets/scotus_floors.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 512,
+            "imageHeight": 64,
+            "columns": 16,
+            "rows": 2
+        },
+        {
+            "id": "tileset.scotus_tiles",
+            "url": "/assets/tilesets/scotus_tiles.png",
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "imageWidth": 512,
+            "imageHeight": 480,
+            "columns": 16,
+            "rows": 15,
+            "key": "scotus_tiles"
+        }
+    ]
+}

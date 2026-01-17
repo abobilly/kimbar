@@ -1,24 +1,44 @@
 {
   "$schema": "../schemas/content_contract.schema.json",
   "version": "1.1.0",
-  
   "tiles": {
     "tileSize": 32,
     "subTileSize": 16,
-    "allowedTilesetWidths": [128, 256, 512, 1024],
-    "allowedTilesetHeights": [128, 256, 512, 1024, 2048]
+    "allowedTilesetWidths": [
+      128,
+      256,
+      512,
+      1024
+    ],
+    "allowedTilesetHeights": [
+      128,
+      256,
+      512,
+      1024,
+      2048
+    ]
   },
-  
   "characters": {
     "frameWidth": 64,
     "frameHeight": 64,
     "strictFrameSize": true,
     "maxFrameSize": 64,
     "oversizeAllowed": false,
-    "directions": ["down", "left", "right", "up"],
+    "directions": [
+      "down",
+      "left",
+      "right",
+      "up"
+    ],
     "requiredAnimations": [
-      "idle_down", "idle_left", "idle_right", "idle_up",
-      "walk_down", "walk_left", "walk_right", "walk_up"
+      "idle_down",
+      "idle_left",
+      "idle_right",
+      "idle_up",
+      "walk_down",
+      "walk_left",
+      "walk_right",
+      "walk_up"
     ],
     "allowedFrameCounts": {
       "idle": 1,
@@ -26,10 +46,21 @@
     },
     "anchor": "bottomCenter",
     "boundingBoxes": {
-      "base": { "w": 32, "h": 48 },
-      "clothing": { "w": 48, "h": 64 }
+      "base": {
+        "w": 32,
+        "h": 48
+      },
+      "clothing": {
+        "w": 48,
+        "h": 64
+      }
     },
-    "sheetRowOrder": ["back", "left", "front", "right"],
+    "sheetRowOrder": [
+      "back",
+      "left",
+      "front",
+      "right"
+    ],
     "directionMap": {
       "up": "back",
       "down": "front",
@@ -37,7 +68,6 @@
       "right": "right"
     }
   },
-  
   "style": {
     "lpc": {
       "grid": {
@@ -67,7 +97,6 @@
       }
     }
   },
-  
   "compositing": {
     "layerOrder": [
       "body",
@@ -80,7 +109,6 @@
       "held_item"
     ]
   },
-  
   "naming": {
     "patterns": {
       "character": "^char\\.[a-z0-9_]+$",
@@ -95,21 +123,33 @@
     "fileNaming": "snake_case",
     "tagFormat": "snake_case"
   },
-
   "aiAssets": {
     "outputDir": "generated/ai-sprites",
     "manifestPath": "generated/ai-manifest.json",
-    "allowedKinds": ["sprite", "tile", "portrait", "icon"],
+    "allowedKinds": [
+      "sprite",
+      "tile",
+      "portrait",
+      "icon"
+    ],
     "sizeConstraints": {
-      "prop": { "max": 64 },
-      "tile": { "exact": 32 },
-      "icon": { "max": 64 },
-      "portrait": { "min": 64, "max": 1024 }
+      "prop": {
+        "max": 64
+      },
+      "tile": {
+        "exact": 32
+      },
+      "icon": {
+        "max": 64
+      },
+      "portrait": {
+        "min": 64,
+        "max": 1024
+      }
     },
     "requireSeed": true,
     "requirePromptHash": true
   },
-  
   "tags": {
     "subjects": [
       "agency",
@@ -131,7 +171,6 @@
     ],
     "topicTags": []
   },
-  
   "agentBoundaries": {
     "editable": [
       "content/",
@@ -146,6 +185,11 @@
       "node_modules/",
       "public/content/art/"
     ],
+    "forbiddenExceptions": [
+      "vendor/*/README.md",
+      "vendor/*/CREDITS.md",
+      "vendor/*/LICENSE*"
+    ],
     "forbiddenNote": "Humans/agents must not hand-edit forbidden paths. Build scripts may write there.",
     "enforcementMethod": "git-diff-tracked-only",
     "requireValidation": [
@@ -153,27 +197,62 @@
       "public/content/registry.json"
     ]
   },
-  
   "ldtk": {
     "requiredEntityFields": {
-      "PlayerSpawn": ["x", "y"],
-      "NPC": ["x", "y", "inkKnot"],
-      "EncounterTrigger": ["x", "y", "deckTag", "count"],
-      "Door": ["x", "y", "targetLevel"],
-      "OutfitChest": ["x", "y", "outfitId"],
-      "Prop": ["x", "y", "sprite"]
+      "PlayerSpawn": [
+        "x",
+        "y"
+      ],
+      "NPC": [
+        "x",
+        "y",
+        "inkKnot"
+      ],
+      "EncounterTrigger": [
+        "x",
+        "y",
+        "deckTag",
+        "count"
+      ],
+      "Door": [
+        "x",
+        "y",
+        "targetLevel"
+      ],
+      "OutfitChest": [
+        "x",
+        "y",
+        "outfitId"
+      ],
+      "Prop": [
+        "x",
+        "y",
+        "sprite"
+      ]
     },
     "optionalEntityFields": {
-      "NPC": ["sprite", "name"],
-      "EncounterTrigger": ["rewardId"],
-      "Door": ["locked", "requiredItem"],
-      "Prop": ["collision", "propId"]
+      "NPC": [
+        "sprite",
+        "name"
+      ],
+      "EncounterTrigger": [
+        "rewardId"
+      ],
+      "Door": [
+        "locked",
+        "requiredItem"
+      ],
+      "Prop": [
+        "collision",
+        "propId"
+      ]
     }
   },
-  
   "policySkips": {
     "flashcards": {
-      "skipIdPrefixes": ["mpt-"],
+      "skipIdPrefixes": [
+        "mpt-"
+      ],
       "reason": "MPT cards excluded from game deck - different format"
     }
   }

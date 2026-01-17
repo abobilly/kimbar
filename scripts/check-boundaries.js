@@ -36,11 +36,11 @@ function getChangedFiles() {
     // Get staged and unstaged changes
     const staged = execSync('git diff --cached --name-only', { encoding: 'utf-8' }).trim();
     const unstaged = execSync('git diff --name-only', { encoding: 'utf-8' }).trim();
-    
+
     const files = new Set();
     if (staged) staged.split('\n').forEach(f => files.add(f));
     if (unstaged) unstaged.split('\n').forEach(f => files.add(f));
-    
+
     return [...files].filter(f => f.length > 0);
   } catch (e) {
     console.error('Warning: Could not get git diff (not a git repo or no changes)');
@@ -48,12 +48,24 @@ function getChangedFiles() {
   }
 }
 
-function matchesForbiddenPath(file, forbiddenPaths) {
+function matchesForbiddenPath(file, forbiddenPaths, exceptions = []) {
+  // Check exceptions first - if file matches an exception, allow it
+  for (const exception of exceptions) {
+    const normalizedException = exception.replace(/\\/g, '/');
+    const normalizedFile = file.replace(/\\/g, '/');
+
+    // Support glob patterns in exceptions
+    const pattern = normalizedException.replace(/\*/g, '.*');
+    if (new RegExp(`^${pattern}$`).test(normalizedFile)) {
+      return null; // Exception allows this file
+    }
+  }
+
+  // Check forbidden paths
   for (const forbidden of forbiddenPaths) {
-    // Normalize path separators
     const normalizedForbidden = forbidden.replace(/\\/g, '/');
     const normalizedFile = file.replace(/\\/g, '/');
-    
+
     if (normalizedFile.startsWith(normalizedForbidden)) {
       return forbidden;
     }
@@ -63,37 +75,38 @@ function matchesForbiddenPath(file, forbiddenPaths) {
 
 async function main() {
   console.log('🚧 Checking Agent Boundaries\n');
-  console.log('=' .repeat(50));
-  
+  console.log('='.repeat(50));
+
   // Load contract
   const contract = await loadContract();
   const forbiddenPaths = contract?.agentBoundaries?.forbidden || DEFAULT_FORBIDDEN;
-  
+  const exceptions = contract?.agentBoundaries?.forbiddenExceptions || [];
+
   console.log('\nForbidden paths:');
   forbiddenPaths.forEach(p => console.log(`  🚫 ${p}`));
-  
+
   // Get changed files
   const changedFiles = getChangedFiles();
-  
+
   if (changedFiles.length === 0) {
     console.log('\n✅ No changed files to check');
     return;
   }
-  
+
   console.log(`\nChecking ${changedFiles.length} changed file(s)...`);
-  
+
   // Check for violations
   const violations = [];
-  
+
   for (const file of changedFiles) {
-    const forbiddenMatch = matchesForbiddenPath(file, forbiddenPaths);
+    const forbiddenMatch = matchesForbiddenPath(file, forbiddenPaths, exceptions);
     if (forbiddenMatch) {
       violations.push({ file, rule: forbiddenMatch });
     }
   }
-  
-  console.log('\n' + '=' .repeat(50));
-  
+
+  console.log('\n' + '='.repeat(50));
+
   if (violations.length > 0) {
     console.log('\n❌ Boundary Violations Found:\n');
     violations.forEach(v => {
