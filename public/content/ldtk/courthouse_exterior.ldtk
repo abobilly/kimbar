@@ -363,7 +363,7 @@
                 {
                   "__identifier": "sprite",
                   "__type": "String",
-                  "__value": "reporter",
+                  "__value": "npc.reporter",
                   "__tile": null,
                   "defUid": 304,
                   "realEditorValues": []
@@ -411,7 +411,7 @@
                 {
                   "__identifier": "sprite",
                   "__type": "String",
-                  "__value": "tourist",
+                  "__value": "npc.tourist",
                   "__tile": null,
                   "defUid": 304,
                   "realEditorValues": []
@@ -1031,7 +1031,7 @@
               "__tags": [],
               "__tile": null,
               "__smartColor": "#BEBEBE",
-              "iid": "prop_lpc_door_wood_tall_arched_window_01__doorway__6",
+              "iid": "prop_lpc_door_wood_tall_arched_window_01__door_zone__6",
               "width": 32,
               "height": 32,
               "defUid": 205,

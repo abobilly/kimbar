@@ -23,7 +23,7 @@
             "properties": {
                 "name": "Court Reporter",
                 "storyKnot": "reporter_intro",
-                "sprite": "reporter"
+                "sprite": "npc.reporter"
             }
         },
         {
@@ -34,7 +34,7 @@
             "properties": {
                 "name": "Excited Tourist",
                 "storyKnot": "tourist_intro",
-                "sprite": "tourist"
+                "sprite": "npc.tourist"
             }
         },
         {

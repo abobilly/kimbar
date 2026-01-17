@@ -359,6 +359,14 @@
                   "__tile": null,
                   "defUid": 301,
                   "realEditorValues": []
+                },
+                {
+                  "__identifier": "storyKnot",
+                  "__type": "String",
+                  "__value": "court_clerk_intro",
+                  "__tile": null,
+                  "defUid": 302,
+                  "realEditorValues": []
                 }
               ]
             },

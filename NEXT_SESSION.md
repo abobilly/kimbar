@@ -27,7 +27,62 @@
 
 ---
 
-## 2. Recent Changes: Door Entry Spawn Fix (January 16, 2026)
+## 2. Recent Changes: Character Generator Script (January 17, 2026)
+
+### What Was Done
+
+- Added `scripts/create-character.js` to simplify creating new NPC specs.
+- Added `npm run create:char` convenience script.
+- Automatically generates valid JSON specs in `content/characters/` with randomized or specified LPC attributes.
+
+### How to Use
+
+```bash
+# Create a specific character
+npm run create:char "Justice Thomas" -- --body=male --role=justice
+
+# Create a randomized generic NPC
+npm run create:char "Clerk" -- --random
+
+# After creating, generate the sprite:
+npm run gen:sprites -- npc.justice_thomas
+```
+
+### New Characters Added
+
+- `npc.lawyer_defense`
+- `npc.lawyer_prosecution`
+- `npc.juror_01`
+- `npc.juror_02`
+- `npc.visitor_male`
+- `npc.visitor_female`
+- `npc.clerk`
+- `npc.reporter` (Fixed missing skirt layer)
+- `npc.tourist` (Fixed missing torso layer)
+
+### Invariants
+
+- Character IDs are normalized (e.g., "Justice Thomas" -> `npc.justice_thomas`).
+- Requires `npm run gen:sprites` to generate the actual PNGs after creation.
+- Room entities must use `storyKnot` for Ink dialogue hooks (not `inkKnot`).
+
+## 3. Recent Changes: NPC Integration (January 17, 2026)
+
+### What Was Done
+
+- Integrated `npc.reporter` and `npc.tourist` into `courthouse_exterior` and `press_room` with correct sprite references.
+- Standardized `scotus_hall_01` to use `storyKnot` instead of legacy `inkKnot` field.
+- Regenerated LDtk level files via `npm run gen:ldtk` to enforce schema consistency.
+
+### How to Use
+
+- `npm run gen:ldtk` - Regenerate all LDtk levels from `content/rooms/*.json` specs.
+- `npm run validate` - Check for broken references or schema violations.
+
+### Invariants/Hazards
+
+- `scripts/generate-ldtk-levels.mjs` is the source of truth for LDtk structure; do not manually edit LDtk files in `public/content/ldtk/` as they will be overwritten.
+- Use `storyKnot` property for NPCs to link to Ink dialogue knots.
 
 ### What Was Done
 
@@ -42,6 +97,31 @@
 ### Invariants/Hazards
 
 - Rooms with interior (non-edge) doors may map to the nearest edge side; keep doors on edges for deterministic entry placement.
+
+## 3. Recent Changes: Sprite Size Validation (January 16, 2026)
+
+### What Was Done
+
+- Created `check_sprite_sizes.py` to validate all generated sprites follow 32x32 unit conventions for tile-based games.
+- Mapped all existing sprites to their expected dimensions:
+  - Small items: 32x32 (most props)
+  - Tall items: 32x64 (bookshelves, file cabinets, flag stands)
+  - Wide items: 64x32 (tables, benches, whiteboards)
+  - Large items: 64x64 (conference tables, witness stands, NPCs)
+  - Special sizes: court seal (48x48), exit sign (32x16), microphone (16x32), etc.
+- Updated large item generation in `make_icons.py` to use correct dimensions (cafeteria_table 64x32, menu_board 32x64).
+
+### How to Use
+
+- Run `python check_sprite_sizes.py` to validate sprite sizes after generation.
+- Script checks both generation flow (palettes, directories) and size compliance.
+- All sprites now have documented expected sizes for consistency.
+
+### Invariants/Hazards
+
+- Maintain size conventions when adding new sprites: small=32x32, tall=32x64, wide=64x32, large=64x64.
+- Update `EXPECTED_SIZES` dict in `check_sprite_sizes.py` when adding new sprites.
+- Validation ensures tile-based compatibility for Phaser game integration.
 
 ## 4. Recent Changes: Generated Missing LDtk Props (January 16, 2026)
 
@@ -83,7 +163,7 @@
 - Cleaned chair silhouettes via scripted hole-fill pass; outputs in `tmp/tiles_clean` for review (no changes to `generated/` or `public/generated/`)
 - Generated HF chair variants for comparison: `tmp/tiles_hf64_raw` + downscaled `tmp/tiles_hf64`, and chroma-key experiment in `tmp/tiles_keyed_raw` -> `tmp/tiles_keyed`
 
-## 2. Recent Changes: LPC Asset Imports (January 16, 2026)
+## 5. Recent Changes: LPC Asset Imports (January 16, 2026)
 
 ### What Was Done
 

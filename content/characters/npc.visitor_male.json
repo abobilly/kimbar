@@ -1,0 +1,122 @@
+{
+    "$schema": "../../schemas/CharacterSpec.schema.json",
+    "id": "npc.visitor_male",
+    "name": "Visitor Male",
+    "description": "Auto-generated character: Visitor Male",
+    "ulpcArgs": {
+        "body": "male",
+        "skin": "bronze",
+        "hair": "pixie",
+        "hairColor": "gray",
+        "torso": "longsleeve/longsleeve",
+        "torsoColor": "navy",
+        "legs": "pants",
+        "legsColor": "blue",
+        "feet": "boots",
+        "feetColor": "black"
+    },
+    "animations": [
+        "idle_down",
+        "idle_left",
+        "idle_right",
+        "idle_up",
+        "walk_down",
+        "walk_left",
+        "walk_right",
+        "walk_up"
+    ],
+    "anims": {
+        "idle_up": {
+            "frames": [
+                91
+            ],
+            "frameRate": 1,
+            "repeat": 0
+        },
+        "idle_left": {
+            "frames": [
+                104
+            ],
+            "frameRate": 1,
+            "repeat": 0
+        },
+        "idle_down": {
+            "frames": [
+                117
+            ],
+            "frameRate": 1,
+            "repeat": 0
+        },
+        "idle_right": {
+            "frames": [
+                130
+            ],
+            "frameRate": 1,
+            "repeat": 0
+        },
+        "walk_up": {
+            "frames": [
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99
+            ],
+            "frameRate": 10,
+            "repeat": -1
+        },
+        "walk_left": {
+            "frames": [
+                104,
+                105,
+                106,
+                107,
+                108,
+                109,
+                110,
+                111,
+                112
+            ],
+            "frameRate": 10,
+            "repeat": -1
+        },
+        "walk_down": {
+            "frames": [
+                117,
+                118,
+                119,
+                120,
+                121,
+                122,
+                123,
+                124,
+                125
+            ],
+            "frameRate": 10,
+            "repeat": -1
+        },
+        "walk_right": {
+            "frames": [
+                130,
+                131,
+                132,
+                133,
+                134,
+                135,
+                136,
+                137,
+                138
+            ],
+            "frameRate": 10,
+            "repeat": -1
+        }
+    },
+    "metadata": {
+        "role": "visitor",
+        "generated": true
+    }
+}
