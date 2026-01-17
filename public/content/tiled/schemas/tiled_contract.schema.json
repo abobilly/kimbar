@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "tiled_contract.schema.json",
+  "title": "TiledTilesetContract",
+  "type": "object",
+  "required": ["version", "tileSize", "atlases", "tiles"],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "tileSize": {
+      "type": "integer",
+      "enum": [32]
+    },
+    "atlases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "tsxPath", "maxWidth", "maxHeight", "columns"],
+        "properties": {
+          "id": { "type": "string" },
+          "path": { "type": "string" },
+          "tsxPath": { "type": "string" },
+          "maxWidth": { "type": "integer" },
+          "maxHeight": { "type": "integer" },
+          "columns": { "type": "integer" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "tiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "atlas", "tileIndex", "category"],
+        "properties": {
+          "id": { "type": "string" },
+          "atlas": { "type": "string" },
+          "tileIndex": { "type": "integer", "minimum": 0 },
+          "category": { "type": "string" },
+          "sourceAtlas": { "type": "string" },
+          "sourceRect": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 4,
+            "maxItems": 4
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

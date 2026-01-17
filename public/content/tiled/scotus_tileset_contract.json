@@ -1,0 +1,608 @@
+{
+  "version": "1.0.0",
+  "tileSize": 32,
+  "atlases": [
+    {
+      "id": "scotus_floors",
+      "path": "tiles/scotus_floors.png",
+      "tsxPath": "tilesets/scotus_floors.tsx",
+      "maxWidth": 2048,
+      "maxHeight": 2048,
+      "columns": 16
+    },
+    {
+      "id": "scotus_structures",
+      "path": "tiles/scotus_structures.png",
+      "tsxPath": "tilesets/scotus_structures.tsx",
+      "maxWidth": 2048,
+      "maxHeight": 2048,
+      "columns": 16
+    },
+    {
+      "id": "scotus_decor",
+      "path": "tiles/scotus_decor.png",
+      "tsxPath": "tilesets/scotus_decor.tsx",
+      "maxWidth": 2048,
+      "maxHeight": 2048,
+      "columns": 16
+    }
+  ],
+  "tiles": [
+    {
+      "id": "tile.scotus_floors.0000",
+      "atlas": "scotus_floors",
+      "tileIndex": 0,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0001",
+      "atlas": "scotus_floors",
+      "tileIndex": 1,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0002",
+      "atlas": "scotus_floors",
+      "tileIndex": 2,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0003",
+      "atlas": "scotus_floors",
+      "tileIndex": 3,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0004",
+      "atlas": "scotus_floors",
+      "tileIndex": 4,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0005",
+      "atlas": "scotus_floors",
+      "tileIndex": 5,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0006",
+      "atlas": "scotus_floors",
+      "tileIndex": 6,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0007",
+      "atlas": "scotus_floors",
+      "tileIndex": 7,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0008",
+      "atlas": "scotus_floors",
+      "tileIndex": 8,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0009",
+      "atlas": "scotus_floors",
+      "tileIndex": 9,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0010",
+      "atlas": "scotus_floors",
+      "tileIndex": 10,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0011",
+      "atlas": "scotus_floors",
+      "tileIndex": 11,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0012",
+      "atlas": "scotus_floors",
+      "tileIndex": 12,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0013",
+      "atlas": "scotus_floors",
+      "tileIndex": 13,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0014",
+      "atlas": "scotus_floors",
+      "tileIndex": 14,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0015",
+      "atlas": "scotus_floors",
+      "tileIndex": 15,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0016",
+      "atlas": "scotus_floors",
+      "tileIndex": 16,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0017",
+      "atlas": "scotus_floors",
+      "tileIndex": 17,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0018",
+      "atlas": "scotus_floors",
+      "tileIndex": 18,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0019",
+      "atlas": "scotus_floors",
+      "tileIndex": 19,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0020",
+      "atlas": "scotus_floors",
+      "tileIndex": 20,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0021",
+      "atlas": "scotus_floors",
+      "tileIndex": 21,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0022",
+      "atlas": "scotus_floors",
+      "tileIndex": 22,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0023",
+      "atlas": "scotus_floors",
+      "tileIndex": 23,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0024",
+      "atlas": "scotus_floors",
+      "tileIndex": 24,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0025",
+      "atlas": "scotus_floors",
+      "tileIndex": 25,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0026",
+      "atlas": "scotus_floors",
+      "tileIndex": 26,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0027",
+      "atlas": "scotus_floors",
+      "tileIndex": 27,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0028",
+      "atlas": "scotus_floors",
+      "tileIndex": 28,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0029",
+      "atlas": "scotus_floors",
+      "tileIndex": 29,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0030",
+      "atlas": "scotus_floors",
+      "tileIndex": 30,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_floors.0031",
+      "atlas": "scotus_floors",
+      "tileIndex": 31,
+      "category": "floors"
+    },
+    {
+      "id": "tile.scotus_structures.0000",
+      "atlas": "scotus_structures",
+      "tileIndex": 0,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0001",
+      "atlas": "scotus_structures",
+      "tileIndex": 1,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0002",
+      "atlas": "scotus_structures",
+      "tileIndex": 2,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0003",
+      "atlas": "scotus_structures",
+      "tileIndex": 3,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0004",
+      "atlas": "scotus_structures",
+      "tileIndex": 4,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0005",
+      "atlas": "scotus_structures",
+      "tileIndex": 5,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0006",
+      "atlas": "scotus_structures",
+      "tileIndex": 6,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0007",
+      "atlas": "scotus_structures",
+      "tileIndex": 7,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0008",
+      "atlas": "scotus_structures",
+      "tileIndex": 8,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0009",
+      "atlas": "scotus_structures",
+      "tileIndex": 9,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0010",
+      "atlas": "scotus_structures",
+      "tileIndex": 10,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0011",
+      "atlas": "scotus_structures",
+      "tileIndex": 11,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0012",
+      "atlas": "scotus_structures",
+      "tileIndex": 12,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0013",
+      "atlas": "scotus_structures",
+      "tileIndex": 13,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0014",
+      "atlas": "scotus_structures",
+      "tileIndex": 14,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0015",
+      "atlas": "scotus_structures",
+      "tileIndex": 15,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0016",
+      "atlas": "scotus_structures",
+      "tileIndex": 16,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0017",
+      "atlas": "scotus_structures",
+      "tileIndex": 17,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0018",
+      "atlas": "scotus_structures",
+      "tileIndex": 18,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0019",
+      "atlas": "scotus_structures",
+      "tileIndex": 19,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0020",
+      "atlas": "scotus_structures",
+      "tileIndex": 20,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0021",
+      "atlas": "scotus_structures",
+      "tileIndex": 21,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0022",
+      "atlas": "scotus_structures",
+      "tileIndex": 22,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0023",
+      "atlas": "scotus_structures",
+      "tileIndex": 23,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0024",
+      "atlas": "scotus_structures",
+      "tileIndex": 24,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0025",
+      "atlas": "scotus_structures",
+      "tileIndex": 25,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0026",
+      "atlas": "scotus_structures",
+      "tileIndex": 26,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0027",
+      "atlas": "scotus_structures",
+      "tileIndex": 27,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0028",
+      "atlas": "scotus_structures",
+      "tileIndex": 28,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0029",
+      "atlas": "scotus_structures",
+      "tileIndex": 29,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0030",
+      "atlas": "scotus_structures",
+      "tileIndex": 30,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0031",
+      "atlas": "scotus_structures",
+      "tileIndex": 31,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0032",
+      "atlas": "scotus_structures",
+      "tileIndex": 32,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0033",
+      "atlas": "scotus_structures",
+      "tileIndex": 33,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0034",
+      "atlas": "scotus_structures",
+      "tileIndex": 34,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0035",
+      "atlas": "scotus_structures",
+      "tileIndex": 35,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0036",
+      "atlas": "scotus_structures",
+      "tileIndex": 36,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0037",
+      "atlas": "scotus_structures",
+      "tileIndex": 37,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0038",
+      "atlas": "scotus_structures",
+      "tileIndex": 38,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0039",
+      "atlas": "scotus_structures",
+      "tileIndex": 39,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0040",
+      "atlas": "scotus_structures",
+      "tileIndex": 40,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0041",
+      "atlas": "scotus_structures",
+      "tileIndex": 41,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0042",
+      "atlas": "scotus_structures",
+      "tileIndex": 42,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0043",
+      "atlas": "scotus_structures",
+      "tileIndex": 43,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0044",
+      "atlas": "scotus_structures",
+      "tileIndex": 44,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0045",
+      "atlas": "scotus_structures",
+      "tileIndex": 45,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0046",
+      "atlas": "scotus_structures",
+      "tileIndex": 46,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_structures.0047",
+      "atlas": "scotus_structures",
+      "tileIndex": 47,
+      "category": "structures"
+    },
+    {
+      "id": "tile.scotus_decor.0000",
+      "atlas": "scotus_decor",
+      "tileIndex": 0,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0001",
+      "atlas": "scotus_decor",
+      "tileIndex": 1,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0002",
+      "atlas": "scotus_decor",
+      "tileIndex": 2,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0003",
+      "atlas": "scotus_decor",
+      "tileIndex": 3,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0004",
+      "atlas": "scotus_decor",
+      "tileIndex": 4,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0005",
+      "atlas": "scotus_decor",
+      "tileIndex": 5,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0006",
+      "atlas": "scotus_decor",
+      "tileIndex": 6,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0007",
+      "atlas": "scotus_decor",
+      "tileIndex": 7,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0008",
+      "atlas": "scotus_decor",
+      "tileIndex": 8,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0009",
+      "atlas": "scotus_decor",
+      "tileIndex": 9,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0010",
+      "atlas": "scotus_decor",
+      "tileIndex": 10,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0011",
+      "atlas": "scotus_decor",
+      "tileIndex": 11,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0012",
+      "atlas": "scotus_decor",
+      "tileIndex": 12,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0013",
+      "atlas": "scotus_decor",
+      "tileIndex": 13,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0014",
+      "atlas": "scotus_decor",
+      "tileIndex": 14,
+      "category": "decor"
+    },
+    {
+      "id": "tile.scotus_decor.0015",
+      "atlas": "scotus_decor",
+      "tileIndex": 15,
+      "category": "decor"
+    }
+  ]
+}
