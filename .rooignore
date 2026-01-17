@@ -3,8 +3,9 @@ public/assets/**
 public/generated/**
 generated/**
 dist/**
-.next/**
 build/**
+.vite/**
+.next/**
 vendor/**
 node_modules/**
 coverage/**
@@ -14,5 +15,6 @@ test-results/**
 tmp/**
 **/.DS_Store
 **/__MACOSX/**
+**/._*
 **/*.png
 **/*.aseprite

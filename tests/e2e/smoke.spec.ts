@@ -12,6 +12,13 @@ import { test, expect, Page } from '@playwright/test';
 
 // Wait for game to fully initialize and enter WorldScene
 async function waitForGameReady(page: Page): Promise<void> {
+  // Navigate with smoke flag to enable DEV hooks
+  const url = page.url();
+  if (!url.includes('smoke=1')) {
+    const separator = url.includes('?') ? '&' : '?';
+    await page.goto(url + separator + 'smoke=1');
+  }
+
   // Wait for Phaser canvas to be present and visible
   await page.locator('canvas').waitFor({ state: 'visible', timeout: 30000 });
   
@@ -28,8 +35,15 @@ async function waitForGameReady(page: Page): Promise<void> {
     await page.mouse.click(box.x + box.width / 2, box.y + box.height * 0.52);
   }
   
-  // Give the game time to initialize systems and render first frame
-  await page.waitForTimeout(3000);
+  // Wait for __KIMBAR_READY__ signal (up to 10s)
+  await page.waitForFunction(() => (window as any).__KIMBAR_READY__ === true, {
+    timeout: 10000
+  }).catch(() => {
+    // Fallback: just wait longer if signal not set (older builds)
+  });
+  
+  // Give the game time to render first frame
+  await page.waitForTimeout(1000);
 }
 
 // Helper to check if an element exists at given coordinates

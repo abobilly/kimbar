@@ -1,15 +1,9 @@
-# Content Pipeline
+# Deprecated rule file
 
-| Type | Authored | Generated | Runtime URL |
-|------|----------|-----------|-------------|
-| Characters | `content/characters/*.json` | `generated/characters/*.json` | registry |
-| Rooms | `content/rooms/*.json` | — | `/content/ldtk/*.json` |
-| Ink | `content/ink/*.ink` | `generated/ink/*.json` | registry |
-| Flashcards | `public/content/cards/*.json` | — | `/content/cards/*.json` |
-| Sprites | char specs | `generated/sprites/*.png` | registry |
+Content governance now lives across:
+- UI expectations (`02_UI.md`)
+- Door contracts (`03_WORLD_DOORS.md`)
+- Prop registry policy (`04_PROPS_ASSETS.md`)
+- Verification gates (`01_GATES.md`)
 
-## Rules
-
-- Registry arrays sorted alphabetically by ID
-- Schemas in `schemas/*.schema.json`
-- Validate: `npm run validate`
+This stub remains to redirect legacy references. Consult `docs/INVARIANTS.md` for full pipeline details.

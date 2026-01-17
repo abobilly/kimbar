@@ -1,1 +1,89 @@
-{"mcpServers":{"context7":{"command":"npx","args":["-y","@upstash/context7-mcp"],"env":{"DEFAULT_MINIMUM_TOKENS":""},"alwaysAllow":["resolve-library-id","query-docs"],"disabled":true},"sequentialthinking":{"command":"npx","args":["-y","@modelcontextprotocol/server-sequential-thinking"],"alwaysAllow":["sequentialthinking"],"disabled":true},"cloudflare":{"command":"npx","args":["mcp-remote","https://observability.mcp.cloudflare.com/sse"],"disabled":true,"alwaysAllow":["accounts_list","set_active_account","workers_list","workers_get_worker","workers_get_worker_code","query_worker_observability","observability_keys","observability_values","search_cloudflare_documentation","migrate_pages_to_workers_guide"]}}}
+{
+  "mcpServers": {
+    "kimbar-repo": {
+      "command": "node",
+      "args": [
+        "tools/mcp-repo/dist/index.js"
+      ],
+      "alwaysAllow": [
+        "repo.search",
+        "repo.lookup",
+        "repo.reindex",
+        "repo.status",
+        "repo.find"
+      ]
+    },
+    "kimbar-flashcards": {
+      "command": "node",
+      "args": [
+        "tools/mcp-flashcards/dist/index.js"
+      ],
+      "alwaysAllow": [
+        "flashcards.search",
+        "flashcards.sync",
+        "flashcards.byCategory",
+        "flashcards.status"
+      ]
+    },
+    "kimbar-gates": {
+      "command": "node",
+      "args": [
+        "tools/mcp-gates/dist/index.js"
+      ],
+      "alwaysAllow": [
+        "kimbar.check",
+        "kimbar.checkFast",
+        "kimbar.verify",
+        "kimbar.prepare",
+        "kimbar.test",
+        "kimbar.build"
+      ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "env": {
+        "DEFAULT_MINIMUM_TOKENS": ""
+      },
+      "alwaysAllow": [
+        "resolve-library-id",
+        "query-docs"
+      ],
+      "disabled": true
+    },
+    "sequentialthinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "alwaysAllow": [
+        "sequentialthinking"
+      ],
+      "disabled": true
+    },
+    "cloudflare": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://observability.mcp.cloudflare.com/sse"
+      ],
+      "disabled": true,
+      "alwaysAllow": [
+        "accounts_list",
+        "set_active_account",
+        "workers_list",
+        "workers_get_worker",
+        "workers_get_worker_code",
+        "query_worker_observability",
+        "observability_keys",
+        "observability_values",
+        "search_cloudflare_documentation",
+        "migrate_pages_to_workers_guide"
+      ]
+    }
+  }
+}

@@ -108,6 +108,12 @@ export class WorldScene extends Scene {
 
     // Handle resize
     this.scale.on('resize', this.onResize, this);
+
+    // DEV hooks for Playwright smoke tests
+    if (import.meta.env.DEV || new URLSearchParams(window.location.search).has('smoke')) {
+      (window as any).__KIMBAR_READY__ = true;
+      (window as any).__KIMBAR_SCENE__ = levelId;
+    }
   }
 
   /**

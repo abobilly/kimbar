@@ -3,6 +3,8 @@
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
+>
+> **Roo Update Format:** append entries with `What changed` (files list), `What’s next`, and `Gates run / not run (with reasons)` after every subtask.
 
 ---
 
@@ -139,6 +141,75 @@ Three layers prevent `__MACOSX` and `._*` files from polluting the repo:
 
 ---
 
+## 2. Recent Changes: MCP Tooling Infrastructure (January 17, 2026)
+
+### What Was Done
+
+Implemented three MCP servers with Qdrant-backed semantic search:
+
+**MCP Servers Created:**
+- `tools/mcp-repo/` — Semantic code search across repository
+  - Tools: `repo.search`, `repo.lookup`, `repo.reindex`, `repo.status`, `repo.find`
+- `tools/mcp-flashcards/` — Flashcard search and sync from Cloudflare API
+  - Tools: `flashcards.search`, `flashcards.sync`, `flashcards.byCategory`, `flashcards.status`
+- `tools/mcp-gates/` — Verification gate runner
+  - Tools: `kimbar.check`, `kimbar.checkFast`, `kimbar.verify`, `kimbar.prepare`, `kimbar.test`, `kimbar.build`
+
+**Qdrant Collections:**
+- `kimbar_repo_v1_3072` — Repository code chunks (3072 dims, Cosine)
+- `kimbar_flashcards_v1_3072` — Bar exam flashcards (3072 dims, Cosine)
+
+**Configuration:**
+- `.env` — Qdrant URL, API key, OpenAI embedding config
+- `.vscode/mcp.json` — VS Code Copilot MCP config
+- `.roo/mcp.json` — Roo MCP config with allowlisted tools
+- `.roo/rules/00_READ_FIRST.md` — MCP Policy (allowlist: `repo.*`, `flashcards.*`, `kimbar.*`)
+
+**DEV Hooks Added:**
+- `window.__KIMBAR_READY__` — Set to `true` when WorldScene is fully initialized
+- `window.__KIMBAR_SCENE__` — Current level ID
+- `?smoke=1` URL param enables DEV hooks in production
+
+**Playwright Smoke Tests:**
+- `tests/e2e/smoke.spec.ts` — Updated to use `__KIMBAR_READY__` signal
+- `tests/e2e/ui-smoke.spec.ts` — New screenshot-based UI smoke test
+
+### How to Use
+
+```bash
+# Build all MCP servers
+cd tools/mcp-repo && npm install && npm run build
+cd tools/mcp-flashcards && npm install && npm run build
+cd tools/mcp-gates && npm install && npm run build
+
+# Index repository to Qdrant (run once, then periodically)
+# Via VS Code Copilot: use repo.reindex tool
+# Via Roo: repo.reindex tool
+
+# Sync flashcards from API
+# Via VS Code Copilot: use flashcards.sync tool
+
+# Run UI smoke tests with screenshots
+npx playwright test ui-smoke.spec.ts
+# Screenshots saved to artifacts/ui-smoke/
+```
+
+### MCP Tool Allowlist
+
+Only these MCP tools are permitted (see `.roo/rules/00_READ_FIRST.md`):
+- `repo.search`, `repo.lookup`, `repo.reindex`, `repo.status`, `repo.find`
+- `flashcards.search`, `flashcards.sync`, `flashcards.byCategory`, `flashcards.status`
+- `kimbar.check`, `kimbar.checkFast`, `kimbar.verify`, `kimbar.prepare`, `kimbar.test`, `kimbar.build`
+
+### Invariants/Hazards
+
+- MCP servers must be built before use: `npm run build` in each `tools/mcp-*` directory
+- Qdrant collections use `text-embedding-3-large` (3072 dims) — do not change
+- `.env` is gitignored; each dev must create their own from `.env.example`
+- DEV hooks only active in dev mode or with `?smoke=1` param
+
+---
+
 ## 2. Recent Changes: MCP Tooling Constraint (January 17, 2026)
 
 ### What Was Done
@@ -153,6 +224,27 @@ Three layers prevent `__MACOSX` and `._*` files from polluting the repo:
 ### Invariants/Hazards
 
 - MCP servers (including pixel-mcp) are off-limits for work in this repo.
+
+## 2. Recent Changes: Roo Automation Spine (January 17, 2026)
+
+### What Was Done
+
+- Added `.rooignore` entries for build artifacts, generated content, and macOS resource forks.
+- Replaced the legacy rule set with `00_READ_FIRST.md`, `01_GATES.md`, `02_UI.md`, `03_WORLD_DOORS.md`, and `04_PROPS_ASSETS.md`.
+- Created `docs/ROO_KICKOFF.md` containing the mandatory kickoff message and phased roadmap (UI → Doors → Props).
+- Stubbed the legacy rule files to redirect agents toward the new structure.
+
+### How to Use
+
+- Start every Roo session by pasting the kickoff message from `docs/ROO_KICKOFF.md`.
+- Follow the phase order: Phase A (UI), Phase B (Door validator), Phase C (Prop registry).
+- After each subtask, append to this document using the `What changed / What’s next / Gates run` format.
+
+### Invariants/Hazards
+
+- Do not bypass the verification commands listed in `01_GATES.md`.
+- Keep UI work isolated to `UIScene` and RexUI primitives as outlined in `02_UI.md`.
+- Door and prop edits must have validators in place before manual changes.
 
 ## 2. Recent Changes: Character Generator Script (January 17, 2026)
 

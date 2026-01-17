@@ -35,7 +35,9 @@ public/generated/**
 public/assets/props/**
 
 # Local environment
+.env
 .env.local
+.env.*
 
 # Vendor assets (downloaded on demand, except README)
 vendor/**
@@ -47,6 +49,16 @@ public/content/cards/*.json
 
 .bounce.*
 .ai.patch
+
+# Playwright smoke test artifacts
+artifacts/
+artifacts/ui-smoke/
+playwright-report/
+test-results/
+
+# MCP server build outputs
+tools/mcp-*/dist/
+tools/mcp-*/node_modules/
 
 .gemini/
 gha-creds-*.json
