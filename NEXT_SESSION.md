@@ -37,6 +37,7 @@
 ### Notes
 
 - If these are accepted, copy from `tmp/tiles` into the normal pipeline output and run `npm run sync:public`
+- Cleaned chair silhouettes via scripted hole-fill pass; outputs in `tmp/tiles_clean` for review (no changes to `generated/` or `public/generated/`)
 
 ## 2. Recent Changes: SCOTUS Tileset Generation (January 17, 2026)
 

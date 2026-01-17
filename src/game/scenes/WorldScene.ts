@@ -540,22 +540,96 @@ export class WorldScene extends Scene {
     if (!level.floorGrid || !level.gridWidth || !level.gridHeight) return;
 
     const tileSize = level.tileSize || 32;
+    const width = level.gridWidth;
+    const height = level.gridHeight;
 
-    // SCOTUS tileset floor tile indices (first 4 tiles are marble variants)
-    // Use these to add visual variety instead of showing the same tile everywhere
-    const marbleFloorTiles = [0, 1, 2, 3]; // white marble variants
+    // SCOTUS tileset tile indices (from scotus_tiles.json)
+    // Floor tiles (indices 0-5)
+    const TILES = {
+      MARBLE_BASE: 0,
+      MARBLE_VARIANTS: [0, 1, 2, 3],
+      MARBLE_CRACK: 4,
+      MARBLE_BLACK: 5,
+      // Wall tiles (indices 23-30) - interior stone
+      WALL_STRAIGHT: 23,
+      WALL_CORNER_OUTER: 24,
+      WALL_CORNER_INNER: 25,
+      WALL_ENDCAP: 26,
+      // Trim/edge tiles (indices 6-22)
+      TRIM_EDGE_N: 6,
+      TRIM_EDGE_E: 7,
+      TRIM_EDGE_S: 8,
+      TRIM_EDGE_W: 9,
+      TRIM_CORNER_NE: 10,
+      TRIM_CORNER_NW: 11,
+      TRIM_CORNER_SE: 12,
+      TRIM_CORNER_SW: 13,
+      // Grass tiles (for exterior)
+      GRASS_BASE: 167, // tile.ground.grass_base index
+    };
 
-    // Convert 1D intGrid to 2D array for Phaser tilemap
-    // intGrid value 1 = "floor", we map to random marble tiles for variety
+    // IntGrid values from LDtk
+    const INT = { EMPTY: 0, FLOOR: 1, WALL: 2, GRASS: 3 };
+
+    // Helper to check neighbor values
+    const getCell = (x: number, y: number): number => {
+      if (x < 0 || x >= width || y < 0 || y >= height) return INT.WALL; // Treat out-of-bounds as wall
+      return level.floorGrid![y * width + x];
+    };
+
+    // Helper to determine if cell is walkable (floor or grass)
+    const isWalkable = (val: number) => val === INT.FLOOR || val === INT.GRASS;
+
+    // Convert intGrid to tile indices with smart edge detection
     const floorData: number[][] = [];
-    for (let y = 0; y < level.gridHeight; y++) {
+    for (let y = 0; y < height; y++) {
       const row: number[] = [];
-      for (let x = 0; x < level.gridWidth; x++) {
-        const intVal = level.floorGrid[y * level.gridWidth + x];
-        if (intVal === 1) {
-          // Pick a random marble tile, but use position-based seed for consistency
-          const seed = (x * 7 + y * 13) % marbleFloorTiles.length;
-          row.push(marbleFloorTiles[seed] + 1); // +1 because Phaser uses 0 as empty
+      for (let x = 0; x < width; x++) {
+        const intVal = level.floorGrid[y * width + x];
+        
+        if (intVal === INT.EMPTY) {
+          row.push(0); // Empty tile
+        } else if (intVal === INT.WALL) {
+          // Wall tile - use wall sprite
+          row.push(TILES.WALL_STRAIGHT + 1);
+        } else if (intVal === INT.GRASS) {
+          // Grass tile
+          row.push(TILES.GRASS_BASE + 1);
+        } else if (intVal === INT.FLOOR) {
+          // Floor tile - check for edges to add trim
+          const n = getCell(x, y - 1);
+          const s = getCell(x, y + 1);
+          const e = getCell(x + 1, y);
+          const w = getCell(x - 1, y);
+
+          // Check if this floor tile is at an edge (adjacent to wall/empty)
+          const atNorth = !isWalkable(n);
+          const atSouth = !isWalkable(s);
+          const atEast = !isWalkable(e);
+          const atWest = !isWalkable(w);
+
+          // Use trim tiles for edges
+          if (atNorth && atWest) {
+            row.push(TILES.TRIM_CORNER_NW + 1);
+          } else if (atNorth && atEast) {
+            row.push(TILES.TRIM_CORNER_NE + 1);
+          } else if (atSouth && atWest) {
+            row.push(TILES.TRIM_CORNER_SW + 1);
+          } else if (atSouth && atEast) {
+            row.push(TILES.TRIM_CORNER_SE + 1);
+          } else if (atNorth) {
+            row.push(TILES.TRIM_EDGE_N + 1);
+          } else if (atSouth) {
+            row.push(TILES.TRIM_EDGE_S + 1);
+          } else if (atEast) {
+            row.push(TILES.TRIM_EDGE_E + 1);
+          } else if (atWest) {
+            row.push(TILES.TRIM_EDGE_W + 1);
+          } else {
+            // Interior floor - use marble variants
+            const seed = (x * 7 + y * 13) % TILES.MARBLE_VARIANTS.length;
+            row.push(TILES.MARBLE_VARIANTS[seed] + 1);
+          }
         } else {
           row.push(intVal);
         }
@@ -588,7 +662,7 @@ export class WorldScene extends Scene {
     const floorLayer = map.createLayer(0, tileset, 0, 0);
     if (floorLayer) {
       floorLayer.setDepth(-10);
-      console.log('[WorldScene] Rendered floor tilemap:', level.gridWidth, 'x', level.gridHeight, '(SCOTUS tiles)');
+      console.log('[WorldScene] Rendered floor tilemap:', level.gridWidth, 'x', level.gridHeight, '(SCOTUS tiles with walls/trim)');
     }
   }
 

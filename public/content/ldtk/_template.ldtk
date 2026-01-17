@@ -88,9 +88,7 @@
             "identifier": "Ground",
             "color": "#7f7f7f"
           }
-        ],
-        "tilesetDefUid": 500,
-        "autoTilesetDefUid": 500
+        ]
       }
     ],
     "entities": [
@@ -250,27 +248,7 @@
         ]
       }
     ],
-    "tilesets": [
-      {
-        "__cWid": 16,
-        "__cHei": 15,
-        "identifier": "SCOTUS_Tiles",
-        "uid": 500,
-        "relPath": "../../generated/tilesets/scotus_tiles.png",
-        "embedAtlas": null,
-        "pxWid": 512,
-        "pxHei": 480,
-        "tileGridSize": 32,
-        "spacing": 0,
-        "padding": 0,
-        "tags": [],
-        "tagsSourceEnumUid": null,
-        "enumTags": [],
-        "customData": [],
-        "savedSelections": [],
-        "cachedPixelData": null
-      }
-    ],
+    "tilesets": [],
     "enums": [],
     "externalEnums": [],
     "levelFields": []
