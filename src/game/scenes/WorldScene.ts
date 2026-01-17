@@ -571,12 +571,16 @@ export class WorldScene extends Scene {
     });
 
     // Add tileset image - prefer SCOTUS tiles, fall back to LPC floors
-    let tileset = map.addTilesetImage('scotus_tiles');
-    if (!tileset) {
-      tileset = map.addTilesetImage('floor_tiles');
+    // For dynamic tilemaps, pass (tilesetName, textureKey) - both must match what Phaser has loaded
+    let tileset = this.textures.exists('scotus_tiles') 
+      ? map.addTilesetImage('scotus_tiles', 'scotus_tiles')
+      : null;
+    if (!tileset && this.textures.exists('floor_tiles')) {
+      tileset = map.addTilesetImage('floor_tiles', 'floor_tiles');
     }
     if (!tileset) {
-      console.warn('[WorldScene] No tileset loaded (tried scotus_tiles, floor_tiles)');
+      console.warn('[WorldScene] No tileset texture loaded (tried scotus_tiles, floor_tiles)');
+      console.warn('[WorldScene] Available textures:', this.textures.getTextureKeys().filter(k => k.includes('tile')));
       return;
     }
 
