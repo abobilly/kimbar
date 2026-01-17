@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../pixel-mcp-server"
+		}
+	],
+	"settings": {}
+}

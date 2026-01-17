@@ -541,12 +541,24 @@ export class WorldScene extends Scene {
 
     const tileSize = level.tileSize || 32;
 
+    // SCOTUS tileset floor tile indices (first 4 tiles are marble variants)
+    // Use these to add visual variety instead of showing the same tile everywhere
+    const marbleFloorTiles = [0, 1, 2, 3]; // white marble variants
+
     // Convert 1D intGrid to 2D array for Phaser tilemap
+    // intGrid value 1 = "floor", we map to random marble tiles for variety
     const floorData: number[][] = [];
     for (let y = 0; y < level.gridHeight; y++) {
       const row: number[] = [];
       for (let x = 0; x < level.gridWidth; x++) {
-        row.push(level.floorGrid[y * level.gridWidth + x]);
+        const intVal = level.floorGrid[y * level.gridWidth + x];
+        if (intVal === 1) {
+          // Pick a random marble tile, but use position-based seed for consistency
+          const seed = (x * 7 + y * 13) % marbleFloorTiles.length;
+          row.push(marbleFloorTiles[seed] + 1); // +1 because Phaser uses 0 as empty
+        } else {
+          row.push(intVal);
+        }
       }
       floorData.push(row);
     }
@@ -558,10 +570,13 @@ export class WorldScene extends Scene {
       tileHeight: tileSize
     });
 
-    // Add tileset image (first tile in tileset maps to index 1)
-    const tileset = map.addTilesetImage('floor_tiles');
+    // Add tileset image - prefer SCOTUS tiles, fall back to LPC floors
+    let tileset = map.addTilesetImage('scotus_tiles');
     if (!tileset) {
-      console.warn('[WorldScene] floor_tiles tileset not loaded');
+      tileset = map.addTilesetImage('floor_tiles');
+    }
+    if (!tileset) {
+      console.warn('[WorldScene] No tileset loaded (tried scotus_tiles, floor_tiles)');
       return;
     }
 
@@ -569,7 +584,7 @@ export class WorldScene extends Scene {
     const floorLayer = map.createLayer(0, tileset, 0, 0);
     if (floorLayer) {
       floorLayer.setDepth(-10);
-      console.log('[WorldScene] Rendered floor tilemap:', level.gridWidth, 'x', level.gridHeight);
+      console.log('[WorldScene] Rendered floor tilemap:', level.gridWidth, 'x', level.gridHeight, '(SCOTUS tiles)');
     }
   }
 
