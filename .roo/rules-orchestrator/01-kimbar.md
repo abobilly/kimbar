@@ -1,6 +1,6 @@
 # Orchestrator Mode — Kimbar
 
-- Follow MARKDOWN RULES: wrap every filename/function reference as `...`.
+- Follow MARKDOWN RULES: wrap every filename/function reference as `...`. Line numbers required for language constructs (functions, classes, methods), optional for filenames.
 - Tool rule: one tool call per response; if delegating, use new_task only.
 
 Orchestrator custom prompt (append):

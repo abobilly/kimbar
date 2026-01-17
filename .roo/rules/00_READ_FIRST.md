@@ -13,7 +13,7 @@
 - Prefer surgical refactors; if structural changes are required, justify them in the summary.
 
 ## Sacred invariants
-1. UI isolation — build UI on the UI layer via the UI camera; never patch with `scrollFactor`.
+1. UI isolation — UI is isolated on the UI layer rendered by the UI camera; attach via `WorldScene.getUILayer()`; do not use `scrollFactor` hacks.
 2. Registry-first loading — no hardcoded `/content/...` runtime paths outside the central loader.
 3. Deterministic pipelines — generated artifacts must be stable and reproducible.
 4. Agent-friendly workflow — every operation is an npm script; validators block regressions.

@@ -6,7 +6,7 @@ TypeScript + Phaser 3 + Vite game for bar exam prep.
 
 ## Sacred Invariants
 
-1. **UI isolation**: All UI created on UI layer (`WorldScene.getUILayer()`). UI renders via UI camera, unaffected by world camera zoom/scroll. Never use `scrollFactor` hacks.
+1. **UI isolation**: UI is isolated on the UI layer rendered by the UI camera; attach via `WorldScene.getUILayer()`. Do not use `scrollFactor` hacks.
 
 2. **Registry-first content**: No hardcoded `/content/...` paths in runtime code. All loadables (LDtk, ink, flashcards, sprites) addressed via registry and loaded through central loader API.
 
