@@ -18,6 +18,7 @@ NON-NEGOTIABLE INVARIANTS:
 - No new runtime hardcoded asset paths; keep registry/data-driven loading and central loader.
 - Generated artifacts remain in generated/ and are gitignored.
 - Honor UI isolation invariant (UI stays on UI layer).
+- Do not use any MCP servers (including pixel-mcp); complete this task using only repo files + npm scripts.
 
 SOURCE OF TRUTH FILES TO READ BEFORE EDITS:
 

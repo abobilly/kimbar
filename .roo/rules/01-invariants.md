@@ -21,6 +21,8 @@ You are working in the **kimbar** repo (TypeScript + Phaser + Vite). Optimize fo
    - Validators/tests block regressions
    - Update `NEXT_SESSION.md` on changes
 
+5. Do not use any MCP servers (including pixel-mcp); complete this task using only repo files + npm scripts.
+
 ## Never do
 
 - Load `/content/...` via hardcoded paths (except central loader)
