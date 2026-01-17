@@ -330,8 +330,42 @@ export class WorldScene extends Scene {
       .replace(/_+/g, '_');
   }
 
+  // Mapping from LDtk prop names to registry prop IDs
+  // LDtk uses generic names, registry has specific asset names
+  private static readonly PROP_ALIAS_MAP: Record<string, string> = {
+    'prop.banner': 'prop.flag_stand_proc',
+    'prop.couch': 'prop.bench',
+    'prop.info_desk': 'prop.desk_ornate',
+    'prop.metal_detector': 'prop.exit_sign_proc', // placeholder
+    'prop.stanchion': 'prop.flagpole', // placeholder
+    'prop.xray_belt': 'prop.briefcase_proc', // placeholder  
+    'prop.desk': 'prop.desk_ornate',
+    'prop.chair': 'prop.bench',
+    'prop.plant': 'prop.planter',
+    'prop.bookshelf': 'prop.bookshelf_proc',
+    'prop.lectern': 'prop.argument_lectern_proc',
+    'prop.gavel': 'prop.gavel_proc',
+    'prop.file_cabinet': 'prop.file_cabinet_proc',
+    'prop.clock': 'prop.clock_proc',
+    'prop.laptop': 'prop.laptop_proc',
+    'prop.microphone': 'prop.microphone_proc',
+    'prop.whiteboard': 'prop.whiteboard_proc',
+    'prop.water_cooler': 'prop.water_cooler',
+    'prop.coffee_maker': 'prop.coffee_maker',
+    'prop.scales': 'prop.scales_of_justice_proc',
+    'prop.witness_stand': 'prop.witness_stand_proc',
+    'prop.jury_bench': 'prop.jury_bench_proc',
+    'prop.railing': 'prop.courtroom_railing_proc'
+  };
+
   private resolvePropSpriteKey(rawKey: string | undefined): string | null {
     if (!rawKey) return null;
+
+    // Check alias map first
+    const aliased = WorldScene.PROP_ALIAS_MAP[rawKey];
+    if (aliased) {
+      rawKey = aliased;
+    }
 
     const normalized = this.normalizePropName(rawKey);
     try {
