@@ -8,6 +8,7 @@
   "tileset": "tileset.scotus_tiles",
   "background": "#1a1a2e",
   "music": "lobby_ambient",
+  "environment": "interior",
   "entities": [
     {
       "type": "PlayerSpawn",
@@ -64,6 +65,10 @@
       "y": 1,
       "id": "door_courtroom",
       "properties": {
+        "doorId": "door_004",
+        "fromRoomId": "scotus_lobby",
+        "toRoomId": "courtroom_main",
+        "toSpawnTag": "spawn_main",
         "targetLevel": "courtroom_main",
         "locked": true,
         "requiredItem": "all_justice_victories"
@@ -75,6 +80,10 @@
       "y": 14,
       "id": "door_exterior",
       "properties": {
+        "doorId": "door_005",
+        "fromRoomId": "scotus_lobby",
+        "toRoomId": "courthouse_exterior",
+        "toSpawnTag": "spawn_street",
         "targetLevel": "courthouse_exterior",
         "sprite": "door_courthouse"
       }

@@ -174,75 +174,29 @@ function buildCharacterEntry(charId) {
 async function scanRooms() {
   const rooms = [];
 
-  if (!existsSync(LDTK_DIR)) {
-    console.log(`📁 No LDtk directory found at ${LDTK_DIR}`);
+  const ROOM_DIR = path.join(process.cwd(), 'content', 'rooms');
+  if (!existsSync(ROOM_DIR)) {
+    console.log(`📁 No room directory found at ${ROOM_DIR}`);
     return rooms;
   }
 
-  const files = await readdir(LDTK_DIR);
-  const groupedFiles = new Map();
+  const files = await readdir(ROOM_DIR);
+  const roomFiles = files.filter(file => file.endsWith('.json')).sort();
 
-  for (const file of files) {
-    if (file.startsWith('_')) continue;
-    if (!file.endsWith('.json') && !file.endsWith('.ldtk')) continue;
-
-    const ext = extname(file);
-    const base = basename(file, ext);
-    const entry = groupedFiles.get(base) || { ldtk: null, json: null };
-
-    if (ext === '.ldtk') entry.ldtk = file;
-    if (ext === '.json') entry.json = file;
-
-    groupedFiles.set(base, entry);
-  }
-
-  const selectedFiles = Array.from(groupedFiles.values())
-    .map(entry => entry.ldtk || entry.json)
-    .filter(Boolean)
-    .sort();
-
-  for (const file of selectedFiles) {
-
+  for (const file of roomFiles) {
     try {
-      const filePath = join(LDTK_DIR, file);
+      const filePath = join(ROOM_DIR, file);
       const content = await readFile(filePath, 'utf-8');
-      const ldtkData = JSON.parse(content);
-
-      // Extract room ID from filename or LDtk identifier
-      let roomId = basename(file, extname(file)); // Use extname to handle .ldtk correctly
-      // Remove 'room.' prefix if present for cleaner IDs
-      if (roomId.startsWith('room.')) {
-        roomId = roomId.substring(5);
-      }
-
-      // Get display name from LDtk identifier or derive from ID
-      const displayName = ldtkData.identifier ||
-        roomId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      const roomSpec = JSON.parse(content);
 
       const roomEntry = {
-        id: roomId,
-        ldtkUrl: `/content/ldtk/${file}`,
-        displayName
+        id: roomSpec.id,
+        displayName: roomSpec.name,
+        environment: roomSpec.environment || 'interior' // Default to interior
       };
 
-      // Extract spawn points if available
-      const entityLayer = ldtkData.layerInstances?.find(l => l.__identifier === 'Entities');
-      if (entityLayer) {
-        const spawns = entityLayer.entityInstances
-          ?.filter(e => e.__identifier === 'PlayerSpawn' || e.__identifier === 'Door')
-          ?.map(e => {
-            const spawnId = e.fieldInstances?.find(f => f.__identifier === 'spawnId')?.__value;
-            return spawnId || e.iid;
-          })
-          ?.filter(Boolean);
-
-        if (spawns && spawns.length > 0) {
-          roomEntry.spawns = spawns;
-        }
-      }
-
       rooms.push(roomEntry);
-      console.log(`  🏛️ Found room: ${roomId} (${displayName})`);
+      console.log(`  🏛️ Found room: ${roomSpec.id} (${roomSpec.name}) - ${roomEntry.environment}`);
     } catch (e) {
       console.error(`❌ Failed to parse room ${file}:`, e.message);
     }

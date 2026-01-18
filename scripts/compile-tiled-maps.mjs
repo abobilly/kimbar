@@ -156,11 +156,15 @@ function compileMap(tiledMap, levelId) {
   }
   
   // Extract layers
+  // Extract environment from map custom properties (default to 'interior')
+  const mapEnvironment = getProperty(tiledMap.properties, 'environment') || 'interior';
+  
   const levelData = {
     id: levelId,
     width: tiledMap.width,
     height: tiledMap.height,
     tileSize: tiledMap.tilewidth,
+    environment: mapEnvironment,
     layers: {
       floor: extractTileLayer(layersByName.get('Floor') || { data: [], width: tiledMap.width, height: tiledMap.height }),
       walls: extractTileLayer(layersByName.get('Walls') || { data: [], width: tiledMap.width, height: tiledMap.height }),

@@ -43,6 +43,12 @@
       "type": "string",
       "description": "Background music track ID"
     },
+    "environment": {
+      "type": "string",
+      "enum": ["interior", "exterior"],
+      "default": "interior",
+      "description": "Room environment type - affects tileset and background"
+    },
     "entities": {
       "type": "array",
       "description": "All entities in the room",

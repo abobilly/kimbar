@@ -1,7 +1,7 @@
 /**
  * Centralized layout calculations for responsive UI.
  * All positioning logic lives here - no magic numbers in system code.
- * 
+ *
  * INVARIANT: All layout functions are pure - same inputs yield same outputs.
  * INVARIANT: All returned positions are within viewport bounds.
  */
@@ -11,6 +11,19 @@ import {
   DIALOGUE_BOX_HEIGHT_RATIO, DIALOGUE_BOX_MIN_HEIGHT, DIALOGUE_BOX_MAX_HEIGHT,
   MIN_CHOICE_HEIGHT
 } from '@game/constants';
+
+// ============================================================================
+// Layout Constants (portrait gutter, safe areas)
+// ============================================================================
+
+/** Reserved space for portrait + padding when portrait is visible */
+export const PORTRAIT_GUTTER = 100;
+
+/** Portrait sprite dimensions (64x64 typically) */
+export const PORTRAIT_SIZE = 64;
+
+/** Safe area at top of screen for HUD elements */
+export const SAFE_AREA_TOP = 60;
 
 // ============================================================================
 // Timing Constants (centralized)
@@ -47,6 +60,10 @@ export interface DialogueLayout {
   choiceBaseY: number;
   /** Whether the box is positioned at the top of the screen */
   isTop: boolean;
+  /** Portrait gutter (space reserved when portrait is visible) */
+  portraitGutter: number;
+  /** Safe area at top reserved for HUD */
+  safeAreaTop: number;
 }
 
 export interface EncounterLayout {
@@ -135,20 +152,25 @@ export function layoutDialogue(width: number, height: number, isTop: boolean = f
     boxWidth,
     boxCenterX: width / 2,
     boxCenterY: boxY + boxHeight / 2,
-    portraitX: 50,
+    portraitX: UI_MARGIN + 10,
     portraitY: boxY + 50,
-    namePlateX: 140,
+    namePlateX: PORTRAIT_GUTTER + UI_MARGIN,
     namePlateY: boxY + 10,
-    textX: UI_MARGIN * 2,
+    // Text starts after portrait gutter to avoid overlap
+    textX: PORTRAIT_GUTTER + UI_MARGIN,
     textY: boxY + UI_PADDING * 2,
-    textWrapWidth: width - UI_MARGIN * 4,
+    // Text wrap width accounts for portrait gutter on left and margin on right
+    textWrapWidth: width - PORTRAIT_GUTTER - UI_MARGIN * 3,
     continueX: width - UI_MARGIN * 3,
     continueY: isTop ? boxY + boxHeight - UI_PADDING : height - UI_PADDING * 2,
     choiceWidth: width - 100,
     choiceHeight,
     choiceSpacing,
     choiceBaseY: height - choiceBottomPadding,
-    isTop
+    isTop,
+    // Expose layout constants for consumer use
+    portraitGutter: PORTRAIT_GUTTER,
+    safeAreaTop: SAFE_AREA_TOP,
   };
 }
 

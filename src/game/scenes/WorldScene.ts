@@ -671,9 +671,13 @@ export class WorldScene extends Scene {
           } else if (atWest) {
             row.push(TILES.TRIM_EDGE_W + 1);
           } else {
-            // Interior floor - use marble variants
-            const seed = (x * 7 + y * 13) % TILES.MARBLE_VARIANTS.length;
-            row.push(TILES.MARBLE_VARIANTS[seed] + 1);
+            // Floor tile - use marble variants for interior, grass for exterior
+            if (level.environment === 'exterior') {
+              row.push(TILES.GRASS_BASE + 1);
+            } else {
+              const seed = (x * 7 + y * 13) % TILES.MARBLE_VARIANTS.length;
+              row.push(TILES.MARBLE_VARIANTS[seed] + 1);
+            }
           }
         } else {
           row.push(intVal);

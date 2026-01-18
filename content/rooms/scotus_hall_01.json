@@ -12,6 +12,7 @@
     "walls": "auto",
     "decor": "manual"
   },
+  "environment": "interior",
   "entities": [
     {
       "type": "PlayerSpawn",

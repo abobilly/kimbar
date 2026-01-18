@@ -387,8 +387,9 @@ export class DialogueSystem {
     const choices = this.story.currentChoices;
 
     // Convert ink choices to UIChoiceList format (text + index)
+    // Note: UIChoiceList handles the numbering prefix internally
     const uiChoices: Choice[] = choices.map((choice, index) => ({
-      text: `${index + 1}. ${choice.text}`,
+      text: choice.text,
       index,
     }));
 

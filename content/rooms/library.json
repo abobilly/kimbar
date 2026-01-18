@@ -8,6 +8,7 @@
     "tileset": "tileset.scotus_tiles",
     "background": "#2a2a1a",
     "music": "library_ambient",
+    "environment": "interior",
     "entities": [
         {
             "type": "PlayerSpawn",

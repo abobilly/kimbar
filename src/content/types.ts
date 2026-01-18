@@ -53,9 +53,9 @@ export interface EncounterConfig {
 
 export interface RoomEntry {
   id: string;
-  ldtkUrl: string;
-  displayName?: string;
-  spawns?: string[];
+  displayName: string;
+  environment: 'interior' | 'exterior';
+  ldtkUrl?: string;
 }
 
 export interface FlashcardPackEntry {
@@ -94,6 +94,7 @@ export interface LevelData {
   };
   entities: EntityData[];
   tileset?: string;
+  environment?: 'interior' | 'exterior';
   // Floor tile data from LDtk IntGrid
   floorGrid?: number[];  // 1D array of tile values
   gridWidth?: number;    // tiles across

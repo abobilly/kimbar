@@ -8,6 +8,7 @@
     "tileset": "tileset.scotus_tiles",
     "background": "#87CEEB",
     "music": "exterior_ambient",
+    "environment": "exterior",
     "entities": [
         {
             "type": "PlayerSpawn",
@@ -129,6 +130,10 @@
             "y": 5,
             "id": "door_lobby",
             "properties": {
+                "doorId": "door_001",
+                "fromRoomId": "courthouse_exterior",
+                "toRoomId": "scotus_lobby",
+                "toSpawnTag": "spawn_exterior",
                 "targetLevel": "scotus_lobby",
                 "sprite": "door_courthouse"
             }
@@ -139,6 +144,10 @@
             "y": 9,
             "id": "door_library_side",
             "properties": {
+                "doorId": "door_002",
+                "fromRoomId": "courthouse_exterior",
+                "toRoomId": "library",
+                "toSpawnTag": "spawn_main",
                 "targetLevel": "library",
                 "sprite": "door_courthouse"
             }
@@ -149,6 +158,10 @@
             "y": 9,
             "id": "door_records_side",
             "properties": {
+                "doorId": "door_003",
+                "fromRoomId": "courthouse_exterior",
+                "toRoomId": "records_vault",
+                "toSpawnTag": "spawn_main",
                 "targetLevel": "records_vault",
                 "sprite": "door_vault"
             }
