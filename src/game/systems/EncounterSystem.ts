@@ -39,7 +39,7 @@ export class EncounterSystem {
     this.currentCards = getRandomCards(config.deckTag, config.count);
     this.currentIndex = 0;
     this.correctCount = 0;
-    
+
     if (this.currentCards.length === 0) {
       console.warn('No cards found for tag:', config.deckTag);
       onComplete({ won: true, correctCount: 0, totalCount: 0 });
@@ -53,14 +53,14 @@ export class EncounterSystem {
   private showEncounterUI(): void {
     // Register as modal to block world input
     openModal('encounter');
-    
+
     const { width, height } = this.scene.scale;
     const layout = layoutEncounter(width, height);
-    
+
     // Create overlay container
     this.container = this.scene.add.container(0, 0);
     this.container.setDepth(DEPTH_MODAL);
-    
+
     // Add container to UI layer if available (camera isolation from world zoom)
     const worldScene = this.scene as unknown as { getUILayer?: () => Phaser.GameObjects.Layer };
     if (worldScene.getUILayer) {
@@ -103,10 +103,10 @@ export class EncounterSystem {
     }).setOrigin(0.5);
     progress.setName('progress');
     this.container.add(progress);
-    
+
     // Store layout for later use
     this.container.setData('layout', layout);
-    
+
     // Subscribe to resize events
     this.scene.scale.on('resize', this.onResize, this);
   }
@@ -205,21 +205,21 @@ export class EncounterSystem {
 
     // Generate wrong answers from other cloze deletions or confusables
     const wrongAnswers: string[] = [];
-    
+
     // Use other cloze answers as distractors
     if (answers.length > 1) {
       wrongAnswers.push(...answers.slice(1, 4));
     }
-    
+
     // Use confusable cards if available
     if (wrongAnswers.length < 3 && card.confusableWith && card.confusableWith.length > 0) {
       wrongAnswers.push(...card.confusableWith.slice(0, 3 - wrongAnswers.length));
     }
-    
+
     // Pad with generic wrong answers if needed
     const genericWrong = [
       'None of the above',
-      'All of the above', 
+      'All of the above',
       'It depends on the jurisdiction',
       'Only in federal court'
     ];
@@ -246,9 +246,9 @@ export class EncounterSystem {
   }
 
   private createAnswerButton(
-    x: number, 
-    y: number, 
-    text: string, 
+    x: number,
+    y: number,
+    text: string,
     correct: boolean,
     card: Flashcard,
     layout: ReturnType<typeof layoutEncounter>
@@ -297,10 +297,10 @@ export class EncounterSystem {
 
   private createHintButton(x: number, y: number, hint: string): Phaser.GameObjects.Container {
     const container = this.scene.add.container(x, y);
-    
+
     const bg = this.scene.add.circle(0, 0, 25, 0xFFD700);
     const label = this.scene.add.text(0, 0, '💡', { fontSize: '24px' }).setOrigin(0.5);
-    
+
     container.add([bg, label]);
     container.setSize(50, 50);
     container.setInteractive({ useHandCursor: true });
@@ -309,10 +309,10 @@ export class EncounterSystem {
       // Show hint popup - use stored layout
       const layout = this.container?.getData('layout') as ReturnType<typeof layoutEncounter>;
       if (!layout) return;
-      
+
       const hintPopup = this.scene.add.container(layout.centerX, this.scene.scale.height / 2);
       hintPopup.setName('q_hintpopup');
-      
+
       const hintBg = this.scene.add.rectangle(0, 0, 400, 150, 0x1a1a2e, 0.95)
         .setStrokeStyle(2, 0xFFD700);
       const hintText = this.scene.add.text(0, 0, `💡 ${hint}`, {
@@ -321,14 +321,14 @@ export class EncounterSystem {
         wordWrap: { width: 360 },
         align: 'center'
       }).setOrigin(0.5);
-      
+
       hintPopup.add([hintBg, hintText]);
       hintPopup.setDepth(1001);
       this.container?.add(hintPopup);
 
       // Auto-dismiss after 3 seconds
       this.scene.time.delayedCall(3000, () => hintPopup.destroy());
-      
+
       // Disable hint button
       container.disableInteractive();
       bg.setFillStyle(0x666666);
@@ -343,9 +343,9 @@ export class EncounterSystem {
     // Use stored layout from container
     const layout = this.container.getData('layout') as ReturnType<typeof layoutEncounter>;
     if (!layout) return;
-    
+
     const explanation = card.easyContent || card.mediumContent || 'No explanation available.';
-    
+
     // Use UIPanel primitive (code-first, no image assets)
     const feedbackPanel = new UIPanel(this.scene, {
       x: layout.centerX,
@@ -358,8 +358,8 @@ export class EncounterSystem {
       strokeWidth: 2,
     });
     feedbackPanel.setName('q_feedback_bg');
-    
-    const feedbackTitle = this.scene.add.text(layout.centerX, layout.feedbackY - 30, 
+
+    const feedbackTitle = this.scene.add.text(layout.centerX, layout.feedbackY - 30,
       correct ? '✅ CORRECT!' : '❌ INCORRECT', {
       fontSize: '18px',
       color: correct ? '#4CAF50' : '#F44336',
@@ -495,32 +495,32 @@ export class EncounterSystem {
    */
   private onResize(): void {
     if (!this.container) return;
-    
+
     const { width, height } = this.scene.scale;
     const layout = layoutEncounter(width, height);
-    
+
     // Update stored layout for other methods
     this.container.setData('layout', layout);
-    
+
     // Reposition overlay to cover full viewport
     const overlay = this.container.getByName('overlay') as Phaser.GameObjects.Rectangle;
     if (overlay) {
       overlay.setPosition(layout.centerX, height / 2);
       overlay.setSize(width, height);
     }
-    
+
     // Reposition title
     const title = this.container.getByName('title') as Phaser.GameObjects.Text;
     if (title) {
       title.setPosition(layout.centerX, layout.titleY);
     }
-    
+
     // Reposition cancel button
     const cancelBtn = this.container.getByName('cancel_btn') as Phaser.GameObjects.Text;
     if (cancelBtn) {
       cancelBtn.setPosition(layout.cancelX, layout.cancelY);
     }
-    
+
     // Reposition progress
     const progress = this.container.getByName('progress') as Phaser.GameObjects.Text;
     if (progress) {
@@ -557,7 +557,7 @@ export class EncounterSystem {
     unregisterExit('encounter');
     closeModal('encounter');
     this.scene.scale.off('resize', this.onResize, this);
-    
+
     // Destroy UI container
     this.container?.destroy();
     this.container = null;

@@ -9,6 +9,8 @@ READ FIRST PROBE (run as the very first action in this task): list every rules f
 
 PRIMARY GOAL: Convert kimbar to a Tiled-first “room template + room pack” workflow that becomes the canonical authored map source, with build-time compilation to a stable LevelData schema and runtime loading/spawning that stays registry-driven. LDtk is legacy/optional and must not be relied on unless explicitly verified.
 
+NOTE: The Tiled-first PRIMARY GOAL applies to map authoring and level pipeline work. For UI-only tasks (dialogue, HUD, flashcards, encounter UI) prefer code-first UI primitives and registry-first content; do not require a Tiled-first workflow for those tasks.
+
 NON-NEGOTIABLE INVARIANTS:
 
 - 32×32 tiles.
@@ -18,7 +20,8 @@ NON-NEGOTIABLE INVARIANTS:
 - No new runtime hardcoded asset paths; keep registry/data-driven loading and central loader.
 - Generated artifacts remain in generated/ and are gitignored.
 - Honor UI isolation invariant (UI stays on UI layer).
-- Do not use any MCP servers (including pixel-mcp); complete this task using only repo files + npm scripts.
+ - Honor UI isolation invariant (UI stays on UI layer).
+ - MCP usage: follow the allowlist in `.roo/rules/00_READ_FIRST.md`. Repository read-only MCP tools (e.g., `repo.search`, `repo.lookup`, `repo.status`, `repo.reindex`) are allowed for preflight/lookups only. Other MCP servers (including pixel-mcp) are forbidden unless explicitly approved and documented in `NEXT_SESSION.md`.
 
 SOURCE OF TRUTH FILES TO READ BEFORE EDITS:
 

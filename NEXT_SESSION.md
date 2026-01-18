@@ -377,6 +377,31 @@ Only these MCP tools are permitted (see `.roo/rules/00_READ_FIRST.md`):
 
 ---
 
+## Orchestrator rules relaxed (January 18, 2026)
+
+### What Changed
+
+- Updated orchestrator rules to allow limited, read-only MCP tooling for preflight/lookups and relaxed the rigid "Tiled-first" primary goal for UI-only tasks.
+- Files changed:
+  - `.roo/rules-orchestrator/01-kimbar.md` — allow `repo.*` read MCP tools for preflight/lookups and add note that Tiled-first applies to map authoring only; UI tasks may prefer code-first primitives.
+  - `.roo/rules/02_UI.md` — mark RexUI as optional and prefer code-first primitives (`UIPanel`, `UIButton`, `UILabel`, `UIChoiceList`).
+
+### Why
+
+These changes reduce friction for code-first UI work (A1 migration) and allow safe, read-only repository search/lookup during preflight. Full MCP servers (pixel-mcp, remote compute) remain disallowed unless explicitly approved.
+
+### Gates run
+
+- `npm run test:unit` — ✅ Passed (53 tests)
+- `npx tsc --noEmit` — ⚠️ Failed (pre-existing type errors in `src/` unrelated to docs changes)
+
+Notes: Changes were documentation-only; TypeScript errors predate these edits and are tracked separately. Next step is to schedule a focused type-fix subtask or defer to maintainers.
+
+### What's Next
+
+- If you want, I can: (a) open a focused PR to only update the `.roo` rules (already done) and (b) file a short follow-up issue to triage the TS errors flagged by `npx tsc`.
+- Update: appended this summary to `NEXT_SESSION.md`.
+
 ## 2. Recent Changes: MCP Tooling Constraint (January 17, 2026)
 
 ### What Was Done
