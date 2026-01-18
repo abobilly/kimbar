@@ -36,7 +36,7 @@ const EMBED_MODEL = process.env.OPENAI_EMBED_MODEL || 'text-embedding-3-large';
 const EMBED_DIMS = parseInt(process.env.OPENAI_EMBED_DIMS || '3072', 10);
 const CHUNK_LINES = parseInt(process.env.REPO_CHUNK_LINES || '150', 10);
 const CHUNK_OVERLAP = parseInt(process.env.REPO_CHUNK_OVERLAP || '20', 10);
-const INDEX_SCOPE = (process.env.REPO_INDEX_SCOPE || 'src,docs,public/content,schemas,scripts').split(',');
+const INDEX_SCOPE = (process.env.REPO_INDEX_SCOPE || 'src,docs,public/content,schemas,scripts,generated/levels').split(',');
 
 // Validation
 if (!QDRANT_URL || !QDRANT_API_KEY) {
@@ -118,15 +118,22 @@ function shouldIndex(filePath) {
     if (normalized.includes('node_modules/')) return false;
     if (normalized.includes('dist/')) return false;
     if (normalized.includes('build/')) return false;
-    if (normalized.includes('generated/')) return false;
     if (normalized.includes('__MACOSX/')) return false;
     if (normalized.includes('/._')) return false;
     if (normalized.includes('code-assistant-manager/')) return false;  // Skip other repos
     if (normalized.includes('Qwen-Agent/')) return false;  // Skip other repos
     if (normalized.includes('flashcards.json')) return false;  // Use dedicated flashcards collection
+    // Skip binary files
     if (normalized.endsWith('.png') || normalized.endsWith('.jpg') || normalized.endsWith('.gif')) return false;
     if (normalized.endsWith('.aseprite')) return false;
     if (normalized.endsWith('.woff') || normalized.endsWith('.woff2') || normalized.endsWith('.ttf')) return false;
+    // Skip raw .tmx files - too large for embeddings, index compiled LevelData instead
+    if (normalized.endsWith('.tmx')) return false;
+
+    // Allow generated/levels/ (compiled LevelData) but skip other generated/ dirs
+    if (normalized.includes('generated/')) {
+        if (!normalized.includes('generated/levels/')) return false;
+    }
 
     // Check scope
     return INDEX_SCOPE.some(scope => normalized.includes(scope));
