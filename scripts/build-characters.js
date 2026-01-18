@@ -174,7 +174,7 @@ function buildCharacterEntry(charId) {
 async function scanRooms() {
   const rooms = [];
 
-  const ROOM_DIR = path.join(process.cwd(), 'content', 'rooms');
+  const ROOM_DIR = join(process.cwd(), 'content', 'rooms');
   if (!existsSync(ROOM_DIR)) {
     console.log(`📁 No room directory found at ${ROOM_DIR}`);
     return rooms;

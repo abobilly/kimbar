@@ -32,7 +32,7 @@
         "sync:public": "node scripts/sync-public.mjs",
         "compile:ink": "node scripts/compile-ink.mjs",
         "gen:props": "python make_icons.py",
-        "prepare:content": "npm run fetch-vendor && npm run import:scotus && npm run import:lpc && npm run build:chars && npm run gen:sprites && npm run gen:props && npm run compile:ink && npm run build:tiled && npm run build:asset-index && npm run sync:public && npm run validate",
+        "prepare:content": "npm run fetch-vendor && npm run import:scotus && npm run import:lpc && npm run build:chars && npm run gen:sprites && npm run compile:ink && npm run build:tiled && npm run build:asset-index && npm run sync:public && npm run validate",
         "validate": "node scripts/validate.js",
         "validate:flashcards": "node scripts/validate-flashcard-subjects.mjs",
         "doors:validate": "node scripts/validate-doors.mjs",
