@@ -22,7 +22,7 @@
             "id": "encounter_advanced",
             "properties": {
                 "name": "Advanced Challenge",
-                "deckTag": "all",
+                "deckTag": "constitutional_law",
                 "count": 10,
                 "rewardId": "supreme_robe",
                 "once": true

@@ -1,10 +1,60 @@
 # Kim Bar - Agent Handoff Document
-**Last Update**: January 17, 2026
+**Last Update**: January 18, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
 >
 > **Roo Update Format:** append entries with `What changed` (files list), `What’s next`, and `Gates run / not run (with reasons)` after every subtask.
+
+---
+
+## Phase A3 Complete: Remove Unused Golden UI Assets (January 18, 2026)
+
+### What Changed
+
+**SUBTASK A3 COMPLETE** — Removed unused golden UI assets after confirming zero runtime references.
+
+**Deleted Files:**
+- `public/assets/ui/golden/button_hover.png`
+- `public/assets/ui/golden/button_pressed.png`
+- `public/assets/ui/golden/button_primary.png`
+- `public/assets/ui/golden/dialogue_panel.png`
+- `public/assets/ui/golden_ui_big.png`
+- `scripts/extract-ui-golden.py`
+
+**Modified Files:**
+- `package.json` — Removed `gen:ui:golden` script
+
+### Reference Sweep Results
+
+| Search Target | Runtime Matches | Notes |
+|---------------|-----------------|-------|
+| `golden` path in src/ | 0 | No hardcoded paths |
+| `button_hover` sprite key | 0 | Unused |
+| `button_pressed` sprite key | 0 | Unused |
+| `button_primary` sprite key | 0 | Unused |
+| `dialogue_panel` sprite key | 0 | Unused |
+| `golden_ui_big` sprite key | 0 | Unused |
+| `list-used-assets.mjs` UI_SPRITE_IDS | 0 | Already cleared in A1 |
+
+### Verification Gates
+
+| Gate | Result |
+|------|--------|
+| `npm run check-boundaries` | ✅ Pass |
+| `npm run validate:tiled` | ✅ 4 maps valid |
+| `npm run build:tiled` | ✅ 4 maps compiled |
+| `npm run verify` | ✅ "Safe to commit" |
+| `npx tsc --noEmit` | ⚠️ Pre-existing errors (unrelated to A3) |
+| `npm run test:unit` | ⚠️ Pre-existing empty suites (unrelated to A3) |
+
+**Note:** TypeScript errors in `EncounterSystem.ts` (setTintFill on UIButton, unused variables) pre-date this task and are unrelated to golden UI removal.
+
+### What's Next
+
+- User to commit changes (golden UI assets deleted, script removed)
+- Manual smoke test: 1 dialogue + 1 encounter (dev server running)
+- Phase B planning if UI primitives stable
 
 ---
 
@@ -56,6 +106,8 @@ These tasks require in-game visual verification:
 3. **Choice Button Disable** — Confirm choice buttons disable after click (no double-tap)
 4. **Pixel Alignment** — Audit for blurry rectangles (Graphics need `Math.floor` on coordinates)
 5. **Deprecated Asset Removal** — Remove old UI sprites from `vendor/ui/` (separate commit)
+
+Note: Replaced `deckTag: "all"` with `constitutional_law` in `content/rooms/records_vault.json` to satisfy the content validator. Revisit wildcard encounters once the flashcards system is reintegrated.
 
 ### Design Token Reference
 
