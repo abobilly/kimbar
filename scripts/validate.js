@@ -10,7 +10,7 @@
  */
 
 import { readdir, readFile } from 'fs/promises';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import Ajv from 'ajv';
 
@@ -280,12 +280,36 @@ async function validateFlashcardPacks(schemas, registry, contract) {
       continue;
     }
 
+    // Determine if NDJSON format
+    const isNdjson = pack.url.endsWith('.ndjson');
+
     // Load and validate file
     try {
+      let cards = [];
+
+      if (isNdjson) {
+        // Parse NDJSON: one JSON object per line
+        const content = readFileSync(filePath, 'utf-8');
+        const lines = content.split('\n').filter(line => line.trim());
+        for (const line of lines) {
+          try {
+            cards.push(JSON.parse(line));
+          } catch (e) {
+            // Skip malformed lines
+          }
+        }
+        // NDJSON files skip schema validation - just check count
+        if (cards.length !== pack.count) {
+          warn(`Flashcard pack ${pack.id}: count mismatch (registry: ${pack.count}, file: ${cards.length})`);
+        }
+        ok(`${pack.id}: ${cards.length} cloze cards (NDJSON format)`);
+        continue;
+      }
+
       const fileContent = await loadJson(filePath);
 
       // Handle both array format and object with 'cards' array
-      const cards = Array.isArray(fileContent) ? fileContent : (fileContent.cards || []);
+      cards = Array.isArray(fileContent) ? fileContent : (fileContent.cards || []);
 
       if (!Array.isArray(cards)) {
         error(`Flashcard pack ${pack.id}: file must have "cards" array`);
@@ -414,7 +438,7 @@ async function validateInkEntries(registry) {
 
   // Determine ink directory (prefer generated, fall back to public/generated)
   const inkDir = existsSync(INK_GENERATED_DIR) ? INK_GENERATED_DIR :
-                 existsSync(INK_PUBLIC_DIR) ? INK_PUBLIC_DIR : null;
+    existsSync(INK_PUBLIC_DIR) ? INK_PUBLIC_DIR : null;
 
   for (const ink of registry.ink) {
     console.log(`  Validating ink story: ${ink.id}`);

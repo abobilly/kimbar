@@ -1,10 +1,14 @@
 // Dialogue System - inkjs Integration
+// MIGRATED: Now uses code-first UI primitives (no image assets)
 import { Scene } from 'phaser';
 import { Story } from 'inkjs';
 import { openModal, closeModal } from '@game/ui/modal';
 import { registerExit, unregisterExit } from '@game/ui/exitManager';
 import { layoutDialogue } from '@game/ui/layout';
 import { DEPTH_OVERLAY } from '@game/constants/depth';
+import { uiTheme, getTextStyle } from '@game/ui/uiTheme';
+import { UIPanel, UIChoiceList } from '@game/ui/primitives';
+import type { Choice } from '@game/ui/primitives';
 
 export interface DialogueChoice {
   text: string;
@@ -19,6 +23,10 @@ export class DialogueSystem {
   private onTag: ((tag: string) => void) | null = null;
   private typewriterTimer: Phaser.Time.TimerEvent | null = null;
   private isAdvancing: boolean = false;  // Guard against double-click on choices
+
+  // New primitives
+  private dialoguePanel: UIPanel | null = null;
+  private choiceList: UIChoiceList | null = null;
 
   constructor(scene: Scene) {
     this.scene = scene;
@@ -104,23 +112,21 @@ export class DialogueSystem {
     // Store layout for other methods
     this.container.setData('layout', layout);
 
-    const panelKey = 'ui.panel_frame';
-    const hasPanel = this.scene.textures.exists(panelKey);
-    this.container.setData('panelIsImage', hasPanel);
-
-    const bg = hasPanel
-      ? this.scene.add.image(layout.boxCenterX, layout.boxCenterY, panelKey)
-      : this.scene.add.rectangle(
-        layout.boxCenterX, layout.boxCenterY,
-        layout.boxWidth, layout.boxHeight - 20,
-        0x1a1a2e, 0.95
-      ).setStrokeStyle(3, 0x4a90a4);
-    bg.setName('dialoguePanel');
-    if (hasPanel) {
-      (bg as Phaser.GameObjects.Image).setDisplaySize(layout.boxWidth, layout.boxHeight - 20);
-      bg.setAlpha(0.95);
-    }
-    this.container.add(bg);
+    // Create code-first panel using UIPanel primitive (no image assets)
+    this.dialoguePanel = new UIPanel(this.scene, {
+      x: layout.boxCenterX,
+      y: layout.boxCenterY,
+      width: layout.boxWidth,
+      height: layout.boxHeight - 20,
+      fillColor: uiTheme.colors.panelBg,
+      strokeColor: uiTheme.colors.panelBorder,
+      strokeWidth: uiTheme.borders.normal,
+      fillAlpha: 0.95,
+      originX: 0.5,
+      originY: 0.5,
+    });
+    this.dialoguePanel.setName('dialoguePanel');
+    this.container.add(this.dialoguePanel);
 
     // Portrait placeholder (will be updated when speaker changes)
     const portrait = this.scene.add.image(layout.portraitX, layout.portraitY, '__DEFAULT');
@@ -129,49 +135,56 @@ export class DialogueSystem {
     portrait.setVisible(false);
     this.container.add(portrait);
 
-    // Speaker name plate (shifted right to accommodate portrait)
-    const namePlateKey = 'ui.button_normal';
-    const hasNamePlate = this.scene.textures.exists(namePlateKey);
-    this.container.setData('namePlateIsImage', hasNamePlate);
-    const namePlate = hasNamePlate
-      ? this.scene.add.image(layout.namePlateX, layout.namePlateY, namePlateKey)
-      : this.scene.add.rectangle(layout.namePlateX, layout.namePlateY, 160, 30, 0x2a4858)
-        .setStrokeStyle(2, 0xFFD700);
+    // Speaker name plate - code-first rectangle
+    const namePlate = this.scene.add.rectangle(
+      layout.namePlateX,
+      layout.namePlateY,
+      160,
+      30,
+      uiTheme.colors.buttonNormal
+    ).setStrokeStyle(
+      uiTheme.borders.thin,
+      Phaser.Display.Color.HexStringToColor(uiTheme.colors.textAccent).color
+    );
     namePlate.setName('namePlate');
-    if (hasNamePlate) {
-      (namePlate as Phaser.GameObjects.Image).setDisplaySize(160, 30);
-    }
     this.container.add(namePlate);
 
-    const nameText = this.scene.add.text(layout.namePlateX, layout.namePlateY, '', {
-      fontSize: '16px',
-      color: '#FFD700',
-      fontStyle: 'bold'
-    }).setOrigin(0.5);
+    const nameText = this.scene.add.text(
+      layout.namePlateX,
+      layout.namePlateY,
+      '',
+      getTextStyle('md', 'textAccent', { bold: true })
+    ).setOrigin(0.5);
     nameText.setName('nameText');
     this.container.add(nameText);
 
     // Dialogue text area (limited height to leave room for choices)
-    const dialogueText = this.scene.add.text(layout.textX, layout.textY, '', {
-      fontSize: '18px',
-      color: '#FFFFFF',
-      wordWrap: { width: layout.textWrapWidth },
-      lineSpacing: 6
-    });
+    const dialogueText = this.scene.add.text(
+      layout.textX,
+      layout.textY,
+      '',
+      {
+        ...getTextStyle('lg', 'textPrimary'),
+        wordWrap: { width: layout.textWrapWidth },
+        lineSpacing: uiTheme.spacing.xs,
+      }
+    );
     dialogueText.setName('dialogueText');
     this.container.add(dialogueText);
 
-    // Choices container
+    // Choices will be rendered using UIChoiceList
+    // Create placeholder container for choices (will be populated by showChoices)
     const choicesContainer = this.scene.add.container(0, 0);
     choicesContainer.setName('choicesContainer');
     this.container.add(choicesContainer);
 
     // Continue indicator
     const continueIndicator = this.scene.add.text(
-      layout.continueX, layout.continueY, '▼', {
-      fontSize: '24px',
-      color: '#FFD700'
-    }).setOrigin(0.5);
+      layout.continueX,
+      layout.continueY,
+      '▼',
+      getTextStyle('xl', 'textAccent')
+    ).setOrigin(0.5);
     continueIndicator.setName('continueIndicator');
     continueIndicator.setVisible(false);
     this.container.add(continueIndicator);
@@ -283,10 +296,7 @@ export class DialogueSystem {
     }
 
     // Clear previous choices
-    const choicesContainer = this.container.getByName('choicesContainer') as Phaser.GameObjects.Container;
-    if (choicesContainer) {
-      choicesContainer.removeAll(true);
-    }
+    this.clearChoices();
 
     // Check for choices or end
     if (this.story.currentChoices.length > 0) {
@@ -354,106 +364,74 @@ export class DialogueSystem {
     this.container?.once('pointerdown', skipHandler);
   }
 
+  private clearChoices(): void {
+    // Destroy UIChoiceList if exists
+    if (this.choiceList) {
+      this.choiceList.destroy();
+      this.choiceList = null;
+    }
+
+    // Also clear legacy choicesContainer if present
+    const choicesContainer = this.container?.getByName('choicesContainer') as Phaser.GameObjects.Container;
+    if (choicesContainer) {
+      choicesContainer.removeAll(true);
+    }
+  }
+
   private showChoices(): void {
     if (!this.story || !this.container) return;
 
     const layout = this.container.getData('layout') as ReturnType<typeof layoutDialogue>;
     if (!layout) return;
 
-    const choicesContainer = this.container.getByName('choicesContainer') as Phaser.GameObjects.Container;
-    if (!choicesContainer) return;
-
     const choices = this.story.currentChoices;
 
-    // Use layout-based choice positioning
-    const step = layout.choiceHeight + layout.choiceSpacing;
-    let startY: number;
+    // Convert ink choices to UIChoiceList format (text + index)
+    const uiChoices: Choice[] = choices.map((choice, index) => ({
+      text: `${index + 1}. ${choice.text}`,
+      index,
+    }));
+
+    // Create UIChoiceList
+    // Position: choices stack upward from bottom
+    let anchorY: number;
 
     if (layout.isTop) {
       // Stack downwards from below the top-box
-      // boxY + boxHeight is the bottom edge of the box
-      // Add small gap + half height (since button anchors center)
-      startY = (layout.boxY + layout.boxHeight + 10) + (layout.choiceHeight / 2);
+      anchorY = (layout.boxY + layout.boxHeight + 10) + (layout.choiceHeight / 2);
     } else {
       // Stack upwards from bottom of screen (default)
-      // choiceBaseY is center of bottom-most choice
-      const bottomY = layout.choiceBaseY;
-      startY = bottomY - (choices.length - 1) * step;
+      anchorY = layout.choiceBaseY;
     }
 
-    const buttonKey = 'ui.button_normal';
-    const buttonHoverKey = 'ui.button_hover';
-    const buttonPressedKey = 'ui.button_pressed';
-    const useButtonImage = this.scene.textures.exists(buttonKey);
-    const hasHover = useButtonImage && this.scene.textures.exists(buttonHoverKey);
-    const hasPressed = useButtonImage && this.scene.textures.exists(buttonPressedKey);
-
-    choices.forEach((choice, index) => {
-      // Index 0 is first choice (top of list), Index N is last choice (bottom of list)
-      const y = startY + index * step;
-
-      const choiceBtn = this.scene.add.container(layout.boxCenterX, y);
-
-      const bg = useButtonImage
-        ? this.scene.add.image(0, 0, buttonKey)
-        : this.scene.add.rectangle(0, 0, layout.choiceWidth, layout.choiceHeight, 0x2a4858)
-          .setStrokeStyle(2, 0x4a90a4);
-      if (useButtonImage) {
-        (bg as Phaser.GameObjects.Image).setDisplaySize(layout.choiceWidth, layout.choiceHeight);
-      }
-
-      const text = this.scene.add.text(0, 0, `${index + 1}. ${choice.text}`, {
-        fontSize: '16px',
-        color: '#FFFFFF',
-        wordWrap: { width: layout.choiceWidth - 40 }
-      }).setOrigin(0.5);
-
-      choiceBtn.add([bg, text]);
-      choiceBtn.setSize(layout.choiceWidth, layout.choiceHeight);
-      choiceBtn.setInteractive({ useHandCursor: true });
-
-      choiceBtn.on('pointerover', () => {
-        if (hasHover) {
-          (bg as Phaser.GameObjects.Image).setTexture(buttonHoverKey);
-        } else if (!useButtonImage) {
-          (bg as Phaser.GameObjects.Rectangle).setFillStyle(0x3a5868);
-        }
-        text.setColor('#FFD700');
-      });
-
-      choiceBtn.on('pointerout', () => {
-        if (useButtonImage) {
-          (bg as Phaser.GameObjects.Image).setTexture(buttonKey);
-        } else {
-          (bg as Phaser.GameObjects.Rectangle).setFillStyle(0x2a4858);
-        }
-        text.setColor('#FFFFFF');
-      });
-
-      choiceBtn.on('pointerdown', () => {
+    this.choiceList = new UIChoiceList(this.scene, {
+      x: layout.boxCenterX,
+      y: anchorY,
+      width: layout.choiceWidth,
+      choiceHeight: layout.choiceHeight,
+      spacing: layout.choiceSpacing,
+      onSelect: (choice) => {
         // Guard against double-click
         if (this.isAdvancing) return;
         this.isAdvancing = true;
-        if (useButtonImage && hasPressed) {
-          (bg as Phaser.GameObjects.Image).setTexture(buttonPressedKey);
-        }
 
-        // Disable all choice buttons
-        choicesContainer.each((child: Phaser.GameObjects.GameObject) => {
-          if (child instanceof Phaser.GameObjects.Container) {
-            child.disableInteractive();
-          }
-        });
+        // Disable all choices immediately (key requirement)
+        this.choiceList?.disableAll();
 
-        this.story?.ChooseChoiceIndex(index);
+        // Process the choice using the index from Choice interface
+        this.story?.ChooseChoiceIndex(choice.index);
         this.continueStory();
 
         // Reset after story advances
         this.isAdvancing = false;
-      });
-
-      choicesContainer.add(choiceBtn);
+      },
     });
+
+    // Set the choices after construction
+    this.choiceList.setChoices(uiChoices);
+
+    // Add choice list to container
+    this.container.add(this.choiceList);
 
     // Hide continue indicator when showing choices
     const continueIndicator = this.container.getByName('continueIndicator') as Phaser.GameObjects.Text;
@@ -499,6 +477,18 @@ export class DialogueSystem {
       this.typewriterTimer = null;
     }
 
+    // Destroy UIChoiceList
+    if (this.choiceList) {
+      this.choiceList.destroy();
+      this.choiceList = null;
+    }
+
+    // Destroy UIPanel
+    if (this.dialoguePanel) {
+      this.dialoguePanel.destroy();
+      this.dialoguePanel = null;
+    }
+
     // Unregister modal, exit handler, and resize listener
     unregisterExit('dialogue');
     closeModal('dialogue');
@@ -528,16 +518,10 @@ export class DialogueSystem {
       scrim.setSize(width, height);
     }
 
-    // Reposition background
-    const bg = this.container.getByName('dialoguePanel') as Phaser.GameObjects.Image | Phaser.GameObjects.Rectangle | null;
-    if (bg) {
-      bg.setPosition(layout.boxCenterX, layout.boxCenterY);
-      const panelIsImage = this.container.getData('panelIsImage');
-      if (panelIsImage) {
-        (bg as Phaser.GameObjects.Image).setDisplaySize(layout.boxWidth, layout.boxHeight - 20);
-      } else {
-        (bg as Phaser.GameObjects.Rectangle).setSize(layout.boxWidth, layout.boxHeight - 20);
-      }
+    // Reposition dialogue panel
+    if (this.dialoguePanel) {
+      this.dialoguePanel.setPosition(layout.boxCenterX, layout.boxCenterY);
+      this.dialoguePanel.setSize(layout.boxWidth, layout.boxHeight - 20);
     }
 
     // Reposition portrait
@@ -547,7 +531,7 @@ export class DialogueSystem {
     }
 
     // Reposition name plate
-    const namePlate = this.container.getByName('namePlate') as Phaser.GameObjects.Image | Phaser.GameObjects.Rectangle | null;
+    const namePlate = this.container.getByName('namePlate') as Phaser.GameObjects.Rectangle;
     if (namePlate) {
       namePlate.setPosition(layout.namePlateX, layout.namePlateY);
     }
@@ -570,14 +554,17 @@ export class DialogueSystem {
     if (continueIndicator) {
       continueIndicator.setPosition(layout.continueX, layout.continueY);
     }
+
+    // Note: UIChoiceList repositioning would require recreating choices
+    // For now, choices will be correctly positioned on next showChoices() call
   }
 
   // Get/set story variables
-  getVariable(name: string): any {
+  getVariable(name: string): unknown {
     return this.story?.variablesState[name];
   }
 
-  setVariable(name: string, value: any): void {
+  setVariable(name: string, value: unknown): void {
     if (this.story) {
       this.story.variablesState[name] = value;
     }

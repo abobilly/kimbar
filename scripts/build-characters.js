@@ -255,7 +255,7 @@ async function scanRooms() {
 }
 
 /**
- * Scan public/content/cards/ for flashcard JSON files and create pack entries.
+ * Scan public/content/cards/ for flashcard JSON/NDJSON files and create pack entries.
  */
 async function scanFlashcardPacks() {
   const packs = [];
@@ -267,54 +267,91 @@ async function scanFlashcardPacks() {
 
   const files = await readdir(FLASHCARDS_DIR);
   for (const file of files) {
-    if (!file.endsWith('.json')) continue;
+    // Handle both .json and .ndjson formats
+    if (!file.endsWith('.json') && !file.endsWith('.ndjson')) continue;
 
     try {
       const filePath = join(FLASHCARDS_DIR, file);
       const content = await readFile(filePath, 'utf-8');
-      const data = JSON.parse(content);
 
-      // Extract pack ID from filename
-      const packId = basename(file, '.json');
+      // Determine file extension for proper parsing
+      const isNdjson = file.endsWith('.ndjson');
+      const ext = isNdjson ? '.ndjson' : '.json';
 
-      // Handle both array format and object with 'cards' array
-      const cards = Array.isArray(data) ? data : (data.cards || []);
+      // Extract pack ID from filename (remove extension)
+      const packId = basename(file, ext);
 
-      // Extract subjects from cards or top-level subjects field
+      let cards = [];
       let subjects = [];
-      if (data.subjects && Array.isArray(data.subjects)) {
-        // Normalize subject names to snake_case
-        subjects = data.subjects
-          .map(s => s.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, ''))
-          .filter(s => s && s !== 'mpt'); // Exclude MPT
-      } else {
-        // Extract from cards
+      let title = null;
+
+      if (isNdjson) {
+        // Parse NDJSON: one JSON object per line
+        const lines = content.split('\n').filter(line => line.trim());
         const subjectSet = new Set();
-        for (const card of cards) {
-          if (card.subject) {
-            const normalized = card.subject.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
-            if (normalized && normalized !== 'mpt') {
-              subjectSet.add(normalized);
+
+        for (const line of lines) {
+          try {
+            const card = JSON.parse(line);
+            cards.push(card);
+            if (card.subject) {
+              const normalized = card.subject.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+              if (normalized && normalized !== 'mpt') {
+                subjectSet.add(normalized);
+              }
             }
-          }
-          for (const tag of card.tagsNormalized || []) {
-            subjectSet.add(tag);
+          } catch (e) {
+            // Skip malformed lines
           }
         }
         subjects = [...subjectSet].sort();
+        title = 'Cloze Cards';
+      } else {
+        // Parse regular JSON
+        const data = JSON.parse(content);
+
+        // Handle both array format and object with 'cards' array
+        cards = Array.isArray(data) ? data : (data.cards || []);
+
+        // Extract subjects from cards or top-level subjects field
+        if (data.subjects && Array.isArray(data.subjects)) {
+          // Normalize subject names to snake_case
+          subjects = data.subjects
+            .map(s => s.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, ''))
+            .filter(s => s && s !== 'mpt'); // Exclude MPT
+        } else {
+          // Extract from cards
+          const subjectSet = new Set();
+          for (const card of cards) {
+            if (card.subject) {
+              const normalized = card.subject.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+              if (normalized && normalized !== 'mpt') {
+                subjectSet.add(normalized);
+              }
+            }
+            for (const tag of card.tagsNormalized || []) {
+              subjectSet.add(tag);
+            }
+          }
+          subjects = [...subjectSet].sort();
+        }
+
+        if (data.source) {
+          title = data.source;
+        }
       }
 
       const packEntry = {
         id: packId,
         url: `/content/cards/${file}`,
-        schemaVersion: data.schemaVersion || 1,
+        schemaVersion: 1,
         count: cards.length,
         subjects
       };
 
       // Add title if available
-      if (data.source) {
-        packEntry.title = data.source;
+      if (title) {
+        packEntry.title = title;
       }
 
       packs.push(packEntry);

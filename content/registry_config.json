@@ -188,26 +188,5 @@
     ],
     "topicTags": []
   },
-  "sprites": {
-    "ui.panel_frame": {
-      "key": "ui.panel_frame",
-      "url": "/assets/ui/golden/dialogue_panel.png",
-      "kind": "image"
-    },
-    "ui.button_normal": {
-      "key": "ui.button_normal",
-      "url": "/assets/ui/golden/button_primary.png",
-      "kind": "image"
-    },
-    "ui.button_hover": {
-      "key": "ui.button_hover",
-      "url": "/assets/ui/golden/button_hover.png",
-      "kind": "image"
-    },
-    "ui.button_pressed": {
-      "key": "ui.button_pressed",
-      "url": "/assets/ui/golden/button_pressed.png",
-      "kind": "image"
-    }
-  }
+  "sprites": {}
 }

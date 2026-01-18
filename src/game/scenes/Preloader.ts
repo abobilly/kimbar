@@ -1,28 +1,24 @@
 import { Scene } from 'phaser';
 import type { Registry } from '../../content/registry';
-import { queueRegistrySpriteLoads, queueRegistryTilesetLoads } from '@game/services/asset-loader';
+import { queueRegistryTilesetLoads } from '@game/services/asset-loader';
 import { ensureCharacterAnims } from '@game/utils/characterAnims';
 
 // Debug flag: log asset loading info to console
 const DEBUG_ASSETS = false;
 
-export class Preloader extends Scene
-{
+export class Preloader extends Scene {
     private registryData: Registry | null = null;
     private preloadedSpriteKeys: string[] = [];
 
-    constructor ()
-    {
+    constructor() {
         super('Preloader');
     }
 
-    init (data: { registry?: Registry })
-    {
+    init(data: { registry?: Registry }) {
         this.registryData = data.registry || null;
     }
 
-    preload ()
-    {
+    preload() {
         const { width, height } = this.scale;
 
         // Dark background
@@ -71,20 +67,16 @@ export class Preloader extends Scene
             this.load.image('lpc_windows_doors', 'assets/tilesets/lpc/windows-doors.png');
         }
 
-        // Registry-driven asset loading (minimal UI + essentials only)
+        // NOTE: Old UI sprite loading (ui.panel_frame, ui.button_*) removed.
+        // DialogueSystem now uses code-first Graphics primitives (no image assets).
+        // See src/game/ui/primitives/ for UIPanel, UIButton, UIChoiceList.
+
+        // Registry-driven sprite loading (character sprites, portraits, etc.)
         if (this.registryData?.sprites) {
-            const uiSpriteIds = [
-                'ui.panel_frame',
-                'ui.button_normal',
-                'ui.button_hover',
-                'ui.button_pressed'
-            ].filter((id) => Boolean(this.registryData?.sprites?.[id]));
-
-            const queued = queueRegistrySpriteLoads(this, uiSpriteIds, this.registryData);
-            this.preloadedSpriteKeys = queued.anims;
-
+            // No UI sprites to queue - they are now code-first
+            // Future: queue character sprites or other assets as needed
             if (DEBUG_ASSETS) {
-                console.log('[Preloader] UI sprites queued:', uiSpriteIds);
+                console.log('[Preloader] UI is now code-first, no UI sprites to load');
             }
         } else {
             // Fallback: hardcoded assets if registry not available
@@ -97,8 +89,7 @@ export class Preloader extends Scene
         }
     }
 
-    create ()
-    {
+    create() {
         // Create animations for all loaded spritesheets using ULPC layout
         if (DEBUG_ASSETS) {
             console.log('[Preloader] Preloaded spritesheets:', this.preloadedSpriteKeys);
@@ -107,12 +98,12 @@ export class Preloader extends Scene
         for (const spriteKey of this.preloadedSpriteKeys) {
             ensureCharacterAnims(this, spriteKey);
         }
-        
+
         // Brief delay before starting main menu
         this.time.delayedCall(500, () => {
             this.scene.start('MainMenu');
         });
     }
-    
+
     // Anim creation handled by ensureCharacterAnims utility.
 }
