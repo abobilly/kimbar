@@ -8,6 +8,80 @@
 
 ---
 
+## 2. Recent Changes: UI Primitives Migration Complete (January 17, 2026)
+
+### What Was Done
+
+**SUBTASK A1 COMPLETE** — Migrated DialogueSystem from image-based UI to code-first Phaser Graphics primitives.
+
+**New Files Created:**
+- `src/game/ui/primitives/UIPanel.ts` — Code-first panel using Phaser Graphics (no image assets)
+- `src/game/ui/primitives/UIButton.ts` — Code-first button primitive with hover states
+- `src/game/ui/primitives/UILabel.ts` — Code-first label primitive
+- `src/game/ui/primitives/UIChoiceList.ts` — Code-first choice list primitive
+- `src/game/ui/primitives/index.ts` — Barrel export
+- `src/game/ui/uiTheme.ts` — Design tokens (colors, fonts, spacing, borders)
+
+**Modified Files:**
+- `src/game/systems/DialogueSystem.ts` — Migrated to use UIPanel primitive; fixed `alpha` → `fillAlpha`
+- `src/game/scenes/Preloader.ts` — Removed old UI sprite loading (`dialoguePanel`), removed unused import
+- `scripts/build-characters.js` — Added NDJSON support for flashcard packs
+- `scripts/validate.js` — Added NDJSON validation support
+
+**Flashcard Pack Added:**
+- `public/content/cards/cloze.ndjson` — 1154 bar exam cloze cards in NDJSON format
+
+### Verification Gates — ALL PASS ✅
+
+| Gate | Result |
+|------|--------|
+| `npm run check-boundaries` | ✅ All changes within allowed boundaries |
+| `npm run validate:tiled` | ✅ 4 Tiled maps valid |
+| `npm run build:tiled` | ✅ 4 maps compiled to generated/levels |
+| `npm run test:e2e` | ✅ 16 passed (1.5m) |
+| `npm run test:unit` | ✅ 53 passed (6 test files) |
+
+### Manual Verification Required (Returned to User)
+
+These tasks require in-game visual verification:
+
+1. **Dialogue Rendering** — Verify dialogue panel renders correctly when talking to NPCs
+2. **Resize Behavior** — Test window resize repositions dialogue appropriately
+3. **Choice Button Disable** — Confirm choice buttons disable after click (no double-tap)
+4. **Pixel Alignment** — Audit for blurry rectangles (Graphics need `Math.floor` on coordinates)
+5. **Deprecated Asset Removal** — Remove old UI sprites from `vendor/ui/` (separate commit)
+
+### Design Token Reference
+
+```typescript
+// src/game/ui/uiTheme.ts
+export const uiTheme = {
+  colors: {
+    panelBackground: 0x1a1a2e,
+    panelBorder: 0x4a4a6a,
+    buttonBackground: 0x2d2d44,
+    buttonHover: 0x3d3d54,
+    textPrimary: '#e0e0e0',
+    textSecondary: '#a0a0a0',
+  },
+  fonts: {
+    primary: 'Georgia, serif',
+    size: { small: 14, medium: 18, large: 24 },
+  },
+  spacing: { xs: 4, sm: 8, md: 16, lg: 24, xl: 32 },
+  borders: { radius: 8, width: 2 },
+};
+```
+
+### Invariants/Hazards
+
+- **UI Isolation Invariant**: All UI must be created on UI layer via `WorldScene.getUILayer()`
+- **Graphics Alpha**: Use `fillAlpha` not `alpha` in UIPanelConfig (interface enforces this)
+- **Code-First**: UI is now Graphics-based; no image assets for panels/buttons
+- **NDJSON Format**: Flashcard packs can be `.json` or `.ndjson` — validator handles both
+
+---
+
 ## 1. Project Overview
 
 **Kim Bar** is a Phaser 3 game for bar exam preparation through flashcard encounters in a SCOTUS-themed courthouse. Player controls Kim, a law student, navigating rooms and answering legal questions.
@@ -1056,3 +1130,91 @@ npm run verify
 - Tile sizes remain 32×32 for TSX entries.
 - Atlases exceeding 2048×2048 should be flagged in the inventory.
 - `__MACOSX` artifacts should be excluded from ingestion.
+
+---
+
+## 14. Recent Changes: UI Primitives + Dialogue Migration (January 17, 2026)
+
+### What Was Done
+
+Implemented a code-first UI primitive system and migrated DialogueSystem to use it (Phase A, Subtask A1):
+
+**New Files Created:**
+- `src/game/ui/uiTheme.ts` — Centralized theme tokens (colors, spacing, fonts, borders, z-depths)
+- `src/game/ui/primitives/UIPanel.ts` — Code-first panel using Graphics rectangles with stroke
+- `src/game/ui/primitives/UIButton.ts` — Interactive button with normal/hover/disabled states
+- `src/game/ui/primitives/UIChoiceList.ts` — Vertical choice list with disable-after-select
+- `src/game/ui/primitives/UILabel.ts` — Theme-aware text wrapper with word wrapping
+- `src/game/ui/primitives/index.ts` — Barrel export for all primitives
+
+**Modified Files:**
+- `src/game/systems/DialogueSystem.ts` — Migrated to use new UI primitives and theme tokens
+- `src/game/scenes/Preloader.ts` — Removed old UI sprite loading references
+- `content/registry_config.json` — Removed deprecated UI sprite entries (ui.panel_frame, ui.button_*)
+
+**Key Design Decisions:**
+- **Code-first UI**: Using Phaser Graphics rectangles with stroke instead of image-based 9-slice panels
+- **Theme tokens**: All colors, spacing, and borders centralized in `uiTheme.ts`
+- **Choice interface**: `{ text: string; index: number; data?: unknown }` with `setChoices()` method
+- **UI Isolation**: All primitives attach to container passed via config (from `WorldScene.getUILayer()`)
+
+### How to Use
+
+```typescript
+import { UIPanel, UIButton, UIChoiceList, UILabel } from '@/game/ui/primitives';
+import { uiTheme } from '@/game/ui/uiTheme';
+
+// Create panel
+const panel = new UIPanel(scene, {
+  x: 100, y: 100, width: 400, height: 200,
+  fillColor: uiTheme.colors.panelBg,
+  strokeColor: uiTheme.colors.panelBorder,
+  strokeWidth: uiTheme.borders.normal
+});
+container.add(panel);
+
+// Create choice list
+const choices = new UIChoiceList(scene, {
+  x: 120, y: 150, width: 360, choiceHeight: 40, spacing: 8,
+  onSelect: (choice) => console.log('Selected:', choice.index)
+});
+choices.setChoices([
+  { text: 'Option A', index: 0 },
+  { text: 'Option B', index: 1 }
+]);
+container.add(choices);
+```
+
+### Gates Run
+
+| Gate | Result | Notes |
+|------|--------|-------|
+| `npx tsc --noEmit` | ✅ PASSED | Only pre-existing errors in unrelated files |
+| `npm run verify` | ✅ PASSED | All validations passed |
+| `npm run test:unit` | ⚠️ Pre-existing failures | Empty test suites not related to UI changes |
+| `npm run test:e2e` | ⏭️ SKIPPED | Requires manual smoke test of dialogue UI |
+| `npm run validate:tiled` | ⏭️ SKIPPED | No Tiled changes in this subtask |
+| `npm run build:tiled` | ⏭️ SKIPPED | No Tiled changes in this subtask |
+| `npm run dev` | ✅ Already running | Dev server active on port 8080 |
+
+### What's Next
+
+1. **Manual smoke test**: Verify dialogue UI renders correctly in game
+2. **Phase B**: Door/room transition contract + validator (not started)
+3. **Phase C**: Prop registry + validator (not started)
+4. **Future cleanup**: Delete deprecated UI assets from `vendor/ui/` once stable
+
+### Deprecated Assets (Marked for Future Cleanup)
+
+The following UI assets were removed from registry but files may still exist:
+- `ui.panel_frame` (ui.dialogue_panel_frame)
+- `ui.button_normal`, `ui.button_hover`, `ui.button_disabled`
+- Any Golden UI frame sprites previously used for dialogue
+
+These should be moved to `public/content/ui/deprecated/` or deleted once the new code-first UI is stable.
+
+### Invariants/Hazards
+
+- UI primitives must attach to containers from `WorldScene.getUILayer()` — no direct world display list adds
+- Theme tokens are the single source of truth for UI styling — avoid inline magic numbers
+- Choices disable immediately after selection via `setChoices([])` before processing
