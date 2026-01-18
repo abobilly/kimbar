@@ -8,6 +8,7 @@ import { OutfitSystem } from '@game/systems/OutfitSystem';
 import { DEPTH_HUD } from '@game/constants/depth';
 import { UI_MARGIN, UI_PADDING } from '@game/constants';
 import { Outfit } from '@content/types';
+import { uiTheme } from './uiTheme';
 
 export class WardrobePanel {
   private scene: Scene;
@@ -74,9 +75,9 @@ export class WardrobePanel {
       panelY + panelHeight / 2,
       panelWidth,
       panelHeight,
-      0x1a1a2e,
-      0.95
-    ).setStrokeStyle(3, 0xdaa520); // Gold border
+      uiTheme.colors.panelBg,
+      uiTheme.colors.panelBgAlpha
+    ).setStrokeStyle(uiTheme.borders.thick, uiTheme.colors.textGold); // Gold border
     this.container.add(bg);
 
     // Title
@@ -85,8 +86,8 @@ export class WardrobePanel {
       panelY + UI_PADDING + 10,
       'Wardrobe',
       {
-        fontSize: '24px',
-        color: '#daa520',
+        fontSize: uiTheme.fonts.xl,
+        color: uiTheme.colors.textGold,
         fontStyle: 'bold'
       }
     ).setOrigin(0.5, 0);

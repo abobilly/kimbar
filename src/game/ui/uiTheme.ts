@@ -37,6 +37,9 @@ export const uiTheme = {
     textDisabled: '#666666',
     textError: '#FF6B6B',
     textSuccess: '#6BCB77',
+    textGold: '#daa520',
+    textGreen: '#4CAF50',
+    black: '#000000',
 
     // Button states (hex for Graphics)
     buttonNormal: 0x2a4858,
@@ -62,6 +65,7 @@ export const uiTheme = {
 
   // Typography (string format for Phaser Text)
   fonts: {
+    xs: '12px',
     sm: `${FONT_SM}px`,
     md: `${FONT_MD}px`,
     lg: `${FONT_LG}px`,
@@ -71,6 +75,7 @@ export const uiTheme = {
 
   // Font sizes as numbers (for calculations)
   fontSizes: {
+    xs: 12,
     sm: FONT_SM,
     md: FONT_MD,
     lg: FONT_LG,

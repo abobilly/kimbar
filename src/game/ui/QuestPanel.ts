@@ -10,6 +10,7 @@ import { Scene } from 'phaser';
 import { getGameState } from '@content/registry';
 import { DEPTH_HUD } from '@game/constants/depth';
 import { UI_MARGIN, UI_PADDING } from '@game/constants';
+import { uiTheme } from './uiTheme';
 
 const QUEST_PREFIXES = ['quest_', 'has_', 'met_'] as const;
 type QuestPrefix = typeof QUEST_PREFIXES[number];
@@ -144,9 +145,9 @@ export class QuestPanel {
       panelY + panelHeight / 2,
       panelWidth,
       panelHeight,
-      0x1a1a2e,
-      0.92
-    ).setStrokeStyle(2, 0x4a90a4);
+      uiTheme.colors.panelBg,
+      uiTheme.colors.panelBgAlpha
+    ).setStrokeStyle(uiTheme.borders.thin, uiTheme.colors.panelBorder);
     this.container.add(bg);
 
     // Header
@@ -155,8 +156,8 @@ export class QuestPanel {
       panelY + UI_PADDING,
       `Active Quests (${quests.length}) [Q]`,
       {
-        fontSize: '18px',
-        color: '#FFD700',
+        fontSize: uiTheme.fonts.lg,
+        color: uiTheme.colors.textAccent,
         fontStyle: 'bold'
       }
     );
@@ -169,8 +170,8 @@ export class QuestPanel {
         panelY + headerHeight + UI_PADDING,
         'No active quests.\nSpeak with NPCs to begin!',
         {
-          fontSize: '14px',
-          color: '#888888',
+          fontSize: uiTheme.fonts.sm,
+          color: uiTheme.colors.textSecondary,
           lineSpacing: 4
         }
       );
@@ -188,7 +189,7 @@ export class QuestPanel {
           y,
           statusIcon,
           {
-            fontSize: '16px',
+            fontSize: uiTheme.fonts.md,
             color: statusColor
           }
         );
@@ -200,8 +201,8 @@ export class QuestPanel {
           y,
           quest.name,
           {
-            fontSize: '14px',
-            color: quest.completed ? '#888888' : '#FFFFFF',
+            fontSize: uiTheme.fonts.sm,
+            color: quest.completed ? uiTheme.colors.textSecondary : uiTheme.colors.textPrimary,
             fontStyle: quest.completed ? 'normal' : 'bold'
           }
         );
@@ -213,8 +214,8 @@ export class QuestPanel {
           y + 18,
           quest.description,
           {
-            fontSize: '12px',
-            color: '#AAAAAA',
+            fontSize: uiTheme.fonts.xs,
+            color: uiTheme.colors.textSecondary,
             wordWrap: { width: panelWidth - UI_PADDING * 2 - 25 }
           }
         );
