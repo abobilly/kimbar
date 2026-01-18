@@ -13,18 +13,6 @@
         "repo.find"
       ]
     },
-    "kimbar-flashcards": {
-      "command": "node",
-      "args": [
-        "tools/mcp-flashcards/dist/index.js"
-      ],
-      "alwaysAllow": [
-        "flashcards.search",
-        "flashcards.sync",
-        "flashcards.byCategory",
-        "flashcards.status"
-      ]
-    },
     "kimbar-gates": {
       "command": "node",
       "args": [

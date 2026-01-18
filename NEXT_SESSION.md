@@ -141,29 +141,69 @@ Three layers prevent `__MACOSX` and `._*` files from polluting the repo:
 
 ---
 
+## 2. Recent Changes: Qdrant Indexing Complete + Flashcards Removed (January 17, 2026)
+
+### What Was Done
+
+**Repository Indexed to Qdrant Cloud:**
+- Collection: `kimbar_repo_v1_3072` — 2,069 chunks from 191 files
+- Embedding model: `text-embedding-3-large` (3072 dims)
+- Qdrant Cloud: Cluster ABUX at `https://d4a6dac2-00d0-47fa-b055-ca12fe04934f.us-east4-0.gcp.cloud.qdrant.io`
+- Indexer script: `tools/mcp-repo/index-now.mjs` (standalone, no dotenvx issues)
+
+**Flashcards MCP Server Removed:**
+- Deleted `tools/mcp-flashcards/` directory entirely
+- Removed `kimbar-flashcards` from `.vscode/mcp.json`
+- Removed `kimbar-flashcards` from `.roo/mcp.json`
+- Removed flashcard tools from MCP Policy in `.roo/rules/00_READ_FIRST.md`
+- Flashcards will be managed separately from this repo
+
+**Skip Filters Applied:**
+- `code-assistant-manager/` — separate Python project
+- `Qwen-Agent/` — vendored dependency
+- `flashcards.json` — kept separate from repo index
+- Binary files (images, fonts)
+
+### MCP Tool Allowlist (Updated)
+
+Only these MCP tools are permitted:
+- `repo.search`, `repo.lookup`, `repo.reindex`, `repo.status`, `repo.find`
+- `kimbar.check`, `kimbar.checkFast`, `kimbar.verify`, `kimbar.prepare`, `kimbar.test`, `kimbar.build`
+
+### How to Reindex
+
+```bash
+cd tools/mcp-repo && node index-now.mjs
+```
+
+### Invariants/Hazards
+
+- Some `.tmx` files exceeded 8192 token limit for embedding — these were skipped with errors
+- dotenv v17+ has dotenvx auto-injection that can load `.env.example` instead of `.env`; the indexer uses manual parsing
+- `.env` must contain `QDRANT_URL`, `QDRANT_API_KEY`, `OPENAI_API_KEY`
+
+---
+
 ## 2. Recent Changes: MCP Tooling Infrastructure (January 17, 2026)
 
 ### What Was Done
 
-Implemented three MCP servers with Qdrant-backed semantic search:
+Implemented MCP servers with Qdrant-backed semantic search:
 
 **MCP Servers Created:**
 - `tools/mcp-repo/` — Semantic code search across repository
   - Tools: `repo.search`, `repo.lookup`, `repo.reindex`, `repo.status`, `repo.find`
-- `tools/mcp-flashcards/` — Flashcard search and sync from Cloudflare API
-  - Tools: `flashcards.search`, `flashcards.sync`, `flashcards.byCategory`, `flashcards.status`
 - `tools/mcp-gates/` — Verification gate runner
   - Tools: `kimbar.check`, `kimbar.checkFast`, `kimbar.verify`, `kimbar.prepare`, `kimbar.test`, `kimbar.build`
 
 **Qdrant Collections:**
 - `kimbar_repo_v1_3072` — Repository code chunks (3072 dims, Cosine)
-- `kimbar_flashcards_v1_3072` — Bar exam flashcards (3072 dims, Cosine)
 
 **Configuration:**
 - `.env` — Qdrant URL, API key, OpenAI embedding config
 - `.vscode/mcp.json` — VS Code Copilot MCP config
 - `.roo/mcp.json` — Roo MCP config with allowlisted tools
-- `.roo/rules/00_READ_FIRST.md` — MCP Policy (allowlist: `repo.*`, `flashcards.*`, `kimbar.*`)
+- `.roo/rules/00_READ_FIRST.md` — MCP Policy (allowlist: `repo.*`, `kimbar.*`)
 
 **DEV Hooks Added:**
 - `window.__KIMBAR_READY__` — Set to `true` when WorldScene is fully initialized
@@ -179,15 +219,11 @@ Implemented three MCP servers with Qdrant-backed semantic search:
 ```bash
 # Build all MCP servers
 cd tools/mcp-repo && npm install && npm run build
-cd tools/mcp-flashcards && npm install && npm run build
 cd tools/mcp-gates && npm install && npm run build
 
 # Index repository to Qdrant (run once, then periodically)
 # Via VS Code Copilot: use repo.reindex tool
 # Via Roo: repo.reindex tool
-
-# Sync flashcards from API
-# Via VS Code Copilot: use flashcards.sync tool
 
 # Run UI smoke tests with screenshots
 npx playwright test ui-smoke.spec.ts
@@ -198,7 +234,6 @@ npx playwright test ui-smoke.spec.ts
 
 Only these MCP tools are permitted (see `.roo/rules/00_READ_FIRST.md`):
 - `repo.search`, `repo.lookup`, `repo.reindex`, `repo.status`, `repo.find`
-- `flashcards.search`, `flashcards.sync`, `flashcards.byCategory`, `flashcards.status`
 - `kimbar.check`, `kimbar.checkFast`, `kimbar.verify`, `kimbar.prepare`, `kimbar.test`, `kimbar.build`
 
 ### Invariants/Hazards

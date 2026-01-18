@@ -20,7 +20,7 @@
 5. MCP controlled — use only allowlisted read-only tools; all edits validated via local gates.
 
 ## MCP Policy (KIMBAR)
-- **Allowed**: `repo.search`, `repo.lookup`, `repo.status`, `repo.reindex` (scope=changed only by default), `flashcards.get`, `flashcards.search`.
+- **Allowed**: `repo.search`, `repo.lookup`, `repo.status`, `repo.reindex` (scope=changed only by default).
 - **Forbidden**: arbitrary command execution, modifying system config, or any tool not explicitly allowlisted above.
 - All edits must still pass local gates (lint/typecheck/tests/content validators) before being considered done.
 - Never commit secrets. Use env vars only.
