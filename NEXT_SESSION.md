@@ -12,7 +12,7 @@
 
 ### What Was Done
 
-**SUBTASK A1 COMPLETE** — Migrated DialogueSystem from image-based UI to code-first Phaser Graphics primitives.
+**SUBTASK A1 COMPLETE** — Migrated DialogueSystem AND EncounterSystem to code-first Phaser Graphics primitives.
 
 **New Files Created:**
 - `src/game/ui/primitives/UIPanel.ts` — Code-first panel using Phaser Graphics (no image assets)
@@ -23,10 +23,16 @@
 - `src/game/ui/uiTheme.ts` — Design tokens (colors, fonts, spacing, borders)
 
 **Modified Files:**
-- `src/game/systems/DialogueSystem.ts` — Migrated to use UIPanel primitive; fixed `alpha` → `fillAlpha`
-- `src/game/scenes/Preloader.ts` — Removed old UI sprite loading (`dialoguePanel`), removed unused import
-- `scripts/build-characters.js` — Added NDJSON support for flashcard packs
-- `scripts/validate.js` — Added NDJSON validation support
+- `src/game/systems/DialogueSystem.ts` — Migrated to use UIPanel primitive
+- `src/game/systems/EncounterSystem.ts` — Migrated to UIPanel + UIButton primitives (+57/-113 lines)
+- `src/game/scenes/Preloader.ts` — Removed old UI sprite loading
+- `scripts/list-used-assets.mjs` — Cleared UI_SPRITE_IDS (no longer needed)
+- `docs/MISSING_ASSETS.md` — Removed deprecated ui.panel_frame/ui.button_* entries
+- `docs/MISSING_ASSETS_SPEC.json` — Removed deprecated UI sprites from spec
+
+**Commits (pushed to main):**
+- `8a00aea` — refactor(A1): migrate EncounterSystem to UIPanel/UIButton primitives
+- `61708a1` — docs(A1): remove deprecated UI sprite references from asset tracking
 
 **Flashcard Pack Added:**
 - `public/content/cards/cloze.ndjson` — 1154 bar exam cloze cards in NDJSON format
