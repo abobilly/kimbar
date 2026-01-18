@@ -16,12 +16,9 @@ const REGISTRY_CONFIG_PATH = './content/registry_config.json';
 const ROOM_SPEC_DIR = './content/rooms';
 const LDTK_DIR = './public/content/ldtk';
 
-const UI_SPRITE_IDS = [
-  'ui.panel_frame',
-  'ui.button_normal',
-  'ui.button_hover',
-  'ui.button_pressed'
-];
+// NOTE: UI sprite IDs removed - A1 migration to code-first UIPanel/UIButton primitives
+// These sprites are no longer loaded or used at runtime
+const UI_SPRITE_IDS = [];
 
 const PROP_ALIAS_MAP = {
   'prop.banner': 'prop.flag_stand',

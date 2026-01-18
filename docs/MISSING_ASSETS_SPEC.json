@@ -1749,13 +1749,12 @@
       "id": "ui_and_vfx_optional",
       "kind": "ui_vfx",
       "priority": "P2",
+      "note": "ui.panel_frame and ui.button_* removed - A1 migration to code-first primitives",
       "items": [
         "icon.locked_door",
         "icon.quest_complete",
         "vfx.sparkle_unlock",
-        "vfx.victory_burst",
-        "ui.panel_frame",
-        "ui.button_normal"
+        "vfx.victory_burst"
       ]
     }
   ]

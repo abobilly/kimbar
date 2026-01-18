@@ -237,8 +237,8 @@ If replacing UI shapes with art assets:
 - `icon.quest_complete` (64x64, no collision)
 - `vfx.sparkle_unlock` (64x64, no collision)
 - `vfx.victory_burst` (64x64, no collision)
-- `ui.panel_frame` (256x128)
-- `ui.button_normal` (256x48)
+
+> **Note**: `ui.panel_frame` and `ui.button_*` removed - A1 migration to code-first UIPanel/UIButton primitives
 
 ## 8. Missing Character Sprites (P1)
 
