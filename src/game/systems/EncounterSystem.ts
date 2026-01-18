@@ -7,6 +7,9 @@ import { registerExit, unregisterExit } from '@game/ui/exitManager';
 import { layoutEncounter } from '@game/ui/layout';
 import { DEPTH_MODAL } from '@game/constants/depth';
 import { FONT_LG, FONT_TITLE } from '@game/constants';
+import { UIPanel } from '@game/ui/primitives/UIPanel';
+import { UIButton } from '@game/ui/primitives/UIButton';
+import { uiTheme } from '@game/ui/uiTheme';
 
 export interface EncounterResult {
   won: boolean;
@@ -249,86 +252,47 @@ export class EncounterSystem {
     correct: boolean,
     card: Flashcard,
     layout: ReturnType<typeof layoutEncounter>
-  ): Phaser.GameObjects.Container {
-    const container = this.scene.add.container(x, y);
+  ): UIButton {
+    // Create UIButton with code-first Graphics (no image assets)
+    const button = new UIButton(this.scene, {
+      x,
+      y,
+      width: layout.buttonWidth,
+      height: layout.buttonHeight,
+      text,
+      fontSize: 'md',
+      onClick: () => {
+        // Disable all buttons and mark as evaluating (blocks cancel)
+        this.isEvaluating = true;
+        this.container?.each((child: Phaser.GameObjects.GameObject) => {
+          if (child.name?.startsWith('q_button_')) {
+            const btn = child as UIButton;
+            if (btn.setDisabled) {
+              btn.setDisabled(true);
+            } else {
+              (child as Phaser.GameObjects.Container).disableInteractive();
+            }
+          }
+        });
 
-    const buttonKey = 'ui.button_normal';
-    const buttonHoverKey = 'ui.button_hover';
-    const buttonPressedKey = 'ui.button_pressed';
-    const useButtonImage = this.scene.textures.exists(buttonKey);
-    const hasHover = useButtonImage && this.scene.textures.exists(buttonHoverKey);
-    const hasPressed = useButtonImage && this.scene.textures.exists(buttonPressedKey);
-    const bg = useButtonImage
-      ? this.scene.add.image(0, 0, buttonKey)
-      : this.scene.add.rectangle(0, 0, layout.buttonWidth, layout.buttonHeight, 0x2a4858, 1)
-        .setStrokeStyle(2, 0x4a90a4);
-    if (useButtonImage) {
-      (bg as Phaser.GameObjects.Image).setDisplaySize(layout.buttonWidth, layout.buttonHeight);
-    }
-    
-    const label = this.scene.add.text(0, 0, text, {
-      fontSize: '18px',
-      color: '#FFFFFF',
-      wordWrap: { width: layout.buttonWidth - 40 },
-      align: 'center'
-    }).setOrigin(0.5);
-
-    container.add([bg, label]);
-    container.setSize(layout.buttonWidth, layout.buttonHeight);
-    container.setInteractive({ useHandCursor: true });
-
-    container.on('pointerover', () => {
-      if (hasHover) {
-        (bg as Phaser.GameObjects.Image).setTexture(buttonHoverKey);
-      } else if (!useButtonImage) {
-        (bg as Phaser.GameObjects.Rectangle).setFillStyle(0x3a5868);
-      }
-    });
-    container.on('pointerout', () => {
-      if (useButtonImage) {
-        (bg as Phaser.GameObjects.Image).setTexture(buttonKey);
-      } else {
-        (bg as Phaser.GameObjects.Rectangle).setFillStyle(0x2a4858);
-      }
-    });
-    
-    container.on('pointerdown', () => {
-      // Disable all buttons and mark as evaluating (blocks cancel)
-      this.isEvaluating = true;
-      this.container?.each((child: Phaser.GameObjects.GameObject) => {
-        if (child.name?.startsWith('q_button_')) {
-          (child as Phaser.GameObjects.Container).disableInteractive();
-        }
-      });
-
-      if (useButtonImage && hasPressed) {
-        (bg as Phaser.GameObjects.Image).setTexture(buttonPressedKey);
-      }
-
-      if (correct) {
-        if (useButtonImage) {
-          (bg as Phaser.GameObjects.Image).setTint(0x4CAF50);
+        if (correct) {
+          // Visual feedback for correct answer
+          button.setTintFill(0x4CAF50);
+          this.correctCount++;
+          this.showFeedback(card, true);
         } else {
-          (bg as Phaser.GameObjects.Rectangle).setFillStyle(0x2d5a3d);
-          (bg as Phaser.GameObjects.Rectangle).setStrokeStyle(2, 0x4CAF50);
+          // Visual feedback for incorrect answer
+          button.setTintFill(0xF44336);
+          // Update sanction meter
+          const state = getGameState();
+          updateGameState({ sanctionMeter: state.sanctionMeter + 10 });
+          this.showFeedback(card, false);
         }
-        this.correctCount++;
-        this.showFeedback(card, true);
-      } else {
-        if (useButtonImage) {
-          (bg as Phaser.GameObjects.Image).setTint(0xF44336);
-        } else {
-          (bg as Phaser.GameObjects.Rectangle).setFillStyle(0x5a2d2d);
-          (bg as Phaser.GameObjects.Rectangle).setStrokeStyle(2, 0xF44336);
-        }
-        // Update sanction meter
-        const state = getGameState();
-        updateGameState({ sanctionMeter: state.sanctionMeter + 10 });
-        this.showFeedback(card, false);
       }
     });
 
-    return container;
+    // UIButton handles hover/pressed states automatically via code-first Graphics
+    return button;
   }
 
   private createHintButton(x: number, y: number, hint: string): Phaser.GameObjects.Container {
@@ -382,37 +346,18 @@ export class EncounterSystem {
     
     const explanation = card.easyContent || card.mediumContent || 'No explanation available.';
     
-    const panelKey = 'ui.panel_frame';
-    const usePanel = this.scene.textures.exists(panelKey);
-    const feedbackBg = usePanel
-      ? this.scene.add.image(layout.centerX, layout.feedbackY, panelKey)
-      : this.scene.add.rectangle(
-        layout.centerX,
-        layout.feedbackY,
-        layout.feedbackWidth,
-        layout.feedbackHeight,
-        0x1a1a2e,
-        0.95
-      ).setStrokeStyle(2, correct ? 0x4CAF50 : 0xF44336);
-    feedbackBg.setName('q_feedback_bg');
-    if (usePanel) {
-      (feedbackBg as Phaser.GameObjects.Image).setDisplaySize(layout.feedbackWidth, layout.feedbackHeight);
-      feedbackBg.setAlpha(0.95);
-    }
-
-    const feedbackOutline = usePanel
-      ? this.scene.add.rectangle(
-        layout.centerX,
-        layout.feedbackY,
-        layout.feedbackWidth,
-        layout.feedbackHeight,
-        0x000000,
-        0
-      ).setStrokeStyle(2, correct ? 0x4CAF50 : 0xF44336)
-      : null;
-    if (feedbackOutline) {
-      feedbackOutline.setName('q_feedback_outline');
-    }
+    // Use UIPanel primitive (code-first, no image assets)
+    const feedbackPanel = new UIPanel(this.scene, {
+      x: layout.centerX,
+      y: layout.feedbackY,
+      width: layout.feedbackWidth,
+      height: layout.feedbackHeight,
+      fillColor: uiTheme.colors.panelBg,
+      fillAlpha: 0.95,
+      strokeColor: correct ? 0x4CAF50 : 0xF44336,
+      strokeWidth: 2,
+    });
+    feedbackPanel.setName('q_feedback_bg');
     
     const feedbackTitle = this.scene.add.text(layout.centerX, layout.feedbackY - 30, 
       correct ? '✅ CORRECT!' : '❌ INCORRECT', {
@@ -431,8 +376,7 @@ export class EncounterSystem {
     feedbackText.setName('q_feedback_text');
 
     this.container.add([
-      feedbackBg,
-      ...(feedbackOutline ? [feedbackOutline] : []),
+      feedbackPanel,
       feedbackTitle,
       feedbackText
     ]);
