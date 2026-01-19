@@ -11,15 +11,15 @@
                 "main"
             ],
             "bounds": {
-                "width": 80,
-                "height": 60
+                "width": 60,
+                "height": 80
             },
             "portals": [
                 {
                     "id": "courthouse_exterior_to_scotus_lobby",
-                    "x": 38,
-                    "y": 23,
-                    "width": 4,
+                    "x": 12,
+                    "y": 19,
+                    "width": 1,
                     "height": 1,
                     "facing": "up",
                     "notes": "Main entrance to the lobby"

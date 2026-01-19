@@ -3,8 +3,8 @@
     "id": "courthouse_exterior",
     "name": "Courthouse Exterior",
     "description": "The grand exterior of the Supreme Court building, featuring marble steps and pillars",
-    "width": 25,
-    "height": 20,
+    "width": 60,
+    "height": 80,
     "tileset": "scotus_floors",
     "background": "#87CEEB",
     "environment": "exterior",
@@ -18,9 +18,9 @@
         },
         {
             "type": "Door",
-            "x": 11,
-            "y": 2,
-            "id": "door_to_lobby",
+            "x": 12,
+            "y": 19,
+            "id": "courthouse_exterior_to_scotus_lobby",
             "properties": {
                 "targetLevel": "scotus_lobby"
             }

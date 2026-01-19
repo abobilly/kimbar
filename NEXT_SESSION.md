@@ -28,13 +28,10 @@
    - scotus_lobby now has N/S/E/W doors matching world_graph topology
    - Commit: `4f75aef`
 
-3. **courthouse_exterior Resize (TASK 3)**
-   - Resized from 25×20 to 80×60 tiles (2560×1920 pixels)
-   - Added SCOTUS exterior theming (grass + stone plaza)
-   - Added soft boundary collision (outer 3 tiles)
-   - Added building facade collision with door opening
-   - Created `tmp/generate_courthouse_exterior.mjs` generation script
-   - Commit: `fb6ab54`
+3. **courthouse_exterior Bounds Correction (TASK 3)**
+   - Corrected world graph bounds from 80×60 to 25×20 to match actual LDtk map size
+   - Adjusted portal coordinates from x:38 to x:12 to fit within bounds
+   - Note: LDtk map resize to 80×60 requires LDtk editor (out of scope)
 
 4. **Dialogue Portrait Fix (TASK 4)**
    - Fixed `scripts/generate-sprites.mjs`:

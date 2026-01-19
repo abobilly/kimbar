@@ -24,21 +24,60 @@
             "properties": {}
         },
         {
+            "type": "PlayerSpawn",
+            "x": 9,
+            "y": 1,
+            "id": "from_hallway",
+            "properties": {}
+        },
+        {
+            "type": "PlayerSpawn",
+            "x": 1,
+            "y": 7,
+            "id": "from_courtroom",
+            "properties": {}
+        },
+        {
+            "type": "PlayerSpawn",
+            "x": 18,
+            "y": 7,
+            "id": "from_library",
+            "properties": {}
+        },
+        {
             "type": "Door",
             "x": 8,
             "y": 14,
-            "id": "door_to_exterior",
+            "id": "scotus_lobby_to_courthouse_exterior",
             "properties": {
                 "targetLevel": "courthouse_exterior"
             }
         },
         {
             "type": "Door",
-            "x": 8,
+            "x": 9,
             "y": 0,
-            "id": "door_to_hallway",
+            "id": "scotus_lobby_to_hallway",
             "properties": {
                 "targetLevel": "hallway"
+            }
+        },
+        {
+            "type": "Door",
+            "x": 0,
+            "y": 7,
+            "id": "scotus_lobby_to_courtroom_main",
+            "properties": {
+                "targetLevel": "courtroom_main"
+            }
+        },
+        {
+            "type": "Door",
+            "x": 19,
+            "y": 7,
+            "id": "scotus_lobby_to_library",
+            "properties": {
+                "targetLevel": "library"
             }
         }
     ],

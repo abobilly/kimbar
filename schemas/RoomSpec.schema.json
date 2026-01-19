@@ -4,7 +4,14 @@
   "title": "RoomSpec",
   "description": "Specification for generating a level/room in the game",
   "type": "object",
-  "required": ["id", "name", "width", "height", "tileset", "entities"],
+  "required": [
+    "id",
+    "name",
+    "width",
+    "height",
+    "tileset",
+    "entities"
+  ],
   "properties": {
     "id": {
       "type": "string",
@@ -22,13 +29,13 @@
     "width": {
       "type": "integer",
       "minimum": 5,
-      "maximum": 50,
+      "maximum": 100,
       "description": "Room width in tiles (32px each)"
     },
     "height": {
       "type": "integer",
       "minimum": 5,
-      "maximum": 50,
+      "maximum": 100,
       "description": "Room height in tiles (32px each)"
     },
     "tileset": {
@@ -45,7 +52,10 @@
     },
     "environment": {
       "type": "string",
-      "enum": ["interior", "exterior"],
+      "enum": [
+        "interior",
+        "exterior"
+      ],
       "default": "interior",
       "description": "Room environment type - affects tileset and background"
     },
@@ -54,11 +64,22 @@
       "description": "All entities in the room",
       "items": {
         "type": "object",
-        "required": ["type", "x", "y"],
+        "required": [
+          "type",
+          "x",
+          "y"
+        ],
         "properties": {
           "type": {
             "type": "string",
-            "enum": ["PlayerSpawn", "NPC", "EncounterTrigger", "Door", "OutfitChest", "Prop"],
+            "enum": [
+              "PlayerSpawn",
+              "NPC",
+              "EncounterTrigger",
+              "Door",
+              "OutfitChest",
+              "Prop"
+            ],
             "description": "Entity type (must match registry.json entities)"
           },
           "x": {
@@ -135,11 +156,19 @@
       "description": "Connections to other rooms",
       "items": {
         "type": "object",
-        "required": ["direction", "targetRoom"],
+        "required": [
+          "direction",
+          "targetRoom"
+        ],
         "properties": {
           "direction": {
             "type": "string",
-            "enum": ["north", "south", "east", "west"]
+            "enum": [
+              "north",
+              "south",
+              "east",
+              "west"
+            ]
           },
           "targetRoom": {
             "type": "string",

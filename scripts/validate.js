@@ -822,6 +822,111 @@ async function validateRoomSpecs(schemas, registry, contract) {
   }
 }
 
+async function validateRoomSpecsAgainstWorldGraph() {
+  console.log('\n🌍 Validating Room Specs Against World Graph...');
+
+  if (!existsSync(WORLD_GRAPH_PATH)) {
+    warn('World graph not found - skipping room spec validation');
+    return;
+  }
+
+  if (!existsSync(CONTENT_DIRS.rooms)) {
+    console.log('  ℹ️  No content/rooms directory - skipping validation');
+    return;
+  }
+
+  try {
+    const worldGraph = await loadJson(WORLD_GRAPH_PATH);
+    const nodeMap = new Map();
+    for (const node of worldGraph.nodes) {
+      nodeMap.set(node.id, node);
+    }
+
+    const files = await readdir(CONTENT_DIRS.rooms);
+    const jsonFiles = files.filter(f => f.endsWith('.json'));
+
+    for (const file of jsonFiles) {
+      try {
+        const spec = await loadJson(join(CONTENT_DIRS.rooms, file));
+        const roomId = spec.id;
+        const node = nodeMap.get(roomId);
+
+        if (!node) {
+          warn(`${file}: room '${roomId}' not found in world graph`);
+          continue;
+        }
+
+        // Check dimensions
+        const specWidth = spec.width;
+        const specHeight = spec.height;
+        const graphWidth = node.bounds?.width;
+        const graphHeight = node.bounds?.height;
+
+        if (graphWidth && specWidth !== graphWidth) {
+          error(`${file}: width ${specWidth} does not match world graph bounds ${graphWidth}`);
+        }
+        if (graphHeight && specHeight !== graphHeight) {
+          error(`${file}: height ${specHeight} does not match world graph bounds ${graphHeight}`);
+        }
+
+        // Check spawns
+        const specSpawns = new Set();
+        for (const entity of spec.entities || []) {
+          if (entity.type === 'PlayerSpawn') {
+            specSpawns.add(entity.id);
+          }
+        }
+        const graphSpawns = new Set(node.spawns || []);
+        for (const spawn of specSpawns) {
+          if (!graphSpawns.has(spawn)) {
+            warn(`${file}: spawn '${spawn}' not in world graph spawns`);
+          }
+        }
+        for (const spawn of graphSpawns) {
+          if (!specSpawns.has(spawn)) {
+            warn(`${file}: world graph spawn '${spawn}' not in room spec`);
+          }
+        }
+
+        // Check doors/portals
+        const specDoors = new Map();
+        for (const entity of spec.entities || []) {
+          if (entity.type === 'Door') {
+            specDoors.set(entity.id, entity);
+          }
+        }
+        const graphPortals = new Map();
+        for (const portal of node.portals || []) {
+          graphPortals.set(portal.id, portal);
+        }
+
+        for (const [doorId, door] of specDoors) {
+          if (!graphPortals.has(doorId)) {
+            error(`${file}: door '${doorId}' not in world graph portals`);
+          } else {
+            const portal = graphPortals.get(doorId);
+            // Check position roughly matches
+            if (Math.abs(door.x - portal.x) > 1 || Math.abs(door.y - portal.y) > 1) {
+              warn(`${file}: door '${doorId}' position (${door.x},${door.y}) differs from portal (${portal.x},${portal.y})`);
+            }
+          }
+        }
+        for (const portalId of graphPortals.keys()) {
+          if (!specDoors.has(portalId)) {
+            error(`${file}: world graph portal '${portalId}' not in room spec doors`);
+          }
+        }
+
+        ok(`${file}: matches world graph`);
+      } catch (e) {
+        error(`Failed to parse ${file}: ${e.message}`);
+      }
+    }
+  } catch (e) {
+    error(`Failed to load world graph: ${e.message}`);
+  }
+}
+
 async function validateRoomEntrySpecs(schemas) {
   console.log('\n🏛️ Validating Room Entry Specs (content/room_entries)...');
 
@@ -1151,6 +1256,7 @@ async function main() {
   // Validate source content
   await validateCharacterSpecs(schemas, contract);
   await validateRoomSpecs(schemas, registry, contract);
+  await validateRoomSpecsAgainstWorldGraph();
   await validateRoomEntrySpecs(schemas);
   await validateLpcStyleGuide(contract);
   await validateUlpcManifest(schemas);
