@@ -27,6 +27,7 @@ export class DialogueSystem {
   // New primitives
   private dialoguePanel: UIPanel | null = null;
   private choiceList: UIChoiceList | null = null;
+  private targetPortraitKey: string | null = null;
 
   constructor(scene: Scene) {
     this.scene = scene;
@@ -55,6 +56,13 @@ export class DialogueSystem {
 
     this.onComplete = onComplete || null;
     this.onTag = onTag || null;
+    this.targetPortraitKey = null;
+
+    const targetSprite = targetEntity as Phaser.GameObjects.Sprite | undefined;
+    const textureKey = targetSprite?.texture?.key;
+    if (textureKey) {
+      this.targetPortraitKey = textureKey;
+    }
 
     // Jump to specific knot if provided
     if (knotName) {
@@ -281,6 +289,16 @@ export class DialogueSystem {
         }
       }
 
+      // Priority 3: Target entity sprite key (fallback)
+      if (!portraitKey && this.targetPortraitKey) {
+        const candidate = this.targetPortraitKey.startsWith('portrait.')
+          ? this.targetPortraitKey
+          : `portrait.${this.targetPortraitKey}`;
+        if (this.scene.textures.exists(candidate)) {
+          portraitKey = candidate;
+        }
+      }
+
       if (portraitKey) {
         portrait.setTexture(portraitKey);
         portrait.setVisible(true);
@@ -497,6 +515,7 @@ export class DialogueSystem {
 
     this.container?.destroy();
     this.container = null;
+    this.targetPortraitKey = null;
     this.onComplete?.();
   }
 

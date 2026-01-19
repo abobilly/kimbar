@@ -24095,7 +24095,7 @@
                 {
                     "height": 32,
                     "id": 2,
-                    "name": "door_to_lobby",
+                    "name": "courthouse_exterior_to_scotus_lobby",
                     "properties": [
                         {
                             "name": "toMap",

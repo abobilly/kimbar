@@ -36,6 +36,7 @@ const GENERATED_TILES_DIR = './generated/tiles';
 const TILESET_REGISTRY_PATH = './content/tilesets/tilesets.json';
 const TILESET_PARTS_DIR = './content/tilesets';
 const WORLD_GRAPH_PATH = './content/world_graph.json';
+const ULPC_MANIFEST_PATH = './content/ulpc_manifest.json';
 
 let hardErrors = [];
 let policySkips = [];
@@ -430,6 +431,38 @@ async function validateRoomEntries(schemas, registry) {
   }
 }
 
+function resolvePublicOrGeneratedPath(urlPath) {
+  if (!urlPath) return null;
+  const normalized = urlPath.startsWith('/') ? urlPath.slice(1) : urlPath;
+  const generatedPath = normalized;
+  const publicPath = join('public', normalized);
+  if (existsSync(generatedPath)) return generatedPath;
+  if (existsSync(publicPath)) return publicPath;
+  return null;
+}
+
+async function validatePortraitAssets(registry) {
+  console.log('\n🖼️ Validating Portrait Assets...');
+
+  if (!registry?.sprites) {
+    warn('No sprites registry found');
+    return;
+  }
+
+  let checked = 0;
+  for (const sprite of Object.values(registry.sprites)) {
+    if (!sprite?.portraitUrl) continue;
+    checked++;
+
+    const resolved = resolvePublicOrGeneratedPath(sprite.portraitUrl);
+    if (!resolved) {
+      error(`Portrait missing for sprite '${sprite.key ?? sprite.id ?? 'unknown'}': ${sprite.portraitUrl}`);
+    }
+  }
+
+  ok(`${checked} portrait(s) checked`);
+}
+
 async function validateWorldGraph(schemas, registry) {
   console.log('\n🗺️ Validating World Graph...');
 
@@ -453,21 +486,79 @@ async function validateWorldGraph(schemas, registry) {
       }
     }
 
+    const doorIdPattern = /^[a-z0-9_]+_to_[a-z0-9_]+$/;
+    const spawnTagPattern = /^(from_[a-z0-9_]+|[a-z]+_entry|main|default)$/;
+
     // Build sets for cross-reference validation
-    const nodeIds = new Set(worldGraph.nodes.map(n => n.id));
-    const edgeIds = new Set();
+    const nodeIds = new Set();
     const nodeSpawns = {};
+    const nodePortals = {};
+
     for (const node of worldGraph.nodes) {
-      nodeSpawns[node.id] = new Set(node.spawns || []);
+      if (nodeIds.has(node.id)) {
+        error(`World graph: duplicate node id '${node.id}'`);
+      }
+      nodeIds.add(node.id);
+
+      const spawns = new Set(node.spawns || []);
+      nodeSpawns[node.id] = spawns;
+
+      for (const spawn of spawns) {
+        if (!spawnTagPattern.test(spawn)) {
+          warn(`World graph: spawn tag '${spawn}' in '${node.id}' does not match naming convention`);
+        }
+      }
+
+      const portals = node.portals || [];
+      const portalIds = new Set();
+      const portalMap = new Map();
+      const bounds = node.bounds || null;
+
+      for (const portal of portals) {
+        if (portalIds.has(portal.id)) {
+          error(`World graph: duplicate portal id '${portal.id}' in room '${node.id}'`);
+          continue;
+        }
+        portalIds.add(portal.id);
+        portalMap.set(portal.id, portal);
+
+        if (!doorIdPattern.test(portal.id)) {
+          error(`World graph: portal id '${portal.id}' in '${node.id}' does not match naming convention`);
+        }
+
+        if (!portal.id.startsWith(`${node.id}_to_`)) {
+          error(`World graph: portal id '${portal.id}' in '${node.id}' must start with '${node.id}_to_'`);
+        }
+
+        if (bounds) {
+          const width = portal.width ?? 1;
+          const height = portal.height ?? 1;
+          if (portal.x < 0 || portal.y < 0 || portal.x + width > bounds.width || portal.y + height > bounds.height) {
+            error(`World graph: portal '${portal.id}' in '${node.id}' out of bounds (${bounds.width}x${bounds.height})`);
+          }
+        }
+      }
+
+      nodePortals[node.id] = portalMap;
     }
 
     // Validate edges
+    const edgeKeys = new Set();
     for (const edge of worldGraph.edges) {
-      // Duplicate doorId check
-      if (edgeIds.has(edge.doorId)) {
-        error(`World graph: duplicate doorId '${edge.doorId}'`);
+      const key = `${edge.fromRoomId}:${edge.doorId}`;
+      if (edgeKeys.has(key)) {
+        error(`World graph: duplicate doorId '${edge.doorId}' in room '${edge.fromRoomId}'`);
       }
-      edgeIds.add(edge.doorId);
+      edgeKeys.add(key);
+
+      if (!doorIdPattern.test(edge.doorId)) {
+        error(`World graph: edge '${edge.doorId}' does not match naming convention`);
+      }
+
+      const expectedPrefix = `${edge.fromRoomId}_to_${edge.toRoomId}`;
+      if (!edge.doorId.startsWith(expectedPrefix)) {
+        error(`World graph: edge '${edge.doorId}' must start with '${expectedPrefix}'`);
+      }
 
       // fromRoomId must exist
       if (!nodeIds.has(edge.fromRoomId)) {
@@ -479,10 +570,38 @@ async function validateWorldGraph(schemas, registry) {
         error(`World graph: edge '${edge.doorId}' references unknown toRoomId '${edge.toRoomId}'`);
       }
 
+      // Portal must exist in source room
+      const portals = nodePortals[edge.fromRoomId];
+      if (!portals || !portals.has(edge.doorId)) {
+        error(`World graph: edge '${edge.doorId}' references missing portal in room '${edge.fromRoomId}'`);
+      } else {
+        const portal = portals.get(edge.doorId);
+        if (portal?.facing && edge.facing && portal.facing !== edge.facing) {
+          error(`World graph: edge '${edge.doorId}' facing '${edge.facing}' does not match portal facing '${portal.facing}'`);
+        }
+      }
+
       // toSpawnTag must exist in destination room
       const destSpawns = nodeSpawns[edge.toRoomId];
       if (destSpawns && !destSpawns.has(edge.toSpawnTag)) {
         error(`World graph: edge '${edge.doorId}' references unknown spawn '${edge.toSpawnTag}' in room '${edge.toRoomId}'`);
+      }
+
+      if (!spawnTagPattern.test(edge.toSpawnTag)) {
+        warn(`World graph: edge '${edge.doorId}' spawn tag '${edge.toSpawnTag}' does not match naming convention`);
+      }
+    }
+
+    // Bidirectional check (unless oneWay)
+    for (const edge of worldGraph.edges) {
+      if (edge.oneWay) continue;
+      const reverse = worldGraph.edges.find(other =>
+        other.fromRoomId === edge.toRoomId &&
+        other.toRoomId === edge.fromRoomId &&
+        !other.oneWay
+      );
+      if (!reverse) {
+        error(`World graph: missing return edge for '${edge.doorId}' (${edge.fromRoomId} -> ${edge.toRoomId})`);
       }
     }
 
@@ -499,6 +618,37 @@ async function validateWorldGraph(schemas, registry) {
     ok(`${worldGraph.nodes.length} nodes, ${worldGraph.edges.length} edges`);
   } catch (e) {
     error(`Failed to parse world graph: ${e.message}`);
+  }
+}
+
+async function validateUlpcManifest(schemas) {
+  console.log('\n🧾 Validating ULPC Manifest...');
+
+  if (!existsSync(ULPC_MANIFEST_PATH)) {
+    warn('ULPC manifest not found at content/ulpc_manifest.json');
+    return;
+  }
+
+  try {
+    const manifest = await loadJson(ULPC_MANIFEST_PATH);
+    if (schemas.UlpcManifest) {
+      const valid = schemas.UlpcManifest(manifest);
+      if (!valid) {
+        for (const err of schemas.UlpcManifest.errors) {
+          error(`ULPC manifest ${err.instancePath}: ${err.message}`);
+        }
+        return;
+      }
+    }
+
+    const files = Array.isArray(manifest.files) ? manifest.files : [];
+    const globs = Array.isArray(manifest.globs) ? manifest.globs : [];
+    if (files.length === 0 && globs.length === 0) {
+      warn('ULPC manifest is empty (no files/globs listed)');
+    }
+    ok(`ULPC manifest loaded (${files.length} file(s), ${globs.length} glob(s))`);
+  } catch (e) {
+    error(`Failed to parse ULPC manifest: ${e.message}`);
   }
 }
 
@@ -993,6 +1143,7 @@ async function main() {
   await validateFlashcardPacks(schemas, registry, contract);
   await validateRoomEntries(schemas, registry);
   await validateInkEntries(registry);
+  await validatePortraitAssets(registry);
 
   // Validate world topology
   await validateWorldGraph(schemas, registry);
@@ -1002,6 +1153,7 @@ async function main() {
   await validateRoomSpecs(schemas, registry, contract);
   await validateRoomEntrySpecs(schemas);
   await validateLpcStyleGuide(contract);
+  await validateUlpcManifest(schemas);
   await validatePlacementDrafts(schemas);
   await validateTileCompleteness();
 

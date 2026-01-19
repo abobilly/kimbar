@@ -1612,8 +1612,26 @@
                 },
                 {
                     "height": 32,
+                    "id": 9,
+                    "name": "spawn_from_hallway",
+                    "properties": [
+                        {
+                            "name": "spawnId",
+                            "type": "string",
+                            "value": "from_hallway"
+                        }
+                    ],
+                    "rotation": 0,
+                    "type": "PlayerSpawn",
+                    "visible": true,
+                    "width": 32,
+                    "x": 288,
+                    "y": 32
+                },
+                {
+                    "height": 32,
                     "id": 3,
-                    "name": "door_to_exterior",
+                    "name": "scotus_lobby_to_courthouse_exterior",
                     "properties": [
                         {
                             "name": "toMap",
@@ -1641,7 +1659,7 @@
                 {
                     "height": 32,
                     "id": 4,
-                    "name": "door_to_hallway",
+                    "name": "scotus_lobby_to_hallway",
                     "properties": [
                         {
                             "name": "toMap",
@@ -1669,7 +1687,7 @@
                 {
                     "height": 64,
                     "id": 5,
-                    "name": "door_to_courtroom",
+                    "name": "scotus_lobby_to_courtroom_main",
                     "properties": [
                         {
                             "name": "toMap",
@@ -1715,7 +1733,7 @@
                 {
                     "height": 64,
                     "id": 7,
-                    "name": "door_to_library",
+                    "name": "scotus_lobby_to_library",
                     "properties": [
                         {
                             "name": "toMap",
@@ -1767,7 +1785,7 @@
         }
     ],
     "nextlayerid": 7,
-    "nextobjectid": 9,
+    "nextobjectid": 10,
     "orientation": "orthogonal",
     "renderorder": "right-down",
     "tiledversion": "1.10.2",

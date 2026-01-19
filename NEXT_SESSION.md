@@ -1544,6 +1544,53 @@ npm run build            # Should build successfully
 
 ---
 
+## World Topology + Portraits + ULPC Manifest (January 19, 2026)
+
+### What Changed
+
+1. **Canonical World Graph + Validator**
+  - Expanded `content/world_graph.json` with bounds + portal coordinates and bidirectional edges.
+  - Updated `schemas/WorldGraph.schema.json` and `scripts/validate.js` to validate portals, bounds, naming, and bidirectional edges.
+  - Documented canonical world graph alignment in `docs/WORLD_CONTRACT.md`.
+
+2. **Door Alignment + Spawn Hub Fixes**
+  - Added `spawn_from_hallway` to `public/content/tiled/supreme-court/scotus_lobby.json`.
+  - Renamed door object IDs to match world graph naming convention.
+  - Updated hallway/courtroom doors to target `supreme-court/scotus_lobby`.
+
+3. **Courthouse Exterior Bounds**
+  - Recorded 80×60 bounds and portal coords in `content/world_graph.json`.
+
+4. **Dialogue Portrait Fixes**
+  - Portraits now use a close-up crop of the front-facing frame in `scripts/generate-sprites.mjs`.
+  - Dialogue falls back to target sprite’s `portrait.*` texture when no explicit tag is provided.
+  - `scripts/validate.js` now verifies portrait files exist.
+
+5. **ULPC Asset Index Scoping**
+  - Added `content/ulpc_manifest.json` + `schemas/UlpcManifest.schema.json`.
+  - `scripts/build-asset-index.mjs` now loads ULPC files via manifest when `--include-ulpc` is used.
+  - Added npm script `build:asset-index:ulpc`.
+  - Documented the invariant in `docs/INVARIANTS.md`.
+
+### What's Next
+
+- Populate `content/ulpc_manifest.json` with the exact ULPC files/globs needed for opt-in indexing.
+- Migrate/author the `library` Tiled map and update world graph bounds/portal coords.
+- Consider adding remaining hallway/chambers connections into the world graph once ready.
+
+### Gates Run
+
+- `npx tsc --noEmit` — no errors reported (output: `noEmit`).
+- `npm run validate:tiled` — ✅ pass (6 maps).
+- `npm run compile:tiled` — ✅ pass.
+- `npm run build:asset-index` — ✅ pass (ULPC excluded by default).
+- `npm run test:unit` — ✅ pass (53 tests).
+- `npm run check:fast` — ✅ pass (runs `prepare:content`, `verify`, `check-boundaries`, `test:unit`, `build-nolog`).
+
+**Notes:** `npm run check:fast` regenerates `generated/` and `public/generated/` outputs; do not commit those artifacts.
+
+---
+
 ## 12. Recent Changes: Tiled SCOTUS Pipeline Scaffold (January 17, 2026)
 
 ### What Was Done

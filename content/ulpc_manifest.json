@@ -1,0 +1,6 @@
+{
+    "$schema": "../schemas/UlpcManifest.schema.json",
+    "notes": "Add explicit ULPC files or glob patterns to include in asset indexing when running build:asset-index:ulpc.",
+    "files": [],
+    "globs": []
+}

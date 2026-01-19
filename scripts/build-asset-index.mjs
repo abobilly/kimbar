@@ -25,6 +25,7 @@ import { join, extname, basename, dirname } from 'path';
 const VENDOR_DIR = './vendor';
 const GENERATED_DIR = './generated';
 const CONTRACT_PATH = './content/content_contract.json';
+const ULPC_MANIFEST_PATH = './content/ulpc_manifest.json';
 const ARGS = process.argv.slice(2);
 const SKIP_DIMENSIONS = ARGS.includes('--skip-dimensions') || ARGS.includes('--fast');
 const INCLUDE_ULPC = ARGS.includes('--include-ulpc');
@@ -57,16 +58,95 @@ async function loadContract() {
   return JSON.parse(content);
 }
 
+function normalizePath(filePath) {
+  return filePath.replace(/\\/g, '/').replace(/^\.\//, '');
+}
+
+function globToRegExp(glob) {
+  const escaped = glob
+    .replace(/[.+^${}()|[\]\\]/g, '\\$&')
+    .replace(/\*\*/g, '__GLOBSTAR__')
+    .replace(/\*/g, '[^/]*')
+    .replace(/__GLOBSTAR__/g, '.*')
+    .replace(/\?/g, '.');
+  return new RegExp(`^${escaped}$`);
+}
+
+function getGlobBase(glob) {
+  const normalized = normalizePath(glob);
+  const wildcardIndex = normalized.search(/[\*\?]/);
+  if (wildcardIndex === -1) {
+    return dirname(normalized);
+  }
+  const slashIndex = normalized.lastIndexOf('/', wildcardIndex);
+  if (slashIndex === -1) {
+    return '.';
+  }
+  const base = normalized.slice(0, slashIndex);
+  return base || '.';
+}
+
+async function loadUlpcManifest() {
+  if (!existsSync(ULPC_MANIFEST_PATH)) {
+    console.warn(`⚠️ ULPC manifest not found at ${ULPC_MANIFEST_PATH}`);
+    return { files: [], globs: [] };
+  }
+
+  try {
+    const content = await readFile(ULPC_MANIFEST_PATH, 'utf-8');
+    const manifest = JSON.parse(content);
+    const files = Array.isArray(manifest.files) ? manifest.files : [];
+    const globs = Array.isArray(manifest.globs) ? manifest.globs : [];
+    return { files, globs };
+  } catch (e) {
+    console.warn(`⚠️ Failed to parse ULPC manifest: ${e.message}`);
+    return { files: [], globs: [] };
+  }
+}
+
+async function resolveUlpcManifestFiles() {
+  const manifest = await loadUlpcManifest();
+  const matches = new Set();
+
+  for (const file of manifest.files) {
+    const normalized = normalizePath(file);
+    if (!existsSync(normalized)) {
+      console.warn(`⚠️ ULPC manifest file missing: ${normalized}`);
+      continue;
+    }
+    matches.add(normalized);
+  }
+
+  for (const pattern of manifest.globs) {
+    const normalized = normalizePath(pattern);
+    const regex = globToRegExp(normalized);
+    const baseDir = getGlobBase(normalized);
+    if (!existsSync(baseDir)) {
+      console.warn(`⚠️ ULPC manifest base directory missing: ${baseDir}`);
+      continue;
+    }
+    const files = await scanDirectory(baseDir, [], { excludeUlpc: false, silentSkip: true });
+    for (const filePath of files) {
+      const candidate = normalizePath(filePath);
+      if (regex.test(candidate)) {
+        matches.add(candidate);
+      }
+    }
+  }
+
+  return [...matches];
+}
+
 async function scanDirectory(dir, files = [], options = {}) {
   if (!existsSync(dir)) return files;
 
   // Check if this directory should be excluded (e.g., ULPC)
   // Normalize to forward slashes for comparison
-  const normalizedDir = dir.replace(/\\/g, '/').replace(/^\.\//, '');
+  const normalizedDir = normalizePath(dir);
 
-  if (!INCLUDE_ULPC) {
+  if (options.excludeUlpc) {
     for (const excluded of EXCLUDED_PATHS) {
-      const normalizedExcluded = excluded.replace(/\\/g, '/').replace(/^\.\//, '');
+      const normalizedExcluded = normalizePath(excluded);
       // Check if current dir IS the excluded path or is inside it
       if (normalizedDir === normalizedExcluded ||
         normalizedDir.startsWith(normalizedExcluded + '/')) {
@@ -86,11 +166,11 @@ async function scanDirectory(dir, files = [], options = {}) {
 
     if (entry.isDirectory()) {
       // Pre-check before recursing to avoid unnecessary work
-      const nextNormalized = fullPath.replace(/\\/g, '/').replace(/^\.\//, '');
+      const nextNormalized = normalizePath(fullPath);
       let shouldSkip = false;
-      if (!INCLUDE_ULPC) {
+      if (options.excludeUlpc) {
         for (const excluded of EXCLUDED_PATHS) {
-          const normalizedExcluded = excluded.replace(/\\/g, '/').replace(/^\.\//, '');
+          const normalizedExcluded = normalizePath(excluded);
           if (nextNormalized === normalizedExcluded ||
             nextNormalized.startsWith(normalizedExcluded + '/')) {
             if (!options.silentSkip) {
@@ -300,15 +380,21 @@ async function main() {
   // Ensure generated directory exists
   await mkdir(GENERATED_DIR, { recursive: true });
 
-  // Scan vendor directory
-  console.log('\n📁 Scanning vendor/ for assets...');
-  const vendorFiles = await scanDirectory(VENDOR_DIR);
-  console.log(`   Found ${vendorFiles.length} image file(s) in vendor/`);
+  // Scan vendor directory (ULPC excluded by default)
+  const vendorFiles = MANIFEST_ONLY ? [] : await (async () => {
+    console.log('\n📁 Scanning vendor/ for assets...');
+    const results = await scanDirectory(VENDOR_DIR, [], { excludeUlpc: true });
+    console.log(`   Found ${results.length} image file(s) in vendor/`);
+    return results;
+  })();
 
   // Scan generated directory (sprites, portraits, tiles)
-  console.log('\n📁 Scanning generated/ for assets...');
-  const generatedFiles = await scanDirectory(GENERATED_DIR);
-  console.log(`   Found ${generatedFiles.length} image file(s) in generated/`);
+  const generatedFiles = MANIFEST_ONLY ? [] : await (async () => {
+    console.log('\n📁 Scanning generated/ for assets...');
+    const results = await scanDirectory(GENERATED_DIR, [], { excludeUlpc: false });
+    console.log(`   Found ${results.length} image file(s) in generated/`);
+    return results;
+  })();
 
   // Count tiles specifically
   const tileFiles = generatedFiles.filter(f => f.includes('generated/tiles/') || f.includes('generated\\tiles\\'));
@@ -316,7 +402,23 @@ async function main() {
     console.log(`   - ${tileFiles.length} tile(s) in generated/tiles/`);
   }
 
-  const allFiles = [...vendorFiles, ...generatedFiles];
+  // ULPC opt-in via manifest
+  let ulpcFiles = [];
+  if (INCLUDE_ULPC) {
+    console.log('\n📁 Loading ULPC manifest...');
+    ulpcFiles = await resolveUlpcManifestFiles();
+    if (ulpcFiles.length === 0) {
+      console.log('   ⚠️ No ULPC files matched manifest (add files/globs to content/ulpc_manifest.json)');
+    } else {
+      console.log(`   Included ${ulpcFiles.length} ULPC file(s) from manifest`);
+    }
+  }
+
+  if (MANIFEST_ONLY && !INCLUDE_ULPC) {
+    console.log('\n⚠️ Manifest-only mode enabled with no ULPC manifest entries. No files will be indexed.');
+  }
+
+  const allFiles = [...vendorFiles, ...generatedFiles, ...ulpcFiles];
 
   if (allFiles.length === 0) {
     console.log('\n⚠️ No image files found');

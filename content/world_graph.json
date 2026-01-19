@@ -1,6 +1,7 @@
 {
     "$schema": "../schemas/WorldGraph.schema.json",
-    "version": "0.1.0",
+    "version": "0.2.0",
+    "tileSize": 32,
     "nodes": [
         {
             "id": "courthouse_exterior",
@@ -8,6 +9,21 @@
             "region": "supreme-court",
             "spawns": [
                 "main"
+            ],
+            "bounds": {
+                "width": 80,
+                "height": 60
+            },
+            "portals": [
+                {
+                    "id": "courthouse_exterior_to_scotus_lobby",
+                    "x": 38,
+                    "y": 23,
+                    "width": 4,
+                    "height": 1,
+                    "facing": "up",
+                    "notes": "Main entrance to the lobby"
+                }
             ]
         },
         {
@@ -15,10 +31,53 @@
             "displayName": "SCOTUS Lobby",
             "region": "supreme-court",
             "spawns": [
+                "main",
                 "from_exterior",
                 "from_hallway",
                 "from_courtroom",
                 "from_library"
+            ],
+            "bounds": {
+                "width": 20,
+                "height": 15
+            },
+            "portals": [
+                {
+                    "id": "scotus_lobby_to_courthouse_exterior",
+                    "x": 8.5,
+                    "y": 14,
+                    "width": 2,
+                    "height": 1,
+                    "facing": "down",
+                    "notes": "South door to the exterior"
+                },
+                {
+                    "id": "scotus_lobby_to_hallway",
+                    "x": 8.5,
+                    "y": 0,
+                    "width": 2,
+                    "height": 1,
+                    "facing": "up",
+                    "notes": "North door to the main hallway"
+                },
+                {
+                    "id": "scotus_lobby_to_courtroom_main",
+                    "x": 19,
+                    "y": 6.5,
+                    "width": 1,
+                    "height": 2,
+                    "facing": "right",
+                    "notes": "East door to the main courtroom"
+                },
+                {
+                    "id": "scotus_lobby_to_library",
+                    "x": 0,
+                    "y": 6.5,
+                    "width": 1,
+                    "height": 2,
+                    "facing": "left",
+                    "notes": "West door to the law library"
+                }
             ]
         },
         {
@@ -26,7 +85,23 @@
             "displayName": "Main Hallway",
             "region": "supreme-court",
             "spawns": [
-                "from_lobby"
+                "from_lobby",
+                "from_chambers"
+            ],
+            "bounds": {
+                "width": 20,
+                "height": 15
+            },
+            "portals": [
+                {
+                    "id": "hallway_to_scotus_lobby",
+                    "x": 0,
+                    "y": 7,
+                    "width": 1,
+                    "height": 1,
+                    "facing": "left",
+                    "notes": "West door back to the lobby"
+                }
             ]
         },
         {
@@ -35,6 +110,21 @@
             "region": "supreme-court",
             "spawns": [
                 "from_lobby"
+            ],
+            "bounds": {
+                "width": 20,
+                "height": 15
+            },
+            "portals": [
+                {
+                    "id": "courtroom_main_to_scotus_lobby",
+                    "x": 9,
+                    "y": 14,
+                    "width": 2,
+                    "height": 1,
+                    "facing": "down",
+                    "notes": "South door back to the lobby"
+                }
             ]
         },
         {
@@ -43,12 +133,23 @@
             "region": "supreme-court",
             "spawns": [
                 "from_lobby"
+            ],
+            "portals": [
+                {
+                    "id": "library_to_scotus_lobby",
+                    "x": 19,
+                    "y": 7,
+                    "width": 1,
+                    "height": 1,
+                    "facing": "right",
+                    "notes": "Placeholder portal until the library map is migrated"
+                }
             ]
         }
     ],
     "edges": [
         {
-            "doorId": "exterior_to_lobby",
+            "doorId": "courthouse_exterior_to_scotus_lobby",
             "fromRoomId": "courthouse_exterior",
             "toRoomId": "scotus_lobby",
             "toSpawnTag": "from_exterior",
@@ -56,7 +157,7 @@
             "notes": "Main entrance from exterior to lobby"
         },
         {
-            "doorId": "lobby_to_exterior",
+            "doorId": "scotus_lobby_to_courthouse_exterior",
             "fromRoomId": "scotus_lobby",
             "toRoomId": "courthouse_exterior",
             "toSpawnTag": "main",
@@ -64,7 +165,7 @@
             "notes": "Exit from lobby to exterior"
         },
         {
-            "doorId": "lobby_to_hallway",
+            "doorId": "scotus_lobby_to_hallway",
             "fromRoomId": "scotus_lobby",
             "toRoomId": "hallway",
             "toSpawnTag": "from_lobby",
@@ -72,7 +173,15 @@
             "notes": "North door to main hallway"
         },
         {
-            "doorId": "lobby_to_courtroom",
+            "doorId": "hallway_to_scotus_lobby",
+            "fromRoomId": "hallway",
+            "toRoomId": "scotus_lobby",
+            "toSpawnTag": "from_hallway",
+            "facing": "left",
+            "notes": "Return from hallway to lobby"
+        },
+        {
+            "doorId": "scotus_lobby_to_courtroom_main",
             "fromRoomId": "scotus_lobby",
             "toRoomId": "courtroom_main",
             "toSpawnTag": "from_lobby",
@@ -80,12 +189,28 @@
             "notes": "East door to main courtroom"
         },
         {
-            "doorId": "lobby_to_library",
+            "doorId": "courtroom_main_to_scotus_lobby",
+            "fromRoomId": "courtroom_main",
+            "toRoomId": "scotus_lobby",
+            "toSpawnTag": "from_courtroom",
+            "facing": "down",
+            "notes": "Return from courtroom to lobby"
+        },
+        {
+            "doorId": "scotus_lobby_to_library",
             "fromRoomId": "scotus_lobby",
             "toRoomId": "library",
             "toSpawnTag": "from_lobby",
             "facing": "left",
             "notes": "West door to law library"
+        },
+        {
+            "doorId": "library_to_scotus_lobby",
+            "fromRoomId": "library",
+            "toRoomId": "scotus_lobby",
+            "toSpawnTag": "from_library",
+            "facing": "right",
+            "notes": "Return from library to lobby"
         }
     ]
 }

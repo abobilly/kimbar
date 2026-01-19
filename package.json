@@ -24,6 +24,7 @@
         "build:content": "npm run build:chars && npm run build:levels",
         "build:asset-index": "node scripts/build-asset-index.mjs",
         "build:asset-index:fast": "node scripts/build-asset-index.mjs --fast",
+        "build:asset-index:ulpc": "node scripts/build-asset-index.mjs --include-ulpc",
         "build:tilesets": "node scripts/build-tiled-tilesets.mjs",
         "validate:tiled": "node scripts/validate-tiled-maps.mjs",
         "compile:tiled": "node scripts/compile-tiled-maps.mjs",

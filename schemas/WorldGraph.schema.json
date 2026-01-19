@@ -19,6 +19,11 @@
             "pattern": "^\\d+\\.\\d+\\.\\d+$",
             "description": "Semantic version of the world graph"
         },
+        "tileSize": {
+            "type": "number",
+            "minimum": 1,
+            "description": "Tile size in pixels (used for portal bounds when coordinates are in tiles)"
+        },
         "nodes": {
             "type": "array",
             "description": "List of rooms/areas in the world",
@@ -61,6 +66,84 @@
                         "type": "string"
                     },
                     "description": "Named spawn points in this room"
+                },
+                "bounds": {
+                    "$ref": "#/definitions/WorldBounds"
+                },
+                "portals": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/WorldPortal"
+                    },
+                    "description": "Door/exit portals within this room"
+                }
+            },
+            "additionalProperties": false
+        },
+        "WorldBounds": {
+            "type": "object",
+            "required": [
+                "width",
+                "height"
+            ],
+            "properties": {
+                "width": {
+                    "type": "number",
+                    "minimum": 1,
+                    "description": "Room width in tiles"
+                },
+                "height": {
+                    "type": "number",
+                    "minimum": 1,
+                    "description": "Room height in tiles"
+                }
+            },
+            "additionalProperties": false
+        },
+        "WorldPortal": {
+            "type": "object",
+            "required": [
+                "id",
+                "x",
+                "y"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_]*$",
+                    "description": "Portal identifier (unique within room)"
+                },
+                "x": {
+                    "type": "number",
+                    "description": "Portal X coordinate (tiles)"
+                },
+                "y": {
+                    "type": "number",
+                    "description": "Portal Y coordinate (tiles)"
+                },
+                "width": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Portal width (tiles)"
+                },
+                "height": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Portal height (tiles)"
+                },
+                "facing": {
+                    "type": "string",
+                    "enum": [
+                        "up",
+                        "down",
+                        "left",
+                        "right"
+                    ],
+                    "description": "Direction the portal faces"
+                },
+                "notes": {
+                    "type": "string",
+                    "description": "Human-readable notes about this portal"
                 }
             },
             "additionalProperties": false

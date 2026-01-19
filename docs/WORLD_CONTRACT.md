@@ -13,6 +13,32 @@ Room content is split into two directories with strict schema separation:
 
 **INVARIANT**: No implicit room discovery. Rooms are registered via explicit JSON specs only.
 
+## Canonical World Graph (Source of Truth)
+
+World topology is defined in one place:
+
+- **File**: `content/world_graph.json`
+- **Schema**: `schemas/WorldGraph.schema.json`
+- **Validator**: `scripts/validate.js` (`validateWorldGraph()`)
+
+### What it contains
+
+- **Nodes** (rooms): `id`, `displayName`, `region`, `spawns`
+- **Bounds** (optional): `width`/`height` in tiles
+- **Portals**: door/exit IDs with tile coordinates and facing
+- **Edges**: transitions that reference a portal in the source room and a spawn tag in the destination room
+
+### Naming conventions
+
+- **Portal/Door IDs**: `${fromRoomId}_to_${toRoomId}` (snake_case)
+- **Spawn tags**: `from_{source_room}` or `{direction}_entry` (plus `main`/`default` for hubs)
+
+### Tiled authoring alignment
+
+- Door object **name** in Tiled must match the portal/door ID in `world_graph.json`.
+- Door object properties (`toMap`, `toSpawn`, `facing`) must align with the world graph edge.
+- Spawn tags in Tiled must exist in the destination room’s `spawns` list.
+
 ## Bridge Period: RoomEntry (Current)
 
 During the LDtk→Tiled transition, rooms are registered via `content/room_entries/{room-id}.json`:

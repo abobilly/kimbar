@@ -629,6 +629,9 @@ async function generateCharacterSprite(charId, ulpcArgs) {
     const PORTRAIT_ROW = 2;  // Front-facing
     const PORTRAIT_FRAME = 0; // First frame (standing pose)
     const FRAME_SIZE = 64;
+    const PORTRAIT_SIZE = 64;
+    // Crop to head+shoulders, then upscale to portrait size (pixel-perfect)
+    const PORTRAIT_CROP = { left: 12, top: 4, width: 40, height: 48 };
 
     await sharp(outputPath)
       .extract({
@@ -637,10 +640,12 @@ async function generateCharacterSprite(charId, ulpcArgs) {
         width: FRAME_SIZE,
         height: FRAME_SIZE
       })
+      .extract(PORTRAIT_CROP)
+      .resize(PORTRAIT_SIZE, PORTRAIT_SIZE, { kernel: 'nearest' })
       .png()
       .toFile(portraitPath);
 
-    info(`  ✅ Portrait: ${portraitPath} (front-facing)`);
+    info(`  ✅ Portrait: ${portraitPath} (front-facing, close-up)`);
 
     return { success: true, path: outputPath, portraitPath };
 

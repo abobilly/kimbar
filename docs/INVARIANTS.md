@@ -161,6 +161,23 @@ npm run test          # Run all tests
 
 ---
 
+## 8. ULPC Asset Index Scope (SACRED)
+
+**Rule**: Default asset indexing MUST NOT scan ULPC/EULPC generator trees. ULPC scans are opt-in and manifest-driven.
+
+**Why**: The ULPC generator contains 50k+ layer files; scanning them by default bloats the asset index and slows gates.
+
+**Implementation**:
+- Default: `npm run build:asset-index` skips ULPC/EULPC trees
+- Opt-in: `npm run build:asset-index:ulpc` reads `content/ulpc_manifest.json`
+- Manifest lists explicit files/globs to include (no unconditional full-tree scans)
+
+**Enforcement**:
+- [build-asset-index.mjs](../scripts/build-asset-index.mjs) excludes ULPC by default
+- [validate.js](../scripts/validate.js) validates `content/ulpc_manifest.json`
+
+---
+
 ## Quick Reference: Content Locations
 
 | Content Type | Source Location | Runtime Location |

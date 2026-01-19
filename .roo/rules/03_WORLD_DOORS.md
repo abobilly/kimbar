@@ -8,6 +8,10 @@ Every door entry must include the following fields:
 - `toSpawnTag` (or precise `toSpawnX`/`toSpawnY`) — spawn target in the destination room.
 - Optional fields: `locked`, `requires`, `oneWay`, `notes`.
 
+## Naming conventions
+- **doorId** must follow: `from_room_to_to_room` (snake_case, includes `_to_`).
+- **toSpawnTag** should follow: `from_{source_room}` or `{direction}_entry` (allow `main`/`default` for hubs).
+
 ## Validator requirements
 - Implement `npm run doors:validate` (or fold into `npm run validate:tiled`).
 - The validator must fail when:
