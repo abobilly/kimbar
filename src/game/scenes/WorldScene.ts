@@ -217,9 +217,17 @@ export class WorldScene extends Scene {
         return;
       }
 
-      const response = await fetch(room.ldtkUrl);
+      // Guard: ensure registry entry has a valid LDtk URL (do not attempt to fetch undefined)
+      const ldtkUrl = room.ldtkUrl;
+      if (typeof ldtkUrl !== 'string' || ldtkUrl.trim() === '') {
+        console.error(`[WorldScene] FATAL: Room '${levelId}' missing or invalid ldtkUrl in registry.`);
+        this.showMissingRoomError(levelId, 'missing or invalid ldtkUrl in registry');
+        return;
+      }
+
+      const response = await fetch(ldtkUrl);
       if (!response.ok) {
-        console.error(`[WorldScene] FATAL: Failed to fetch room data from ${room.ldtkUrl}`);
+        console.error(`[WorldScene] FATAL: Failed to fetch room data from ${ldtkUrl}`);
         this.showMissingRoomError(levelId, `HTTP ${response.status}`);
         return;
       }
@@ -326,98 +334,10 @@ export class WorldScene extends Scene {
     this.createPlayer();
   }
 
-  /**
-   * Create a placeholder level for explicit dev/test scenarios only.
-   * NOTE: This should NOT be called as a fallback for missing rooms.
-   * Use showMissingRoomError() for missing-room cases instead.
-   */
-  private createPlaceholderLevel(): void {
-    const { width, height } = this.scale;
+  // Removed `createPlaceholderLevel()` and `createTestEntities()` (unused dev scaffolding).
+  // Use `showMissingRoomError()` to loudly report missing rooms and add explicit
+  // dev fixtures in tests or temporary dev-only setups when needed.
 
-    // Floor
-    const floor = this.add.rectangle(width / 2, height / 2, 800, 600, 0x2a2a4a);
-    floor.setStrokeStyle(4, 0x4a4a6a);
-
-    // Decorative tiles pattern
-    for (let x = 0; x < 800; x += 64) {
-      for (let y = 0; y < 600; y += 64) {
-        const tile = this.add.rectangle(
-          width / 2 - 400 + x + 32,
-          height / 2 - 300 + y + 32,
-          62, 62,
-          (x + y) % 128 === 0 ? 0x3a3a5a : 0x2a2a4a
-        );
-        tile.setDepth(-1);
-      }
-    }
-
-    // Courtroom banner
-    this.add.text(width / 2, height / 2 - 250, '⚖️ SUPREME COURT LOBBY ⚖️', {
-      fontSize: '28px',
-      color: '#FFD700',
-      fontFamily: 'Georgia, serif'
-    }).setOrigin(0.5);
-
-    // Add test entities
-    this.createTestEntities();
-
-    // Set level data
-    this.levelData = {
-      width: 800,
-      height: 600,
-      tileSize: 32,
-      entities: [],
-      playerSpawn: { x: width / 2, y: height / 2 + 100 }
-    };
-
-    // NOTE: Player creation moved to showMissingRoomError or explicit call sites.
-    // Placeholder levels are for dev/test only; caller must create player if needed.
-  }
-
-  private createTestEntities(): void {
-    const { width, height } = this.scale;
-
-    // Court Clerk NPC
-    const clerkEntity: EntityData = {
-      id: 'npc.clerk_01',
-      type: 'NPC',
-      x: width / 2 - 150,
-      y: height / 2 - 50,
-      properties: {
-        name: 'Court Clerk',
-        storyKnot: 'court_clerk_intro'
-      }
-    };
-    this.createEntity('npc.clerk_01', clerkEntity);
-
-    // Encounter trigger (Justice 1)
-    const justiceEntity: EntityData = {
-      id: 'justice1',
-      type: 'EncounterTrigger',
-      x: width / 2 + 150,
-      y: height / 2 - 50,
-      properties: {
-        encounterConfig: {
-          deckTag: 'evidence',
-          count: 3,
-          rewardId: 'court_blazer'
-        }
-      }
-    };
-    this.createEntity('justice1', justiceEntity);
-
-    // Outfit chest
-    const chestEntity: EntityData = {
-      id: 'chest1',
-      type: 'OutfitChest',
-      x: width / 2 + 250,
-      y: height / 2 + 150,
-      properties: {
-        outfitId: 'power_suit'
-      }
-    };
-    this.createEntity('chest1', chestEntity);
-  }
 
   private normalizePropName(value: string): string {
     return value

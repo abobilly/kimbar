@@ -218,9 +218,14 @@ export async function loadRoomData(roomId: string): Promise<unknown> {
     throw new Error(`Room not found: ${roomId}`);
   }
 
-  const response = await fetch(room.ldtkUrl);
+  const ldtkUrl = room.ldtkUrl;
+  if (typeof ldtkUrl !== 'string' || ldtkUrl.trim() === '') {
+    throw new Error(`Room ${roomId} missing or invalid ldtkUrl in registry`);
+  }
+
+  const response = await fetch(ldtkUrl);
   if (!response.ok) {
-    throw new Error(`Failed to load room from ${room.ldtkUrl}: ${response.status}`);
+    throw new Error(`Failed to load room from ${ldtkUrl}: ${response.status}`);
   }
 
   const data = await response.json();

@@ -8,6 +8,24 @@
 
 ---
 
+## WorldScene TS cleanup (January 18, 2026)
+
+### What Changed
+
+- `src/game/scenes/WorldScene.ts`: Added a guard validating `ldtkUrl` before calling `fetch(...)` and returning early with `showMissingRoomError()` if missing/invalid. Removed unused dev-only scaffolding: `createPlaceholderLevel()` and `createTestEntities()`.
+- `src/content/registry.ts`: Guarded `loadRoomData()` to validate `ldtkUrl` before fetching (throws on missing/invalid URL).
+
+### What's Next
+
+- Address remaining TypeScript errors reported by `npx tsc --noEmit` (see Gates run). Prioritize fixes in `MainMenu.ts`, `EncounterSystem.ts`, `QuestPanel.ts`, `WardrobePanel.ts`, and `services/semantic-service.ts`.
+
+### Gates run
+
+- `npx tsc --noEmit` — FAILED (11 errors across 5 files; not modified in this subtask)
+- `npm run check:fast` — PASS (unit tests: 53 passed)
+
+---
+
 ## Directory Separation: RoomSpec vs RoomEntry (January 18, 2026)
 
 ### What Changed
