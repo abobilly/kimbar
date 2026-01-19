@@ -26,6 +26,29 @@
 
 ---
 
+## TypeScript: Make `npx tsc --noEmit` pass (January 18, 2026)
+
+### What Changed
+
+- `src/game/scenes/MainMenu.ts` — Removed unused local bindings for decorative objects to silence TS6133 (converted `const bg = ...` and `const pillars = ...` to direct adds).
+- `src/game/systems/EncounterSystem.ts` — Removed unused regex callback variable (`match` → `_match`), replaced `UIButton.setTintFill(...)` with `UIButton.setFeedback(...)`, and cleared button feedback when continuing questions.
+- `src/game/ui/primitives/UIButton.ts` — Added `feedbackFill`/`feedbackStroke` and `setFeedback('correct'|'wrong'|'none')` method; `drawState()` honors feedback overrides.
+- `src/game/ui/QuestPanel.ts` — Guarded `this.container` in `createUI()` with a local `c` reference to satisfy TS2531; replaced `this.container.add(...)` with `c.add(...)`.
+- `src/game/ui/WardrobePanel.ts` — Removed unused `UI_MARGIN` import; replaced string color with numeric token `uiTheme.colors.textGoldHex` for `setStrokeStyle()`.
+- `src/game/ui/uiTheme.ts` — Added `textGoldHex: 0xDAA520` color token for Graphics APIs.
+- `src/services/semantic-service.ts` — Tight local guard for `navigator.gpu` to avoid TS18046; uses `(navigator as any).gpu` and checks `requestAdapter` existence.
+
+### What's Next
+
+- Small follow-ups: consider adding unit tests for `UIButton.setFeedback` behavior and a small smoke test for `QuestPanel` creation.
+
+### Gates run
+
+- `npx tsc --noEmit` — ✅ PASS
+- `npm run check:fast` — ✅ PASS (53 unit tests)
+
+---
+
 ## Directory Separation: RoomSpec vs RoomEntry (January 18, 2026)
 
 ### What Changed
