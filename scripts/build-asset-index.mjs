@@ -2,7 +2,16 @@
 /**
  * Build Asset Index - Scans vendor/ and creates searchable asset index
  *
- * Usage: node scripts/build-asset-index.mjs
+ * Usage: node scripts/build-asset-index.mjs [options]
+ *
+ * Options:
+ *   --skip-dimensions  Skip image dimension validation (faster)
+ *   --fast             Alias for --skip-dimensions
+ *   --include-ulpc     Include ULPC files (adds ~50k files, slow)
+ *   --manifest-only    Only index files listed in manifests
+ *
+ * By default, ULPC is EXCLUDED to keep index size manageable.
+ * Use --include-ulpc for full asset discovery (takes several minutes).
  *
  * Outputs:
  *   - generated/asset_index.ndjson (passing assets)
@@ -18,6 +27,15 @@ const GENERATED_DIR = './generated';
 const CONTRACT_PATH = './content/content_contract.json';
 const ARGS = process.argv.slice(2);
 const SKIP_DIMENSIONS = ARGS.includes('--skip-dimensions') || ARGS.includes('--fast');
+const INCLUDE_ULPC = ARGS.includes('--include-ulpc');
+const MANIFEST_ONLY = ARGS.includes('--manifest-only');
+
+// Paths to exclude by default (massive directories that slow down indexing)
+// ULPC and extended ULPC contain 50k+ layer files - only needed for sprite generation
+const EXCLUDED_PATHS = [
+  'vendor/lpc/Universal-LPC-Spritesheet-Character-Generator',
+  'vendor/eulpc'
+];
 
 // Try to load sharp for image dimension checking
 let sharp = null;
@@ -39,8 +57,27 @@ async function loadContract() {
   return JSON.parse(content);
 }
 
-async function scanDirectory(dir, files = []) {
+async function scanDirectory(dir, files = [], options = {}) {
   if (!existsSync(dir)) return files;
+
+  // Check if this directory should be excluded (e.g., ULPC)
+  // Normalize to forward slashes for comparison
+  const normalizedDir = dir.replace(/\\/g, '/').replace(/^\.\//, '');
+
+  if (!INCLUDE_ULPC) {
+    for (const excluded of EXCLUDED_PATHS) {
+      const normalizedExcluded = excluded.replace(/\\/g, '/').replace(/^\.\//, '');
+      // Check if current dir IS the excluded path or is inside it
+      if (normalizedDir === normalizedExcluded ||
+        normalizedDir.startsWith(normalizedExcluded + '/')) {
+        if (!options.silentSkip) {
+          console.log(`   ⏭️  Skipping LPC/ULPC layer assets (use --include-ulpc to include ~50k files)`);
+          options.silentSkip = true;  // Only log once
+        }
+        return files;
+      }
+    }
+  }
 
   const entries = await readdir(dir, { withFileTypes: true });
 
@@ -48,7 +85,26 @@ async function scanDirectory(dir, files = []) {
     const fullPath = join(dir, entry.name);
 
     if (entry.isDirectory()) {
-      await scanDirectory(fullPath, files);
+      // Pre-check before recursing to avoid unnecessary work
+      const nextNormalized = fullPath.replace(/\\/g, '/').replace(/^\.\//, '');
+      let shouldSkip = false;
+      if (!INCLUDE_ULPC) {
+        for (const excluded of EXCLUDED_PATHS) {
+          const normalizedExcluded = excluded.replace(/\\/g, '/').replace(/^\.\//, '');
+          if (nextNormalized === normalizedExcluded ||
+            nextNormalized.startsWith(normalizedExcluded + '/')) {
+            if (!options.silentSkip) {
+              console.log(`   ⏭️  Skipping LPC/ULPC layer assets (use --include-ulpc to include ~50k files)`);
+              options.silentSkip = true;
+            }
+            shouldSkip = true;
+            break;
+          }
+        }
+      }
+      if (!shouldSkip) {
+        await scanDirectory(fullPath, files, options);
+      }
     } else if (entry.isFile()) {
       const ext = extname(entry.name).toLowerCase();
       if (['.png', '.jpg', '.jpeg', '.gif'].includes(ext)) {
@@ -87,12 +143,12 @@ function classifyAsset(filePath, contract) {
 
 function generateId(filePath, kind) {
   const name = basename(filePath, extname(filePath));
-  
+
   // For generated tiles, preserve the full tile.* ID
   if (kind === 'tile' && name.startsWith('tile.')) {
     return name;
   }
-  
+
   const cleanName = name
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '_')
