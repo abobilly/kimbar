@@ -33,6 +33,10 @@ export class UIButton extends GameObjects.Container {
   private onClick: (() => void) | null = null;
   private isDisabled: boolean = false;
 
+  // Optional feedback override (used by EncounterSystem for correct/wrong feedback)
+  private feedbackFill: number | null = null;
+  private feedbackStroke: number | null = null;
+
   constructor(scene: Scene, config: UIButtonConfig) {
     super(scene, config.x, config.y);
 
@@ -76,12 +80,16 @@ export class UIButton extends GameObjects.Container {
     const halfWidth = this.buttonWidth / 2;
     const halfHeight = this.buttonHeight / 2;
 
+    // Allow optional feedback overrides (e.g., correct/wrong highlights)
+    const fillColor = this.feedbackFill ?? config.fillColor;
+    const strokeColor = this.feedbackStroke ?? config.strokeColor;
+
     // Fill
-    this.background.fillStyle(config.fillColor, 1);
+    this.background.fillStyle(fillColor, 1);
     this.background.fillRect(-halfWidth, -halfHeight, this.buttonWidth, this.buttonHeight);
 
     // Stroke
-    this.background.lineStyle(config.strokeWidth, config.strokeColor, 1);
+    this.background.lineStyle(config.strokeWidth, strokeColor, 1);
     this.background.strokeRect(-halfWidth, -halfHeight, this.buttonWidth, this.buttonHeight);
 
     // Update text color based on state
@@ -114,12 +122,12 @@ export class UIButton extends GameObjects.Container {
 
   private onPointerUp(): void {
     if (this.isDisabled) return;
-    
+
     // Only trigger click if still over the button
     if (this.currentState === 'pressed') {
       this.currentState = 'hover';
       this.drawState();
-      
+
       if (this.onClick) {
         this.onClick();
       }
@@ -148,6 +156,32 @@ export class UIButton extends GameObjects.Container {
     this.isDisabled = disabled;
     this.currentState = disabled ? 'disabled' : 'normal';
     this.setInteractive({ useHandCursor: !disabled });
+    this.drawState();
+    return this;
+  }
+
+  /**
+   * Set visual feedback on the button (used for correct/incorrect responses).
+   * - 'correct' -> green highlight
+   * - 'wrong' -> red highlight
+   * - 'none' -> clear feedback
+   */
+  setFeedback(kind: 'correct' | 'wrong' | 'none'): this {
+    switch (kind) {
+      case 'correct':
+        this.feedbackFill = 0x4CAF50;
+        this.feedbackStroke = null;
+        break;
+      case 'wrong':
+        this.feedbackFill = 0xF44336;
+        this.feedbackStroke = null;
+        break;
+      case 'none':
+      default:
+        this.feedbackFill = null;
+        this.feedbackStroke = null;
+        break;
+    }
     this.drawState();
     return this;
   }

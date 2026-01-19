@@ -38,6 +38,7 @@ export const uiTheme = {
     textError: '#FF6B6B',
     textSuccess: '#6BCB77',
     textGold: '#daa520',
+    textGoldHex: 0xDAA520,
     textGreen: '#4CAF50',
     black: '#000000',
 

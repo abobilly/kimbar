@@ -128,6 +128,10 @@ export class QuestPanel {
       uiLayer.add(this.container);
     }
 
+    // Ensure non-null local reference for TypeScript
+    const c = this.container;
+    if (!c) return;
+
     // Panel dimensions
     const panelWidth = 280;
     const panelX = width - panelWidth - UI_MARGIN;
@@ -148,7 +152,7 @@ export class QuestPanel {
       uiTheme.colors.panelBg,
       uiTheme.colors.panelBgAlpha
     ).setStrokeStyle(uiTheme.borders.thin, uiTheme.colors.panelBorder);
-    this.container.add(bg);
+    c.add(bg);
 
     // Header
     const header = this.scene.add.text(
@@ -161,7 +165,7 @@ export class QuestPanel {
         fontStyle: 'bold'
       }
     );
-    this.container.add(header);
+    c.add(header);
 
     // Quest list
     if (quests.length === 0) {
@@ -175,7 +179,7 @@ export class QuestPanel {
           lineSpacing: 4
         }
       );
-      this.container.add(noQuests);
+      c.add(noQuests);
     } else {
       quests.forEach((quest, index) => {
         const y = panelY + headerHeight + UI_PADDING + index * lineHeight;
@@ -193,7 +197,7 @@ export class QuestPanel {
             color: statusColor
           }
         );
-        this.container.add(status);
+        c.add(status);
 
         // Quest name
         const name = this.scene.add.text(
@@ -206,7 +210,7 @@ export class QuestPanel {
             fontStyle: quest.completed ? 'normal' : 'bold'
           }
         );
-        this.container.add(name);
+        c.add(name);
 
         // Quest description
         const desc = this.scene.add.text(
@@ -219,7 +223,7 @@ export class QuestPanel {
             wordWrap: { width: panelWidth - UI_PADDING * 2 - 25 }
           }
         );
-        this.container.add(desc);
+        c.add(desc);
       });
     }
   }

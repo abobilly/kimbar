@@ -188,7 +188,7 @@ export class EncounterSystem {
 
     const answers: string[] = [];
     // Replace {{c1::text}} or {{text}} with _____ and extract answers
-    const questionText = clozeText.replace(/\{\{(?:c\d+::)?(.+?)\}\}/g, (match, answer) => {
+    const questionText = clozeText.replace(/\{\{(?:c\d+::)?(.+?)\}\}/g, (_match, answer) => {
       answers.push(answer.trim());
       return '_____';
     });
@@ -277,12 +277,12 @@ export class EncounterSystem {
 
         if (correct) {
           // Visual feedback for correct answer
-          button.setTintFill(0x4CAF50);
+          button.setFeedback('correct');
           this.correctCount++;
           this.showFeedback(card, true);
         } else {
           // Visual feedback for incorrect answer
-          button.setTintFill(0xF44336);
+          button.setFeedback('wrong');
           // Update sanction meter
           const state = getGameState();
           updateGameState({ sanctionMeter: state.sanctionMeter + 10 });
@@ -392,6 +392,14 @@ export class EncounterSystem {
     this.container.add(continueBtn);
 
     continueBtn.on('pointerdown', () => {
+      // Clear any transient button feedback visuals before continuing
+      this.container?.each((child: Phaser.GameObjects.GameObject) => {
+        if (child.name?.startsWith('q_button_')) {
+          const btn = child as UIButton;
+          if (btn.setFeedback) btn.setFeedback('none');
+        }
+      });
+
       this.isEvaluating = false;  // Allow cancel again
       this.currentIndex++;
       if (this.currentIndex < this.currentCards.length) {

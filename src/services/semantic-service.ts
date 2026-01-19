@@ -96,10 +96,12 @@ export function isSemanticEnabled(): boolean {
  */
 export async function isWebGPUAvailable(): Promise<boolean> {
   if (typeof navigator === 'undefined') return false;
-  if (!('gpu' in navigator)) return false;
+  // Tight local guard to avoid TypeScript complaining about `navigator.gpu` being unknown.
+  const gpu = (navigator as any).gpu;
+  if (!gpu || typeof gpu.requestAdapter !== 'function') return false;
 
   try {
-    const adapter = await navigator.gpu.requestAdapter();
+    const adapter = await gpu.requestAdapter();
     return adapter !== null;
   } catch {
     return false;

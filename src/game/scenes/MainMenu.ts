@@ -1,32 +1,29 @@
 import { Scene, GameObjects } from 'phaser';
 import { loadGameState } from '@content/registry';
 
-export class MainMenu extends Scene
-{
+export class MainMenu extends Scene {
     background: GameObjects.Image;
     title: GameObjects.Text;
 
-    constructor ()
-    {
+    constructor() {
         super('MainMenu');
     }
 
-    create ()
-    {
+    create() {
         const { width, height } = this.scale;
 
         // Dark gradient background
-        const bg = this.add.rectangle(width / 2, height / 2, width, height, 0x1a1a2e);
-        
+        this.add.rectangle(width / 2, height / 2, width, height, 0x1a1a2e);
+
         // Decorative courtroom elements
-        const pillars = this.add.text(width / 2, 100, '🏛️ 🏛️ 🏛️', { fontSize: '48px' }).setOrigin(0.5);
+        this.add.text(width / 2, 100, '🏛️ 🏛️ 🏛️', { fontSize: '48px' }).setOrigin(0.5);
 
         // Title
         this.title = this.add.text(width / 2, 200, '⚖️ KIM BAR ⚖️', {
-            fontFamily: 'Georgia, serif', 
-            fontSize: 64, 
+            fontFamily: 'Georgia, serif',
+            fontSize: 64,
             color: '#FFD700',
-            stroke: '#000000', 
+            stroke: '#000000',
             strokeThickness: 4,
             align: 'center'
         }).setOrigin(0.5);
@@ -71,7 +68,7 @@ export class MainMenu extends Scene
         });
 
         // Instructions
-        this.add.text(width / 2, height - 100, 
+        this.add.text(width / 2, height - 100,
             '📱 Tap to move • Talk to NPCs • Battle with flashcards!', {
             fontSize: 18,
             color: '#666666'

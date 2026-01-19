@@ -6,7 +6,7 @@
 import { Scene } from 'phaser';
 import { OutfitSystem } from '@game/systems/OutfitSystem';
 import { DEPTH_HUD } from '@game/constants/depth';
-import { UI_MARGIN, UI_PADDING } from '@game/constants';
+import { UI_PADDING } from '@game/constants';
 import { Outfit } from '@content/types';
 import { uiTheme } from './uiTheme';
 
@@ -77,7 +77,7 @@ export class WardrobePanel {
       panelHeight,
       uiTheme.colors.panelBg,
       uiTheme.colors.panelBgAlpha
-    ).setStrokeStyle(uiTheme.borders.thick, uiTheme.colors.textGold); // Gold border
+    ).setStrokeStyle(uiTheme.borders.thick, uiTheme.colors.textGoldHex); // Gold border
     this.container.add(bg);
 
     // Title
@@ -114,14 +114,14 @@ export class WardrobePanel {
     const itemHeight = 60;
 
     if (outfits.length === 0) {
-        const noOutfits = this.scene.add.text(
-            x + width / 2,
-            startY + 50,
-            "No outfits unlocked yet.",
-            { color: '#888', fontSize: '16px' }
-        ).setOrigin(0.5);
-        this.container.add(noOutfits);
-        return;
+      const noOutfits = this.scene.add.text(
+        x + width / 2,
+        startY + 50,
+        "No outfits unlocked yet.",
+        { color: '#888', fontSize: '16px' }
+      ).setOrigin(0.5);
+      this.container.add(noOutfits);
+      return;
     }
 
     outfits.forEach((outfit, index) => {
@@ -137,7 +137,7 @@ export class WardrobePanel {
         isEquipped ? 0x2d2d44 : 0x000000,
         0.5
       ).setInteractive({ useHandCursor: true });
-      
+
       if (isEquipped) {
         bg.setStrokeStyle(1, 0x4CAF50);
       }
@@ -179,10 +179,10 @@ export class WardrobePanel {
       // Checkmark for equipped
       if (isEquipped) {
         const check = this.scene.add.text(
-            x + width - UI_PADDING * 3,
-            y + itemHeight / 2,
-            'EQUIPPED',
-            { fontSize: '12px', color: '#4CAF50', fontStyle: 'bold' }
+          x + width - UI_PADDING * 3,
+          y + itemHeight / 2,
+          'EQUIPPED',
+          { fontSize: '12px', color: '#4CAF50', fontStyle: 'bold' }
         ).setOrigin(1, 0.5);
         this.container!.add(check);
       }
