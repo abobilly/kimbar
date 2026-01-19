@@ -8,6 +8,71 @@
 
 ---
 
+## World Topology & Content Fixes (January 18, 2026)
+
+### What Changed
+
+**5 tasks completed with small commits + gates after each:**
+
+1. **World Graph + Validator (TASK 1)**
+   - Created `schemas/WorldGraph.schema.json` — schema for nodes (rooms) + edges (doors)
+   - Created `content/world_graph.json` — canonical world topology (5 nodes, 5 edges)
+   - Updated `scripts/validate.js` — added `validateWorldGraph()` function
+   - Commit: `e525f84`
+
+2. **Door Placement Fix (TASK 2)**
+   - Updated `public/content/tiled/supreme-court/scotus_lobby.json`:
+     - Added `door_to_courtroom` (east wall, facing right)
+     - Added `door_to_library` (west wall, facing left)
+     - Added `spawn_from_courtroom` and `spawn_from_library` spawn points
+   - scotus_lobby now has N/S/E/W doors matching world_graph topology
+   - Commit: `4f75aef`
+
+3. **courthouse_exterior Resize (TASK 3)**
+   - Resized from 25×20 to 80×60 tiles (2560×1920 pixels)
+   - Added SCOTUS exterior theming (grass + stone plaza)
+   - Added soft boundary collision (outer 3 tiles)
+   - Added building facade collision with door opening
+   - Created `tmp/generate_courthouse_exterior.mjs` generation script
+   - Commit: `fb6ab54`
+
+4. **Dialogue Portrait Fix (TASK 4)**
+   - Fixed `scripts/generate-sprites.mjs`:
+     - Changed portrait extraction from row 0 (back-facing) to row 2 (front-facing)
+     - LPC layout: row 2 (y=128) is front-facing walk animation
+   - Regenerated all 22 character portraits
+   - Commit: `e90c704`
+
+5. **Asset Index Scoping (TASK 5)**
+   - Updated `scripts/build-asset-index.mjs`:
+     - Added `--include-ulpc` flag for opt-in ULPC/EULPC scanning
+     - Excluded `vendor/lpc/Universal-LPC...` and `vendor/eulpc` by default
+     - Reduced index from ~50k files to ~600 files
+   - Commit: `fe0f770`
+
+### Current World Topology
+
+```
+content/world_graph.json:
+  courthouse_exterior -> scotus_lobby (via door_to_lobby)
+  scotus_lobby -> courthouse_exterior (via door_to_exterior)
+  scotus_lobby -> hallway (via door_to_hallway, N)
+  scotus_lobby -> courtroom_main (via door_to_courtroom, E)
+  scotus_lobby -> library (via door_to_library, W)
+```
+
+### What's Next
+
+1. **Create hallway, courtroom_main, library maps** — These rooms exist in world_graph but need Tiled maps
+2. **Runtime integration** — Test world graph + door transitions in game
+3. **Art pass** — courthouse_exterior building facade is placeholder tiles
+
+### Gates Run
+
+✅ `npm run check:fast` passed after each commit (all 5 times)
+
+---
+
 ## Tiled Authoring Bootstrap (January 18, 2026)
 
 ### What Changed
