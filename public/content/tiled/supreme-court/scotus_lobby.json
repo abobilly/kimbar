@@ -1665,6 +1665,98 @@
                     "width": 64,
                     "x": 272,
                     "y": 0
+                },
+                {
+                    "height": 64,
+                    "id": 5,
+                    "name": "door_to_courtroom",
+                    "properties": [
+                        {
+                            "name": "toMap",
+                            "type": "string",
+                            "value": "supreme-court/courtroom_main"
+                        },
+                        {
+                            "name": "toSpawn",
+                            "type": "string",
+                            "value": "from_lobby"
+                        },
+                        {
+                            "name": "facing",
+                            "type": "string",
+                            "value": "right"
+                        }
+                    ],
+                    "rotation": 0,
+                    "type": "Door",
+                    "visible": true,
+                    "width": 32,
+                    "x": 608,
+                    "y": 208
+                },
+                {
+                    "height": 32,
+                    "id": 6,
+                    "name": "spawn_from_courtroom",
+                    "properties": [
+                        {
+                            "name": "spawnId",
+                            "type": "string",
+                            "value": "from_courtroom"
+                        }
+                    ],
+                    "rotation": 0,
+                    "type": "PlayerSpawn",
+                    "visible": true,
+                    "width": 32,
+                    "x": 576,
+                    "y": 224
+                },
+                {
+                    "height": 64,
+                    "id": 7,
+                    "name": "door_to_library",
+                    "properties": [
+                        {
+                            "name": "toMap",
+                            "type": "string",
+                            "value": "supreme-court/library"
+                        },
+                        {
+                            "name": "toSpawn",
+                            "type": "string",
+                            "value": "from_lobby"
+                        },
+                        {
+                            "name": "facing",
+                            "type": "string",
+                            "value": "left"
+                        }
+                    ],
+                    "rotation": 0,
+                    "type": "Door",
+                    "visible": true,
+                    "width": 32,
+                    "x": 0,
+                    "y": 208
+                },
+                {
+                    "height": 32,
+                    "id": 8,
+                    "name": "spawn_from_library",
+                    "properties": [
+                        {
+                            "name": "spawnId",
+                            "type": "string",
+                            "value": "from_library"
+                        }
+                    ],
+                    "rotation": 0,
+                    "type": "PlayerSpawn",
+                    "visible": true,
+                    "width": 32,
+                    "x": 32,
+                    "y": 224
                 }
             ],
             "opacity": 1,
@@ -1675,7 +1767,7 @@
         }
     ],
     "nextlayerid": 7,
-    "nextobjectid": 5,
+    "nextobjectid": 9,
     "orientation": "orthogonal",
     "renderorder": "right-down",
     "tiledversion": "1.10.2",
