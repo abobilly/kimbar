@@ -14,6 +14,8 @@ TypeScript + Phaser 3 + Vite game for bar exam prep.
 
 4. **Agent-friendly workflow**: All operations runnable via npm scripts. Validators/tests block regressions. Update `NEXT_SESSION.md` with changes.
 
+5. **Explicit room registration**: Rooms are registered only via explicit specs—`RoomEntry` from `content/room_entries/`, `RoomSpec` from `content/rooms/`. **Forbidden**: scanning `public/content/ldtk/` to auto-discover rooms.
+
 ## Forbidden Actions
 
 - Loading `/content/...` via hardcoded paths (except central loader module)
@@ -35,16 +37,20 @@ TypeScript + Phaser 3 + Vite game for bar exam prep.
 | Type | Authored Location | Generated Location |
 |------|-------------------|-------------------|
 | Characters | `content/characters/*.json` | `generated/characters/*.json` |
-| Rooms | `content/rooms/*.json` | — |
+| Rooms (bridge) | `content/room_entries/*.json` | — |
+| Rooms (authoring) | `content/rooms/*.json` | — (future: Tiled-first) |
 | Ink dialogue | `content/ink/*.ink` | `generated/ink/*.json` |
-| Flashcards | `public/content/cards/*.json` | — |
+| Flashcards | `VITE_FLASHCARD_API_URL` (remote) | — |
 | Sprites | character specs | `generated/sprites/*.png` |
+
+> **Note**: Local flashcards at `public/content/cards/*.ndjson` are for offline dev/testing only; production uses the remote endpoint.
 
 ## Key Documentation
 
-- `docs/INVARIANTS.md` — full invariant documentation
+- `.roo/rules/00_READ_FIRST.md` — sacred invariants (canonical)
 - `NEXT_SESSION.md` — current session handoff
 - `schemas/*.schema.json` — JSON schemas for validation
+- `docs/INVARIANTS.md` — **DEPRECATED** (see `.roo/rules/` instead)
 
 ## 3-Stage Agent Workflow
 

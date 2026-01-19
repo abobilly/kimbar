@@ -29,6 +29,10 @@ Build systems that make future edits cheap. Prefer contracts + deterministic pip
    - Validators/tests must block regressions automatically.
    - Update `NEXT_SESSION.md` with: what changed + how to use + hazards/invariants.
 
+5. **Explicit room registration**
+   - Rooms are registered only via explicit specs—`RoomEntry` from `content/room_entries/`, `RoomSpec` from `content/rooms/`.
+   - **FORBIDDEN**: scanning `public/content/ldtk/` to auto-discover rooms.
+
 ## Canonical commands (existing)
 
 - Content prep (runs vendor fetch + chars + sprites + ink + asset index + sync + validate):
@@ -48,16 +52,18 @@ Build systems that make future edits cheap. Prefer contracts + deterministic pip
 
 ## Key documentation
 
-- `docs/INVARIANTS.md` - Full invariant documentation with code examples
+- `.roo/rules/00_READ_FIRST.md` - Sacred invariants (canonical)
 - `NEXT_SESSION.md` - Current handoff state + how to add content
-- `AGENT_TASK_PIPELINE_HARDENING.md` - Pipeline hardening task spec (delete when complete)
+- `schemas/*.schema.json` - JSON schemas for validation
+- `docs/INVARIANTS.md` - **DEPRECATED** (see `.roo/rules/` instead)
 
 ## Never do
 
 - Never introduce new runtime code that loads `/content/...` via hardcoded string paths (except inside the central loader module).
 - Never add UI elements directly to the world display list.
 - Never bypass schemas/contracts "just for now."
-- Never commit to `generated/` or `public/generated/` (gitignored build artifacts).
+- Never commit to `generated/` or `public/generated/` (gitignored build artifacts). Only authored inputs under `content/`, `docs/`, `src/` should be committed.
+- Never scan `public/content/ldtk/` to auto-discover rooms. Use explicit specs only.
 
 ## Output expectations when asked to implement work
 
