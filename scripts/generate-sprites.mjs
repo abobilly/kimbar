@@ -614,17 +614,33 @@ async function generateCharacterSprite(charId, ulpcArgs) {
 
     info(`  ✅ Generated: ${outputPath} (${outputMeta.width}×${outputMeta.height})`);
 
-    // Generate portrait (crop frame 0,0 at 64×64)
+    // Generate portrait from FRONT-FACING frame (row 2 in LPC layout)
+    // LPC spritesheet layout:
+    //   Row 0 (y=0): Back-facing walk (character's back to camera)
+    //   Row 1 (y=64): Left-facing walk
+    //   Row 2 (y=128): Front-facing walk (character facing camera) <-- PORTRAIT SOURCE
+    //   Row 3 (y=192): Right-facing walk
+    // We use the first frame (x=0) of the front-facing row for the portrait.
     // TODO: Add portraitFrame and portraitCrop fields to CharacterSpec for customization
     await mkdir(PORTRAITS_DIR, { recursive: true });
     const portraitPath = join(PORTRAITS_DIR, `${charId}.png`);
 
+    // Row 2 (front-facing) starts at y=128, frame 0 at x=0
+    const PORTRAIT_ROW = 2;  // Front-facing
+    const PORTRAIT_FRAME = 0; // First frame (standing pose)
+    const FRAME_SIZE = 64;
+
     await sharp(outputPath)
-      .extract({ left: 0, top: 0, width: 64, height: 64 })
+      .extract({
+        left: PORTRAIT_FRAME * FRAME_SIZE,
+        top: PORTRAIT_ROW * FRAME_SIZE,
+        width: FRAME_SIZE,
+        height: FRAME_SIZE
+      })
       .png()
       .toFile(portraitPath);
 
-    info(`  ✅ Portrait: ${portraitPath}`);
+    info(`  ✅ Portrait: ${portraitPath} (front-facing)`);
 
     return { success: true, path: outputPath, portraitPath };
 
