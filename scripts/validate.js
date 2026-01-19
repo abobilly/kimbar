@@ -35,6 +35,7 @@ const ROOM_TILE_REQUIREMENTS_PATH = './content/ai_jobs/room_tile_requirements.js
 const GENERATED_TILES_DIR = './generated/tiles';
 const TILESET_REGISTRY_PATH = './content/tilesets/tilesets.json';
 const TILESET_PARTS_DIR = './content/tilesets';
+const WORLD_GRAPH_PATH = './content/world_graph.json';
 
 let hardErrors = [];
 let policySkips = [];
@@ -426,6 +427,78 @@ async function validateRoomEntries(schemas, registry) {
     }
 
     ok(`${room.id}: LDtk file exists at ${room.ldtkUrl}`);
+  }
+}
+
+async function validateWorldGraph(schemas, registry) {
+  console.log('\n🗺️ Validating World Graph...');
+
+  if (!existsSync(WORLD_GRAPH_PATH)) {
+    warn('World graph not found at content/world_graph.json');
+    return;
+  }
+
+  try {
+    const worldGraph = await loadJson(WORLD_GRAPH_PATH);
+
+    // Schema validation
+    if (schemas.WorldGraph) {
+      const valid = schemas.WorldGraph(worldGraph);
+      if (!valid) {
+        for (const err of schemas.WorldGraph.errors) {
+          error(`World graph ${err.instancePath}: ${err.message}`);
+        }
+      } else {
+        ok('World graph schema valid');
+      }
+    }
+
+    // Build sets for cross-reference validation
+    const nodeIds = new Set(worldGraph.nodes.map(n => n.id));
+    const edgeIds = new Set();
+    const nodeSpawns = {};
+    for (const node of worldGraph.nodes) {
+      nodeSpawns[node.id] = new Set(node.spawns || []);
+    }
+
+    // Validate edges
+    for (const edge of worldGraph.edges) {
+      // Duplicate doorId check
+      if (edgeIds.has(edge.doorId)) {
+        error(`World graph: duplicate doorId '${edge.doorId}'`);
+      }
+      edgeIds.add(edge.doorId);
+
+      // fromRoomId must exist
+      if (!nodeIds.has(edge.fromRoomId)) {
+        error(`World graph: edge '${edge.doorId}' references unknown fromRoomId '${edge.fromRoomId}'`);
+      }
+
+      // toRoomId must exist
+      if (!nodeIds.has(edge.toRoomId)) {
+        error(`World graph: edge '${edge.doorId}' references unknown toRoomId '${edge.toRoomId}'`);
+      }
+
+      // toSpawnTag must exist in destination room
+      const destSpawns = nodeSpawns[edge.toRoomId];
+      if (destSpawns && !destSpawns.has(edge.toSpawnTag)) {
+        error(`World graph: edge '${edge.doorId}' references unknown spawn '${edge.toSpawnTag}' in room '${edge.toRoomId}'`);
+      }
+    }
+
+    // Cross-reference with registry rooms
+    if (registry?.rooms) {
+      const registryRoomIds = new Set(registry.rooms.map(r => r.id));
+      for (const node of worldGraph.nodes) {
+        if (!registryRoomIds.has(node.id)) {
+          warn(`World graph: node '${node.id}' not found in registry (room may not exist yet)`);
+        }
+      }
+    }
+
+    ok(`${worldGraph.nodes.length} nodes, ${worldGraph.edges.length} edges`);
+  } catch (e) {
+    error(`Failed to parse world graph: ${e.message}`);
   }
 }
 
@@ -920,6 +993,9 @@ async function main() {
   await validateFlashcardPacks(schemas, registry, contract);
   await validateRoomEntries(schemas, registry);
   await validateInkEntries(registry);
+
+  // Validate world topology
+  await validateWorldGraph(schemas, registry);
 
   // Validate source content
   await validateCharacterSpecs(schemas, contract);

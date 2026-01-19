@@ -1,0 +1,78 @@
+{
+  "$schema": "../schemas/WorldGraph.schema.json",
+  "version": "0.1.0",
+  "nodes": [
+    {
+      "id": "courthouse_exterior",
+      "displayName": "Courthouse Exterior",
+      "region": "supreme-court",
+      "spawns": ["main"]
+    },
+    {
+      "id": "scotus_lobby",
+      "displayName": "SCOTUS Lobby",
+      "region": "supreme-court",
+      "spawns": ["from_exterior", "from_hallway", "from_courtroom", "from_library"]
+    },
+    {
+      "id": "hallway",
+      "displayName": "Main Hallway",
+      "region": "supreme-court",
+      "spawns": ["from_lobby"]
+    },
+    {
+      "id": "courtroom_main",
+      "displayName": "Main Courtroom",
+      "region": "supreme-court",
+      "spawns": ["from_lobby"]
+    },
+    {
+      "id": "library",
+      "displayName": "Law Library",
+      "region": "supreme-court",
+      "spawns": ["from_lobby"]
+    }
+  ],
+  "edges": [
+    {
+      "doorId": "exterior_to_lobby",
+      "fromRoomId": "courthouse_exterior",
+      "toRoomId": "scotus_lobby",
+      "toSpawnTag": "from_exterior",
+      "facing": "up",
+      "notes": "Main entrance from exterior to lobby"
+    },
+    {
+      "doorId": "lobby_to_exterior",
+      "fromRoomId": "scotus_lobby",
+      "toRoomId": "courthouse_exterior",
+      "toSpawnTag": "main",
+      "facing": "down",
+      "notes": "Exit from lobby to exterior"
+    },
+    {
+      "doorId": "lobby_to_hallway",
+      "fromRoomId": "scotus_lobby",
+      "toRoomId": "hallway",
+      "toSpawnTag": "from_lobby",
+      "facing": "up",
+      "notes": "North door to main hallway"
+    },
+    {
+      "doorId": "lobby_to_courtroom",
+      "fromRoomId": "scotus_lobby",
+      "toRoomId": "courtroom_main",
+      "toSpawnTag": "from_lobby",
+      "facing": "right",
+      "notes": "East door to main courtroom"
+    },
+    {
+      "doorId": "lobby_to_library",
+      "fromRoomId": "scotus_lobby",
+      "toRoomId": "library",
+      "toSpawnTag": "from_lobby",
+      "facing": "left",
+      "notes": "West door to law library"
+    }
+  ]
+}
