@@ -8,6 +8,130 @@
 
 ---
 
+## Tiled Authoring Bootstrap (January 18, 2026)
+
+### What Changed
+
+**Tiled-first authoring is now available.** You can edit maps in Tiled instead of LDtk.
+
+**Created Tiled Maps:**
+- `public/content/tiled/supreme-court/courthouse_exterior.json` — 25×20 tiles, exterior room
+- `public/content/tiled/supreme-court/scotus_lobby.json` — 20×15 tiles, interior lobby
+
+**Created RoomSpecs (future Tiled authoring specs):**
+- `content/rooms/courthouse_exterior.json` — RoomSpec for courthouse exterior
+- `content/rooms/scotus_lobby.json` — RoomSpec for SCOTUS lobby
+
+**Updated RoomEntry Bridge (added levelUrl support):**
+- `content/room_entries/courthouse_exterior.json` — Now has `levelUrl` pointing to compiled Tiled map
+- `content/room_entries/scotus_lobby.json` — Now has `levelUrl` pointing to compiled Tiled map
+- `schemas/RoomEntry.schema.json` — Added `levelUrl` property for Tiled-compiled LevelData; schema now uses `anyOf` requiring either `ldtkUrl` OR `levelUrl`
+- `src/content/types.ts` — Added optional `levelUrl` field to `RoomEntry` interface
+
+**Directory Structure (Tiled Pipeline):**
+```
+public/content/tiled/
+├── templates/room-template.json    # Start from this for new maps
+├── tilesets/                       # TSX tileset references
+├── supreme-court/                  # Room pack directory
+│   ├── courthouse_exterior.json   # Tiled JSON map (NEW)
+│   ├── scotus_lobby.json          # Tiled JSON map (NEW)
+│   ├── lobby.json                 # Existing sample
+│   └── ... other maps
+└── rooms/                          # TMX shells (optional)
+```
+
+**Compilation Output:**
+```
+generated/levels/
+├── supreme-court/
+│   ├── courthouse_exterior.json   # Compiled LevelData
+│   ├── scotus_lobby.json          # Compiled LevelData
+│   └── ...
+```
+
+### How to Edit Maps in Tiled
+
+1. **Open Tiled** (https://www.mapeditor.org/)
+2. **Open a map**: `File > Open > public/content/tiled/supreme-court/{room}.json`
+3. **Edit layers** (Floor, Walls, Trim, Overlays, Collision, Entities)
+4. **Save** (Tiled JSON format is already set)
+5. **Validate**: `npm run validate:tiled`
+6. **Compile**: `npm run compile:tiled` (or `npm run build:tiled` which does both)
+7. **Run**: `npm run dev` to test in-game
+
+### How to Add a New Room the Right Way
+
+1. **Copy the template**: `public/content/tiled/templates/room-template.json` → `public/content/tiled/supreme-court/{room-id}.json`
+2. **Edit dimensions**: Change `width`, `height` in map properties
+3. **Add entities**: PlayerSpawn (required), Doors, NPCs, EncounterTriggers
+4. **Create RoomEntry**: Add `content/room_entries/{room-id}.json` with both `ldtkUrl` (legacy) and `levelUrl` (compiled)
+5. **Optionally create RoomSpec**: Add `content/rooms/{room-id}.json` for full authoring spec
+6. **Run pipeline**: `npm run prepare:content && npm run build:tiled`
+7. **Verify**: `npm run validate`
+
+### Bridge Strategy: levelUrl vs ldtkUrl
+
+The `RoomEntry` schema now supports both:
+- `ldtkUrl`: Legacy LDtk file (still works)
+- `levelUrl`: Compiled Tiled LevelData (preferred when present)
+
+Runtime loader should prefer `levelUrl` when available, fallback to `ldtkUrl`. Currently both are set for courthouse_exterior and scotus_lobby.
+
+### What's Still LDtk-Bridge vs Tiled-First
+
+| Room | Status | ldtkUrl | levelUrl | Environment |
+|------|--------|---------|----------|-------------|
+| courthouse_exterior | Tiled-first ✨ | ✅ (bridge) | ✅ (compiled) | exterior (themed) |
+| scotus_lobby | Tiled-first | ✅ (bridge) | ✅ (compiled) | interior |
+| All other 16 rooms | LDtk-bridge only | ✅ | ❌ | varies |
+
+### Exterior Theming (January 18, 2026)
+
+**courthouse_exterior now uses outdoor terrain tiles:**
+
+- **Floor**: Grass (tile 322) with a stone pathway (tile 107) running north-south
+- **Walls**: Building facade from `scotus_exterior.tsx` at the north
+- **Tilesets**: Uses `terrain.tsx` (2048 tiles from LPC terrain-v7) and `scotus_exterior.tsx` (building facade)
+
+**New Tileset Files Added:**
+- `public/content/tiled/tiles/terrain.png` — Copied from `vendor/tilesets/lpc/terrains/terrain-v7.png`
+- `public/content/tiled/tiles/scotus_exterior.png` — Copied from `vendor/tilesets/scotus_exterior_building.png`
+- `public/content/tiled/tilesets/terrain.tsx` — References terrain.png (1024×2048, 2048 tiles)
+- `public/content/tiled/tilesets/scotus_exterior.tsx` — References scotus_exterior.png (480×224, 105 tiles)
+
+**Visual Layout:**
+```
+┌─────────────────────────────┐
+│      🏛️ Building Facade    │  Rows 0-3: Building wall
+├─────────────────────────────┤
+│  🌿  Stone  Stone  Stone 🌿 │  Rows 4-19: 
+│  🌿  Path   Path   Path  🌿 │    - Grass edges (left/right)
+│  🌿  Path   Path   Path  🌿 │    - Stone walkway (center)
+│  🌿  Path   Path   Path  🌿 │  
+│  ...                        │  
+│  🌿  Path   ⬇️ Player 🌿   │  spawn_main at (12,18)
+└─────────────────────────────┘
+```
+
+### What's Next
+
+1. **Migrate more rooms**: Create Tiled maps for other rooms as needed
+2. **Loader preference**: Update WorldScene/loader to prefer `levelUrl` over `ldtkUrl` when both present
+3. **Add more decorations**: Trees, benches, lampposts to courthouse_exterior using Overlays layer
+
+### Gates Run
+
+| Gate | Result |
+|------|--------|
+| `npx tsc --noEmit` | ✅ PASS |
+| `npm run validate:tiled` | ✅ PASS (6 maps) |
+| `npm run compile:tiled` | ✅ PASS (6 maps) |
+| `npm run validate` | ✅ PASS |
+| `npm run check:fast` | ✅ PASS (53 tests) |
+
+---
+
 ## WorldScene TS cleanup (January 18, 2026)
 
 ### What Changed

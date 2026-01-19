@@ -1,0 +1,57 @@
+{
+    "$schema": "../schemas/RoomSpec.schema.json",
+    "id": "scotus_lobby",
+    "name": "SCOTUS Main Lobby",
+    "description": "The grand main lobby of the Supreme Court building",
+    "width": 20,
+    "height": 15,
+    "tileset": "scotus_floors",
+    "background": "#1a1a2e",
+    "environment": "interior",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 9,
+            "y": 12,
+            "id": "main",
+            "properties": {}
+        },
+        {
+            "type": "PlayerSpawn",
+            "x": 9,
+            "y": 13,
+            "id": "from_exterior",
+            "properties": {}
+        },
+        {
+            "type": "Door",
+            "x": 8,
+            "y": 14,
+            "id": "door_to_exterior",
+            "properties": {
+                "targetLevel": "courthouse_exterior"
+            }
+        },
+        {
+            "type": "Door",
+            "x": 8,
+            "y": 0,
+            "id": "door_to_hallway",
+            "properties": {
+                "targetLevel": "hallway"
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "south",
+            "targetRoom": "courthouse_exterior",
+            "locked": false
+        },
+        {
+            "direction": "north",
+            "targetRoom": "hallway",
+            "locked": false
+        }
+    ]
+}

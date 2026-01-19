@@ -2,11 +2,22 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "RoomEntry.schema.json",
   "title": "RoomEntry",
-  "description": "Registry entry for a room/level",
+  "description": "Registry entry for a room/level. Use levelUrl (Tiled-compiled) OR ldtkUrl (legacy LDtk).",
   "type": "object",
   "required": [
-    "id",
-    "ldtkUrl"
+    "id"
+  ],
+  "anyOf": [
+    {
+      "required": [
+        "ldtkUrl"
+      ]
+    },
+    {
+      "required": [
+        "levelUrl"
+      ]
+    }
   ],
   "properties": {
     "id": {
@@ -17,7 +28,12 @@
     "ldtkUrl": {
       "type": "string",
       "pattern": "^/content/ldtk/",
-      "description": "URL path to the LDtk JSON file"
+      "description": "URL path to the LDtk JSON file (legacy bridge)"
+    },
+    "levelUrl": {
+      "type": "string",
+      "pattern": "^/generated/levels/",
+      "description": "URL path to compiled Tiled LevelData JSON (preferred)"
     },
     "displayName": {
       "type": "string",

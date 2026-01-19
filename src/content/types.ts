@@ -56,6 +56,8 @@ export interface RoomEntry {
   displayName: string;
   environment: 'interior' | 'exterior';
   ldtkUrl?: string;
+  /** Compiled Tiled LevelData URL (preferred over ldtkUrl when present) */
+  levelUrl?: string;
 }
 
 export interface FlashcardPackEntry {

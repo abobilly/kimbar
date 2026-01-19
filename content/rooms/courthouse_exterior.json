@@ -1,0 +1,36 @@
+{
+    "$schema": "../schemas/RoomSpec.schema.json",
+    "id": "courthouse_exterior",
+    "name": "Courthouse Exterior",
+    "description": "The grand exterior of the Supreme Court building, featuring marble steps and pillars",
+    "width": 25,
+    "height": 20,
+    "tileset": "scotus_floors",
+    "background": "#87CEEB",
+    "environment": "exterior",
+    "entities": [
+        {
+            "type": "PlayerSpawn",
+            "x": 12,
+            "y": 18,
+            "id": "main",
+            "properties": {}
+        },
+        {
+            "type": "Door",
+            "x": 11,
+            "y": 2,
+            "id": "door_to_lobby",
+            "properties": {
+                "targetLevel": "scotus_lobby"
+            }
+        }
+    ],
+    "connections": [
+        {
+            "direction": "north",
+            "targetRoom": "scotus_lobby",
+            "locked": false
+        }
+    ]
+}
