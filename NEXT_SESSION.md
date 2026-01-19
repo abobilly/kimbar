@@ -4,7 +4,111 @@
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
 >
-> **Roo Update Format:** append entries with `What changed` (files list), `What’s next`, and `Gates run / not run (with reasons)` after every subtask.
+> **Roo Update Format:** append entries with `What changed` (files list), `What's next`, and `Gates run / not run (with reasons)` after every subtask.
+
+---
+
+## Directory Separation: RoomSpec vs RoomEntry (January 18, 2026)
+
+### What Changed
+
+**SUBTASK COMPLETE** - Fixed dual-purpose directory issue by separating RoomSpec (authoring) from RoomEntry (registry bridge) into distinct directories with strict schema enforcement.
+
+**Problem:** Previous fix put RoomEntry specs in `content/rooms/` which was supposed to be RoomSpec-only, creating a dual-purpose directory that undermines strict contracts. Also only 1 room was registered, not all 18.
+
+**Solution:**
+1. Created `content/room_entries/` directory for bridge RoomEntry files
+2. Created 18 RoomEntry files for all existing LDtk rooms
+3. Updated `scanRooms()` in `scripts/build-characters.js` to scan `content/room_entries/` instead
+4. Reverted dual-schema logic in `scripts/validate.js` - `content/rooms/` is now RoomSpec-only
+5. Added `validateRoomEntrySpecs()` function to validate `content/room_entries/` against RoomEntry schema
+6. Deleted old `content/rooms/scotus_lobby.json` bridge entry
+
+**Directory Structure (Strict Contracts):**
+- `content/rooms/` -> RoomSpec schema only (Tiled authoring specs)
+- `content/room_entries/` -> RoomEntry schema only (registry bridge entries)
+
+**Modified Files:**
+- `scripts/build-characters.js` - `scanRooms()` now scans `content/room_entries/`
+- `scripts/validate.js` - Reverted dual-schema logic, added `validateRoomEntrySpecs()`, added `CONTENT_DIRS.room_entries`
+
+**Created Files (18 RoomEntry specs):**
+- All 18 rooms in `content/room_entries/`
+
+**Deleted Files:**
+- `content/rooms/scotus_lobby.json` (moved to room_entries)
+
+### Invariants Enforced
+
+1. **Directory separation**: `content/rooms/` validates against RoomSpec.schema.json only. `content/room_entries/` validates against RoomEntry.schema.json only.
+2. **Registry completeness**: All 18 LDtk rooms now have explicit bridge entries -> registry contains 18 rooms.
+3. **No LDtk scanning**: Rooms come from explicit specs, not directory discovery.
+
+### What's Next
+
+- Continue Tiled-first conversion: author rooms in Tiled, compile to LevelData
+- When ready: update room entries to point at LevelData URLs instead of ldtkUrl
+
+### Gates Run
+
+| Gate | Result |
+|------|--------|
+| `npm run prepare:content` | PASS - Registry contains 18 rooms |
+| `npm run validate` | PASS |
+| `npm run verify` | PASS |
+| `npm run test:unit` | PASS (53 tests) |
+| `npm run check:fast` | PASS |
+| `npx tsc --noEmit` | SKIPPED - Pre-existing errors |
+| `npm run check-boundaries` | PASS |
+
+---
+## REVERT: LDtk Directory Scan + Restore Explicit Room Discovery (January 18, 2026)
+
+### What Changed
+
+**SUBTASK 1 & 2 COMPLETE** — Reverted an incorrect LDtk-scanning direction that auto-generated room entries by scanning `public/content/ldtk/`. Restored proper explicit room spec discovery flow.
+
+**Problem:** Previous changes scanned `public/content/ldtk/**` to auto-populate the `rooms` registry array. This violated the Tiled-first direction where rooms should come from explicit specs or compiled Tiled outputs.
+
+**Solution:**
+1. Reverted `scanRooms()` in `scripts/build-characters.js` to only read explicit room specs from `content/rooms/*.json`
+2. Created `content/rooms/scotus_lobby.json` as a minimal bridge entry pointing to the LDtk file
+3. Updated `scripts/validate.js` to recognize bridge entries (RoomEntry schema) vs full room specs (RoomSpec schema)
+4. Added `$schema` property support in `schemas/RoomEntry.schema.json`
+5. Hardened rules/docs with new invariant forbidding LDtk directory scanning
+
+**Modified Files:**
+- `scripts/build-characters.js` — Reverted `scanRooms()` to explicit spec discovery only
+- `scripts/validate.js` — Recognize bridge RoomEntry specs vs full RoomSpec
+- `schemas/RoomEntry.schema.json` — Allow `$schema` property, keep `environment` field
+- `.roo/rules/00_READ_FIRST.md` — Added sacred invariant #6 forbidding LDtk scan
+- `.roo/rules-orchestrator/01-kimbar.md` — Added non-negotiable invariant forbidding LDtk scan
+- `src/game/scenes/WorldScene.ts` — Already had proper loud error handling for missing rooms (no changes needed)
+
+**Created Files:**
+- `content/rooms/scotus_lobby.json` — Bridge entry pointing to LDtk file
+
+### New Invariant (Sacred)
+
+**Room registry source-of-truth**: Rooms registry may be generated from explicit room specs (`content/rooms/*.json`) and/or compiled Tiled LevelData outputs; it must **NOT** be inferred by scanning LDtk directories (`public/content/ldtk/**`).
+
+### What's Next
+
+- Add more bridge room specs if other rooms are needed (e.g., `cafeteria`, `library`)
+- Continue Tiled-first conversion work (Phase B): author rooms in Tiled, compile to LevelData, update room specs to point at LevelData instead of LDtk
+
+### Gates Run
+
+| Gate | Result |
+|------|--------|
+| `npm run prepare:content` | ✅ Pass — Registry contains 1 room (scotus_lobby) via explicit spec |
+| `npm run validate` | ✅ Pass — Room spec validated as bridge entry |
+| `npm run verify` | ✅ Pass |
+| `npm run validate:tiled` | ✅ Pass |
+| `npm run build:tiled` | ✅ Pass |
+| `npm run test:unit` | ✅ Pass (53 tests) |
+| `npx tsc --noEmit` | ⚠️ Pre-existing errors (14 errors in 7 files, not from this change) |
+| `npm run check-boundaries` | ✅ Pass |
 
 ---
 

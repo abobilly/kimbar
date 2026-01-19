@@ -34,6 +34,11 @@ Separately, invariants run via:
 - Determinism: stable sorting + stable output.
 - Schemas: prefer JSON Schema validation at `validate` time; deeper invariants in `verify`.
 - Runtime should assume content is already validated (avoid heavy validation in hot paths).
+- **Directory separation (STRICT)**: 
+  - `content/rooms/` validates against RoomSpec.schema.json ONLY (Tiled authoring specs)
+  - `content/room_entries/` validates against RoomEntry.schema.json ONLY (registry bridge entries)
+  - **NEVER** allow dual-schema validation in a single directory
+- **No LDtk scanning**: Room registry is populated from explicit specs in `content/room_entries/`, NOT by scanning `public/content/ldtk/` directories.
 
 ## Content types and their registries
 

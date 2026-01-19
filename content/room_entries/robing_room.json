@@ -1,0 +1,7 @@
+{
+    "$schema": "../../schemas/RoomEntry.schema.json",
+    "id": "robing_room",
+    "displayName": "Robing Room",
+    "environment": "interior",
+    "ldtkUrl": "/content/ldtk/robing_room.json"
+}

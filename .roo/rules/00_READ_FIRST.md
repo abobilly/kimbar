@@ -18,6 +18,7 @@
 3. Deterministic pipelines — generated artifacts must be stable and reproducible.
 4. Agent-friendly workflow — every operation is an npm script; validators block regressions.
 5. MCP controlled — use only allowlisted read-only tools; all edits validated via local gates.
+6. **Room registry source-of-truth** — Rooms registry may be generated from explicit room specs (`content/rooms/*.json`) and/or compiled Tiled LevelData outputs; it must **NOT** be inferred by scanning LDtk directories (`public/content/ldtk/**`). LDtk is legacy/optional and may only be referenced via explicit room specs during a bridge period.
 
 ## MCP Policy (KIMBAR)
 - **Allowed**: `repo.search`, `repo.lookup`, `repo.status`, `repo.reindex` (scope=changed only by default).

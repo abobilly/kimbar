@@ -169,36 +169,60 @@ function buildCharacterEntry(charId) {
 }
 
 /**
- * Scan public/content/ldtk/ for room JSON files and create room entries.
+ * Scan content/room_entries/ for explicit RoomEntry JSON files and populate registry.
+ * 
+ * INVARIANT: Rooms MUST come from explicit specs in content/room_entries/*.json.
+ * FORBIDDEN: Scanning ldtk/ directories to auto-discover rooms.
+ * 
+ * Directory separation:
+ * - content/room_entries/ → RoomEntry schema (registry bridge entries)
+ * - content/rooms/        → RoomSpec schema (Tiled authoring specs)
+ * 
+ * Each RoomEntry file defines:
+ * - id: unique room identifier
+ * - displayName: human-readable name
+ * - ldtkUrl: path to LDtk JSON (bridge period only)
+ * - environment: 'interior' | 'exterior'
  */
 async function scanRooms() {
   const rooms = [];
 
-  const ROOM_DIR = join(process.cwd(), 'content', 'rooms');
-  if (!existsSync(ROOM_DIR)) {
-    console.log(`📁 No room directory found at ${ROOM_DIR}`);
+  const ROOM_ENTRY_DIR = join(process.cwd(), 'content', 'room_entries');
+  if (!existsSync(ROOM_ENTRY_DIR)) {
+    console.log(`📁 No room entries directory found at ${ROOM_ENTRY_DIR}`);
     return rooms;
   }
 
-  const files = await readdir(ROOM_DIR);
-  const roomFiles = files.filter(file => file.endsWith('.json')).sort();
+  const files = await readdir(ROOM_ENTRY_DIR);
+  const entryFiles = files.filter(f => f.endsWith('.json')).sort();
 
-  for (const file of roomFiles) {
+  for (const file of entryFiles) {
     try {
-      const filePath = join(ROOM_DIR, file);
+      const filePath = join(ROOM_ENTRY_DIR, file);
       const content = await readFile(filePath, 'utf-8');
-      const roomSpec = JSON.parse(content);
+      const spec = JSON.parse(content);
+
+      // Validate required fields for RoomEntry
+      if (!spec.id) {
+        console.error(`❌ Room entry ${file} missing required 'id' field`);
+        continue;
+      }
+      if (!spec.ldtkUrl) {
+        console.error(`❌ Room entry ${file} missing required 'ldtkUrl' field`);
+        continue;
+      }
 
       const roomEntry = {
-        id: roomSpec.id,
-        displayName: roomSpec.name,
-        environment: roomSpec.environment || 'interior' // Default to interior
+        id: spec.id,
+        displayName: spec.displayName || spec.name || spec.id,
+        environment: spec.environment || 'interior',
+        ldtkUrl: spec.ldtkUrl
       };
 
       rooms.push(roomEntry);
-      console.log(`  🏛️ Found room: ${roomSpec.id} (${roomSpec.name}) - ${roomEntry.environment}`);
+      console.log(`  🏛️ Found room: ${roomEntry.id} (${roomEntry.displayName}) - ${roomEntry.environment}`);
     } catch (e) {
-      console.error(`❌ Failed to parse room ${file}:`, e.message);
+      console.error(`❌ Failed to parse room entry ${file}:`, e.message);
     }
   }
 

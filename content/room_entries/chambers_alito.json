@@ -1,0 +1,7 @@
+{
+    "$schema": "../../schemas/RoomEntry.schema.json",
+    "id": "chambers_alito",
+    "displayName": "Justice Alito's Chambers",
+    "environment": "interior",
+    "ldtkUrl": "/content/ldtk/chambers_alito.json"
+}

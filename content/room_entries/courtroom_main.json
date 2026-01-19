@@ -1,0 +1,7 @@
+{
+    "$schema": "../../schemas/RoomEntry.schema.json",
+    "id": "courtroom_main",
+    "displayName": "Main Courtroom",
+    "environment": "interior",
+    "ldtkUrl": "/content/ldtk/courtroom_main.json"
+}

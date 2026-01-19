@@ -4,7 +4,10 @@
   "title": "RoomEntry",
   "description": "Registry entry for a room/level",
   "type": "object",
-  "required": ["id", "ldtkUrl"],
+  "required": [
+    "id",
+    "ldtkUrl"
+  ],
   "properties": {
     "id": {
       "type": "string",
@@ -20,10 +23,24 @@
       "type": "string",
       "description": "Human-readable room name"
     },
+    "environment": {
+      "type": "string",
+      "enum": [
+        "interior",
+        "exterior"
+      ],
+      "description": "Whether the room is interior or exterior (affects lighting, weather)"
+    },
     "spawns": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "Named spawn points in this room"
+    },
+    "$schema": {
+      "type": "string",
+      "description": "JSON schema reference (ignored at runtime)"
     }
   },
   "additionalProperties": false

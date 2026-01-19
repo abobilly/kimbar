@@ -18,6 +18,7 @@ const SCHEMA_DIR = './schemas';
 const CONTENT_DIRS = {
   characters: './content/characters',
   rooms: './content/rooms',
+  room_entries: './content/room_entries',
   dialogue: './content/dialogue'
 };
 // Validate against the generated registry (single source of truth)
@@ -558,15 +559,18 @@ async function validateRoomSpecs(schemas, registry, contract) {
     try {
       const spec = await loadJson(join(CONTENT_DIRS.rooms, file));
 
+      // RoomSpec schema validation only - strict contracts
+      const schema = schemas.RoomSpec;
+
       // Schema validation
-      if (schemas.RoomSpec) {
-        const valid = schemas.RoomSpec(spec);
+      if (schema) {
+        const valid = schema(spec);
         if (!valid) {
-          for (const err of schemas.RoomSpec.errors) {
+          for (const err of schema.errors) {
             error(`${file} ${err.instancePath}: ${err.message}`);
           }
         } else {
-          ok(`${file}: schema valid`);
+          ok(`${file}: RoomSpec schema valid`);
         }
       }
 
@@ -585,6 +589,53 @@ async function validateRoomSpecs(schemas, registry, contract) {
         // Check deck tag references against subjects
         if (props.deckTag && !validSubjects.has(props.deckTag)) {
           warn(`${file}: entity references unknown subject '${props.deckTag}'`);
+        }
+      }
+    } catch (e) {
+      error(`Failed to parse ${file}: ${e.message}`);
+    }
+  }
+}
+
+async function validateRoomEntrySpecs(schemas) {
+  console.log('\n🏛️ Validating Room Entry Specs (content/room_entries)...');
+
+  if (!existsSync(CONTENT_DIRS.room_entries)) {
+    warn('No room_entries directory');
+    return;
+  }
+
+  const files = await readdir(CONTENT_DIRS.room_entries);
+  const jsonFiles = files.filter(f => f.endsWith('.json'));
+
+  if (jsonFiles.length === 0) {
+    warn('No room entry specs found');
+    return;
+  }
+
+  for (const file of jsonFiles) {
+    try {
+      const spec = await loadJson(join(CONTENT_DIRS.room_entries, file));
+
+      // RoomEntry schema validation only - strict contracts
+      const schema = schemas.RoomEntry;
+
+      if (schema) {
+        const valid = schema(spec);
+        if (!valid) {
+          for (const err of schema.errors) {
+            error(`${file} ${err.instancePath}: ${err.message}`);
+          }
+        } else {
+          ok(`${file}: RoomEntry schema valid`);
+        }
+      }
+
+      // Cross-reference: check LDtk file exists
+      if (spec.ldtkUrl) {
+        const ldtkPath = join('public', spec.ldtkUrl);
+        if (!existsSync(ldtkPath)) {
+          error(`${file}: LDtk file not found at ${ldtkPath}`);
         }
       }
     } catch (e) {
@@ -871,6 +922,7 @@ async function main() {
   // Validate source content
   await validateCharacterSpecs(schemas, contract);
   await validateRoomSpecs(schemas, registry, contract);
+  await validateRoomEntrySpecs(schemas);
   await validateLpcStyleGuide(contract);
   await validatePlacementDrafts(schemas);
   await validateTileCompleteness();

@@ -210,14 +210,17 @@ export class WorldScene extends Scene {
       // Get room URL from registry (registry-driven routing)
       const room = getRoom(levelId);
       if (!room) {
-        console.warn(`Room '${levelId}' not found in registry, creating placeholder`);
-        this.createPlaceholderLevel();
+        // INVARIANT: Missing room is a hard error, not a silent fallback
+        console.error(`[WorldScene] FATAL: Room '${levelId}' not found in registry.`);
+        console.error(`[WorldScene] Ensure room spec exists in content/rooms/${levelId}.json`);
+        this.showMissingRoomError(levelId);
         return;
       }
 
       const response = await fetch(room.ldtkUrl);
       if (!response.ok) {
-        this.createPlaceholderLevel();
+        console.error(`[WorldScene] FATAL: Failed to fetch room data from ${room.ldtkUrl}`);
+        this.showMissingRoomError(levelId, `HTTP ${response.status}`);
         return;
       }
 
@@ -230,7 +233,7 @@ export class WorldScene extends Scene {
         if (!validation.valid) {
           console.error('[WorldScene] Level validation failed:');
           console.error(formatValidationErrors(validation));
-          this.createPlaceholderLevel();
+          this.showMissingRoomError(levelId, 'Level validation failed');
           return;
         }
         if (validation.warnings.length > 0 && import.meta.env?.DEV) {
@@ -243,11 +246,91 @@ export class WorldScene extends Scene {
       this.levelData = level;
       this.renderLevel();
     } catch (error) {
-      console.warn('Level not found, creating placeholder:', error);
-      this.createPlaceholderLevel();
+      console.error('[WorldScene] FATAL: Failed to load level:', error);
+      this.showMissingRoomError(levelId, String(error));
     }
   }
 
+  /**
+   * Show a visible error overlay when a room is missing or fails to load.
+   * INVARIANT: Missing rooms are loud errors, never masked by placeholder levels.
+   */
+  private showMissingRoomError(levelId: string, details?: string): void {
+    const { width, height } = this.scale;
+
+    // Create error container on UI layer
+    const errorContainer = this.add.container(width / 2, height / 2);
+    this.uiLayer.add(errorContainer);
+
+    // Background
+    const bg = this.add.rectangle(0, 0, 600, 300, 0x1a0000, 0.95);
+    bg.setStrokeStyle(4, 0xff4444);
+    errorContainer.add(bg);
+
+    // Error icon and title
+    const title = this.add.text(0, -100, '❌ ROOM NOT FOUND', {
+      fontSize: '32px',
+      color: '#ff4444',
+      fontFamily: 'monospace',
+      fontStyle: 'bold'
+    }).setOrigin(0.5);
+    errorContainer.add(title);
+
+    // Room ID
+    const roomText = this.add.text(0, -40, `Room: "${levelId}"`, {
+      fontSize: '20px',
+      color: '#ffffff',
+      fontFamily: 'monospace'
+    }).setOrigin(0.5);
+    errorContainer.add(roomText);
+
+    // Details if provided
+    if (details) {
+      const detailText = this.add.text(0, 0, details, {
+        fontSize: '14px',
+        color: '#aaaaaa',
+        fontFamily: 'monospace',
+        wordWrap: { width: 500 }
+      }).setOrigin(0.5);
+      errorContainer.add(detailText);
+    }
+
+    // Instructions
+    const instructions = this.add.text(0, 60,
+      'Ensure room spec exists:\ncontent/rooms/' + levelId + '.json', {
+      fontSize: '14px',
+      color: '#88ff88',
+      fontFamily: 'monospace',
+      align: 'center'
+    }).setOrigin(0.5);
+    errorContainer.add(instructions);
+
+    // Dev note
+    const devNote = this.add.text(0, 120,
+      'See console for details. Fix room spec and reload.', {
+      fontSize: '12px',
+      color: '#666666',
+      fontFamily: 'monospace'
+    }).setOrigin(0.5);
+    errorContainer.add(devNote);
+
+    // Create a minimal player so camera.startFollow doesn't crash
+    // This is defensive only - the error overlay makes the state clear
+    this.levelData = {
+      width: 100,
+      height: 100,
+      tileSize: 32,
+      entities: [],
+      playerSpawn: { x: width / 2, y: height / 2 }
+    };
+    this.createPlayer();
+  }
+
+  /**
+   * Create a placeholder level for explicit dev/test scenarios only.
+   * NOTE: This should NOT be called as a fallback for missing rooms.
+   * Use showMissingRoomError() for missing-room cases instead.
+   */
   private createPlaceholderLevel(): void {
     const { width, height } = this.scale;
 
@@ -286,6 +369,9 @@ export class WorldScene extends Scene {
       entities: [],
       playerSpawn: { x: width / 2, y: height / 2 + 100 }
     };
+
+    // NOTE: Player creation moved to showMissingRoomError or explicit call sites.
+    // Placeholder levels are for dev/test only; caller must create player if needed.
   }
 
   private createTestEntities(): void {

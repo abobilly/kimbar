@@ -1,0 +1,7 @@
+{
+    "$schema": "../../schemas/RoomEntry.schema.json",
+    "id": "cafeteria",
+    "displayName": "Cafeteria",
+    "environment": "interior",
+    "ldtkUrl": "/content/ldtk/cafeteria.json"
+}

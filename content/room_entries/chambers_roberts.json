@@ -1,0 +1,7 @@
+{
+    "$schema": "../../schemas/RoomEntry.schema.json",
+    "id": "chambers_roberts",
+    "displayName": "Chief Justice Roberts' Chambers",
+    "environment": "interior",
+    "ldtkUrl": "/content/ldtk/chambers_roberts.json"
+}
