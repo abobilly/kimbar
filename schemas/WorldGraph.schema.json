@@ -1,107 +1,123 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "WorldGraph.schema.json",
-  "title": "WorldGraph",
-  "description": "Canonical world topology: nodes (rooms) and edges (doors/transitions)",
-  "type": "object",
-  "required": ["version", "nodes", "edges"],
-  "properties": {
-    "$schema": {
-      "type": "string",
-      "description": "JSON schema reference (ignored at runtime)"
-    },
-    "version": {
-      "type": "string",
-      "pattern": "^\\d+\\.\\d+\\.\\d+$",
-      "description": "Semantic version of the world graph"
-    },
-    "nodes": {
-      "type": "array",
-      "description": "List of rooms/areas in the world",
-      "items": {
-        "$ref": "#/definitions/WorldNode"
-      }
-    },
-    "edges": {
-      "type": "array",
-      "description": "List of connections (doors/transitions) between rooms",
-      "items": {
-        "$ref": "#/definitions/WorldEdge"
-      }
-    }
-  },
-  "additionalProperties": false,
-  "definitions": {
-    "WorldNode": {
-      "type": "object",
-      "required": ["id"],
-      "properties": {
-        "id": {
-          "type": "string",
-          "pattern": "^[a-z0-9][a-z0-9_]*$",
-          "description": "Unique room identifier (must match RoomEntry.id)"
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "WorldGraph.schema.json",
+    "title": "WorldGraph",
+    "description": "Canonical world topology: nodes (rooms) and edges (doors/transitions)",
+    "type": "object",
+    "required": [
+        "version",
+        "nodes",
+        "edges"
+    ],
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "description": "JSON schema reference (ignored at runtime)"
         },
-        "displayName": {
-          "type": "string",
-          "description": "Human-readable room name"
+        "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "description": "Semantic version of the world graph"
         },
-        "region": {
-          "type": "string",
-          "description": "Logical region grouping (e.g., 'supreme-court')"
+        "nodes": {
+            "type": "array",
+            "description": "List of rooms/areas in the world",
+            "items": {
+                "$ref": "#/definitions/WorldNode"
+            }
         },
-        "spawns": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Named spawn points in this room"
+        "edges": {
+            "type": "array",
+            "description": "List of connections (doors/transitions) between rooms",
+            "items": {
+                "$ref": "#/definitions/WorldEdge"
+            }
         }
-      },
-      "additionalProperties": false
     },
-    "WorldEdge": {
-      "type": "object",
-      "required": ["doorId", "fromRoomId", "toRoomId", "toSpawnTag"],
-      "properties": {
-        "doorId": {
-          "type": "string",
-          "description": "Stable, unique identifier for this door/transition"
+    "additionalProperties": false,
+    "definitions": {
+        "WorldNode": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_]*$",
+                    "description": "Unique room identifier (must match RoomEntry.id)"
+                },
+                "displayName": {
+                    "type": "string",
+                    "description": "Human-readable room name"
+                },
+                "region": {
+                    "type": "string",
+                    "description": "Logical region grouping (e.g., 'supreme-court')"
+                },
+                "spawns": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Named spawn points in this room"
+                }
+            },
+            "additionalProperties": false
         },
-        "fromRoomId": {
-          "type": "string",
-          "description": "Room containing the door (must match a node id)"
-        },
-        "toRoomId": {
-          "type": "string",
-          "description": "Destination room (must match a node id)"
-        },
-        "toSpawnTag": {
-          "type": "string",
-          "description": "Spawn point in the destination room"
-        },
-        "facing": {
-          "type": "string",
-          "enum": ["up", "down", "left", "right"],
-          "description": "Direction the door faces (for visual/collision)"
-        },
-        "locked": {
-          "type": "boolean",
-          "description": "Whether the door is locked by default"
-        },
-        "requires": {
-          "type": "string",
-          "description": "Key or condition required to unlock"
-        },
-        "oneWay": {
-          "type": "boolean",
-          "description": "If true, cannot traverse in reverse direction"
-        },
-        "notes": {
-          "type": "string",
-          "description": "Human-readable notes about this transition"
+        "WorldEdge": {
+            "type": "object",
+            "required": [
+                "doorId",
+                "fromRoomId",
+                "toRoomId",
+                "toSpawnTag"
+            ],
+            "properties": {
+                "doorId": {
+                    "type": "string",
+                    "description": "Stable, unique identifier for this door/transition"
+                },
+                "fromRoomId": {
+                    "type": "string",
+                    "description": "Room containing the door (must match a node id)"
+                },
+                "toRoomId": {
+                    "type": "string",
+                    "description": "Destination room (must match a node id)"
+                },
+                "toSpawnTag": {
+                    "type": "string",
+                    "description": "Spawn point in the destination room"
+                },
+                "facing": {
+                    "type": "string",
+                    "enum": [
+                        "up",
+                        "down",
+                        "left",
+                        "right"
+                    ],
+                    "description": "Direction the door faces (for visual/collision)"
+                },
+                "locked": {
+                    "type": "boolean",
+                    "description": "Whether the door is locked by default"
+                },
+                "requires": {
+                    "type": "string",
+                    "description": "Key or condition required to unlock"
+                },
+                "oneWay": {
+                    "type": "boolean",
+                    "description": "If true, cannot traverse in reverse direction"
+                },
+                "notes": {
+                    "type": "string",
+                    "description": "Human-readable notes about this transition"
+                }
+            },
+            "additionalProperties": false
         }
-      },
-      "additionalProperties": false
     }
-  }
 }
