@@ -540,7 +540,8 @@ async function validateRoomSpecs(schemas, registry, contract) {
   console.log('\n🏗️ Validating Room Specs (content/rooms)...');
 
   if (!existsSync(CONTENT_DIRS.rooms)) {
-    warn('No room specs directory');
+    // INFO: This is expected if Tiled authoring hasn't started yet
+    console.log('  ℹ️  No content/rooms directory (OK if Tiled authoring not started; room_entries provides current rooms)');
     return;
   }
 
@@ -548,7 +549,8 @@ async function validateRoomSpecs(schemas, registry, contract) {
   const jsonFiles = files.filter(f => f.endsWith('.json'));
 
   if (jsonFiles.length === 0) {
-    warn('No room specs found');
+    // INFO: This is expected if Tiled authoring hasn't started yet
+    console.log('  ℹ️  No room specs found (OK if Tiled authoring not started; room_entries provides current rooms)');
     return;
   }
 

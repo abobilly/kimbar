@@ -40,6 +40,36 @@ Separately, invariants run via:
   - **NEVER** allow dual-schema validation in a single directory
 - **No LDtk scanning**: Room registry is populated from explicit specs in `content/room_entries/`, NOT by scanning `public/content/ldtk/` directories.
 
+## Room Authoring Flow
+
+### Today (Bridge Period)
+
+1. Create/modify `content/room_entries/{room-id}.json` (RoomEntry schema)
+2. Entry points to existing LDtk file via `ldtkUrl: "/content/ldtk/{room-id}.json"`
+3. Run `npm run prepare:content` → registry.rooms is populated
+4. Run `npm run validate` → RoomEntry schema + LDtk file existence verified
+
+### Future (Tiled-First)
+
+1. Create `content/rooms/{room-id}.json` (RoomSpec schema)
+2. Create Tiled map in `public/content/tiled/` matching the spec
+3. Run `npm run build:tiled` → compiles to `generated/levels/{room-id}.json`
+4. RoomSpec points to compiled LevelData, not raw LDtk
+5. Run `npm run validate` → validates RoomSpec + Tiled map + compiled output
+
+### Validation Pipeline
+
+- `npm run validate:tiled` — validates raw Tiled JSON maps
+- `npm run compile:tiled` — compiles validated maps to LevelData
+- `npm run validate` — validates all content including room_entries and rooms
+
+### What NOT to Do
+
+- **NEVER** scan `public/content/ldtk/` to auto-discover rooms
+- **NEVER** put RoomEntry specs in `content/rooms/` (that's for RoomSpec only)
+- **NEVER** "fix" empty `content/rooms/` by scanning directories
+- If `content/rooms/` is empty, that's expected (Tiled authoring not started)
+
 ## Content types and their registries
 
 | Content Type | Registry Location         | Loader API                                   |

@@ -6,10 +6,14 @@
  * - Reads base config from content/registry_config.json
  * - Reads character specs from content/characters/
  * - Copies compiled specs to generated/characters/
- * - Scans public/content/ldtk/ for rooms
+ * - Reads room entries from content/room_entries/ (explicit RoomEntry specs)
  * - Scans public/content/cards/ for flashcard packs
  * - Scans content/ink/ for ink stories
  * - Generates generated/registry.json with all entries
+ *
+ * INVARIANT: Room registration is explicit. No scanning LDtk directories.
+ *   - content/room_entries/ → RoomEntry schema (bridge to existing LDtk rooms)
+ *   - content/rooms/        → RoomSpec schema (future Tiled-authored rooms)
  *
  * PNG generation is handled by gen:sprites (generate-sprites.mjs)
  *
@@ -24,7 +28,7 @@ const CONTENT_DIR = './content/characters';
 const GENERATED_DIR = './generated';
 const CHARS_OUTPUT_DIR = './generated/characters';
 const REGISTRY_CONFIG_PATH = './content/registry_config.json';
-const LDTK_DIR = './public/content/ldtk';
+// NOTE: LDTK_DIR removed - room discovery is explicit via content/room_entries/, not LDtk scanning
 const FLASHCARDS_DIR = './public/content/cards';
 const INK_SOURCE_DIR = './content/ink';
 const AI_MANIFEST_PATH = './generated/ai-manifest.json';

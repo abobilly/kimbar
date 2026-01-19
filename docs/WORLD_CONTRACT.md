@@ -2,9 +2,36 @@
 
 This document defines the structure and rules for rooms/levels in kimbar.
 
-## Room Definition
+## Directory Structure
 
-Every room must have a spec file at `content/rooms/{room-id}.json`:
+Room content is split into two directories with strict schema separation:
+
+| Directory | Schema | Purpose |
+|-----------|--------|---------|
+| `content/room_entries/` | RoomEntry.schema.json | Bridge entries pointing to existing LDtk rooms |
+| `content/rooms/` | RoomSpec.schema.json | Future Tiled-authored room specifications |
+
+**INVARIANT**: No implicit room discovery. Rooms are registered via explicit JSON specs only.
+
+## Bridge Period: RoomEntry (Current)
+
+During the LDtk→Tiled transition, rooms are registered via `content/room_entries/{room-id}.json`:
+
+```json
+{
+  "$schema": "../../schemas/RoomEntry.schema.json",
+  "id": "scotus_lobby",
+  "displayName": "SCOTUS Lobby",
+  "environment": "interior",
+  "ldtkUrl": "/content/ldtk/scotus_lobby.json"
+}
+```
+
+These entries point to existing LDtk files in `public/content/ldtk/`.
+
+## Future: RoomSpec (Tiled-Authored)
+
+When Tiled authoring is complete, full room specs will be in `content/rooms/{room-id}.json`:
 
 ```json
 {

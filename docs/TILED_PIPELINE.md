@@ -20,8 +20,9 @@ All authored Tiled maps MUST reside under `public/content/tiled/`. This director
 
 ### Legacy Support
 
-- LDtk files in `content/rooms/` remain **legacy/optional**
-- New rooms MUST use Tiled format
+- LDtk files in `public/content/ldtk/` are **legacy/bridge-period only**
+- Room registry bridge entries in `content/room_entries/` point to these LDtk files
+- New rooms MUST use Tiled format (future: `content/rooms/` for RoomSpec)
 - Existing LDtk rooms may be migrated incrementally
 
 ### File Format
@@ -425,7 +426,7 @@ For existing LDtk rooms, the migration path is:
 5. Update any hardcoded references to use registry
 6. Remove LDtk source file after verification
 
-LDtk files in `content/rooms/` are deprecated but supported for backward compatibility.
+LDtk files in `public/content/ldtk/` are legacy/bridge-period only. Bridge entries in `content/room_entries/` point to them.
 
 ---
 

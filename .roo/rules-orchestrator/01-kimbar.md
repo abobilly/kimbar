@@ -21,7 +21,11 @@ NON-NEGOTIABLE INVARIANTS:
 - Generated artifacts remain in generated/ and are gitignored.
 - Honor UI isolation invariant (UI stays on UI layer).
 - MCP usage: follow the allowlist in `.roo/rules/00_READ_FIRST.md`. Repository read-only MCP tools (e.g., `repo.search`, `repo.lookup`, `repo.status`, `repo.reindex`) are allowed for preflight/lookups only. Other MCP servers (including pixel-mcp) are forbidden unless explicitly approved and documented in `NEXT_SESSION.md`.
-- **Forbidden: generating registry room entries by scanning `public/content/ldtk/**`**. Allowed: room entries come from `content/rooms/*.json` (explicit specs) and/or compiled Tiled LevelData artifacts. LDtk is legacy/optional.
+- **Forbidden: generating registry room entries by scanning `public/content/ldtk/**`**. Allowed sources:
+  - `content/room_entries/*.json` (RoomEntry schema) — explicit bridge entries pointing to LDtk rooms
+  - `content/rooms/*.json` (RoomSpec schema) — Tiled-authored RoomSpecs (may be empty if not started)
+  - Compiled Tiled LevelData artifacts in `generated/levels/`
+  LDtk is legacy/optional. If `content/rooms/` is empty, do NOT "fix" by scanning LDtk.
 
 SOURCE OF TRUTH FILES TO READ BEFORE EDITS:
 
