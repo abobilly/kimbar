@@ -1,0 +1,6 @@
+# Tileset-specific Roo rules
+
+- Do not reorder tilesets or change tile IDs.
+- All tiles are 32×32; atlases should be ≤2048×2048.
+- Ignore `__MACOSX` artifacts during ingestion.
+- Update `docs/TILED_SCAFFOLD_INVENTORY.md` after tileset changes.

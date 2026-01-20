@@ -32,25 +32,19 @@ dist-ssr
 generated/*
 !generated/README.md
 public/generated/**
-public/assets/props/**
 
 # Local environment
 .env
 .env.local
 .env.*
 
-# Vendor assets (downloaded on demand, except README)
+# Vendor (ULPC generator only - too large to commit)
 vendor/**
-!vendor/lpc/
-!vendor/lpc/README.md
+!vendor/README.md
 
 # Flashcard data (stored externally on Cloudflare Workers, not in public repo)
 public/content/cards/*.json
 
-.bounce.*
-.ai.patch
-
-# Playwright smoke test artifacts
 artifacts/
 artifacts/ui-smoke/
 playwright-report/
@@ -63,7 +57,6 @@ tools/mcp-*/node_modules/
 .gemini/
 gha-creds-*.json
 nul
-toolbox.exe
 
 # Python bytecode
 __pycache__/
@@ -74,9 +67,3 @@ __pycache__/
 Qwen-Agent/
 code-assistant-manager/
 tmp/
-CLEAN_AGENT_INSTRUCTIONS.md
-temp_test.txt
-test_qwen_transformers.py
-tools/batch_benchmark.py
-tools/procedural_art_benchmark.py
-.github/prompts/procedural-art-improvement.prompt.md

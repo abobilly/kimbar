@@ -46,18 +46,18 @@ TypeScript + Phaser 3 + Vite game for bar exam prep.
 - `NEXT_SESSION.md` — current session handoff
 - `schemas/*.schema.json` — JSON schemas for validation
 
-## 3-Stage Agent Workflow
+## 2-Stage Agent Workflow
 
-Kimbar uses a **Plan → Implement → Review** pipeline with file-based handoffs:
+Kimbar uses a **Plan → Review** pipeline with file-based handoffs:
 
 ```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│  Stage 1: Plan  │────▶│ Stage 2: Bounce │────▶│ Stage 3: Review │
-│  (Copilot)      │     │ (Codex + Qwen)  │     │ (Copilot)       │
-└─────────────────┘     └─────────────────┘     └─────────────────┘
-        │                       │                       │
-        ▼                       ▼                       ▼
-  .ai/plans/*.md           git diff            .ai/reviews/*.md
+┌─────────────────┐     ┌─────────────────┐
+│  Stage 1: Plan  │────▶│ Stage 2: Review │
+│  (Copilot)      │     │ (Copilot)       │
+└─────────────────┘     └─────────────────┘
+        │                       │
+        ▼                       ▼
+  .ai/plans/*.md         .ai/reviews/*.md
 ```
 
 ### Stage 1: Copilot Plan
@@ -70,18 +70,7 @@ Use the **Planner** agent (`.github/agents/planner.agent.md`) to decompose a goa
 
 **Prompt**: `.github/prompts/plan.prompt.md`
 
-### Stage 2: Bounce Harness (Codex + Qwen)
-
-The implementation engine (`tools/bounce.mjs`) executes the plan:
-
-1. Supervisor (Codex) coordinates, Worker (Qwen) implements
-2. Gate command (`npm run check`) validates each iteration
-3. Max 1–2 iterations per task
-4. Output: git diff ready for review
-
-**Run**: `node tools/bounce.mjs --plan .ai/plans/<slug>.md`
-
-### Stage 3: Copilot Review
+### Stage 2: Copilot Review
 
 Use the **Reviewer** agent (`.github/agents/reviewer.agent.md`) to validate:
 

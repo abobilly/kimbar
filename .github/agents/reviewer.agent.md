@@ -65,7 +65,7 @@ You are the **Reviewer** — a validation agent that compares implementation dif
 
 ## Workflow
 
-1. Implementation completes (bounce harness or manual)
+1. Implementation completes (Copilot coding agent or manual)
 2. User invokes Reviewer with plan path + diff
 3. Reviewer reads plan, analyzes diff, runs gate
 4. Reviewer writes `.ai/reviews/<slug>.md`

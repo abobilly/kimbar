@@ -26,6 +26,5 @@ Use the format defined in `.github/agents/planner.agent.md`.
 1. Review the generated plan
 2. Approve or request changes
 3. Pass to implementation:
-   - **Local**: `node tools/bounce.mjs --plan .ai/plans/$SLUG.md`
    - **Manual**: Follow steps in the plan
    - **GitHub**: Assign to Copilot coding agent with plan link

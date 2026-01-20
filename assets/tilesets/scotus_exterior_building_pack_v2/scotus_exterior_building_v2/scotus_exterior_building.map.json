@@ -1,0 +1,1563 @@
+{
+  "id": "scotus.exterior.building_only",
+  "name": "Supreme Court Exterior Facade (Building Only)",
+  "tileSize": 32,
+  "grid": {
+    "rows": 7,
+    "cols": 15
+  },
+  "sourceFootprint": {
+    "rows": 7,
+    "cols": 15,
+    "zoneRows": [
+      3,
+      9
+    ],
+    "zoneCols": [
+      6,
+      20
+    ]
+  },
+  "atlas": {
+    "file": "scotus_exterior_building.atlas.png",
+    "layout": {
+      "rows": 7,
+      "cols": 15
+    },
+    "tileSize": 32,
+    "padding": 0,
+    "spacing": 0
+  },
+  "layers": [
+    {
+      "name": "building",
+      "type": "tilelayer",
+      "data": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        [
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        [
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44
+        ],
+        [
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59
+        ],
+        [
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74
+        ],
+        [
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89
+        ],
+        [
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104
+        ]
+      ]
+    }
+  ],
+  "tiles": [
+    {
+      "tileId": 0,
+      "row": 0,
+      "col": 0,
+      "file": "tiles/r00c00.png",
+      "tags": [
+        "pediment",
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 1,
+      "row": 0,
+      "col": 1,
+      "file": "tiles/r00c01.png",
+      "tags": [
+        "pediment",
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 2,
+      "row": 0,
+      "col": 2,
+      "file": "tiles/r00c02.png",
+      "tags": [
+        "pediment"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 3,
+      "row": 0,
+      "col": 3,
+      "file": "tiles/r00c03.png",
+      "tags": [
+        "pediment"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 4,
+      "row": 0,
+      "col": 4,
+      "file": "tiles/r00c04.png",
+      "tags": [
+        "pediment"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 5,
+      "row": 0,
+      "col": 5,
+      "file": "tiles/r00c05.png",
+      "tags": [
+        "pediment"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 6,
+      "row": 0,
+      "col": 6,
+      "file": "tiles/r00c06.png",
+      "tags": [
+        "pediment"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 7,
+      "row": 0,
+      "col": 7,
+      "file": "tiles/r00c07.png",
+      "tags": [
+        "pediment"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 8,
+      "row": 0,
+      "col": 8,
+      "file": "tiles/r00c08.png",
+      "tags": [
+        "pediment"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 9,
+      "row": 0,
+      "col": 9,
+      "file": "tiles/r00c09.png",
+      "tags": [
+        "pediment"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 10,
+      "row": 0,
+      "col": 10,
+      "file": "tiles/r00c10.png",
+      "tags": [
+        "pediment"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 11,
+      "row": 0,
+      "col": 11,
+      "file": "tiles/r00c11.png",
+      "tags": [
+        "pediment"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 12,
+      "row": 0,
+      "col": 12,
+      "file": "tiles/r00c12.png",
+      "tags": [
+        "pediment"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 13,
+      "row": 0,
+      "col": 13,
+      "file": "tiles/r00c13.png",
+      "tags": [
+        "pediment",
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 14,
+      "row": 0,
+      "col": 14,
+      "file": "tiles/r00c14.png",
+      "tags": [
+        "pediment",
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 15,
+      "row": 1,
+      "col": 0,
+      "file": "tiles/r01c00.png",
+      "tags": [
+        "entablature",
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 16,
+      "row": 1,
+      "col": 1,
+      "file": "tiles/r01c01.png",
+      "tags": [
+        "entablature",
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 17,
+      "row": 1,
+      "col": 2,
+      "file": "tiles/r01c02.png",
+      "tags": [
+        "entablature"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 18,
+      "row": 1,
+      "col": 3,
+      "file": "tiles/r01c03.png",
+      "tags": [
+        "entablature"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 19,
+      "row": 1,
+      "col": 4,
+      "file": "tiles/r01c04.png",
+      "tags": [
+        "entablature"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 20,
+      "row": 1,
+      "col": 5,
+      "file": "tiles/r01c05.png",
+      "tags": [
+        "entablature"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 21,
+      "row": 1,
+      "col": 6,
+      "file": "tiles/r01c06.png",
+      "tags": [
+        "entablature"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 22,
+      "row": 1,
+      "col": 7,
+      "file": "tiles/r01c07.png",
+      "tags": [
+        "entablature"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 23,
+      "row": 1,
+      "col": 8,
+      "file": "tiles/r01c08.png",
+      "tags": [
+        "entablature"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 24,
+      "row": 1,
+      "col": 9,
+      "file": "tiles/r01c09.png",
+      "tags": [
+        "entablature"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 25,
+      "row": 1,
+      "col": 10,
+      "file": "tiles/r01c10.png",
+      "tags": [
+        "entablature"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 26,
+      "row": 1,
+      "col": 11,
+      "file": "tiles/r01c11.png",
+      "tags": [
+        "entablature"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 27,
+      "row": 1,
+      "col": 12,
+      "file": "tiles/r01c12.png",
+      "tags": [
+        "entablature"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 28,
+      "row": 1,
+      "col": 13,
+      "file": "tiles/r01c13.png",
+      "tags": [
+        "entablature",
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 29,
+      "row": 1,
+      "col": 14,
+      "file": "tiles/r01c14.png",
+      "tags": [
+        "entablature",
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 30,
+      "row": 2,
+      "col": 0,
+      "file": "tiles/r02c00.png",
+      "tags": [
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 31,
+      "row": 2,
+      "col": 1,
+      "file": "tiles/r02c01.png",
+      "tags": [
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 32,
+      "row": 2,
+      "col": 2,
+      "file": "tiles/r02c02.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 33,
+      "row": 2,
+      "col": 3,
+      "file": "tiles/r02c03.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 34,
+      "row": 2,
+      "col": 4,
+      "file": "tiles/r02c04.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 35,
+      "row": 2,
+      "col": 5,
+      "file": "tiles/r02c05.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 36,
+      "row": 2,
+      "col": 6,
+      "file": "tiles/r02c06.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 37,
+      "row": 2,
+      "col": 7,
+      "file": "tiles/r02c07.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 38,
+      "row": 2,
+      "col": 8,
+      "file": "tiles/r02c08.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 39,
+      "row": 2,
+      "col": 9,
+      "file": "tiles/r02c09.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 40,
+      "row": 2,
+      "col": 10,
+      "file": "tiles/r02c10.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 41,
+      "row": 2,
+      "col": 11,
+      "file": "tiles/r02c11.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 42,
+      "row": 2,
+      "col": 12,
+      "file": "tiles/r02c12.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 43,
+      "row": 2,
+      "col": 13,
+      "file": "tiles/r02c13.png",
+      "tags": [
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 44,
+      "row": 2,
+      "col": 14,
+      "file": "tiles/r02c14.png",
+      "tags": [
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 45,
+      "row": 3,
+      "col": 0,
+      "file": "tiles/r03c00.png",
+      "tags": [
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 46,
+      "row": 3,
+      "col": 1,
+      "file": "tiles/r03c01.png",
+      "tags": [
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 47,
+      "row": 3,
+      "col": 2,
+      "file": "tiles/r03c02.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 48,
+      "row": 3,
+      "col": 3,
+      "file": "tiles/r03c03.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 49,
+      "row": 3,
+      "col": 4,
+      "file": "tiles/r03c04.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 50,
+      "row": 3,
+      "col": 5,
+      "file": "tiles/r03c05.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 51,
+      "row": 3,
+      "col": 6,
+      "file": "tiles/r03c06.png",
+      "tags": [
+        "entrance",
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 52,
+      "row": 3,
+      "col": 7,
+      "file": "tiles/r03c07.png",
+      "tags": [
+        "entrance",
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 53,
+      "row": 3,
+      "col": 8,
+      "file": "tiles/r03c08.png",
+      "tags": [
+        "entrance",
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 54,
+      "row": 3,
+      "col": 9,
+      "file": "tiles/r03c09.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 55,
+      "row": 3,
+      "col": 10,
+      "file": "tiles/r03c10.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 56,
+      "row": 3,
+      "col": 11,
+      "file": "tiles/r03c11.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 57,
+      "row": 3,
+      "col": 12,
+      "file": "tiles/r03c12.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 58,
+      "row": 3,
+      "col": 13,
+      "file": "tiles/r03c13.png",
+      "tags": [
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 59,
+      "row": 3,
+      "col": 14,
+      "file": "tiles/r03c14.png",
+      "tags": [
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 60,
+      "row": 4,
+      "col": 0,
+      "file": "tiles/r04c00.png",
+      "tags": [
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 61,
+      "row": 4,
+      "col": 1,
+      "file": "tiles/r04c01.png",
+      "tags": [
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 62,
+      "row": 4,
+      "col": 2,
+      "file": "tiles/r04c02.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 63,
+      "row": 4,
+      "col": 3,
+      "file": "tiles/r04c03.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 64,
+      "row": 4,
+      "col": 4,
+      "file": "tiles/r04c04.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 65,
+      "row": 4,
+      "col": 5,
+      "file": "tiles/r04c05.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 66,
+      "row": 4,
+      "col": 6,
+      "file": "tiles/r04c06.png",
+      "tags": [
+        "entrance",
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 67,
+      "row": 4,
+      "col": 7,
+      "file": "tiles/r04c07.png",
+      "tags": [
+        "doorGraphic",
+        "entrance",
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 68,
+      "row": 4,
+      "col": 8,
+      "file": "tiles/r04c08.png",
+      "tags": [
+        "entrance",
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 69,
+      "row": 4,
+      "col": 9,
+      "file": "tiles/r04c09.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 70,
+      "row": 4,
+      "col": 10,
+      "file": "tiles/r04c10.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 71,
+      "row": 4,
+      "col": 11,
+      "file": "tiles/r04c11.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 72,
+      "row": 4,
+      "col": 12,
+      "file": "tiles/r04c12.png",
+      "tags": [
+        "portico"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 73,
+      "row": 4,
+      "col": 13,
+      "file": "tiles/r04c13.png",
+      "tags": [
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 74,
+      "row": 4,
+      "col": 14,
+      "file": "tiles/r04c14.png",
+      "tags": [
+        "wing"
+      ],
+      "solid": true,
+      "occludes": true
+    },
+    {
+      "tileId": 75,
+      "row": 5,
+      "col": 0,
+      "file": "tiles/r05c00.png",
+      "tags": [
+        "steps",
+        "walkable",
+        "wing"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 76,
+      "row": 5,
+      "col": 1,
+      "file": "tiles/r05c01.png",
+      "tags": [
+        "steps",
+        "walkable",
+        "wing"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 77,
+      "row": 5,
+      "col": 2,
+      "file": "tiles/r05c02.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 78,
+      "row": 5,
+      "col": 3,
+      "file": "tiles/r05c03.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 79,
+      "row": 5,
+      "col": 4,
+      "file": "tiles/r05c04.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 80,
+      "row": 5,
+      "col": 5,
+      "file": "tiles/r05c05.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 81,
+      "row": 5,
+      "col": 6,
+      "file": "tiles/r05c06.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 82,
+      "row": 5,
+      "col": 7,
+      "file": "tiles/r05c07.png",
+      "tags": [
+        "entranceTrigger",
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 83,
+      "row": 5,
+      "col": 8,
+      "file": "tiles/r05c08.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 84,
+      "row": 5,
+      "col": 9,
+      "file": "tiles/r05c09.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 85,
+      "row": 5,
+      "col": 10,
+      "file": "tiles/r05c10.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 86,
+      "row": 5,
+      "col": 11,
+      "file": "tiles/r05c11.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 87,
+      "row": 5,
+      "col": 12,
+      "file": "tiles/r05c12.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 88,
+      "row": 5,
+      "col": 13,
+      "file": "tiles/r05c13.png",
+      "tags": [
+        "steps",
+        "walkable",
+        "wing"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 89,
+      "row": 5,
+      "col": 14,
+      "file": "tiles/r05c14.png",
+      "tags": [
+        "steps",
+        "walkable",
+        "wing"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 90,
+      "row": 6,
+      "col": 0,
+      "file": "tiles/r06c00.png",
+      "tags": [
+        "steps",
+        "walkable",
+        "wing"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 91,
+      "row": 6,
+      "col": 1,
+      "file": "tiles/r06c01.png",
+      "tags": [
+        "steps",
+        "walkable",
+        "wing"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 92,
+      "row": 6,
+      "col": 2,
+      "file": "tiles/r06c02.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 93,
+      "row": 6,
+      "col": 3,
+      "file": "tiles/r06c03.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 94,
+      "row": 6,
+      "col": 4,
+      "file": "tiles/r06c04.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 95,
+      "row": 6,
+      "col": 5,
+      "file": "tiles/r06c05.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 96,
+      "row": 6,
+      "col": 6,
+      "file": "tiles/r06c06.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 97,
+      "row": 6,
+      "col": 7,
+      "file": "tiles/r06c07.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 98,
+      "row": 6,
+      "col": 8,
+      "file": "tiles/r06c08.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 99,
+      "row": 6,
+      "col": 9,
+      "file": "tiles/r06c09.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 100,
+      "row": 6,
+      "col": 10,
+      "file": "tiles/r06c10.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 101,
+      "row": 6,
+      "col": 11,
+      "file": "tiles/r06c11.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 102,
+      "row": 6,
+      "col": 12,
+      "file": "tiles/r06c12.png",
+      "tags": [
+        "steps",
+        "walkable"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 103,
+      "row": 6,
+      "col": 13,
+      "file": "tiles/r06c13.png",
+      "tags": [
+        "steps",
+        "walkable",
+        "wing"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    },
+    {
+      "tileId": 104,
+      "row": 6,
+      "col": 14,
+      "file": "tiles/r06c14.png",
+      "tags": [
+        "steps",
+        "walkable",
+        "wing"
+      ],
+      "solid": false,
+      "occludes": false,
+      "movement": {
+        "type": "stairs",
+        "elevation_delta_per_tile": 1,
+        "speedMultiplier": 0.95
+      }
+    }
+  ],
+  "interactive": {
+    "entrance": {
+      "approxTileRegion": {
+        "rowRange": [
+          3,
+          4
+        ],
+        "colRange": [
+          6,
+          8
+        ]
+      },
+      "hint": "Place your actual Door entity/trigger on these tiles; this pack only provides facade pixels."
+    }
+  },
+  "renderHints": {
+    "style": "LPC-like top-down RPG facade (no AA)",
+    "notes": [
+      "Designed as a north-facing entrance approached from the south (steps at bottom).",
+      "All 105 tiles are unique; you can later optimize by deduplicating repeated tiles."
+    ]
+  },
+  "specialLocations": {
+    "doorGraphic": {
+      "tileId": 67,
+      "row": 4,
+      "col": 7,
+      "note": "Decorative door pixels live here; treat as wall."
+    },
+    "entranceTrigger": {
+      "tileId": 82,
+      "row": 5,
+      "col": 7,
+      "facing": "north",
+      "action": "enter",
+      "targetRoomId": "scotus.lobby",
+      "spawn": {
+        "x": 7,
+        "y": 10,
+        "facing": "south"
+      },
+      "note": "Player should stand on this top-step tile to enter."
+    }
+  }
+}

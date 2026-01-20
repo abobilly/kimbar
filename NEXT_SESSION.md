@@ -1020,7 +1020,7 @@ referenced by game content (sprites, props, tilesets).
 
 ### What's next
 
-- Execute the plan via `node tools/bounce.mjs --plan .ai/plans/ui-redesign.md` and follow the Stage 2/3 workflow.
+- Follow the steps in `.ai/plans/ui-redesign.md` to implement the UI redesign.
 - Add UI assets to the registry and migrate HUD/Dialogue/UI overlays to the UI layer per the plan.
 
 ### Gates run

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Build Asset Index - Scans vendor/ and creates searchable asset index
+ * Build Asset Index - Scans assets/ and creates searchable asset index
  *
  * Usage: node scripts/build-asset-index.mjs [options]
  *
@@ -22,7 +22,8 @@ import { readdir, readFile, writeFile, mkdir, stat } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join, extname, basename, dirname } from 'path';
 
-const VENDOR_DIR = './vendor';
+const ASSETS_DIR = './assets';
+const VENDOR_DIR = './vendor'; // Still needed for ULPC generator lookup
 const GENERATED_DIR = './generated';
 const CONTRACT_PATH = './content/content_contract.json';
 const ULPC_MANIFEST_PATH = './content/ulpc_manifest.json';
@@ -380,17 +381,17 @@ async function main() {
   // Ensure generated directory exists
   await mkdir(GENERATED_DIR, { recursive: true });
 
-  // Scan vendor directory (ULPC excluded by default)
-  const vendorFiles = MANIFEST_ONLY ? [] : await (async () => {
-    console.log('\n📁 Scanning vendor/ for assets...');
-    const results = await scanDirectory(VENDOR_DIR, [], { excludeUlpc: true });
-    console.log(`   Found ${results.length} image file(s) in vendor/`);
+  // Scan assets directory (main static assets)
+  const assetFiles = MANIFEST_ONLY ? [] : await (async () => {
+    console.log('\n📁 Scanning assets/ for static assets...');
+    const results = await scanDirectory(ASSETS_DIR, [], { excludeUlpc: true });
+    console.log(`   Found ${results.length} image file(s) in assets/`);
     return results;
   })();
 
   // Scan generated directory (sprites, portraits, tiles)
   const generatedFiles = MANIFEST_ONLY ? [] : await (async () => {
-    console.log('\n📁 Scanning generated/ for assets...');
+    console.log('\n📁 Scanning generated/ for build outputs...');
     const results = await scanDirectory(GENERATED_DIR, [], { excludeUlpc: false });
     console.log(`   Found ${results.length} image file(s) in generated/`);
     return results;
@@ -418,11 +419,10 @@ async function main() {
     console.log('\n⚠️ Manifest-only mode enabled with no ULPC manifest entries. No files will be indexed.');
   }
 
-  const allFiles = [...vendorFiles, ...generatedFiles, ...ulpcFiles];
+  const allFiles = [...assetFiles, ...generatedFiles, ...ulpcFiles];
 
   if (allFiles.length === 0) {
     console.log('\n⚠️ No image files found');
-    console.log('   Run: npm run fetch-vendor to download assets');
     console.log('   Run: npm run gen:sprites to generate sprites');
     return;
   }

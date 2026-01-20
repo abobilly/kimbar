@@ -58,11 +58,11 @@ npm run check
 2. Planner researches codebase (read files, grep, semantic search)
 3. Planner writes `.ai/plans/<slug>.md`
 4. User reviews and approves (or requests changes)
-5. Implementation proceeds (Codex/Qwen bounce harness or manual)
+5. Implementation proceeds (Copilot coding agent or manual)
 
 ## Handoff Triggers
 
-- **To Implementer**: Plan approved → pass `.ai/plans/<slug>.md` to bounce harness or coding agent
+- **To Implementer**: Plan approved → pass `.ai/plans/<slug>.md` to coding agent
 - **To Reviewer**: Implementation complete → invoke Reviewer agent with plan + diff
 
 ## Constraints

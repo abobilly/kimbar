@@ -1,107 +1,93 @@
-# Asset Pipeline: Scout → Audit → Ingest → Integrate
+# Asset Pipeline
 
 ## Overview
 
+All static assets live in the committed `assets/` folder. The pipeline generates character sprites and syncs everything to `public/` for runtime access.
+
 ```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│  Stage 1: Scout │────▶│  Stage 2: Audit │────▶│ Stage 3: Ingest │────▶│ Stage 4: LDtk   │
-│  (3× Flash)     │     │  (1× Flash/Pro) │     │ (Script)        │     │ (1× Pro)        │
-└─────────────────┘     └─────────────────┘     └─────────────────┘     └─────────────────┘
-        │                       │                       │                       │
-        ▼                       ▼                       ▼                       ▼
- scout_*.ndjson          audited.ndjson         vendor/tiles/          _template.ldtk
-                                                manifest.json          + scotus_lobby
-```
-
-## Stage 1: Scouts (Parallel, Gemini Flash)
-
-Run 3 terminals simultaneously:
-
-**Terminal 1 — Floor Tiles:**
-```bash
-gemini -m gemini-2.5-flash --approval-mode yolo "$(cat .github/prompts/scout-floor-tiles.prompt.md)"
-```
-
-**Terminal 2 — Wall Tiles:**
-```bash
-gemini -m gemini-2.5-flash --approval-mode yolo "$(cat .github/prompts/scout-wall-tiles.prompt.md)"
+content/                    assets/                      generated/
+  characters/*.json  ──┐      props/                       sprites/*.png
+  rooms/*.json       ──┤      tilesets/                    characters/*.json
+  ink/*.ink         ──┤      ui/                          ink/*.json
+                       ▼      bg.png, logo.png             registry.json
+                 ┌──────────────────────────────────────────────────┐
+                 │              npm run prepare:content              │
+                 │  fetch-vendor → build:chars → gen:sprites →       │
+                 │  compile:ink → build:tiled → build:asset-index →  │
+                 │  sync:public → validate                           │
+                 └──────────────────────────────────────────────────┘
+                                      ▼
+                               public/assets/     (synced from assets/)
+                               public/generated/  (synced from generated/)
 ```
 
-**Terminal 3 — Props:**
-```bash
-gemini -m gemini-2.5-flash --approval-mode yolo "$(cat .github/prompts/scout-props.prompt.md)"
+## Directory Structure
+
+```
+assets/                       # ✅ COMMITTED - All static assets
+├── bg.png                   # Background image
+├── logo.png                 # Game logo
+├── characters/              # Generated character spritesheets
+├── sprites/                 # Generated sprites
+├── props/                   # Props and decorations
+│   ├── legal/              # Gavels, scales, law books
+│   ├── office/             # Desks, chairs, computers
+│   └── exterior/           # Outdoor items
+├── tilesets/               # Tile atlases for LDtk/Tiled
+│   ├── lpc/               # LPC-standard tiles
+│   └── scotus_*.png       # Custom SCOTUS building tiles
+└── ui/                     # UI elements
+    ├── golden/            # Golden UI theme
+    ├── lpc_pennomi/       # LPC Pennomi UI pack
+    └── rpg_gui_kit/       # RPG GUI kit
+
+vendor/                      # ❌ GITIGNORED - Large generators only
+└── lpc/Universal-LPC-...   # ULPC Character Generator (~500MB)
+
+generated/                   # ❌ GITIGNORED - Build outputs
+├── sprites/                # Character spritesheets
+├── ink/                    # Compiled dialogue JSON
+├── registry.json           # Runtime registry
+└── asset_index.ndjson      # Asset search index
 ```
 
-**Expected output:**
-- `generated/scout_floor_tiles.ndjson`
-- `generated/scout_wall_tiles.ndjson`
-- `generated/scout_props.ndjson`
+## Asset Groups
 
-## Stage 2: Auditor (Single, Gemini Flash or Pro)
+| Group | Count | Description |
+|-------|-------|-------------|
+| **props/** | ~225 files | Interactive objects (legal, office, exterior) |
+| **tilesets/** | ~240 files | LPC tiles + custom SCOTUS architecture |
+| **ui/** | ~50 files | Buttons, panels, frames |
+| **characters/** | Generated | LPC-style 64×64 character sheets |
+| **sprites/** | Generated | Individual sprites/animations |
 
-```bash
-gemini -m gemini-2.5-flash --approval-mode yolo "$(cat .github/prompts/auditor-assets.prompt.md)"
-```
-
-**Expected output:**
-- `generated/asset_candidates_audited.ndjson` (approved)
-- `generated/asset_candidates_rejected.ndjson` (rejected)
-
-## Stage 3: Ingest (Deterministic Script)
-
-**Dry run first:**
-```bash
-npm run ingest:assets:dry
-```
-
-**Live run (downloads + packs atlas):**
-```bash
-npm run ingest:assets
-```
-
-**Requires:** ImageMagick installed (`magick` command available)
-
-**Expected output:**
-- `vendor/tiles/courthouse_mvp/*.png` (individual tiles)
-- `vendor/tiles/courthouse_mvp/courthouse_tiles.png` (atlas)
-- `vendor/tiles/courthouse_mvp/manifest.json`
-- `vendor/props/courthouse_mvp/*.png`
-
-## Stage 4: LDtk Integrator (Gemini Pro recommended)
+## Commands
 
 ```bash
-gemini -m gemini-2.5-pro --approval-mode yolo "$(cat .github/prompts/ldtk-integrator.prompt.md)"
+# Full content pipeline (run before dev/build)
+npm run prepare:content
+
+# Individual steps
+npm run fetch-vendor        # Clone ULPC generator (first time only)
+npm run build:chars         # Generate character JSON
+npm run gen:sprites         # Generate character spritesheets
+npm run compile:ink         # Compile Ink dialogue
+npm run build:asset-index   # Index all assets
+npm run sync:public         # Sync to public/
+npm run validate            # Validate content
 ```
 
-**Expected output:**
-- `public/content/ldtk/_template.ldtk` patched with tileset defs
-- `public/content/ldtk/scotus_lobby.ldtk` painted with example tiles
-- `docs/TILESET_MAPPING.md` documentation
+## Adding New Assets
+
+1. **Props**: Add PNG to `assets/props/<category>/`
+2. **Tilesets**: Add atlas PNG + metadata to `assets/tilesets/`
+3. **UI**: Add to `assets/ui/<theme>/`
+4. **Characters**: Add spec to `content/characters/`, run `npm run build:chars && npm run gen:sprites`
 
 ## Validation
 
-After full pipeline:
 ```bash
-npm run validate
-npm run check:fast
+npm run validate            # Schema + content validation
+npm run check:fast          # Quick gate (unit tests only)
+npm run check               # Full gate (all tests + build)
 ```
-
-## Troubleshooting
-
-| Issue | Solution |
-|-------|----------|
-| Scout finds no candidates | Try broader search terms, check OGA is accessible |
-| Auditor rejects everything | Review licenseEvidence — scouts may have guessed |
-| Ingest dimension mismatch | Check if upscale allowed in spec, or find 32×32 source |
-| ImageMagick not found | Install: `winget install ImageMagick.ImageMagick` |
-| LDtk won't load tileset | Check relPath is correct relative to .ldtk file |
-
-## Files Reference
-
-| File | Purpose |
-|------|---------|
-| `content/asset_specs/courthouse_mvp.json` | Asset contract (source of truth) |
-| `.github/prompts/scout-*.prompt.md` | Scout prompts |
-| `.github/prompts/auditor-assets.prompt.md` | Auditor prompt |
-| `.github/prompts/ldtk-integrator.prompt.md` | LDtk integration prompt |
-| `scripts/ingest-assets.mjs` | Download/validate/pack script |

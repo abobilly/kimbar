@@ -1,29 +1,24 @@
 #!/usr/bin/env node
 /**
- * sync-public.mjs - Sync generated/ and vendor assets to public/
+ * sync-public.mjs - Sync assets and generated content to public/
  * 
- * Copies all build outputs from generated/ to public/generated/,
- * vendor assets (props/tilesets/ui) to public/assets/,
- * and authored tileset maps to public/content/tilesets/.
- * so they're available at runtime via Phaser loaders.
+ * Copies:
+ * - assets/ -> public/assets/ (static assets)
+ * - generated/ -> public/generated/ (build outputs)
+ * - content/tilesets/ -> public/content/tilesets/ (tileset metadata)
  * 
- * IMPORTANT: Merges into destination instead of replacing, so committed
- * assets in public/ are preserved when vendor sources don't exist.
+ * Assets are now in a single unified folder (assets/) that is committed to git.
  */
 
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
+const ASSETS_SRC = path.resolve("assets");
+const ASSETS_DST = path.resolve("public", "assets");
+
 const GENERATED_SRC = path.resolve("generated");
 const GENERATED_DST = path.resolve("public", "generated");
 
-const PROPS_SRC = path.resolve("vendor", "props");
-const PROPS_DST = path.resolve("public", "assets", "props");
-
-const TILESETS_SRC = path.resolve("vendor", "tilesets");
-const TILESETS_DST = path.resolve("public", "assets", "tilesets");
-const UI_SRC = path.resolve("vendor", "ui");
-const UI_DST = path.resolve("public", "assets", "ui");
 const TILESET_CONTENT_SRC = path.resolve("content", "tilesets");
 const TILESET_CONTENT_DST = path.resolve("public", "content", "tilesets");
 
@@ -59,7 +54,16 @@ async function syncDir(src, dst, label) {
 }
 
 try {
-  // Sync generated/ -> public/generated/ (this one replaces since it's all generated)
+  // Sync assets/ -> public/assets/ (replace to ensure clean state)
+  if (await dirExists(ASSETS_SRC)) {
+    await fs.rm(ASSETS_DST, { recursive: true, force: true });
+    await copyDir(ASSETS_SRC, ASSETS_DST);
+    console.log(`✅ Synced assets: ${ASSETS_SRC} -> ${ASSETS_DST}`);
+  } else {
+    console.warn(`⚠️ sync:public skipped assets (missing ${ASSETS_SRC})`);
+  }
+
+  // Sync generated/ -> public/generated/ (replace since it's all generated)
   if (await dirExists(GENERATED_SRC)) {
     await fs.rm(GENERATED_DST, { recursive: true, force: true });
     await copyDir(GENERATED_SRC, GENERATED_DST);
@@ -68,10 +72,7 @@ try {
     console.warn(`⚠️ sync:public skipped generated (missing ${GENERATED_SRC})`);
   }
 
-  // Sync vendor dirs -> public/assets/ (merge, preserving committed assets)
-  await syncDir(PROPS_SRC, PROPS_DST, "props");
-  await syncDir(TILESETS_SRC, TILESETS_DST, "tilesets");
-  await syncDir(UI_SRC, UI_DST, "ui");
+  // Sync tileset content metadata
   await syncDir(TILESET_CONTENT_SRC, TILESET_CONTENT_DST, "tileset content");
 
 } catch (e) {
