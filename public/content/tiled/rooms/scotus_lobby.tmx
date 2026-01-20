@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="21">
+ <tileset firstgid="1" source="../tilesets/scotus_floors.tsx"/>
+ <tileset firstgid="1001" source="../tilesets/scotus_structures.tsx"/>
+ <tileset firstgid="2001" source="../tilesets/scotus_decor.tsx"/>
+ <tileset firstgid="3001" source="../tilesets/collision.tsx"/>
+ <layer id="1" name="Floor" width="20" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="2" name="Walls" width="20" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="3" name="Trim" width="20" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="4" name="Overlays" width="20" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="5" name="Collision" width="20" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <objectgroup id="6" name="Entities">
+  <object id="1" name="spawn_main" type="PlayerSpawn" x="320" y="416" width="32" height="32">
+   <properties>
+     <property name="spawnId" type="string" value="Entities"/>
+   </properties>
+  </object>
+  <object id="2" name="spawn_exterior" type="PlayerSpawn" x="320" y="448" width="32" height="32">
+   <properties>
+     <property name="spawnId" type="string" value="spawn_exterior"/>
+   </properties>
+  </object>
+  <object id="3" name="npc_clerk" type="NPC" x="160" y="224" width="32" height="32">
+   <properties>
+    <property name="name" type="string" value="Court Clerk"/>
+    <property name="characterId" type="string" value="npc.clerk_01"/>
+    <property name="storyKnot" type="string" value="court_clerk_intro"/>
+   </properties>
+  </object>
+  <object id="4" name="encounter_thomas" type="EncounterTrigger" x="480" y="224" width="32" height="32">
+   <properties>
+    <property name="justiceId" type="string" value="justice_thomas"/>
+    <property name="name" type="string" value="Justice Thomas"/>
+    <property name="deckTag" type="string" value="evidence"/>
+    <property name="count" type="int" value="1"/>
+    <property name="rewardId" type="string" value="evidence_blazer"/>
+    <property name="once" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="5" name="chest_starter" type="OutfitChest" x="576" y="384" width="32" height="32">
+   <properties>
+    <property name="outfitId" type="string" value="civpro_suit"/>
+   </properties>
+  </object>
+  <object id="6" name="door_courtroom" type="Door" x="320" y="32" width="32" height="32">
+   <properties>
+     <property name="toMap" type="string" value="courtroom_main"/>
+     <property name="toSpawn" type="string" value="default"/>
+    <property name="targetLevel" type="string" value="courtroom_main"/>
+    <property name="locked" type="bool" value="true"/>
+    <property name="requiredItem" type="string" value="all_justice_victories"/>
+   </properties>
+  </object>
+  <object id="7" name="door_exterior" type="Door" x="320" y="448" width="32" height="32">
+   <properties>
+     <property name="toMap" type="string" value="courthouse_exterior"/>
+     <property name="toSpawn" type="string" value="default"/>
+    <property name="targetLevel" type="string" value="courthouse_exterior"/>
+   </properties>
+  </object>
+  <object id="8" name="lobby_tree_left" type="Prop" x="96" y="128" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.lpc_tree_17"/>
+    <property name="collision" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="9" name="lobby_tree_right" type="Prop" x="544" y="128" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.lpc_tree_19"/>
+    <property name="collision" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="10" name="door_prop_lobby" type="Prop" x="320" y="384" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.lpc_door_double_white_glass_01"/>
+    <property name="collision" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="11" name="prop_banner__north_wall__1" type="Prop" x="288" y="32" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.banner"/>
+    <property name="collision" type="bool" value="false"/>
+    <property name="propId" type="string" value="prop.banner"/>
+   </properties>
+  </object>
+  <object id="12" name="prop_couch__seating_left__2" type="Prop" x="128" y="320" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.couch"/>
+    <property name="collision" type="bool" value="true"/>
+    <property name="propId" type="string" value="prop.couch"/>
+   </properties>
+  </object>
+  <object id="13" name="prop_couch__seating_right__3" type="Prop" x="480" y="320" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.couch"/>
+    <property name="collision" type="bool" value="true"/>
+    <property name="propId" type="string" value="prop.couch"/>
+   </properties>
+  </object>
+  <object id="14" name="prop_info_desk__seating_left__4" type="Prop" x="96" y="320" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.info_desk"/>
+    <property name="collision" type="bool" value="true"/>
+    <property name="propId" type="string" value="prop.info_desk"/>
+   </properties>
+  </object>
+  <object id="15" name="prop_metal_detector__south_entry__5" type="Prop" x="320" y="416" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.metal_detector"/>
+    <property name="collision" type="bool" value="true"/>
+    <property name="propId" type="string" value="prop.metal_detector"/>
+   </properties>
+  </object>
+  <object id="16" name="prop_stanchion__north_wall__6" type="Prop" x="288" y="32" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.stanchion"/>
+    <property name="collision" type="bool" value="true"/>
+    <property name="propId" type="string" value="prop.stanchion"/>
+   </properties>
+  </object>
+  <object id="17" name="prop_xray_belt__south_entry__7" type="Prop" x="288" y="416" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.xray_belt"/>
+    <property name="collision" type="bool" value="true"/>
+    <property name="propId" type="string" value="prop.xray_belt"/>
+   </properties>
+  </object>
+  <object id="18" name="prop_lpc_tree_17__trees__8" type="Prop" x="96" y="128" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.lpc_tree_17"/>
+    <property name="collision" type="bool" value="false"/>
+    <property name="propId" type="string" value="prop.lpc_tree_17"/>
+   </properties>
+  </object>
+  <object id="19" name="prop_lpc_tree_19__trees__9" type="Prop" x="544" y="128" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.lpc_tree_19"/>
+    <property name="collision" type="bool" value="false"/>
+    <property name="propId" type="string" value="prop.lpc_tree_19"/>
+   </properties>
+  </object>
+  <object id="20" name="prop_lpc_door_double_white_glass_01__south_entry__10" type="Prop" x="320" y="384" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.lpc_door_double_white_glass_01"/>
+    <property name="collision" type="bool" value="false"/>
+    <property name="propId" type="string" value="prop.lpc_door_double_white_glass_01"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

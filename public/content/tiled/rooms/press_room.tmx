@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="15" height="12" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="8">
+ <tileset firstgid="1" source="../tilesets/scotus_floors.tsx"/>
+ <tileset firstgid="1001" source="../tilesets/scotus_structures.tsx"/>
+ <tileset firstgid="2001" source="../tilesets/scotus_decor.tsx"/>
+ <tileset firstgid="3001" source="../tilesets/collision.tsx"/>
+ <layer id="1" name="Floor" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="2" name="Walls" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="3" name="Trim" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="4" name="Overlays" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="5" name="Collision" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <objectgroup id="6" name="Entities">
+  <object id="1" name="spawn_main" type="PlayerSpawn" x="224" y="320" width="32" height="32">
+   <properties>
+     <property name="spawnId" type="string" value="Entities"/>
+   </properties>
+  </object>
+  <object id="2" name="npc_reporter" type="NPC" x="224" y="128" width="32" height="32">
+   <properties>
+    <property name="name" type="string" value="Court Reporter"/>
+    <property name="characterId" type="string" value="npc.reporter"/>
+    <property name="storyKnot" type="string" value="reporter_intro"/>
+   </properties>
+  </object>
+  <object id="3" name="door_lobby" type="Door" x="224" y="352" width="32" height="32">
+   <properties>
+     <property name="toMap" type="string" value="scotus_lobby"/>
+     <property name="toSpawn" type="string" value="default"/>
+    <property name="targetLevel" type="string" value="scotus_lobby"/>
+   </properties>
+  </object>
+  <object id="4" name="prop_camera_rig_proc__seating__1" type="Prop" x="224" y="224" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.camera_rig"/>
+    <property name="collision" type="bool" value="true"/>
+    <property name="propId" type="string" value="prop.camera_rig"/>
+   </properties>
+  </object>
+  <object id="5" name="prop_podium_proc__podium_front__2" type="Prop" x="224" y="64" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.podium"/>
+    <property name="collision" type="bool" value="true"/>
+    <property name="propId" type="string" value="prop.podium"/>
+   </properties>
+  </object>
+  <object id="6" name="prop_press_backdrop_proc__backdrop__3" type="Prop" x="192" y="32" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.press_backdrop"/>
+    <property name="collision" type="bool" value="false"/>
+    <property name="propId" type="string" value="prop.press_backdrop"/>
+   </properties>
+  </object>
+  <object id="7" name="prop_press_chair_proc__seating__4" type="Prop" x="224" y="224" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.press_chair"/>
+    <property name="collision" type="bool" value="true"/>
+    <property name="propId" type="string" value="prop.press_chair"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

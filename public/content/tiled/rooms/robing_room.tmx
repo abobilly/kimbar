@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="15" height="12" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="12">
+ <tileset firstgid="1" source="../tilesets/scotus_floors.tsx"/>
+ <tileset firstgid="1001" source="../tilesets/scotus_structures.tsx"/>
+ <tileset firstgid="2001" source="../tilesets/scotus_decor.tsx"/>
+ <tileset firstgid="3001" source="../tilesets/collision.tsx"/>
+ <layer id="1" name="Floor" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="2" name="Walls" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="3" name="Trim" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="4" name="Overlays" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="5" name="Collision" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <objectgroup id="6" name="Entities">
+  <object id="1" name="spawn_main" type="PlayerSpawn" x="224" y="320" width="32" height="32">
+   <properties>
+     <property name="spawnId" type="string" value="Entities"/>
+   </properties>
+  </object>
+  <object id="2" name="chest_1" type="OutfitChest" x="160" y="128" width="32" height="32">
+   <properties>
+    <property name="outfitId" type="string" value="court_blazer"/>
+   </properties>
+  </object>
+  <object id="3" name="chest_2" type="OutfitChest" x="288" y="128" width="32" height="32">
+   <properties>
+    <property name="outfitId" type="string" value="power_suit"/>
+   </properties>
+  </object>
+  <object id="4" name="door_lobby" type="Door" x="224" y="352" width="32" height="32">
+   <properties>
+     <property name="toMap" type="string" value="scotus_lobby"/>
+     <property name="toSpawn" type="string" value="default"/>
+    <property name="targetLevel" type="string" value="scotus_lobby"/>
+   </properties>
+  </object>
+  <object id="5" name="wardrobe_left" type="Prop" x="128" y="160" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.lpc_container_cabinet_wood_tall_01"/>
+    <property name="collision" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="6" name="wardrobe_right" type="Prop" x="320" y="160" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.lpc_container_cabinet_wood_tall_02"/>
+    <property name="collision" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="7" name="prop_locker_proc__lockers__1" type="Prop" x="224" y="32" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.locker"/>
+    <property name="collision" type="bool" value="true"/>
+    <property name="propId" type="string" value="prop.locker"/>
+   </properties>
+  </object>
+  <object id="8" name="prop_mirror_proc__racks__2" type="Prop" x="224" y="96" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.mirror"/>
+    <property name="collision" type="bool" value="false"/>
+    <property name="propId" type="string" value="prop.mirror"/>
+   </properties>
+  </object>
+  <object id="9" name="prop_robe_rack_proc__racks__3" type="Prop" x="224" y="96" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.robe_rack"/>
+    <property name="collision" type="bool" value="true"/>
+    <property name="propId" type="string" value="prop.robe_rack"/>
+   </properties>
+  </object>
+  <object id="10" name="prop_lpc_container_cabinet_wood_tall_01__storage__4" type="Prop" x="128" y="160" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.lpc_container_cabinet_wood_tall_01"/>
+    <property name="collision" type="bool" value="true"/>
+    <property name="propId" type="string" value="prop.lpc_container_cabinet_wood_tall_01"/>
+   </properties>
+  </object>
+  <object id="11" name="prop_lpc_container_cabinet_wood_tall_02__storage__5" type="Prop" x="320" y="160" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.lpc_container_cabinet_wood_tall_02"/>
+    <property name="collision" type="bool" value="true"/>
+    <property name="propId" type="string" value="prop.lpc_container_cabinet_wood_tall_02"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

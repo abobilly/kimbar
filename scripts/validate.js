@@ -4,6 +4,9 @@
  *
  * Usage: node scripts/validate.js
  *
+ * Environment Variables:
+ *   - TILED_ONLY=1: Strict mode - fail if any playable room lacks a Tiled .tmx source
+ *
  * Output sections:
  *   - Hard Errors: Must fix before commit (schema violations, missing IDs, etc.)
  *   - Policy Skips: Informational (e.g., mpt-* cards excluded from game deck)
@@ -13,6 +16,9 @@ import { readdir, readFile } from 'fs/promises';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import Ajv from 'ajv';
+
+// TILED_ONLY strict mode - fail if any room lacks Tiled source
+const TILED_ONLY = (process.env.TILED_ONLY || '').trim() === '1';
 
 const SCHEMA_DIR = './schemas';
 const CONTENT_DIRS = {
@@ -36,6 +42,33 @@ const TILESET_REGISTRY_PATH = './public/content/tilesets/tilesets.json';
 const TILESET_PARTS_DIR = './public/content/tilesets';
 const WORLD_GRAPH_PATH = './specs/world_graph.json';
 const ULPC_MANIFEST_PATH = './specs/ulpc_manifest.json';
+
+// Tiled source and compiled directories
+const TILED_SOURCE_DIR = './public/content/tiled/rooms';
+const TILED_COMPILED_DIR = './public/generated/levels/tiled';
+const LDTK_SOURCE_DIR = './public/content/ldtk';
+
+/**
+ * Check if a Tiled TMX source exists for a given room ID
+ */
+function hasTiledSource(roomId) {
+  return existsSync(join(TILED_SOURCE_DIR, `${roomId}.tmx`));
+}
+
+/**
+ * Check if a compiled Tiled JSON exists for a given room ID
+ */
+function hasTiledCompiled(roomId) {
+  return existsSync(join(TILED_COMPILED_DIR, `${roomId}.json`));
+}
+
+/**
+ * Check if an LDtk source exists for a given room ID
+ */
+function hasLdtkSource(roomId) {
+  return existsSync(join(LDTK_SOURCE_DIR, `${roomId}.json`)) ||
+    existsSync(join(LDTK_SOURCE_DIR, `${roomId}.ldtk`));
+}
 
 let hardErrors = [];
 let policySkips = [];
@@ -969,6 +1002,101 @@ async function validateRoomEntrySpecs(schemas) {
   }
 }
 
+/**
+ * Validate Tiled-first room sources
+ * 
+ * For each room entry:
+ * - Check if Tiled source exists at public/content/tiled/rooms/<room_id>.tmx
+ * - If Tiled source exists: validate that compiled output exists
+ * - If Tiled source missing (and not in strict mode): validate LDtk file exists
+ * - In TILED_ONLY mode: fail if any room lacks Tiled source
+ */
+async function validateTiledFirstRooms() {
+  console.log('\n🗺️ Validating Tiled-First Room Sources...');
+
+  if (TILED_ONLY) {
+    console.log('  ⚠️ TILED_ONLY mode enabled - strict validation');
+  }
+
+  if (!existsSync(CONTENT_DIRS.room_entries)) {
+    warn('No room_entries directory - skipping Tiled-first validation');
+    return;
+  }
+
+  const files = await readdir(CONTENT_DIRS.room_entries);
+  const jsonFiles = files.filter(f => f.endsWith('.json'));
+
+  if (jsonFiles.length === 0) {
+    warn('No room entry specs found');
+    return;
+  }
+
+  const roomsMissingTiled = [];
+  const roomsWithTiled = [];
+  const roomsWithLdtkFallback = [];
+  const roomsMissingBoth = [];
+
+  for (const file of jsonFiles) {
+    try {
+      const spec = await loadJson(join(CONTENT_DIRS.room_entries, file));
+      const roomId = spec.id;
+
+      if (!roomId) {
+        error(`${file}: missing room id`);
+        continue;
+      }
+
+      const hasTiled = hasTiledSource(roomId);
+      const hasTiledJson = hasTiledCompiled(roomId);
+      const hasLdtk = hasLdtkSource(roomId);
+
+      if (hasTiled) {
+        // Tiled source exists - check compiled output
+        if (hasTiledJson) {
+          roomsWithTiled.push(roomId);
+          ok(`${roomId}: Tiled source + compiled ✓`);
+        } else {
+          error(`${roomId}: Tiled source exists but compiled JSON missing at ${TILED_COMPILED_DIR}/${roomId}.json`);
+        }
+      } else if (TILED_ONLY) {
+        // Strict mode - Tiled source required
+        roomsMissingTiled.push(roomId);
+        // Don't error yet - we'll report all missing at once
+      } else {
+        // Non-strict mode - allow LDtk fallback
+        if (hasLdtk) {
+          roomsWithLdtkFallback.push(roomId);
+          warn(`${roomId}: No Tiled source, using LDtk fallback`);
+        } else {
+          roomsMissingBoth.push(roomId);
+          error(`${roomId}: No level source (neither Tiled nor LDtk)`);
+        }
+      }
+    } catch (e) {
+      error(`Failed to parse ${file}: ${e.message}`);
+    }
+  }
+
+  // Summary
+  console.log('\n  📊 Tiled-First Summary:');
+  console.log(`     Tiled: ${roomsWithTiled.length}`);
+  if (!TILED_ONLY) {
+    console.log(`     LDtk fallback: ${roomsWithLdtkFallback.length}`);
+  }
+  if (roomsMissingBoth.length > 0) {
+    console.log(`     Missing both: ${roomsMissingBoth.length}`);
+  }
+
+  // In TILED_ONLY mode, fail if any rooms are missing Tiled sources
+  if (TILED_ONLY && roomsMissingTiled.length > 0) {
+    console.log('');
+    error(`TILED_ONLY mode: ${roomsMissingTiled.length} room(s) missing Tiled .tmx source:`);
+    for (const roomId of roomsMissingTiled) {
+      error(`  - ${roomId} (expected: ${TILED_SOURCE_DIR}/${roomId}.tmx)`);
+    }
+  }
+}
+
 async function validateLpcStyleGuide(contract) {
   console.log('\n🎨 Checking LPC Style Guide...');
 
@@ -1253,6 +1381,7 @@ async function main() {
   await validateRoomSpecs(schemas, registry, contract);
   await validateRoomSpecsAgainstWorldGraph();
   await validateRoomEntrySpecs(schemas);
+  await validateTiledFirstRooms();
   await validateLpcStyleGuide(contract);
   await validateUlpcManifest(schemas);
   await validatePlacementDrafts(schemas);
@@ -1301,3 +1430,4 @@ main().catch(e => {
   console.error('Fatal error:', e);
   process.exit(1);
 });
+

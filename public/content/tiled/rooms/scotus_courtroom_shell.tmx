@@ -225,10 +225,15 @@
   </data>
  </layer>
  <objectgroup id="3016" name="Entities">
-  <object id="1" name="PlayerSpawn" type="PlayerSpawn" x="1024" y="1152" width="32" height="32"/>
+  <object id="1" name="PlayerSpawn" type="PlayerSpawn" x="1024" y="1152" width="32" height="32">
+   <properties>
+    <property name="spawnId" type="string" value="PlayerSpawn"/>
+   </properties>
+  </object>
   <object id="2" name="DoorNorth" type="Door" x="1024" y="0" width="32" height="32">
    <properties>
-    <property name="targetLevel" type="string" value="scotus_lobby"/>
+    <property name="toMap" type="string" value="scotus_lobby"/>
+    <property name="toSpawn" type="string" value="default"/>
    </properties>
   </object>
  </objectgroup>

@@ -26,6 +26,7 @@
         "build:asset-index:fast": "node scripts/build-asset-index.mjs --fast",
         "build:asset-index:ulpc": "node scripts/build-asset-index.mjs --include-ulpc",
         "build:tilesets": "node scripts/build-tiled-tilesets.mjs",
+        "build:tiled-world": "node scripts/build-tiled-world.mjs",
         "validate:tiled": "node scripts/validate-tiled-maps.mjs",
         "compile:tiled": "node scripts/compile-tiled-maps.mjs",
         "build:tiled": "npm run validate:tiled && npm run compile:tiled",
@@ -93,6 +94,7 @@
         "ajv": "^8.17.1",
         "inkjs": "^2.3.2",
         "phaser": "^3.90.0",
-        "terser": "^5.39.0"
+        "terser": "^5.39.0",
+        "xml2js": "^0.6.2"
     }
 }

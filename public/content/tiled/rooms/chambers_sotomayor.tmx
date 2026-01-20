@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="15" height="12" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="8">
+ <tileset firstgid="1" source="../tilesets/scotus_floors.tsx"/>
+ <tileset firstgid="1001" source="../tilesets/scotus_structures.tsx"/>
+ <tileset firstgid="2001" source="../tilesets/scotus_decor.tsx"/>
+ <tileset firstgid="3001" source="../tilesets/collision.tsx"/>
+ <layer id="1" name="Floor" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="2" name="Walls" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="3" name="Trim" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="4" name="Overlays" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <layer id="5" name="Collision" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <objectgroup id="6" name="Entities">
+  <object id="1" name="spawn_main" type="PlayerSpawn" x="224" y="320" width="32" height="32">
+   <properties>
+     <property name="spawnId" type="string" value="Entities"/>
+   </properties>
+  </object>
+  <object id="2" name="npc_sotomayor" type="NPC" x="224" y="128" width="32" height="32">
+   <properties>
+    <property name="name" type="string" value="Justice Sotomayor"/>
+    <property name="characterId" type="string" value="npc.justice_sotomayor"/>
+    <property name="storyKnot" type="string" value="justice_sotomayor_intro"/>
+   </properties>
+  </object>
+  <object id="3" name="encounter_sotomayor" type="EncounterTrigger" x="224" y="128" width="32" height="32">
+   <properties>
+    <property name="justiceId" type="string" value="justice_sotomayor"/>
+    <property name="name" type="string" value="Justice Sotomayor"/>
+    <property name="deckTag" type="string" value="criminal_procedure"/>
+    <property name="count" type="int" value="5"/>
+    <property name="rewardId" type="string" value="crimpro_badge"/>
+    <property name="once" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="4" name="door_hall" type="Door" x="224" y="352" width="32" height="32">
+   <properties>
+     <property name="toMap" type="string" value="scotus_hall_01"/>
+     <property name="toSpawn" type="string" value="default"/>
+    <property name="targetLevel" type="string" value="scotus_hall_01"/>
+   </properties>
+  </object>
+  <object id="5" name="prop_badge_stand_proc__desk_zone__1" type="Prop" x="224" y="160" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.badge_stand"/>
+    <property name="collision" type="bool" value="false"/>
+    <property name="propId" type="string" value="prop.badge_stand"/>
+   </properties>
+  </object>
+  <object id="6" name="prop_cctv_monitor_proc__wall_props__2" type="Prop" x="224" y="32" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.cctv_monitor"/>
+    <property name="collision" type="bool" value="false"/>
+    <property name="propId" type="string" value="prop.cctv_monitor"/>
+   </properties>
+  </object>
+  <object id="7" name="prop_handcuffs_proc__desk_zone__3" type="Prop" x="224" y="160" width="32" height="32">
+   <properties>
+    <property name="sprite" type="string" value="prop.handcuffs"/>
+    <property name="collision" type="bool" value="false"/>
+    <property name="propId" type="string" value="prop.handcuffs"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

@@ -2,8 +2,12 @@
 /**
  * Tiled Map Validation Script
  * 
- * Validates Tiled JSON maps in public/content/tiled/** against the room
+ * Validates Tiled maps in public/content/tiled/** against the room
  * template + schema in public/content/tiled/templates + schemas.
+ * 
+ * Supports both:
+ * - TMX files (XML format) in public/content/tiled/rooms/*.tmx
+ * - JSON maps in room pack subdirectories
  * 
  * Usage: node scripts/validate-tiled-maps.mjs
  */
@@ -12,8 +16,10 @@ import { readFile, readdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
 import Ajv from 'ajv';
+import { parseStringPromise } from 'xml2js';
 
 const BASE_DIR = path.join(process.cwd(), 'public', 'content', 'tiled');
+const ROOMS_DIR = path.join(BASE_DIR, 'rooms');
 const TILESETS_DIR = path.join(process.cwd(), 'public', 'assets', 'tilesets');
 const TEMPLATE_PATH = path.join(BASE_DIR, 'templates', 'room-template.json');
 const MAP_SCHEMA_PATH = path.join(BASE_DIR, 'schemas', 'tiled_room.schema.json');
@@ -40,6 +46,16 @@ const ENTITY_SCHEMA = {
   EncounterTrigger: {
     required: { deckTag: 'string', count: 'int', once: 'bool' },
     optional: { rewardId: 'string' }
+  },
+  // Props are decorative objects with no required properties
+  Prop: {
+    required: {},
+    optional: { sprite: 'string', layer: 'string' }
+  },
+  // OutfitChest is an interactive object for outfit rewards
+  OutfitChest: {
+    required: { outfitId: 'string' },
+    optional: { once: 'bool' }
   }
 };
 
@@ -322,6 +338,190 @@ async function validateMap(filePath, relativePath) {
   return true;
 }
 
+/**
+ * Find all TMX files in the rooms directory
+ */
+async function findTmxFiles(dir) {
+  const files = [];
+
+  if (!existsSync(dir)) return files;
+
+  const entries = await readdir(dir, { withFileTypes: true });
+
+  for (const entry of entries) {
+    if (entry.isFile() && entry.name.endsWith('.tmx') && !entry.name.startsWith('_')) {
+      const fullPath = path.join(dir, entry.name);
+      const relativePath = path.relative(BASE_DIR, fullPath);
+      files.push({ path: fullPath, relativePath });
+    }
+  }
+
+  return files;
+}
+
+/**
+ * Validate a TMX (XML) map file
+ */
+async function validateTmxMap(filePath, relativePath) {
+  let tmxContent;
+  let map;
+
+  try {
+    tmxContent = await readFile(filePath, 'utf-8');
+    const parsed = await parseStringPromise(tmxContent, { explicitArray: false });
+    map = parsed.map;
+  } catch (err) {
+    logError(relativePath, `Failed to parse TMX: ${err.message}`);
+    return false;
+  }
+
+  const mapErrors = [];
+
+  // Check map attributes
+  const width = parseInt(map.$.width, 10);
+  const height = parseInt(map.$.height, 10);
+  const tilewidth = parseInt(map.$.tilewidth, 10);
+  const tileheight = parseInt(map.$.tileheight, 10);
+
+  if (!Number.isInteger(width) || !Number.isInteger(height)) {
+    mapErrors.push('Map width/height must be integers');
+  } else {
+    if (width < MIN_DIMENSION || height < MIN_DIMENSION) {
+      mapErrors.push(`Map dimensions too small: ${width}x${height} (min ${MIN_DIMENSION}x${MIN_DIMENSION})`);
+    }
+    if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+      mapErrors.push(`Map dimensions too large: ${width}x${height} (max ${MAX_DIMENSION}x${MAX_DIMENSION})`);
+    }
+  }
+
+  // Check orientation and renderorder
+  if (map.$.orientation !== 'orthogonal') {
+    mapErrors.push(`Invalid orientation: "${map.$.orientation}" (must be "orthogonal")`);
+  }
+  if (map.$.renderorder !== 'right-down') {
+    mapErrors.push(`Invalid renderorder: "${map.$.renderorder}" (must be "right-down")`);
+  }
+
+  // Check tilesets
+  const tilesets = Array.isArray(map.tileset) ? map.tileset : (map.tileset ? [map.tileset] : []);
+  if (tilesets.length === 0) {
+    mapErrors.push('Map must declare at least one tileset');
+  }
+
+  for (const tileset of tilesets) {
+    const source = tileset.$.source;
+    if (typeof source !== 'string') {
+      mapErrors.push('Tileset source must be a string');
+      continue;
+    }
+    if (!source.startsWith('../tilesets/') || !source.endsWith('.tsx')) {
+      mapErrors.push(`Tileset source "${source}" must point to ../tilesets/*.tsx`);
+    }
+  }
+
+  // Check layers
+  const layers = Array.isArray(map.layer) ? map.layer : (map.layer ? [map.layer] : []);
+  const objectgroups = Array.isArray(map.objectgroup) ? map.objectgroup : (map.objectgroup ? [map.objectgroup] : []);
+  const allLayers = [...layers, ...objectgroups];
+
+  const layerNames = allLayers.map(l => l.$.name);
+
+  // Check for required layers
+  for (const required of REQUIRED_LAYERS) {
+    if (!layerNames.includes(required)) {
+      mapErrors.push(`Missing required layer "${required}"`);
+    }
+  }
+
+  // Check layer order
+  const expectedOrder = REQUIRED_LAYERS.filter(name => layerNames.includes(name));
+  const actualOrder = layerNames.filter(name => REQUIRED_LAYERS.includes(name));
+
+  for (let i = 0; i < expectedOrder.length; i++) {
+    if (actualOrder[i] !== expectedOrder[i]) {
+      mapErrors.push(`Layer order mismatch: expected "${expectedOrder[i]}" at position ${i}, got "${actualOrder[i] || 'undefined'}"`);
+      break;
+    }
+  }
+
+  // Check Entities layer is objectgroup
+  const entitiesLayer = objectgroups.find(l => l.$.name === 'Entities');
+  if (!entitiesLayer && layerNames.includes('Entities')) {
+    mapErrors.push('"Entities" layer must be an objectgroup, not a tile layer');
+  }
+
+  // Check tile layers are tilelayer
+  for (const name of ['Floor', 'Walls', 'Trim', 'Overlays', 'Collision']) {
+    const tileLayer = layers.find(l => l.$.name === name);
+    if (layerNames.includes(name) && !tileLayer) {
+      mapErrors.push(`"${name}" layer must be a tile layer, not an objectgroup`);
+    }
+  }
+
+  // Validate entities in Entities layer
+  if (entitiesLayer) {
+    const objects = Array.isArray(entitiesLayer.object) ? entitiesLayer.object : (entitiesLayer.object ? [entitiesLayer.object] : []);
+    const maxX = width * tilewidth;
+    const maxY = height * tileheight;
+
+    for (const obj of objects) {
+      const objType = obj.$.type || obj.$.class; // Tiled uses 'class' in newer versions
+      const objName = obj.$.name || obj.$.id;
+
+      if (!objType) {
+        mapErrors.push(`Object "${objName}" has no type property`);
+        continue;
+      }
+
+      const schema = ENTITY_SCHEMA[objType];
+      if (!schema) {
+        mapErrors.push(`Object "${objName}" has invalid type "${objType}" (valid: ${Object.keys(ENTITY_SCHEMA).join(', ')})`);
+        continue;
+      }
+
+      // Parse properties
+      const properties = {};
+      if (obj.properties && obj.properties.property) {
+        const props = Array.isArray(obj.properties.property) ? obj.properties.property : [obj.properties.property];
+        for (const prop of props) {
+          properties[prop.$.name] = { value: prop.$.value, type: prop.$.type };
+        }
+      }
+
+      // Check required properties
+      for (const [reqProp, reqType] of Object.entries(schema.required)) {
+        const prop = properties[reqProp];
+        if (!prop || prop.value === undefined || prop.value === null || prop.value === '') {
+          mapErrors.push(`${objType} "${objName}" missing required property "${reqProp}"`);
+        }
+      }
+
+      // Check bounds
+      const objX = parseFloat(obj.$.x);
+      const objY = parseFloat(obj.$.y);
+      if (!isNaN(objX) && (objX < 0 || objX > maxX)) {
+        mapErrors.push(`${objType} "${objName}" x=${objX} out of bounds (0-${maxX})`);
+      }
+      if (!isNaN(objY) && (objY < 0 || objY > maxY)) {
+        mapErrors.push(`${objType} "${objName}" y=${objY} out of bounds (0-${maxY})`);
+      }
+    }
+  }
+
+  if (mapErrors.length > 0) {
+    console.log(`✗ ${relativePath}`);
+    for (const err of mapErrors) {
+      console.log(`  ERROR: ${err}`);
+      errors.push({ file: relativePath, error: err });
+    }
+    failed++;
+    return false;
+  }
+
+  logOk(relativePath);
+  return true;
+}
+
 async function main() {
   console.log('🗺️  Tiled Map Validation');
   console.log('========================\n');
@@ -362,8 +562,24 @@ async function main() {
   }
   console.log('✓ No __MACOSX directories found\n');
 
-  // Find and validate map files
-  console.log('Validating Tiled JSON maps...\n');
+  // Find and validate TMX files in rooms directory
+  console.log('Validating TMX maps in rooms/...\n');
+
+  const tmxFiles = await findTmxFiles(ROOMS_DIR);
+
+  if (tmxFiles.length > 0) {
+    // Sort files for deterministic output
+    tmxFiles.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
+
+    for (const { path: filePath, relativePath } of tmxFiles) {
+      await validateTmxMap(filePath, relativePath);
+    }
+  } else {
+    console.log('No TMX files found in rooms/');
+  }
+
+  // Find and validate JSON map files in room pack subdirectories
+  console.log('\nValidating Tiled JSON maps...\n');
 
   if (!existsSync(BASE_DIR)) {
     console.error(`Base directory not found: ${BASE_DIR}`);
@@ -372,24 +588,28 @@ async function main() {
 
   const mapFiles = await findMapFiles(BASE_DIR, BASE_DIR);
 
-  if (mapFiles.length === 0) {
-    console.log('No JSON map files found to validate.');
-    console.log('\nValidation: 0 maps found');
-    process.exit(0);
-  }
+  if (mapFiles.length > 0) {
+    // Sort files for deterministic output
+    mapFiles.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
 
-  // Sort files for deterministic output
-  mapFiles.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
-
-  for (const { path: filePath, relativePath } of mapFiles) {
-    await validateMap(filePath, relativePath);
+    for (const { path: filePath, relativePath } of mapFiles) {
+      await validateMap(filePath, relativePath);
+    }
+  } else {
+    console.log('No JSON map files found in room packs.');
   }
 
   // Summary
-  console.log(`\nValidation: ${passed} passed, ${failed} failed`);
+  const totalMaps = tmxFiles.length + mapFiles.length;
+  console.log(`\nValidation: ${passed} passed, ${failed} failed (${totalMaps} total maps)`);
 
   if (failed > 0) {
     process.exit(1);
+  }
+
+  if (totalMaps === 0) {
+    console.log('\n⚠️ No maps found to validate');
+    process.exit(0);
   }
 
   console.log('\n✅ All Tiled maps valid');
