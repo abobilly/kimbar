@@ -36,7 +36,7 @@ public/generated/**
 # Local environment
 .env
 .env.local
-.env.*
+!.env.example
 
 # Vendor (ULPC generator only - too large to commit)
 vendor/**
