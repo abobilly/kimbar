@@ -32,8 +32,8 @@ try {
 const ULPC_DIR = './vendor/lpc/Universal-LPC-Spritesheet-Character-Generator';
 const ULPC_SPRITESHEETS = join(ULPC_DIR, 'spritesheets');
 const CHAR_DIR = './content/characters';
-const OUTPUT_DIR = './generated/sprites';
-const PORTRAITS_DIR = './generated/portraits';
+const OUTPUT_DIR = './private/generated/sprites';
+const PORTRAITS_DIR = './private/generated/portraits';
 
 // Standard LPC sheet dimensions (will detect from first layer)
 const DEFAULT_SHEET_WIDTH = 832;  // 13 columns × 64px

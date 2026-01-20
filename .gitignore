@@ -29,9 +29,10 @@ dist-ssr
 .claude/
 
 # Generated outputs (NEVER commit)
-generated/*
-!generated/README.md
+private/generated/*
+!private/generated/README.md
 public/generated/**
+public/assets/**
 
 # Local environment
 .env

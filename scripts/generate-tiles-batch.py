@@ -36,7 +36,7 @@ except ImportError:
 
 SERVER_URL = os.environ.get("PIXEL_MCP_URL", "https://pixel-mcp-server-production.up.railway.app")
 SSE_ENDPOINT = f"{SERVER_URL}/sse"
-OUTPUT_DIR = Path("generated/tiles")
+OUTPUT_DIR = Path("private/generated/tiles")
 TIMEOUT_SECONDS = 180  # AI generation needs more time
 
 class GenerationMode(Enum):

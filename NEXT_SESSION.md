@@ -8,7 +8,44 @@
 
 ---
 
-## Major Repository Cleanup (January 18, 2026)
+## Private/Public Asset Refactoring (January 18, 2026)
+
+### What Changed
+
+**Renamed `assets/` and `generated/` to live under `private/` folder:**
+
+```
+OLD STRUCTURE              NEW STRUCTURE
+├── assets/                ├── private/
+├── generated/             │   ├── assets/      (committed art)
+└── public/                │   └── generated/   (gitignored build outputs)
+    ├── assets/            └── public/
+    └── generated/             ├── assets/      (synced from private/assets)
+                               └── generated/   (synced from private/generated)
+```
+
+**Why**: Cleaner architecture where `private/` is source, `public/` is what Vite serves. 
+The `sync:public` script copies `private/` → `public/`.
+
+### Scripts Updated
+
+All scripts now reference `./private/assets/` and `./private/generated/`:
+- `sync-public.mjs`, `build-asset-index.mjs`, `build-characters.js`
+- `generate-sprites.mjs`, `validate.js`, `search-assets.mjs`
+- `list-used-assets.mjs`, `sync-to-sqlite.py`, `generate-ldtk-tilesets.mjs`
+- `inject-ldtk-tileset.mjs`, `query-db.py`, `assets-search.mjs`
+- `compile-tiled-maps.mjs`, `build-levels.js`
+- `generate-tiles-batch.py`, `generate-tiles-robust.py`, `rotate-directional-tiles.py`
+- `tools/mcp-repo/src/index.ts`, `tools/mcp-repo/index-now.mjs`
+
+### Runtime Paths Stay the Same
+
+URLs in source code (`/generated/`, `/assets/`) are **unchanged** since that's how 
+Vite serves from `public/`. Only filesystem paths in scripts changed.
+
+---
+
+## Major Repository Cleanup (Earlier on January 18, 2026)
 
 ### What Changed
 
@@ -38,13 +75,13 @@
 
 5. **Commit**: `966123c` (795 files changed)
 
-### Asset Architecture (Post-Cleanup)
+### Asset Architecture (Current)
 
 | Folder | Purpose | Size |
 |--------|---------|------|
-| `assets/` | Committed static art (props, tilesets) | 31.6MB |
+| `private/assets/` | Committed static art (props, tilesets) | 31.6MB |
 | `content/` | Authored specs (characters, ink, rooms) | 0.5MB |
-| `generated/` | Build outputs (gitignored) | 3.7MB |
+| `private/generated/` | Build outputs (gitignored) | 3.7MB |
 | `vendor/lpc/` | ULPC generator (gitignored) | 915MB |
 | `public/content/` | Direct-serve (Tiled maps, cards) | ~10MB |
 
@@ -52,8 +89,8 @@
 
 | Asset Type | Location | Then Run |
 |------------|----------|----------|
-| Props (PNG) | `assets/props/<category>/` | `npm run sync:public` |
-| Tilesets | `assets/tilesets/<pack>/` | `npm run sync:public` |
+| Props (PNG) | `private/assets/props/<category>/` | `npm run sync:public` |
+| Tilesets | `private/assets/tilesets/<pack>/` | `npm run sync:public` |
 | Characters | `content/characters/*.json` | `npm run build:chars && npm run gen:sprites` |
 | Ink dialogue | `content/ink/*.ink` | `npm run compile:ink` |
 | Tiled rooms | `public/content/tiled/rooms/*.tmx` | `npm run validate:tiled` |

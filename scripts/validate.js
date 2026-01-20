@@ -22,17 +22,17 @@ const CONTENT_DIRS = {
   dialogue: './content/dialogue'
 };
 // Validate against the generated registry (single source of truth)
-const REGISTRY_PATH = './generated/registry.json';
+const REGISTRY_PATH = './private/generated/registry.json';
 const FLASHCARDS_DIR = './public/content/cards';
 // Ink is now generated - check both locations
-const INK_GENERATED_DIR = './generated/ink';
+const INK_GENERATED_DIR = './private/generated/ink';
 const INK_PUBLIC_DIR = './public/generated/ink';
 const CONTRACT_PATH = './content/content_contract.json';
 const PLACEMENT_DRAFTS_DIR = './content/placement_drafts';
 const PLACEMENT_SPEC_PATH = './docs/MISSING_ASSETS_SPEC.json';
 const TILESET_MANIFEST_PATH = './content/ai_jobs/tileset_manifest.json';
 const ROOM_TILE_REQUIREMENTS_PATH = './content/ai_jobs/room_tile_requirements.json';
-const GENERATED_TILES_DIR = './generated/tiles';
+const GENERATED_TILES_DIR = './private/generated/tiles';
 const TILESET_REGISTRY_PATH = './content/tilesets/tilesets.json';
 const TILESET_PARTS_DIR = './content/tilesets';
 const WORLD_GRAPH_PATH = './content/world_graph.json';

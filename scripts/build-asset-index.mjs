@@ -22,9 +22,9 @@ import { readdir, readFile, writeFile, mkdir, stat } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join, extname, basename, dirname } from 'path';
 
-const ASSETS_DIR = './assets';
+const ASSETS_DIR = './private/assets';
 const VENDOR_DIR = './vendor'; // Still needed for ULPC generator lookup
-const GENERATED_DIR = './generated';
+const GENERATED_DIR = './private/generated';
 const CONTRACT_PATH = './content/content_contract.json';
 const ULPC_MANIFEST_PATH = './content/ulpc_manifest.json';
 const ARGS = process.argv.slice(2);
@@ -206,7 +206,7 @@ function classifyAsset(filePath, contract) {
     return 'character_sheet';
   }
   // Generated tiles have specific naming: tile.floor.*, tile.wall.*, etc.
-  if (dir.includes('generated/tiles') || dir.includes('generated\\tiles') || name.startsWith('tile.')) {
+  if (dir.includes('private/generated/tiles') || dir.includes('private\\generated\\tiles') || name.startsWith('tile.')) {
     return 'tile';
   }
   if (dir.includes('tileset') || dir.includes('tiles')) {
@@ -332,7 +332,7 @@ async function validateAsset(filePath, kind, contract) {
       }
 
       // Validate generated sprites
-      if (filePath.includes('generated/sprites/')) {
+      if (filePath.includes('private/generated/sprites/')) {
         const expectedWidth = 832;
         const expectedHeight = 1344;
 
@@ -342,7 +342,7 @@ async function validateAsset(filePath, kind, contract) {
       }
 
       // Validate portraits
-      if (filePath.includes('generated/portraits/')) {
+      if (filePath.includes('private/generated/portraits/')) {
         const expectedSize = 64;
         if (dimensions.width !== expectedSize || dimensions.height !== expectedSize) {
           notes.push(`portrait expected ${expectedSize}x${expectedSize}, got ${dimensions.width}x${dimensions.height}`);
@@ -350,7 +350,7 @@ async function validateAsset(filePath, kind, contract) {
       }
 
       // Validate generated tiles (must be 32x32)
-      if (filePath.includes('generated/tiles/') || filePath.includes('generated\\tiles\\')) {
+      if (filePath.includes('private/generated/tiles/') || filePath.includes('private\\generated\\tiles\\')) {
         const expectedSize = 32;
         if (dimensions.width !== expectedSize || dimensions.height !== expectedSize) {
           notes.push(`tile expected ${expectedSize}x${expectedSize}, got ${dimensions.width}x${dimensions.height}`);
@@ -391,16 +391,16 @@ async function main() {
 
   // Scan generated directory (sprites, portraits, tiles)
   const generatedFiles = MANIFEST_ONLY ? [] : await (async () => {
-    console.log('\n📁 Scanning generated/ for build outputs...');
+    console.log('\n📁 Scanning private/generated/ for build outputs...');
     const results = await scanDirectory(GENERATED_DIR, [], { excludeUlpc: false });
-    console.log(`   Found ${results.length} image file(s) in generated/`);
+    console.log(`   Found ${results.length} image file(s) in private/generated/`);
     return results;
   })();
 
   // Count tiles specifically
-  const tileFiles = generatedFiles.filter(f => f.includes('generated/tiles/') || f.includes('generated\\tiles\\'));
+  const tileFiles = generatedFiles.filter(f => f.includes('private/generated/tiles/') || f.includes('private\\generated\\tiles\\'));
   if (tileFiles.length > 0) {
-    console.log(`   - ${tileFiles.length} tile(s) in generated/tiles/`);
+    console.log(`   - ${tileFiles.length} tile(s) in private/generated/tiles/`);
   }
 
   // ULPC opt-in via manifest
@@ -447,10 +447,10 @@ async function main() {
       // Determine runtime URL
       const normalizedPath = filePath.replace(/\\/g, '/');
       let url = normalizedPath;
-      if (normalizedPath.startsWith('generated/')) {
-        url = '/' + normalizedPath;
-      } else if (normalizedPath.startsWith('./generated/')) {
-        url = normalizedPath.replace('./generated/', '/generated/');
+      if (normalizedPath.startsWith('private/generated/')) {
+        url = normalizedPath.replace('private/generated/', '/generated/');
+      } else if (normalizedPath.startsWith('./private/generated/')) {
+        url = normalizedPath.replace('./private/generated/', '/generated/');
       }
 
       const entry = {

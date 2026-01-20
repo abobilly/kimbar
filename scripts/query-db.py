@@ -3,7 +3,7 @@ import sys
 import json
 import os
 
-DB_PATH = "generated/content.db"
+DB_PATH = "private/generated/content.db"
 
 def main():
     if len(sys.argv) < 2:

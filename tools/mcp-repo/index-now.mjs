@@ -130,9 +130,9 @@ function shouldIndex(filePath) {
     // Skip raw .tmx files - too large for embeddings, index compiled LevelData instead
     if (normalized.endsWith('.tmx')) return false;
 
-    // Allow generated/levels/ (compiled LevelData) but skip other generated/ dirs
-    if (normalized.includes('generated/')) {
-        if (!normalized.includes('generated/levels/')) return false;
+    // Allow private/generated/levels/ (compiled LevelData) but skip other private/generated/ dirs
+    if (normalized.includes('private/generated/')) {
+        if (!normalized.includes('private/generated/levels/')) return false;
     }
 
     // Check scope

@@ -16,13 +16,13 @@ This guide documents the consolidated asset architecture after the major cleanup
 │  AUTHORED (committed)              GENERATED (gitignored)                │
 │  ────────────────────              ───────────────────────               │
 │                                                                          │
-│  content/                          generated/                            │
+│  content/                          private/generated/                    │
 │    characters/*.json  ───────────▶   characters/*.json                  │
 │    ink/*.ink          ───────────▶   ink/*.json                         │
 │    rooms/*.json                      sprites/*.png                       │
 │    tilesets/*.json                   portraits/*.png                     │
 │                                      registry.json                       │
-│  assets/               ─────────────────────────────┐                   │
+│  private/assets/       ─────────────────────────────┐                   │
 │    props/                                           │                   │
 │    tilesets/                                        ▼                   │
 │                                    public/assets/  (synced)             │
@@ -36,6 +36,10 @@ This guide documents the consolidated asset architecture after the major cleanup
 │                                                                          │
 └──────────────────────────────────────────────────────────────────────────┘
 ```
+
+The `private/` folder is the source for assets and generated content. The `sync:public` 
+script copies `private/assets/` → `public/assets/` and `private/generated/` → `public/generated/`
+so Vite can serve them at `/assets/` and `/generated/` URLs.
 
 ---
 
@@ -61,12 +65,12 @@ This guide documents the consolidated asset architecture after the major cleanup
 
 ---
 
-### 2. `assets/` — Static Art (COMMITTED)
+### 2. `private/assets/` — Static Art (COMMITTED)
 
 **Purpose**: All committed binary art assets. Synced to `public/assets/` by the pipeline.
 
 ```
-assets/
+private/assets/
 ├── props/
 │   ├── exterior/     # Outdoor decorations (trees, benches, signs)
 │   ├── legal/        # Legal props (gavels, scales, books)
@@ -79,19 +83,19 @@ assets/
 ```
 
 **Rules**:
-- ✅ Add new props to appropriate `props/<category>/`
-- ✅ Add tileset PNGs to `tilesets/<pack_name>/`
-- ❌ Never add generated sprites here (they go to `generated/`)
+- ✅ Add new props to appropriate `private/assets/props/<category>/`
+- ✅ Add tileset PNGs to `private/assets/tilesets/<pack_name>/`
+- ❌ Never add generated sprites here (they go to `private/generated/`)
 - ❌ Never add UI assets (UI is now Phaser-native, no PNG themes)
 
 ---
 
-### 3. `generated/` — Build Outputs (GITIGNORED)
+### 3. `private/generated/` — Build Outputs (GITIGNORED)
 
 **Purpose**: All outputs from the content pipeline. Rebuilt by `npm run prepare:content`.
 
 ```
-generated/
+private/generated/
 ├── characters/       # Processed character JSON
 ├── sprites/          # Generated character spritesheets (64×64 frames)
 ├── portraits/        # Character portrait crops
@@ -212,15 +216,15 @@ npm run check:fast         # Quick gate (unit tests only)
 npm run build:chars && npm run gen:sprites
 ```
 
-3. Sprite appears in `generated/sprites/lawyer_01.png`
+3. Sprite appears in `private/generated/sprites/lawyer_01.png`
 
 ---
 
 ### Add a New Prop
 
-1. Add PNG to `assets/props/<category>/`:
+1. Add PNG to `private/assets/props/<category>/`:
 ```
-assets/props/legal/evidence_box.png
+private/assets/props/legal/evidence_box.png
 ```
 
 2. Sync to public:
@@ -266,7 +270,7 @@ npm run validate:tiled
 npm run compile:ink
 ```
 
-3. Output appears in `generated/ink/<story>.json`
+3. Output appears in `private/generated/ink/<story>.json`
 
 ---
 
@@ -289,9 +293,9 @@ npm run compile:ink
 
 | Folder | Size | Files | Purpose |
 |--------|------|-------|---------|
-| `assets/` | 31.6MB | 439 | Committed art |
+| `private/assets/` | 31.6MB | 439 | Committed art |
 | `content/` | 0.5MB | ~100 | Authored specs |
-| `generated/` | 3.7MB | 355 | Build outputs |
+| `private/generated/` | 3.7MB | 355 | Build outputs |
 | `vendor/lpc/` | 915MB | 109K | External (gitignored) |
 | `public/content/` | ~10MB | ~200 | Direct-serve |
 
@@ -300,7 +304,7 @@ npm run compile:ink
 ## Forbidden Actions
 
 1. **Never hardcode paths**: Use registry API, not `/content/...` strings
-2. **Never commit generated/**: Except `README.md`, `registry.json`
+2. **Never commit private/generated/**: Except `README.md`, `registry.json`
 3. **Never commit vendor/**: 915MB external tools
 4. **Never bypass schemas**: All content must validate
 5. **Never add UI to world layer**: Use `WorldScene.getUILayer()`
@@ -311,8 +315,8 @@ npm run compile:ink
 
 | I want to... | Put it in... | Then run... |
 |--------------|--------------|-------------|
-| Add a prop PNG | `assets/props/<category>/` | `npm run sync:public` |
-| Add a tileset | `assets/tilesets/<pack>/` | `npm run sync:public` |
+| Add a prop PNG | `private/assets/props/<category>/` | `npm run sync:public` |
+| Add a tileset | `private/assets/tilesets/<pack>/` | `npm run sync:public` |
 | Add a character | `content/characters/*.json` | `npm run build:chars && npm run gen:sprites` |
 | Add dialogue | `content/ink/*.ink` | `npm run compile:ink` |
 | Add a Tiled room | `public/content/tiled/rooms/*.tmx` | `npm run validate:tiled` |

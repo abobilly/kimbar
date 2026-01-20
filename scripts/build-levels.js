@@ -12,7 +12,7 @@ import { join } from 'path';
 const CONTENT_DIR = './content/rooms';
 const OUTPUT_DIR = './public/content/ldtk';
 // Use generated registry (single source of truth)
-const REGISTRY_PATH = './generated/registry.json';
+const REGISTRY_PATH = './private/generated/registry.json';
 const PLACEMENT_DRAFT_PATH = './content/placement_drafts/prop_placements.json';
 
 async function loadRegistry() {

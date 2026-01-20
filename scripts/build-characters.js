@@ -25,13 +25,13 @@ import { existsSync } from 'fs';
 import { join, basename, extname } from 'path';
 
 const CONTENT_DIR = './content/characters';
-const GENERATED_DIR = './generated';
-const CHARS_OUTPUT_DIR = './generated/characters';
+const GENERATED_DIR = './private/generated';
+const CHARS_OUTPUT_DIR = './private/generated/characters';
 const REGISTRY_CONFIG_PATH = './content/registry_config.json';
 // NOTE: LDTK_DIR removed - room discovery is explicit via content/room_entries/, not LDtk scanning
 const FLASHCARDS_DIR = './public/content/cards';
 const INK_SOURCE_DIR = './content/ink';
-const AI_MANIFEST_PATH = './generated/ai-manifest.json';
+const AI_MANIFEST_PATH = './private/generated/ai-manifest.json';
 const PROPS_DIR = './vendor/props';
 const TILESET_REGISTRY_PATH = './content/tilesets/tilesets.json';
 const PROPS_CATEGORIES = ['legal', 'exterior', 'office'];

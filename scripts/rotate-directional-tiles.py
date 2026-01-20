@@ -13,7 +13,7 @@ from pathlib import Path
 from PIL import Image
 import re
 
-TILES_DIR = Path("generated/tiles")
+TILES_DIR = Path("private/generated/tiles")
 
 # Direction → rotation angle (clockwise from North)
 ROTATIONS = {

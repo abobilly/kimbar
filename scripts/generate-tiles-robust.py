@@ -11,7 +11,7 @@ SERVER_URL = "https://pixel-mcp-server-production.up.railway.app"
 SSE_ENDPOINT = f"{SERVER_URL}/sse"
 
 class RobustTileGenerator:
-    def __init__(self, output_dir="generated/tiles"):
+    def __init__(self, output_dir="private/generated/tiles"):
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
     

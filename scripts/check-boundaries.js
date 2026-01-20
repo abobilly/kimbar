@@ -15,7 +15,7 @@ const CONTRACT_PATH = './content/content_contract.json';
 
 // Default forbidden paths if no contract
 const DEFAULT_FORBIDDEN = [
-  'generated/',
+  'private/generated/',
   'vendor/',
   'node_modules/',
   'public/content/art/'

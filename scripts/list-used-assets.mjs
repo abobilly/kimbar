@@ -11,7 +11,7 @@ import { readFile, readdir, writeFile } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
 
-const REGISTRY_PATH = './generated/registry.json';
+const REGISTRY_PATH = './private/generated/registry.json';
 const REGISTRY_CONFIG_PATH = './content/registry_config.json';
 const ROOM_SPEC_DIR = './content/rooms';
 const LDTK_DIR = './public/content/ldtk';

@@ -12,8 +12,8 @@
 import { readFile } from 'fs/promises';
 import { existsSync } from 'fs';
 
-const INDEX_PATH = './generated/asset_index.ndjson';
-const QUARANTINE_PATH = './generated/quarantine.ndjson';
+const INDEX_PATH = './private/generated/asset_index.ndjson';
+const QUARANTINE_PATH = './private/generated/quarantine.ndjson';
 
 async function loadIndex(path) {
   if (!existsSync(path)) return [];

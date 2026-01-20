@@ -13,8 +13,8 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const INDEX_PATH = join(__dirname, '..', 'generated', 'asset_index.ndjson');
-const QUARANTINE_PATH = join(__dirname, '..', 'generated', 'quarantine.ndjson');
+const INDEX_PATH = join(__dirname, '..', 'private', 'generated', 'asset_index.ndjson');
+const QUARANTINE_PATH = join(__dirname, '..', 'private', 'generated', 'quarantine.ndjson');
 
 /**
  * Load an NDJSON file

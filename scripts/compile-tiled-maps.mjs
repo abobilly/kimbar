@@ -15,7 +15,7 @@ import { existsSync } from 'fs';
 import path from 'path';
 
 const BASE_DIR = path.join(process.cwd(), 'public', 'content', 'tiled');
-const OUTPUT_DIR = path.join(process.cwd(), 'generated', 'levels');
+const OUTPUT_DIR = path.join(process.cwd(), 'private', 'generated', 'levels');
 
 /**
  * Recursively find all JSON map files (excluding templates, tilesets, etc.)

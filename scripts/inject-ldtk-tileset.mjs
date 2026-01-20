@@ -10,7 +10,7 @@ import fs from 'fs';
 import path from 'path';
 
 const LDTK_DIR = 'public/content/ldtk';
-const TILESET_META_PATH = 'generated/tilesets/scotus_tiles.json';
+const TILESET_META_PATH = 'private/generated/tilesets/scotus_tiles.json';
 const TILESET_REL_PATH = '../../generated/tilesets/scotus_tiles.png';
 
 // Load tileset metadata
@@ -77,5 +77,5 @@ const tileLookup = {};
 for (const [name, info] of Object.entries(tilesetMeta.tiles)) {
   tileLookup[name] = info.index;
 }
-fs.writeFileSync('generated/tilesets/tile_lookup.json', JSON.stringify(tileLookup, null, 2));
+fs.writeFileSync('private/generated/tilesets/tile_lookup.json', JSON.stringify(tileLookup, null, 2));
 console.log('✅ Created tile_lookup.json for easy tile ID → index mapping');

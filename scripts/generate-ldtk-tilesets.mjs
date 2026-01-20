@@ -21,7 +21,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Paths
 const MANIFEST_PATH = path.join(__dirname, '../content/ai_jobs/tileset_manifest.json');
 const ROOM_REQUIREMENTS_PATH = path.join(__dirname, '../content/ai_jobs/room_tile_requirements.json');
-const GENERATED_TILES_DIR = path.join(__dirname, '../generated/tiles');
+const GENERATED_TILES_DIR = path.join(__dirname, '../private/generated/tiles');
 const PUBLIC_TILES_DIR = path.join(__dirname, '../public/generated/tiles');
 const LDTK_OUTPUT_DIR = path.join(__dirname, '../public/content/ldtk');
 const TILESET_DEF_PATH = path.join(LDTK_OUTPUT_DIR, '_scotus_tileset_def.json');

@@ -95,7 +95,7 @@ function shouldIndex(filePath: string): boolean {
     if (normalized.includes('node_modules/')) return false;
     if (normalized.includes('dist/')) return false;
     if (normalized.includes('build/')) return false;
-    if (normalized.includes('generated/')) return false;
+    if (normalized.includes('private/generated/')) return false;
     if (normalized.includes('__MACOSX/')) return false;
     if (normalized.includes('/._')) return false;
     if (normalized.endsWith('.png') || normalized.endsWith('.jpg') || normalized.endsWith('.gif')) return false;

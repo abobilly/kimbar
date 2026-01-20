@@ -1,22 +1,22 @@
 #!/usr/bin/env node
 /**
- * sync-public.mjs - Sync assets and generated content to public/
+ * sync-public.mjs - Sync private assets and generated content to public/
  * 
  * Copies:
- * - assets/ -> public/assets/ (static assets)
- * - generated/ -> public/generated/ (build outputs)
+ * - private/assets/ -> public/assets/ (static assets)
+ * - private/generated/ -> public/generated/ (build outputs)
  * - content/tilesets/ -> public/content/tilesets/ (tileset metadata)
  * 
- * Assets are now in a single unified folder (assets/) that is committed to git.
+ * private/ is the source folder, public/ is what Vite serves.
  */
 
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
-const ASSETS_SRC = path.resolve("assets");
+const ASSETS_SRC = path.resolve("private", "assets");
 const ASSETS_DST = path.resolve("public", "assets");
 
-const GENERATED_SRC = path.resolve("generated");
+const GENERATED_SRC = path.resolve("private", "generated");
 const GENERATED_DST = path.resolve("public", "generated");
 
 const TILESET_CONTENT_SRC = path.resolve("content", "tilesets");
