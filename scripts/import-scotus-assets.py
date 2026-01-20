@@ -17,7 +17,7 @@ import shutil
 
 ROOT = Path(__file__).resolve().parents[1]
 
-SRC_SCOTUS = ROOT / "content" / "sources" / "scotus"
+SRC_SCOTUS = ROOT / "specs" / "sources" / "scotus"
 SRC_EXTERIOR = SRC_SCOTUS / "exterior_building_v2"
 SRC_INTERIOR = SRC_SCOTUS / "interior_spliced"
 

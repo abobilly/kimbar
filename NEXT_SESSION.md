@@ -8,6 +8,27 @@
 
 ---
 
+## Specs/Public-Generated Refactor (Current Session)
+
+### What Changed
+
+- Standardized on `specs/` as the authored input root and `public/generated/` as the only build output.
+- Updated content pipeline ordering in `package.json` (removed `sync:public`, added `build:levels`).
+- Added strict Tiled map validation (template + JSON schema + size guards) and new schema file.
+- Adjusted scripts for new paths (`import-scotus-assets.py`, `assemble-tileset.py`, `list-used-assets.mjs`).
+- Updated guidance: `docs/MIGRATION_GUIDE.md`, `.github/instructions/content.instructions.md`, `AGENTS.md`, `.gitignore`.
+
+### What’s Next
+
+1. Run `npm run prepare:content` and `npm run validate:tiled` to confirm pipeline stability.
+2. Remove legacy `private/` and root `generated/` folders if still present.
+
+### Gates Run / Not Run
+
+- Not run in this session (not requested).
+
+---
+
 ## Private/Public Asset Refactoring (January 18, 2026)
 
 ### What Changed

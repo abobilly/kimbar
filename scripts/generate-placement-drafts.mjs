@@ -3,7 +3,7 @@
  * generate-placement-drafts.mjs
  *
  * Generates prop placement drafts from docs/MISSING_ASSETS_SPEC.json.
- * Output: content/placement_drafts/prop_placements.json
+ * Output: specs/placement_drafts/prop_placements.json
  */
 
 import { readFile, writeFile, mkdir } from 'fs/promises';
@@ -11,7 +11,7 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 
 const SPEC_PATH = './docs/MISSING_ASSETS_SPEC.json';
-const OUTPUT_DIR = './content/placement_drafts';
+const OUTPUT_DIR = './specs/placement_drafts';
 const OUTPUT_FILE = 'prop_placements.json';
 
 function clamp(value, min, max) {

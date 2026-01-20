@@ -24,16 +24,6 @@
       "key": "floor_tiles"
     },
     {
-      "id": "tileset.lpc_lpc_floors_floors",
-      "url": "/assets/tilesets/lpc/lpc-floors/floors.png",
-      "tileWidth": 32,
-      "tileHeight": 32,
-      "imageWidth": 1024,
-      "imageHeight": 2048,
-      "columns": 32,
-      "rows": 64
-    },
-    {
       "id": "tileset.lpc_lpc_house_interior_interior",
       "url": "/assets/tilesets/lpc/LPC_house_interior/interior.png",
       "tileWidth": 32,
@@ -52,26 +42,6 @@
       "imageHeight": 704,
       "columns": 32,
       "rows": 22
-    },
-    {
-      "id": "tileset.lpc_lpc_walls_walls",
-      "url": "/assets/tilesets/lpc/lpc-walls/walls.png",
-      "tileWidth": 32,
-      "tileHeight": 32,
-      "imageWidth": 2048,
-      "imageHeight": 3072,
-      "columns": 64,
-      "rows": 96
-    },
-    {
-      "id": "tileset.lpc_lpc_windows_doors_v2_windows_doors",
-      "url": "/assets/tilesets/lpc/lpc-windows-doors-v2/windows-doors.png",
-      "tileWidth": 32,
-      "tileHeight": 32,
-      "imageWidth": 1024,
-      "imageHeight": 1024,
-      "columns": 32,
-      "rows": 32
     },
     {
       "id": "tileset.lpc_office_office",

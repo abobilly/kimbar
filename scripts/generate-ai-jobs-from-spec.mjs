@@ -4,8 +4,8 @@
  *
  * Generates AI job specs from docs/MISSING_ASSETS_SPEC.json.
  * Outputs:
- *  - content/ai_jobs/props_missing_v1.json
- *  - content/ai_jobs/tiles_missing_v1.json
+ *  - specs/ai_jobs/props_missing_v1.json
+ *  - specs/ai_jobs/tiles_missing_v1.json
  */
 
 import { readFile, writeFile, mkdir } from 'fs/promises';
@@ -13,7 +13,7 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 
 const SPEC_PATH = './docs/MISSING_ASSETS_SPEC.json';
-const OUTPUT_DIR = './content/ai_jobs';
+const OUTPUT_DIR = './specs/ai_jobs';
 const PROPS_JOB = 'props_missing_v1.json';
 const TILES_JOB = 'tiles_missing_v1.json';
 

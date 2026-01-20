@@ -8,6 +8,7 @@ import {
   FlashcardPackEntry,
   InkEntry
 } from './types';
+import { getLevelIndexEntry, loadLevelManifest } from './level-registry';
 
 export interface SpriteEntry {
   url: string;
@@ -74,7 +75,7 @@ const contentCache: Map<string, unknown> = new Map();
 export async function loadRegistry(): Promise<ContentRegistry> {
   if (registry) return registry;
 
-  const response = await fetch('/generated/registry.json');
+  const response = await fetch('/generated/registry/content.json');
   registry = await response.json();
 
   // Backwards compat: populate deckTags from tags.subjects if missing
@@ -211,6 +212,18 @@ export async function loadRoomData(roomId: string): Promise<unknown> {
   const cacheKey = `room:${roomId}`;
   if (contentCache.has(cacheKey)) {
     return contentCache.get(cacheKey);
+  }
+
+  await loadLevelManifest();
+  const indexEntry = getLevelIndexEntry(roomId);
+  if (indexEntry?.url) {
+    const response = await fetch(indexEntry.url);
+    if (!response.ok) {
+      throw new Error(`Failed to load level from ${indexEntry.url}: ${response.status}`);
+    }
+    const data = await response.json();
+    contentCache.set(cacheKey, data);
+    return data;
   }
 
   const room = getRoom(roomId);

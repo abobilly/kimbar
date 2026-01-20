@@ -4,29 +4,29 @@
 
 ## Overview
 
-All static assets live in the committed `assets/` folder. The pipeline generates character sprites and syncs everything to `public/` for runtime access.
+All static assets live in the committed `public/assets/` folder. Authored specs live in `specs/`. Build outputs go to `public/generated/` (gitignored).
 
 ```
-content/                    assets/                      generated/
-  characters/*.json  ──┐      props/                       sprites/*.png
-  rooms/*.json       ──┤      tilesets/                    characters/*.json
-  ink/*.ink         ──┤      bg.png, logo.png             ink/*.json
-                       ▼                                   registry.json
+specs/                      public/assets/               public/generated/
+  characters/*.json  ──┐      props/                      sprites/*.png
+  rooms/*.json       ──┤      tilesets/                   characters/*.json
+  ink/*.ink         ──┤      bg.png, logo.png            ink/*.json
+                       ▼                                  registry/
                  ┌──────────────────────────────────────────────────┐
                  │              npm run prepare:content              │
-                 │  fetch-vendor → build:chars → gen:sprites →       │
-                 │  compile:ink → build:tiled → build:asset-index →  │
-                 │  sync:public → validate                           │
+                 │  fetch-vendor → import:scotus → import:lpc →      │
+                 │  build:chars → gen:sprites → compile:ink →        │
+                 │  build:tiled → build:levels → build:asset-index → │
+                 │  validate                                         │
                  └──────────────────────────────────────────────────┘
                                       ▼
-                               public/assets/     (synced from assets/)
-                               public/generated/  (synced from generated/)
+                               public/ (runtime root)
 ```
 
 ## Directory Structure
 
 ```
-assets/                       # ✅ COMMITTED - All static assets
+public/assets/                # ✅ COMMITTED - All static assets
 ├── bg.png                   # Background image
 ├── logo.png                 # Game logo
 ├── props/                   # Props and decorations
@@ -37,26 +37,25 @@ assets/                       # ✅ COMMITTED - All static assets
     ├── lpc/               # LPC-standard tiles
     └── scotus_exterior_building_pack_v2/  # SCOTUS architecture
 
+specs/                        # ✅ COMMITTED - Authored specs
+├── characters/              # Character JSON specs
+├── ink/                     # Ink dialogue sources
+├── rooms/                   # Room specs
+└── room_entries/            # Room entry bridge specs
+
+public/content/               # ✅ COMMITTED - Direct-serve content
+└── tiled/                   # Tiled maps + templates + tilesets
+
+public/generated/            # ❌ GITIGNORED - Build outputs
+├── sprites/                 # Character spritesheets
+├── characters/              # Processed character JSON
+├── ink/                     # Compiled dialogue JSON
+├── portraits/               # Character portraits
+└── registry/                # Registry + asset index
+
 vendor/                      # ❌ GITIGNORED - Large generators only
-└── lpc/Universal-LPC-...   # ULPC Character Generator (~915MB)
-
-generated/                   # ❌ GITIGNORED - Build outputs
-├── sprites/                # Character spritesheets
-├── characters/             # Processed character JSON
-├── ink/                    # Compiled dialogue JSON
-├── portraits/              # Character portraits
-├── registry.json           # Runtime registry
-└── asset_index.ndjson      # Asset search index
+└── lpc/Universal-LPC-...    # ULPC Character Generator (~915MB)
 ```
-
-## Asset Groups
-
-| Group | Count | Description |
-|-------|-------|-------------|
-| **props/** | ~200 files | Interactive objects (legal, office, exterior) |
-| **tilesets/** | ~240 files | LPC tiles + custom SCOTUS architecture |
-| **characters/** | Generated | LPC-style 64×64 character sheets |
-| **sprites/** | Generated | Individual sprites/animations |
 
 ## Commands
 
@@ -66,21 +65,23 @@ npm run prepare:content
 
 # Individual steps
 npm run fetch-vendor        # Clone ULPC generator (first time only)
+npm run import:scotus       # Import SCOTUS source packs
+npm run import:lpc          # Import LPC source packs
 npm run build:chars         # Generate character JSON
 npm run gen:sprites         # Generate character spritesheets
 npm run compile:ink         # Compile Ink dialogue
-npm run build:tiled         # Build Tiled tilesets
+npm run build:tiled         # Validate + compile Tiled maps
+npm run build:levels        # Build unified level index
 npm run build:asset-index   # Index all assets
-npm run sync:public         # Sync to public/
 npm run validate            # Validate content
 ```
 
 ## Adding New Assets
 
-1. **Props**: Add PNG to `assets/props/<category>/`
-2. **Tilesets**: Add atlas PNG to `assets/tilesets/<pack>/`
-3. **Characters**: Add spec to `content/characters/`, run `npm run build:chars && npm run gen:sprites`
-4. **Tiled rooms**: Add TMX to `public/content/tiled/rooms/`
+1. **Props**: Add PNG to `public/assets/props/<category>/`
+2. **Tilesets**: Add atlas PNG to `public/assets/tilesets/<pack>/`
+3. **Characters**: Add spec to `specs/characters/`, run `npm run build:chars && npm run gen:sprites`
+4. **Tiled rooms**: Add JSON to `public/content/tiled/<pack>/`
 
 ## Validation
 

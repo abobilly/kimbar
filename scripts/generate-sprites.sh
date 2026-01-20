@@ -14,8 +14,8 @@ set -e
 # Paths (Windows paths converted to WSL mount points)
 PROJECT_ROOT="/mnt/c/Users/andre/lawchuck/badgey.org/kimbar"
 VENDOR_ULPC="$PROJECT_ROOT/vendor/lpc/Universal-LPC-Spritesheet-Character-Generator"
-CHAR_DIR="$PROJECT_ROOT/content/characters"
-OUTPUT_DIR="$PROJECT_ROOT/generated/sprites"
+CHAR_DIR="$PROJECT_ROOT/specs/characters"
+OUTPUT_DIR="$PROJECT_ROOT/public/generated/sprites"
 
 # Colors for output
 RED='\033[0;31m'

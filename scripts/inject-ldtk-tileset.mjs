@@ -10,7 +10,7 @@ import fs from 'fs';
 import path from 'path';
 
 const LDTK_DIR = 'public/content/ldtk';
-const TILESET_META_PATH = 'private/generated/tilesets/scotus_tiles.json';
+const TILESET_META_PATH = 'public/generated/tilesets/scotus_tiles.json';
 const TILESET_REL_PATH = '../../generated/tilesets/scotus_tiles.png';
 
 // Load tileset metadata
@@ -44,26 +44,26 @@ let updated = 0;
 for (const filename of ldtkFiles) {
   const filepath = path.join(LDTK_DIR, filename);
   const content = JSON.parse(fs.readFileSync(filepath, 'utf-8'));
-  
+
   // Check if tileset already exists
   const existing = content.defs?.tilesets?.find(t => t.identifier === 'SCOTUS_Tiles');
   if (existing) {
     console.log(`⏭️  ${filename}: tileset already present`);
     continue;
   }
-  
+
   // Add tileset to defs
   if (!content.defs) content.defs = {};
   if (!content.defs.tilesets) content.defs.tilesets = [];
   content.defs.tilesets.push(tilesetDef);
-  
+
   // Update Floor layer to reference the tileset
   const floorLayer = content.defs?.layers?.find(l => l.identifier === 'Floor');
   if (floorLayer) {
     floorLayer.tilesetDefUid = 500;
     floorLayer.autoTilesetDefUid = 500;
   }
-  
+
   // Write back
   fs.writeFileSync(filepath, JSON.stringify(content, null, 2));
   console.log(`✅ ${filename}: tileset injected`);
@@ -77,5 +77,5 @@ const tileLookup = {};
 for (const [name, info] of Object.entries(tilesetMeta.tiles)) {
   tileLookup[name] = info.index;
 }
-fs.writeFileSync('private/generated/tilesets/tile_lookup.json', JSON.stringify(tileLookup, null, 2));
+fs.writeFileSync('public/generated/tilesets/tile_lookup.json', JSON.stringify(tileLookup, null, 2));
 console.log('✅ Created tile_lookup.json for easy tile ID → index mapping');

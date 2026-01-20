@@ -2,7 +2,7 @@
 /**
  * scripts/create-character.js
  * 
- * Generates a new NPC definition file in content/characters/
+ * Generates a new NPC definition file in specs/characters/
  * with randomized or specified LPC attributes.
  * 
  * Usage:
@@ -61,7 +61,7 @@ function parseArgs() {
   for (const arg of args) {
     if (arg.startsWith('--')) {
       const [key, val] = arg.slice(2).split('=');
-      
+
       if (key === 'role') config.role = val;
       else if (key === 'id') config.id = val;
       else if (OPTIONS[key]) {
@@ -75,7 +75,7 @@ function parseArgs() {
 
 function generateRandomAttributes(base = {}) {
   const gender = base.body || pick(['male', 'female']);
-  
+
   return {
     body: gender,
     skin: base.skin || pick(OPTIONS.skin),
@@ -97,7 +97,7 @@ function normalizeId(name) {
 
 function main() {
   const config = parseArgs();
-  
+
   if (!config.name) {
     console.error('Error: Character name is required');
     process.exit(1);
@@ -122,10 +122,10 @@ function main() {
       "idle_left": { "frames": [104], "frameRate": 1, "repeat": 0 },
       "idle_down": { "frames": [117], "frameRate": 1, "repeat": 0 },
       "idle_right": { "frames": [130], "frameRate": 1, "repeat": 0 },
-      "walk_up": { "frames": [91,92,93,94,95,96,97,98,99], "frameRate": 10, "repeat": -1 },
-      "walk_left": { "frames": [104,105,106,107,108,109,110,111,112], "frameRate": 10, "repeat": -1 },
-      "walk_down": { "frames": [117,118,119,120,121,122,123,124,125], "frameRate": 10, "repeat": -1 },
-      "walk_right": { "frames": [130,131,132,133,134,135,136,137,138], "frameRate": 10, "repeat": -1 }
+      "walk_up": { "frames": [91, 92, 93, 94, 95, 96, 97, 98, 99], "frameRate": 10, "repeat": -1 },
+      "walk_left": { "frames": [104, 105, 106, 107, 108, 109, 110, 111, 112], "frameRate": 10, "repeat": -1 },
+      "walk_down": { "frames": [117, 118, 119, 120, 121, 122, 123, 124, 125], "frameRate": 10, "repeat": -1 },
+      "walk_right": { "frames": [130, 131, 132, 133, 134, 135, 136, 137, 138], "frameRate": 10, "repeat": -1 }
     },
     "metadata": {
       "role": config.role,
@@ -133,10 +133,10 @@ function main() {
     }
   };
 
-  const outputPath = join('content', 'characters', `${id}.json`);
-  
+  const outputPath = join('specs', 'characters', `${id}.json`);
+
   writeFileSync(outputPath, JSON.stringify(charSpec, null, 4));
-  
+
   console.log(`\n✅ Created character spec: ${outputPath}`);
   console.log(`   ID: ${id}`);
   console.log('   Attributes:', ulpcArgs);

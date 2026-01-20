@@ -36,7 +36,7 @@ except ImportError:
 
 SERVER_URL = os.environ.get("PIXEL_MCP_URL", "https://pixel-mcp-server-production.up.railway.app")
 SSE_ENDPOINT = f"{SERVER_URL}/sse"
-OUTPUT_DIR = Path("private/generated/tiles")
+OUTPUT_DIR = Path("public/generated/tiles")
 TIMEOUT_SECONDS = 180  # AI generation needs more time
 
 class GenerationMode(Enum):
@@ -838,13 +838,13 @@ async def process_batch(
 
 def main():
     parser = argparse.ArgumentParser(description="Batch tile generator for pixel-mcp")
-    parser.add_argument("--manifest", "-m", default="content/ai_jobs/tileset_manifest.json",
+    parser.add_argument("--manifest", "-m", default="specs/ai_jobs/tileset_manifest.json",
                         help="Path to tileset manifest JSON")
     parser.add_argument("--priority", "-p", help="Filter by priority (P0, P1, etc.)")
     parser.add_argument("--tile", "-t", help="Filter by tile ID substring")
     parser.add_argument("--mode", choices=["ai", "procedural", "hybrid"],
                         default="ai", help="Generation mode (default: ai)")
-    parser.add_argument("--output", "-o", default="generated/tiles",
+    parser.add_argument("--output", "-o", default="public/generated/tiles",
                         help="Output directory for generated PNGs")
     parser.add_argument("--dry-run", "-n", action="store_true",
                         help="List tiles without generating")

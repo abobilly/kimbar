@@ -13,8 +13,8 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const INDEX_PATH = join(__dirname, '..', 'private', 'generated', 'asset_index.ndjson');
-const QUARANTINE_PATH = join(__dirname, '..', 'private', 'generated', 'quarantine.ndjson');
+const INDEX_PATH = join(__dirname, '..', 'public', 'generated', 'registry', 'assets.ndjson');
+const QUARANTINE_PATH = join(__dirname, '..', 'public', 'generated', 'registry', 'quarantine.ndjson');
 
 /**
  * Load an NDJSON file
@@ -41,15 +41,15 @@ async function loadNdjson(path) {
 async function loadIndex() {
   const passing = await loadNdjson(INDEX_PATH);
   const quarantine = await loadNdjson(QUARANTINE_PATH);
-  
+
   if (passing.length === 0 && quarantine.length === 0) {
     console.error('❌ Asset index not found. Run: npm run build:asset-index');
     process.exit(1);
   }
-  
+
   // Mark quarantine assets
   quarantine.forEach(a => a._quarantine = true);
-  
+
   return [...passing, ...quarantine];
 }
 
@@ -65,10 +65,10 @@ function scoreAsset(asset, queryTerms) {
     asset.kind || '',
     ...(asset.tags || [])
   ].join(' ').toLowerCase();
-  
+
   for (const term of queryTerms) {
     const lowerTerm = term.toLowerCase();
-    
+
     // Exact ID match = highest score
     if (asset.id?.toLowerCase() === lowerTerm) {
       score += 100;
@@ -77,23 +77,23 @@ function scoreAsset(asset, queryTerms) {
     else if (asset.id?.toLowerCase().includes(lowerTerm)) {
       score += 50;
     }
-    
+
     // Tag match
     if (asset.tags?.some(t => t.toLowerCase() === lowerTerm)) {
       score += 30;
     }
-    
+
     // Kind match
     if (asset.kind?.toLowerCase().includes(lowerTerm)) {
       score += 20;
     }
-    
+
     // Path/label contains term
     if (searchable.includes(lowerTerm)) {
       score += 10;
     }
   }
-  
+
   return score;
 }
 
@@ -109,14 +109,14 @@ function generateSnippet(asset) {
   "frameHeight": ${asset.frameHeight || 64}
 }`;
   }
-  
+
   if (asset.tags?.includes('portrait')) {
     return `{
   "id": "${asset.id}",
   "portraitUrl": "${asset.url || asset.path}"
 }`;
   }
-  
+
   return `{
   "id": "${asset.id}",
   "path": "${asset.path}"
@@ -128,7 +128,7 @@ function generateSnippet(asset) {
  */
 async function main() {
   const query = process.argv.slice(2).join(' ').trim();
-  
+
   if (!query) {
     console.log('Usage: npm run assets:search -- "<query>"');
     console.log('\nExamples:');
@@ -137,30 +137,30 @@ async function main() {
     console.log('  npm run assets:search -- "character spritesheet"');
     process.exit(0);
   }
-  
+
   console.log(`🔍 Searching for: "${query}"\n`);
-  
+
   const index = await loadIndex();
   const terms = query.split(/\s+/).filter(Boolean);
-  
+
   // Score and rank results
   const scored = index
     .map(asset => ({ asset, score: scoreAsset(asset, terms) }))
     .filter(r => r.score > 0)
     .sort((a, b) => b.score - a.score);
-  
+
   if (scored.length === 0) {
     console.log('No matching assets found.\n');
     console.log('Try: npm run assets:search -- "lpc" or "sprite"');
     process.exit(0);
   }
-  
+
   // Show top 10 results
   const top = scored.slice(0, 10);
-  
+
   console.log(`Found ${scored.length} result(s). Top ${top.length}:\n`);
   console.log('─'.repeat(60));
-  
+
   for (const { asset, score } of top) {
     const status = asset._quarantine ? '⚠️' : '✅';
     console.log(`\n${status} ${asset.id}`);
@@ -174,7 +174,7 @@ async function main() {
     console.log(generateSnippet(asset).split('\n').map(l => '   ' + l).join('\n'));
     console.log('\n' + '─'.repeat(60));
   }
-  
+
   if (scored.length > 10) {
     console.log(`\n... and ${scored.length - 10} more result(s)`);
   }

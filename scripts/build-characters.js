@@ -3,17 +3,17 @@
  * Build Characters - Compiles character specs and generates registry.json
  *
  * This script:
- * - Reads base config from content/registry_config.json
- * - Reads character specs from content/characters/
- * - Copies compiled specs to generated/characters/
- * - Reads room entries from content/room_entries/ (explicit RoomEntry specs)
+ * - Reads base config from specs/registry_config.json
+ * - Reads character specs from specs/characters/
+ * - Copies compiled specs to public/generated/characters/
+ * - Reads room entries from specs/room_entries/ (explicit RoomEntry specs)
  * - Scans public/content/cards/ for flashcard packs
- * - Scans content/ink/ for ink stories
- * - Generates generated/registry.json with all entries
+ * - Scans specs/ink/ for ink stories
+ * - Generates public/generated/registry/content.json with all entries
  *
  * INVARIANT: Room registration is explicit. No scanning LDtk directories.
- *   - content/room_entries/ → RoomEntry schema (bridge to existing LDtk rooms)
- *   - content/rooms/        → RoomSpec schema (future Tiled-authored rooms)
+ *   - specs/room_entries/ → RoomEntry schema (bridge to existing LDtk rooms)
+ *   - specs/rooms/        → RoomSpec schema (future Tiled-authored rooms)
  *
  * PNG generation is handled by gen:sprites (generate-sprites.mjs)
  *
@@ -24,16 +24,16 @@ import { readdir, readFile, writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join, basename, extname } from 'path';
 
-const CONTENT_DIR = './content/characters';
-const GENERATED_DIR = './private/generated';
-const CHARS_OUTPUT_DIR = './private/generated/characters';
-const REGISTRY_CONFIG_PATH = './content/registry_config.json';
-// NOTE: LDTK_DIR removed - room discovery is explicit via content/room_entries/, not LDtk scanning
+const CONTENT_DIR = './specs/characters';
+const GENERATED_DIR = './public/generated';
+const CHARS_OUTPUT_DIR = './public/generated/characters';
+const REGISTRY_CONFIG_PATH = './specs/registry_config.json';
+// NOTE: LDTK_DIR removed - room discovery is explicit via specs/room_entries/, not LDtk scanning
 const FLASHCARDS_DIR = './public/content/cards';
-const INK_SOURCE_DIR = './content/ink';
-const AI_MANIFEST_PATH = './private/generated/ai-manifest.json';
-const PROPS_DIR = './vendor/props';
-const TILESET_REGISTRY_PATH = './content/tilesets/tilesets.json';
+const INK_SOURCE_DIR = './specs/ink';
+const AI_MANIFEST_PATH = './public/generated/ai-manifest.json';
+const PROPS_DIR = './public/assets/props';
+const TILESET_REGISTRY_PATH = './public/content/tilesets/tilesets.json';
 const PROPS_CATEGORIES = ['legal', 'exterior', 'office'];
 const PROP_SKIP_FILES = new Set(['_ Liberated Palette Ramps.png']);
 
@@ -173,14 +173,14 @@ function buildCharacterEntry(charId) {
 }
 
 /**
- * Scan content/room_entries/ for explicit RoomEntry JSON files and populate registry.
+ * Scan specs/room_entries/ for explicit RoomEntry JSON files and populate registry.
  * 
- * INVARIANT: Rooms MUST come from explicit specs in content/room_entries/*.json.
+ * INVARIANT: Rooms MUST come from explicit specs in specs/room_entries/*.json.
  * FORBIDDEN: Scanning ldtk/ directories to auto-discover rooms.
  * 
  * Directory separation:
- * - content/room_entries/ → RoomEntry schema (registry bridge entries)
- * - content/rooms/        → RoomSpec schema (Tiled authoring specs)
+ * - specs/room_entries/ → RoomEntry schema (registry bridge entries)
+ * - specs/rooms/        → RoomSpec schema (Tiled authoring specs)
  * 
  * Each RoomEntry file defines:
  * - id: unique room identifier
@@ -191,7 +191,7 @@ function buildCharacterEntry(charId) {
 async function scanRooms() {
   const rooms = [];
 
-  const ROOM_ENTRY_DIR = join(process.cwd(), 'content', 'room_entries');
+  const ROOM_ENTRY_DIR = join(process.cwd(), 'specs', 'room_entries');
   if (!existsSync(ROOM_ENTRY_DIR)) {
     console.log(`📁 No room entries directory found at ${ROOM_ENTRY_DIR}`);
     return rooms;
@@ -350,8 +350,8 @@ async function scanFlashcardPacks() {
 }
 
 /**
- * Scan content/ink/ for ink source files and create ink entries.
- * Note: The compiled JSON will be in generated/ink/ after compile-ink runs.
+ * Scan specs/ink/ for ink source files and create ink entries.
+ * Note: The compiled JSON will be in public/generated/ink/ after compile-ink runs.
  */
 async function scanInkStories() {
   const stories = [];
@@ -382,7 +382,7 @@ async function scanInkStories() {
 }
 
 /**
- * Scan vendor/props/ for procedural prop PNGs and create prop entries.
+ * Scan public/assets/props/ for prop PNGs and create prop entries.
  * Props are simple images (not spritesheets) stored by category.
  */
 async function scanProps() {
@@ -472,7 +472,7 @@ async function loadTilesetRegistry() {
 }
 
 /**
- * Load AI-generated assets from generated/ai-manifest.json if it exists.
+ * Load AI-generated assets from public/generated/ai-manifest.json if it exists.
  * Merges AI sprite entries into the registry sprites object.
  */
 async function loadAiManifest() {
@@ -626,7 +626,8 @@ async function main() {
 
   // Write registry with stable key order
   console.log('\n📝 Building registry...');
-  const registryPath = join(GENERATED_DIR, 'registry.json');
+  const registryDir = join(GENERATED_DIR, 'registry');
+  const registryPath = join(registryDir, 'content.json');
 
   // Define key order for stable output
   const orderedRegistry = {
@@ -645,7 +646,12 @@ async function main() {
     props: registry.props
   };
 
+  await mkdir(registryDir, { recursive: true });
   await writeFile(registryPath, JSON.stringify(orderedRegistry, null, 2));
+  await writeFile(
+    join(registryDir, 'characters.json'),
+    JSON.stringify(orderedRegistry.characters ?? [], null, 2)
+  );
   console.log(`  ✅ Wrote: ${registryPath}`);
 
   console.log('\n' + '='.repeat(50));

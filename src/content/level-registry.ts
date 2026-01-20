@@ -2,15 +2,26 @@
  * Level Registry — Registry-based level lookup
  * 
  * Provides registry-driven access to compiled LevelData files.
- * Paths are derived from convention, not hardcoded.
+ * Paths are derived from the generated level index when available.
  * 
  * INVARIANT: No hardcoded /content/... paths in runtime code.
  * All level paths are derived from level IDs via convention.
  * 
- * Convention: Level ID "pack/room" → "/generated/levels/pack/room.json"
+ * Convention (fallback): Level ID "pack/room" → "/generated/levels/tiled/pack/room.json"
  */
 
 import type { LevelEntry } from '@/types/level-data';
+
+export interface LevelIndexEntry {
+  source: 'tiled' | 'ldtk';
+  url: string;
+  meta?: {
+    width?: number;
+    height?: number;
+    tileSize?: number;
+    environment?: string;
+  };
+}
 
 // ============================================================
 // Configuration (convention-based path derivation)
@@ -27,11 +38,11 @@ const LEVEL_EXTENSION = '.json';
 // ============================================================
 
 /**
- * Level manifest cache.
- * This is populated either by loading generated/levels/manifest.json
- * or by scanning known level IDs.
+ * Level index cache.
+ * This is populated by loading generated/levels/index.json
+ * or by falling back to known level IDs.
  */
-let levelManifest: Map<string, LevelEntry> | null = null;
+let levelIndex: Map<string, LevelIndexEntry> | null = null;
 
 /**
  * Known room packs and their levels.
@@ -54,19 +65,23 @@ const KNOWN_ROOM_PACKS: Record<string, string[]> = {
  * 
  * @example
  * getLevelPath("supreme-court/lobby")
- * // → "/generated/levels/supreme-court/lobby.json"
+ * // → "/generated/levels/tiled/supreme-court/lobby.json"
  */
 export function getLevelPath(levelId: string): string {
   // Validate level ID format (pack/room or just room)
   if (!levelId || typeof levelId !== 'string') {
     throw new Error(`[LevelRegistry] Invalid level ID: ${levelId}`);
   }
-  
-  // Derive path from convention
-  const path = `${LEVELS_BASE_PATH}/${levelId}${LEVEL_EXTENSION}`;
-  
+
+  if (levelIndex?.has(levelId)) {
+    return levelIndex.get(levelId)!.url;
+  }
+
+  // Derive path from convention (fallback)
+  const path = `${LEVELS_BASE_PATH}/tiled/${levelId}${LEVEL_EXTENSION}`;
+
   console.log(`[LevelRegistry] Resolved level path: ${levelId} → ${path}`);
-  
+
   return path;
 }
 
@@ -76,20 +91,20 @@ export function getLevelPath(levelId: string): string {
  * @returns Array of level IDs (e.g., ["supreme-court/lobby", "supreme-court/hallway"])
  */
 export function getAllLevelIds(): string[] {
-  // First, try to use the manifest if loaded
-  if (levelManifest) {
-    return Array.from(levelManifest.keys()).sort();
+  // First, try to use the index if loaded
+  if (levelIndex) {
+    return Array.from(levelIndex.keys()).sort();
   }
-  
+
   // Fall back to known room packs
   const levelIds: string[] = [];
-  
+
   for (const [pack, rooms] of Object.entries(KNOWN_ROOM_PACKS)) {
     for (const room of rooms) {
       levelIds.push(`${pack}/${room}`);
     }
   }
-  
+
   return levelIds.sort();
 }
 
@@ -100,10 +115,8 @@ export function getAllLevelIds(): string[] {
  * @returns Level entry metadata or undefined if not found
  */
 export function getLevelEntry(levelId: string): LevelEntry | undefined {
-  if (levelManifest) {
-    return levelManifest.get(levelId);
-  }
-  
+  // No LevelEntry metadata in index yet; fallback below.
+
   // Generate entry from known packs
   const parts = levelId.split('/');
   if (parts.length === 2) {
@@ -116,7 +129,7 @@ export function getLevelEntry(levelId: string): LevelEntry | undefined {
       };
     }
   }
-  
+
   return undefined;
 }
 
@@ -127,17 +140,17 @@ export function getLevelEntry(levelId: string): LevelEntry | undefined {
  * @returns True if level is known to exist
  */
 export function hasLevel(levelId: string): boolean {
-  if (levelManifest) {
-    return levelManifest.has(levelId);
+  if (levelIndex) {
+    return levelIndex.has(levelId);
   }
-  
+
   // Check known packs
   const parts = levelId.split('/');
   if (parts.length === 2) {
     const [pack, room] = parts;
     return KNOWN_ROOM_PACKS[pack]?.includes(room) ?? false;
   }
-  
+
   return false;
 }
 
@@ -148,18 +161,17 @@ export function hasLevel(levelId: string): boolean {
  * @returns Array of level IDs in the pack
  */
 export function getLevelsInPack(packId: string): string[] {
-  if (levelManifest) {
-    return Array.from(levelManifest.entries())
-      .filter(([, entry]) => entry.pack === packId)
-      .map(([id]) => id)
+  if (levelIndex) {
+    return Array.from(levelIndex.keys())
+      .filter((id) => id.startsWith(`${packId}/`))
       .sort();
   }
-  
+
   const rooms = KNOWN_ROOM_PACKS[packId];
   if (rooms) {
     return rooms.map(room => `${packId}/${room}`).sort();
   }
-  
+
   return [];
 }
 
@@ -169,17 +181,23 @@ export function getLevelsInPack(packId: string): string[] {
  * @returns Array of pack IDs
  */
 export function getAllPackIds(): string[] {
-  if (levelManifest) {
+  if (levelIndex) {
     const packs = new Set<string>();
-    for (const entry of levelManifest.values()) {
-      if (entry.pack) {
-        packs.add(entry.pack);
-      }
+    for (const id of levelIndex.keys()) {
+      const [pack] = id.split('/');
+      if (pack) packs.add(pack);
     }
     return Array.from(packs).sort();
   }
-  
+
   return Object.keys(KNOWN_ROOM_PACKS).sort();
+}
+
+/**
+ * Get the index entry (source + url) for a level id.
+ */
+export function getLevelIndexEntry(levelId: string): LevelIndexEntry | undefined {
+  return levelIndex?.get(levelId);
 }
 
 /**
@@ -190,25 +208,25 @@ export function getAllPackIds(): string[] {
  */
 export async function loadLevelManifest(): Promise<void> {
   try {
-    const manifestPath = `${LEVELS_BASE_PATH}/manifest.json`;
+    const manifestPath = `${LEVELS_BASE_PATH}/index.json`;
     const response = await fetch(manifestPath);
-    
+
     if (!response.ok) {
-      console.warn(`[LevelRegistry] Manifest not found at ${manifestPath}, using fallback`);
+      console.warn(`[LevelRegistry] Index not found at ${manifestPath}, using fallback`);
       initializeFallbackManifest();
       return;
     }
-    
-    const data = await response.json() as { levels: LevelEntry[] };
-    levelManifest = new Map();
-    
-    for (const entry of data.levels) {
-      levelManifest.set(entry.id, entry);
+
+    const data = await response.json() as { levels: Record<string, LevelIndexEntry> };
+    levelIndex = new Map();
+
+    for (const [id, entry] of Object.entries(data.levels || {})) {
+      levelIndex.set(id, entry);
     }
-    
-    console.log(`[LevelRegistry] Loaded manifest with ${levelManifest.size} levels`);
+
+    console.log(`[LevelRegistry] Loaded index with ${levelIndex.size} levels`);
   } catch (error) {
-    console.warn('[LevelRegistry] Failed to load manifest, using fallback:', error);
+    console.warn('[LevelRegistry] Failed to load index, using fallback:', error);
     initializeFallbackManifest();
   }
 }
@@ -219,10 +237,10 @@ export async function loadLevelManifest(): Promise<void> {
  * @param entry Level entry to register
  */
 export function registerLevel(entry: LevelEntry): void {
-  if (!levelManifest) {
-    levelManifest = new Map();
+  if (!levelIndex) {
+    levelIndex = new Map();
   }
-  levelManifest.set(entry.id, entry);
+  levelIndex.set(entry.id, { source: 'tiled', url: getLevelPath(entry.id) });
   console.log(`[LevelRegistry] Registered level: ${entry.id}`);
 }
 
@@ -230,7 +248,7 @@ export function registerLevel(entry: LevelEntry): void {
  * Clear the level manifest (for testing).
  */
 export function clearLevelManifest(): void {
-  levelManifest = null;
+  levelIndex = null;
 }
 
 // ============================================================
@@ -241,20 +259,19 @@ export function clearLevelManifest(): void {
  * Initialize the manifest from known room packs.
  */
 function initializeFallbackManifest(): void {
-  levelManifest = new Map();
-  
+  levelIndex = new Map();
+
   for (const [pack, rooms] of Object.entries(KNOWN_ROOM_PACKS)) {
     for (const room of rooms) {
       const id = `${pack}/${room}`;
-      levelManifest.set(id, {
-        id,
-        displayName: formatDisplayName(room),
-        pack
+      levelIndex.set(id, {
+        source: 'tiled',
+        url: `${LEVELS_BASE_PATH}/tiled/${id}${LEVEL_EXTENSION}`
       });
     }
   }
-  
-  console.log(`[LevelRegistry] Initialized fallback manifest with ${levelManifest.size} levels`);
+
+  console.log(`[LevelRegistry] Initialized fallback index with ${levelIndex.size} levels`);
 }
 
 /**

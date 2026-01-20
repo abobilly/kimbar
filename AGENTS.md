@@ -19,7 +19,7 @@ TypeScript + Phaser 3 + Vite game for bar exam prep.
 - Loading `/content/...` via hardcoded paths (except central loader module)
 - Adding UI elements directly to world display list
 - Bypassing schemas/contracts
-- Committing to `generated/` or `public/generated/`
+- Committing to `public/generated/`
 
 ## Commands
 
@@ -34,13 +34,13 @@ TypeScript + Phaser 3 + Vite game for bar exam prep.
 
 | Type | Authored Location | Generated Location |
 |------|-------------------|-------------------|
-| Characters | `content/characters/*.json` | `generated/characters/*.json` |
-| Rooms | `content/rooms/*.json` | — |
-| Ink dialogue | `content/ink/*.ink` | `generated/ink/*.json` |
+| Characters | `specs/characters/*.json` | `public/generated/characters/*.json` |
+| Rooms | `specs/rooms/*.json` | — |
+| Ink dialogue | `specs/ink/*.ink` | `public/generated/ink/*.json` |
 | Flashcards | `public/content/cards/*.json` | — |
-| Sprites | character specs | `generated/sprites/*.png` |
-| Tiled rooms | `public/content/tiled/rooms/*.tmx` | — |
-| Tilesets (static) | `assets/tilesets/` | — |
+| Sprites | character specs | `public/generated/sprites/*.png` |
+| Tiled rooms | `public/content/tiled/**/*.json` | — |
+| Tilesets (static) | `public/assets/tilesets/` | — |
 
 ## Key Documentation
 
@@ -115,7 +115,7 @@ When using Gemini CLI with MCP Toolbox:
 ### Codex (SQL Queries)
 
 When using Codex with database access:
-- **Database**: `generated/content.db` (SQLite)
+- **Database**: `public/generated/content.db` (SQLite)
 - **Sync**: `npm run db:sync` (run first to ensure DB is fresh)
 
 **Schema:**

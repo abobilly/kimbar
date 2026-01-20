@@ -6,8 +6,8 @@ Usage:
     python scripts/assemble-tileset.py
     
 Output:
-    generated/tilesets/scotus_tiles.png - Combined tileset image
-    generated/tilesets/scotus_tiles.json - Tile index mapping
+    public/generated/tilesets/scotus_tiles.png - Combined tileset image
+    public/generated/tilesets/scotus_tiles.json - Tile index mapping
 """
 
 import json
@@ -17,9 +17,9 @@ from PIL import Image
 
 TILE_SIZE = 32
 TILES_PER_ROW = 16  # 16 * 32 = 512px wide (reasonable texture size)
-INPUT_DIR = Path("generated/tiles")
-OUTPUT_DIR = Path("generated/tilesets")
-MANIFEST_PATH = Path("content/ai_jobs/tileset_manifest.json")
+INPUT_DIR = Path("public/generated/tiles")
+OUTPUT_DIR = Path("public/generated/tilesets")
+MANIFEST_PATH = Path("specs/ai_jobs/tileset_manifest.json")
 
 
 def main():

@@ -3,9 +3,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOMS_DIR = path.join(__dirname, '../content/rooms');
+const ROOMS_DIR = path.join(__dirname, '../specs/rooms');
 const OUTPUT_DIR = path.join(__dirname, '../public/content/ldtk');
-const PLACEMENT_DRAFT_PATH = path.join(__dirname, '../content/placement_drafts/prop_placements.json');
+const PLACEMENT_DRAFT_PATH = path.join(__dirname, '../specs/placement_drafts/prop_placements.json');
 const TILE_SIZE = 32;
 const TILE_MAPPING_PATH = path.join(__dirname, '../public/content/ldtk/_tile_mapping.json');
 
@@ -396,7 +396,7 @@ roomFiles.forEach(file => {
     // ldtk-normalizer logic: 
     // if __worldX/Y undefined, check px. if px undefined, check __grid.
     // We will provide __grid and px for completeness.
-    
+
     // LDtk Entity default pivot is (0.5, 1) -> Bottom Center.
     // If we put it at Grid(x,y), the pixel coord is:
     // x = gridX * 32
@@ -404,7 +404,7 @@ roomFiles.forEach(file => {
     // But since pivot is (0.5, 1), the "position" in LDtk editor terms usually refers to that pivot point.
     // Let's stick to simple Top-Left grid mapping if possible, but LDtk is specific.
     // We will inject `__grid` which normalizer supports.
-    
+
     return {
       __identifier: ent.type,
       __grid: [ent.x, ent.y],
@@ -451,10 +451,10 @@ roomFiles.forEach(file => {
   // Create an empty grid
   const gridCount = roomSpec.width * roomSpec.height;
   const collisionsCsv = new Array(gridCount).fill(0);
-  
+
   // Fill boundaries if desired? No, just empty for now unless we want to assume walls.
   // Let's leave it empty (0) to match the spec which doesn't specify collisions explicitly in grid.
-  
+
   level.layerInstances.push({
     __identifier: "Collisions",
     __type: "IntGrid",

@@ -6,8 +6,7 @@
  *   node scripts/compile-ink.mjs
  *   npm run compile:ink
  *
- * Compiles all .ink files in content/ink/ to generated/ink/*.json
- * These are then synced to public/generated/ink/ by sync:public
+ * Compiles all .ink files in specs/ink/ to public/generated/ink/*.json
  */
 
 import { readFile, writeFile, mkdir, readdir } from 'fs/promises';
@@ -25,8 +24,8 @@ try {
   process.exit(1);
 }
 
-const INK_SOURCE_DIR = './content/ink';
-const JSON_OUTPUT_DIR = './generated/ink';
+const INK_SOURCE_DIR = './specs/ink';
+const JSON_OUTPUT_DIR = './public/generated/ink';
 
 async function compileInkFile(sourceFile, outputFile) {
   console.log(`[INFO] Reading: ${sourceFile}`);
@@ -87,7 +86,7 @@ async function compileAllInk() {
   const inkFiles = files.filter(f => f.endsWith('.ink'));
 
   if (inkFiles.length === 0) {
-    console.warn('⚠️ No .ink files found in content/ink/');
+    console.warn('⚠️ No .ink files found in specs/ink/');
     return;
   }
 

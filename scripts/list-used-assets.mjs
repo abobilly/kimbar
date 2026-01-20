@@ -3,17 +3,17 @@
  * List used assets based on LDtk content + registry mappings.
  *
  * Usage:
- *   node scripts/list-used-assets.mjs --format md --output generated/used_assets.md
+ *   node scripts/list-used-assets.mjs --format md --output artifacts/used_assets.md
  *   node scripts/list-used-assets.mjs --format json
  */
 
-import { readFile, readdir, writeFile } from 'fs/promises';
+import { readFile, readdir, writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
 
-const REGISTRY_PATH = './private/generated/registry.json';
-const REGISTRY_CONFIG_PATH = './content/registry_config.json';
-const ROOM_SPEC_DIR = './content/rooms';
+const REGISTRY_PATH = './public/generated/registry/content.json';
+const REGISTRY_CONFIG_PATH = './specs/registry_config.json';
+const ROOM_SPEC_DIR = './specs/rooms';
 const LDTK_DIR = './public/content/ldtk';
 
 // NOTE: UI sprite IDs removed - A1 migration to code-first UIPanel/UIButton primitives
@@ -318,6 +318,7 @@ async function main() {
 
   const payload = format === 'json' ? JSON.stringify(result, null, 2) : renderMarkdown(result);
   if (output) {
+    await mkdir(path.dirname(output), { recursive: true });
     await writeFile(output, payload);
   }
   process.stdout.write(payload + '\n');

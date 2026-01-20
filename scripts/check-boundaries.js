@@ -11,11 +11,11 @@ import { execSync } from 'child_process';
 import { readFile, access } from 'fs/promises';
 import { constants } from 'fs';
 
-const CONTRACT_PATH = './content/content_contract.json';
+const CONTRACT_PATH = './specs/content_contract.json';
 
 // Default forbidden paths if no contract
 const DEFAULT_FORBIDDEN = [
-  'private/generated/',
+  'public/generated/',
   'vendor/',
   'node_modules/',
   'public/content/art/'

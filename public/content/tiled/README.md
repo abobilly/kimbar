@@ -27,6 +27,7 @@ public/content/tiled/
 
 - `scotus_tileset_contract.json` — Master tileset contract
 - `schemas/tiled_contract.schema.json` — Contract schema
+- `schemas/tiled_room.schema.json` — Room map schema (template enforcement)
 
 ## Authoring Flow
 
@@ -40,6 +41,8 @@ public/content/tiled/
 ```
 npm run validate:tiled
 ```
+
+Validation enforces the room template + schema (layer order, size guards, and map invariants).
 
 ## Notes
 

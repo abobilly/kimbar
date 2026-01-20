@@ -1,5 +1,5 @@
 ---
-applyTo: "public/content/**,content/**,schemas/**,scripts/**,tools/**"
+applyTo: "public/content/**,specs/**,schemas/**,scripts/**,tools/**"
 ---
 
 # Content Intake / Registry Area
@@ -16,12 +16,15 @@ Streamline asset/content integration so it's:
 `npm run prepare:content` runs:
 
 1. `fetch-vendor` - Download ULPC assets
-2. `build:chars` - Compile character specs, generate registry.json
-3. `gen:sprites` - Composite LPC layers into spritesheets
-4. `compile:ink` - Compile .ink → .json
-5. `build:asset-index` - Generate asset manifest
-6. `sync:public` - Copy generated/ → public/generated/
-7. `validate` - Schema validation, cross-references
+2. `import:scotus` - Import SCOTUS sources into vendor/
+3. `import:lpc` - Import LPC packs + tileset metadata
+4. `build:chars` - Compile character specs, generate registry.json
+5. `gen:sprites` - Composite LPC layers into spritesheets
+6. `compile:ink` - Compile .ink → .json
+7. `build:tiled` - Validate + compile Tiled maps
+8. `build:levels` - Build unified level index
+9. `build:asset-index` - Generate asset manifest
+10. `validate` - Schema validation, cross-references
 
 Separately, invariants run via:
 
@@ -30,30 +33,30 @@ Separately, invariants run via:
 
 ## Rules
 
-- Registry/asset-index first: every loadable thing must be represented in the asset index or a registry under `public/content/**`.
+- Registry/asset-index first: every loadable thing must be represented in the asset index or a registry under `public/generated/registry/**`.
 - Determinism: stable sorting + stable output.
 - Schemas: prefer JSON Schema validation at `validate` time; deeper invariants in `verify`.
 - Runtime should assume content is already validated (avoid heavy validation in hot paths).
 - **Directory separation (STRICT)**: 
-  - `content/rooms/` validates against RoomSpec.schema.json ONLY (Tiled authoring specs)
-  - `content/room_entries/` validates against RoomEntry.schema.json ONLY (registry bridge entries)
+  - `specs/rooms/` validates against RoomSpec.schema.json ONLY (Tiled authoring specs)
+  - `specs/room_entries/` validates against RoomEntry.schema.json ONLY (registry bridge entries)
   - **NEVER** allow dual-schema validation in a single directory
-- **No LDtk scanning**: Room registry is populated from explicit specs in `content/room_entries/`, NOT by scanning `public/content/ldtk/` directories.
+- **No LDtk scanning**: Room registry is populated from explicit specs in `specs/room_entries/`, NOT by scanning `public/content/ldtk/` directories.
 
 ## Room Authoring Flow
 
 ### Today (Bridge Period)
 
-1. Create/modify `content/room_entries/{room-id}.json` (RoomEntry schema)
+1. Create/modify `specs/room_entries/{room-id}.json` (RoomEntry schema)
 2. Entry points to existing LDtk file via `ldtkUrl: "/content/ldtk/{room-id}.json"`
 3. Run `npm run prepare:content` → registry.rooms is populated
 4. Run `npm run validate` → RoomEntry schema + LDtk file existence verified
 
 ### Future (Tiled-First)
 
-1. Create `content/rooms/{room-id}.json` (RoomSpec schema)
+1. Create `specs/rooms/{room-id}.json` (RoomSpec schema)
 2. Create Tiled map in `public/content/tiled/` matching the spec
-3. Run `npm run build:tiled` → compiles to `generated/levels/{room-id}.json`
+3. Run `npm run build:tiled` → compiles to `public/generated/levels/tiled/{room-id}.json`
 4. RoomSpec points to compiled LevelData, not raw LDtk
 5. Run `npm run validate` → validates RoomSpec + Tiled map + compiled output
 
@@ -66,9 +69,9 @@ Separately, invariants run via:
 ### What NOT to Do
 
 - **NEVER** scan `public/content/ldtk/` to auto-discover rooms
-- **NEVER** put RoomEntry specs in `content/rooms/` (that's for RoomSpec only)
-- **NEVER** "fix" empty `content/rooms/` by scanning directories
-- If `content/rooms/` is empty, that's expected (Tiled authoring not started)
+- **NEVER** put RoomEntry specs in `specs/rooms/` (that's for RoomSpec only)
+- **NEVER** "fix" empty `specs/rooms/` by scanning directories
+- If `specs/rooms/` is empty, that's expected (Tiled authoring not started)
 
 ## Content types and their registries
 

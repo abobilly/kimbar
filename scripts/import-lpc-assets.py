@@ -8,7 +8,7 @@ Outputs:
   - vendor/tilesets/lpc/windows-doors.png + windows-doors.objects.json
   - vendor/props/exterior/lpc_tree_*.png (32x32 downscaled)
   - vendor/props/exterior/lpc_*.png (windows/doors object crops)
-  - content/tilesets/windows-doors.parts.json (object->parts mapping)
+    - public/content/tilesets/windows-doors.parts.json (object->parts mapping)
   - docs/credits/lpc-*/CREDITS-*.txt
 """
 
@@ -24,9 +24,9 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 
-SRC_TERRAIN = ROOT / "content" / "sources" / "lpc" / "terrains-repacked"
-SRC_VICTORIAN = ROOT / "content" / "sources" / "lpc" / "victorian-preview"
-SRC_TREES = ROOT / "content" / "sources" / "lpc" / "trees"
+SRC_TERRAIN = ROOT / "specs" / "sources" / "lpc" / "terrains-repacked"
+SRC_VICTORIAN = ROOT / "specs" / "sources" / "lpc" / "victorian-preview"
+SRC_TREES = ROOT / "specs" / "sources" / "lpc" / "trees"
 
 SRC_WINDOWS_DOORS_JSON = SRC_VICTORIAN / "windows-doors.objects.json"
 SRC_WINDOWS_DOORS_PNG = SRC_VICTORIAN / "windows-doors.png"
@@ -41,7 +41,7 @@ PUBLIC_TILESETS_ROOT = ROOT / "public" / "assets" / "tilesets"
 
 DST_PROPS = ROOT / "vendor" / "props" / "exterior"
 
-DST_TILESET_MAP_DIR = ROOT / "content" / "tilesets"
+DST_TILESET_MAP_DIR = ROOT / "public" / "content" / "tilesets"
 DST_TILESET_MAP = DST_TILESET_MAP_DIR / "windows-doors.parts.json"
 DST_TILESET_REGISTRY = DST_TILESET_MAP_DIR / "tilesets.json"
 

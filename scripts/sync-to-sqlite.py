@@ -3,9 +3,9 @@ import json
 import glob
 import os
 
-DB_PATH = "private/generated/content.db"
-CHAR_GLOB = "private/generated/characters/*.json"
-INDEX_PATH = "private/generated/asset_index.ndjson"
+DB_PATH = "public/generated/content.db"
+CHAR_GLOB = "public/generated/characters/*.json"
+INDEX_PATH = "public/generated/registry/assets.ndjson"
 
 def init_db(conn):
     c = conn.cursor()

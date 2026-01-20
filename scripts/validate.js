@@ -16,27 +16,26 @@ import Ajv from 'ajv';
 
 const SCHEMA_DIR = './schemas';
 const CONTENT_DIRS = {
-  characters: './content/characters',
-  rooms: './content/rooms',
-  room_entries: './content/room_entries',
-  dialogue: './content/dialogue'
+  characters: './specs/characters',
+  rooms: './specs/rooms',
+  room_entries: './specs/room_entries',
+  dialogue: './specs/dialogue'
 };
 // Validate against the generated registry (single source of truth)
-const REGISTRY_PATH = './private/generated/registry.json';
+const REGISTRY_PATH = './public/generated/registry/content.json';
 const FLASHCARDS_DIR = './public/content/cards';
-// Ink is now generated - check both locations
-const INK_GENERATED_DIR = './private/generated/ink';
-const INK_PUBLIC_DIR = './public/generated/ink';
-const CONTRACT_PATH = './content/content_contract.json';
-const PLACEMENT_DRAFTS_DIR = './content/placement_drafts';
+// Ink is generated under public/generated
+const INK_GENERATED_DIR = './public/generated/ink';
+const CONTRACT_PATH = './specs/content_contract.json';
+const PLACEMENT_DRAFTS_DIR = './specs/placement_drafts';
 const PLACEMENT_SPEC_PATH = './docs/MISSING_ASSETS_SPEC.json';
-const TILESET_MANIFEST_PATH = './content/ai_jobs/tileset_manifest.json';
-const ROOM_TILE_REQUIREMENTS_PATH = './content/ai_jobs/room_tile_requirements.json';
-const GENERATED_TILES_DIR = './private/generated/tiles';
-const TILESET_REGISTRY_PATH = './content/tilesets/tilesets.json';
-const TILESET_PARTS_DIR = './content/tilesets';
-const WORLD_GRAPH_PATH = './content/world_graph.json';
-const ULPC_MANIFEST_PATH = './content/ulpc_manifest.json';
+const TILESET_MANIFEST_PATH = './specs/ai_jobs/tileset_manifest.json';
+const ROOM_TILE_REQUIREMENTS_PATH = './specs/ai_jobs/room_tile_requirements.json';
+const GENERATED_TILES_DIR = './public/generated/tiles';
+const TILESET_REGISTRY_PATH = './public/content/tilesets/tilesets.json';
+const TILESET_PARTS_DIR = './public/content/tilesets';
+const WORLD_GRAPH_PATH = './specs/world_graph.json';
+const ULPC_MANIFEST_PATH = './specs/ulpc_manifest.json';
 
 let hardErrors = [];
 let policySkips = [];
@@ -129,7 +128,7 @@ async function validateRegistry(schemas, contract) {
   console.log('\n📚 Validating Registry...');
 
   if (!existsSync(REGISTRY_PATH)) {
-    error('registry.json not found - run npm run prepare:content first');
+    error('registry content not found - run npm run prepare:content first');
     return null;
   }
 
@@ -467,7 +466,7 @@ async function validateWorldGraph(schemas, registry) {
   console.log('\n🗺️ Validating World Graph...');
 
   if (!existsSync(WORLD_GRAPH_PATH)) {
-    warn('World graph not found at content/world_graph.json');
+    warn('World graph not found at specs/world_graph.json');
     return;
   }
 
@@ -625,7 +624,7 @@ async function validateUlpcManifest(schemas) {
   console.log('\n🧾 Validating ULPC Manifest...');
 
   if (!existsSync(ULPC_MANIFEST_PATH)) {
-    warn('ULPC manifest not found at content/ulpc_manifest.json');
+    warn('ULPC manifest not found at specs/ulpc_manifest.json');
     return;
   }
 
@@ -660,19 +659,16 @@ async function validateInkEntries(registry) {
     return;
   }
 
-  // Determine ink directory (prefer generated, fall back to public/generated)
-  const inkDir = existsSync(INK_GENERATED_DIR) ? INK_GENERATED_DIR :
-    existsSync(INK_PUBLIC_DIR) ? INK_PUBLIC_DIR : null;
+  const inkDir = existsSync(INK_GENERATED_DIR) ? INK_GENERATED_DIR : null;
 
   for (const ink of registry.ink) {
     console.log(`  Validating ink story: ${ink.id}`);
 
     // The URL is /generated/ink/story.json, which maps to generated/ink/story.json
     // or after sync, public/generated/ink/story.json
-    const generatedPath = `generated/ink/${ink.id}.json`;
     const publicPath = `public/generated/ink/${ink.id}.json`;
 
-    const fileExists = existsSync(generatedPath) || existsSync(publicPath);
+    const fileExists = existsSync(publicPath);
 
     if (!fileExists) {
       warn(`Ink story ${ink.id}: compiled JSON not found (run npm run compile:ink)`);
@@ -681,8 +677,7 @@ async function validateInkEntries(registry) {
 
     // Try to load and check knot count
     try {
-      const inkPath = existsSync(generatedPath) ? generatedPath : publicPath;
-      const story = await loadJson(inkPath);
+      const story = await loadJson(publicPath);
       const knotCount = Object.keys(story).filter(k =>
         !['inkVersion', 'root', 'listDefs'].includes(k)
       ).length;
@@ -760,11 +755,11 @@ async function validateCharacterSpecs(schemas, contract) {
 }
 
 async function validateRoomSpecs(schemas, registry, contract) {
-  console.log('\n🏗️ Validating Room Specs (content/rooms)...');
+  console.log('\n🏗️ Validating Room Specs (specs/rooms)...');
 
   if (!existsSync(CONTENT_DIRS.rooms)) {
     // INFO: This is expected if Tiled authoring hasn't started yet
-    console.log('  ℹ️  No content/rooms directory (OK if Tiled authoring not started; room_entries provides current rooms)');
+    console.log('  ℹ️  No specs/rooms directory (OK if Tiled authoring not started; room_entries provides current rooms)');
     return;
   }
 
@@ -831,7 +826,7 @@ async function validateRoomSpecsAgainstWorldGraph() {
   }
 
   if (!existsSync(CONTENT_DIRS.rooms)) {
-    console.log('  ℹ️  No content/rooms directory - skipping validation');
+    console.log('  ℹ️  No specs/rooms directory - skipping validation');
     return;
   }
 
@@ -928,7 +923,7 @@ async function validateRoomSpecsAgainstWorldGraph() {
 }
 
 async function validateRoomEntrySpecs(schemas) {
-  console.log('\n🏛️ Validating Room Entry Specs (content/room_entries)...');
+  console.log('\n🏛️ Validating Room Entry Specs (specs/room_entries)...');
 
   if (!existsSync(CONTENT_DIRS.room_entries)) {
     warn('No room_entries directory');

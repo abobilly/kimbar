@@ -3,7 +3,7 @@
  * Tiled Map Compilation Script
  * 
  * Compiles validated Tiled JSON maps from public/content/tiled/** to
- * LevelData JSON format in generated/levels/**.
+ * LevelData JSON format in public/generated/levels/tiled/**.
  * 
  * Usage: node scripts/compile-tiled-maps.mjs
  * 
@@ -15,7 +15,7 @@ import { existsSync } from 'fs';
 import path from 'path';
 
 const BASE_DIR = path.join(process.cwd(), 'public', 'content', 'tiled');
-const OUTPUT_DIR = path.join(process.cwd(), 'private', 'generated', 'levels');
+const OUTPUT_DIR = path.join(process.cwd(), 'public', 'generated', 'levels', 'tiled');
 
 /**
  * Recursively find all JSON map files (excluding templates, tilesets, etc.)
@@ -23,19 +23,19 @@ const OUTPUT_DIR = path.join(process.cwd(), 'private', 'generated', 'levels');
  */
 async function findMapFiles(dir, baseDir = dir, depth = 0) {
   const files = [];
-  
+
   if (!existsSync(dir)) return files;
-  
+
   const entries = await readdir(dir, { withFileTypes: true });
-  
+
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
     const relativePath = path.relative(baseDir, fullPath);
-    
+
     if (entry.isDirectory()) {
       // Skip non-map directories
       if (entry.name === 'templates' || entry.name === 'tilesets' ||
-          entry.name === 'tiles' || entry.name === 'schemas' || entry.name === 'rooms') {
+        entry.name === 'tiles' || entry.name === 'schemas' || entry.name === 'rooms') {
         continue;
       }
       const nested = await findMapFiles(fullPath, baseDir, depth + 1);
@@ -47,7 +47,7 @@ async function findMapFiles(dir, baseDir = dir, depth = 0) {
       }
     }
   }
-  
+
   return files;
 }
 
@@ -106,7 +106,7 @@ function extractTileLayer(layer) {
  */
 function extractEntities(layer) {
   if (!layer || !Array.isArray(layer.objects)) return [];
-  
+
   const entities = layer.objects.map(obj => ({
     type: obj.type,
     x: obj.x,
@@ -115,14 +115,14 @@ function extractEntities(layer) {
     height: obj.height,
     properties: extractProperties(obj.properties)
   }));
-  
+
   // Deterministic sort: by type, then x, then y
   entities.sort((a, b) => {
     if (a.type !== b.type) return a.type.localeCompare(b.type);
     if (a.x !== b.x) return a.x - b.x;
     return a.y - b.y;
   });
-  
+
   return entities;
 }
 
@@ -132,16 +132,16 @@ function extractEntities(layer) {
  */
 function extractTilesets(tilesets) {
   if (!Array.isArray(tilesets)) return [];
-  
+
   const refs = tilesets.map(ts => ({
     key: deriveTilesetKey(ts.source),
     firstGid: ts.firstgid,
     source: ts.source
   }));
-  
+
   // Sort by firstGid for stability
   refs.sort((a, b) => a.firstGid - b.firstGid);
-  
+
   return refs;
 }
 
@@ -154,11 +154,11 @@ function compileMap(tiledMap, levelId) {
   for (const layer of tiledMap.layers || []) {
     layersByName.set(layer.name, layer);
   }
-  
+
   // Extract layers
   // Extract environment from map custom properties (default to 'interior')
   const mapEnvironment = getProperty(tiledMap.properties, 'environment') || 'interior';
-  
+
   const levelData = {
     id: levelId,
     width: tiledMap.width,
@@ -175,7 +175,7 @@ function compileMap(tiledMap, levelId) {
     entities: extractEntities(layersByName.get('Entities')),
     tilesets: extractTilesets(tiledMap.tilesets)
   };
-  
+
   return levelData;
 }
 
@@ -191,63 +191,63 @@ async function ensureDir(dirPath) {
 async function main() {
   console.log('🔨 Tiled Map Compilation');
   console.log('========================\n');
-  
+
   // Find all map files
   const mapFiles = await findMapFiles(BASE_DIR, BASE_DIR);
-  
+
   if (mapFiles.length === 0) {
     console.log('No JSON map files found to compile.');
     process.exit(0);
   }
-  
+
   // Sort for deterministic processing
   mapFiles.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
-  
+
   // Ensure output directory
   await ensureDir(OUTPUT_DIR);
-  
+
   let compiled = 0;
   let failed = 0;
-  
+
   for (const { path: filePath, relativePath } of mapFiles) {
     const levelId = computeLevelId(relativePath);
-    
+
     try {
       // Read and parse source map
       const content = await readFile(filePath, 'utf-8');
       const tiledMap = JSON.parse(content);
-      
+
       // Compile to LevelData
       const levelData = compileMap(tiledMap, levelId);
-      
+
       // Determine output path
       const outputPath = path.join(OUTPUT_DIR, `${levelId}.json`);
       const outputDir = path.dirname(outputPath);
-      
+
       // Ensure subdirectory exists
       await ensureDir(outputDir);
-      
+
       // Write with stable JSON formatting (2-space indent, sorted keys)
       const jsonOutput = JSON.stringify(levelData, null, 2);
       await writeFile(outputPath, jsonOutput + '\n', 'utf-8');
-      
+
       console.log(`✓ ${levelId}`);
       compiled++;
-      
+
     } catch (err) {
       console.log(`✗ ${levelId}`);
       console.log(`  ERROR: ${err.message}`);
       failed++;
     }
   }
-  
+
   // Summary
   console.log(`\nCompilation: ${compiled} succeeded, ${failed} failed`);
-  
+
   if (failed > 0) {
     process.exit(1);
   }
-  
+
   console.log(`\n✅ Compiled to ${OUTPUT_DIR}`);
   process.exit(0);
 }

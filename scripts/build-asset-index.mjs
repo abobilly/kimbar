@@ -14,19 +14,19 @@
  * Use --include-ulpc for full asset discovery (takes several minutes).
  *
  * Outputs:
- *   - generated/asset_index.ndjson (passing assets)
- *   - generated/quarantine.ndjson (failing assets)
+ *   - public/generated/registry/assets.ndjson (passing assets)
+ *   - public/generated/registry/quarantine.ndjson (failing assets)
  */
 
 import { readdir, readFile, writeFile, mkdir, stat } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join, extname, basename, dirname } from 'path';
 
-const ASSETS_DIR = './private/assets';
+const ASSETS_DIR = './public/assets';
 const VENDOR_DIR = './vendor'; // Still needed for ULPC generator lookup
-const GENERATED_DIR = './private/generated';
-const CONTRACT_PATH = './content/content_contract.json';
-const ULPC_MANIFEST_PATH = './content/ulpc_manifest.json';
+const GENERATED_DIR = './public/generated';
+const CONTRACT_PATH = './specs/content_contract.json';
+const ULPC_MANIFEST_PATH = './specs/ulpc_manifest.json';
 const ARGS = process.argv.slice(2);
 const SKIP_DIMENSIONS = ARGS.includes('--skip-dimensions') || ARGS.includes('--fast');
 const INCLUDE_ULPC = ARGS.includes('--include-ulpc');
@@ -206,7 +206,7 @@ function classifyAsset(filePath, contract) {
     return 'character_sheet';
   }
   // Generated tiles have specific naming: tile.floor.*, tile.wall.*, etc.
-  if (dir.includes('private/generated/tiles') || dir.includes('private\\generated\\tiles') || name.startsWith('tile.')) {
+  if (dir.includes('public/generated/tiles') || dir.includes('public\\generated\\tiles') || name.startsWith('tile.')) {
     return 'tile';
   }
   if (dir.includes('tileset') || dir.includes('tiles')) {
@@ -332,7 +332,7 @@ async function validateAsset(filePath, kind, contract) {
       }
 
       // Validate generated sprites
-      if (filePath.includes('private/generated/sprites/')) {
+      if (filePath.includes('public/generated/sprites/')) {
         const expectedWidth = 832;
         const expectedHeight = 1344;
 
@@ -342,7 +342,7 @@ async function validateAsset(filePath, kind, contract) {
       }
 
       // Validate portraits
-      if (filePath.includes('private/generated/portraits/')) {
+      if (filePath.includes('public/generated/portraits/')) {
         const expectedSize = 64;
         if (dimensions.width !== expectedSize || dimensions.height !== expectedSize) {
           notes.push(`portrait expected ${expectedSize}x${expectedSize}, got ${dimensions.width}x${dimensions.height}`);
@@ -350,7 +350,7 @@ async function validateAsset(filePath, kind, contract) {
       }
 
       // Validate generated tiles (must be 32x32)
-      if (filePath.includes('private/generated/tiles/') || filePath.includes('private\\generated\\tiles\\')) {
+      if (filePath.includes('public/generated/tiles/') || filePath.includes('public\\generated\\tiles\\')) {
         const expectedSize = 32;
         if (dimensions.width !== expectedSize || dimensions.height !== expectedSize) {
           notes.push(`tile expected ${expectedSize}x${expectedSize}, got ${dimensions.width}x${dimensions.height}`);
@@ -383,7 +383,7 @@ async function main() {
 
   // Scan assets directory (main static assets)
   const assetFiles = MANIFEST_ONLY ? [] : await (async () => {
-    console.log('\n📁 Scanning assets/ for static assets...');
+    console.log('\n📁 Scanning public/assets/ for static assets...');
     const results = await scanDirectory(ASSETS_DIR, [], { excludeUlpc: true });
     console.log(`   Found ${results.length} image file(s) in assets/`);
     return results;
@@ -391,16 +391,16 @@ async function main() {
 
   // Scan generated directory (sprites, portraits, tiles)
   const generatedFiles = MANIFEST_ONLY ? [] : await (async () => {
-    console.log('\n📁 Scanning private/generated/ for build outputs...');
+    console.log('\n📁 Scanning public/generated/ for build outputs...');
     const results = await scanDirectory(GENERATED_DIR, [], { excludeUlpc: false });
-    console.log(`   Found ${results.length} image file(s) in private/generated/`);
+    console.log(`   Found ${results.length} image file(s) in public/generated/`);
     return results;
   })();
 
   // Count tiles specifically
-  const tileFiles = generatedFiles.filter(f => f.includes('private/generated/tiles/') || f.includes('private\\generated\\tiles\\'));
+  const tileFiles = generatedFiles.filter(f => f.includes('public/generated/tiles/') || f.includes('public\\generated\\tiles\\'));
   if (tileFiles.length > 0) {
-    console.log(`   - ${tileFiles.length} tile(s) in private/generated/tiles/`);
+    console.log(`   - ${tileFiles.length} tile(s) in public/generated/tiles/`);
   }
 
   // ULPC opt-in via manifest
@@ -409,7 +409,7 @@ async function main() {
     console.log('\n📁 Loading ULPC manifest...');
     ulpcFiles = await resolveUlpcManifestFiles();
     if (ulpcFiles.length === 0) {
-      console.log('   ⚠️ No ULPC files matched manifest (add files/globs to content/ulpc_manifest.json)');
+      console.log('   ⚠️ No ULPC files matched manifest (add files/globs to specs/ulpc_manifest.json)');
     } else {
       console.log(`   Included ${ulpcFiles.length} ULPC file(s) from manifest`);
     }
@@ -447,10 +447,14 @@ async function main() {
       // Determine runtime URL
       const normalizedPath = filePath.replace(/\\/g, '/');
       let url = normalizedPath;
-      if (normalizedPath.startsWith('private/generated/')) {
-        url = normalizedPath.replace('private/generated/', '/generated/');
-      } else if (normalizedPath.startsWith('./private/generated/')) {
-        url = normalizedPath.replace('./private/generated/', '/generated/');
+      if (normalizedPath.startsWith('public/generated/')) {
+        url = normalizedPath.replace('public/generated/', '/generated/');
+      } else if (normalizedPath.startsWith('./public/generated/')) {
+        url = normalizedPath.replace('./public/generated/', '/generated/');
+      } else if (normalizedPath.startsWith('public/assets/')) {
+        url = normalizedPath.replace('public/assets/', '/assets/');
+      } else if (normalizedPath.startsWith('./public/assets/')) {
+        url = normalizedPath.replace('./public/assets/', '/assets/');
       }
 
       const entry = {
@@ -495,8 +499,10 @@ async function main() {
   }
 
   // Write outputs
-  const indexPath = join(GENERATED_DIR, 'asset_index.ndjson');
-  const quarantinePath = join(GENERATED_DIR, 'quarantine.ndjson');
+  const registryDir = join(GENERATED_DIR, 'registry');
+  await mkdir(registryDir, { recursive: true });
+  const indexPath = join(registryDir, 'assets.ndjson');
+  const quarantinePath = join(registryDir, 'quarantine.ndjson');
 
   await writeFile(indexPath, passing.map(e => JSON.stringify(e)).join('\n') + '\n');
   await writeFile(quarantinePath, failing.map(e => JSON.stringify(e)).join('\n') + '\n');

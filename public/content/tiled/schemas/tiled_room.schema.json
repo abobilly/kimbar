@@ -1,0 +1,130 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "tiled_room.schema.json",
+    "title": "TiledRoom",
+    "type": "object",
+    "required": [
+        "compressionlevel",
+        "height",
+        "width",
+        "infinite",
+        "layers",
+        "nextlayerid",
+        "nextobjectid",
+        "orientation",
+        "renderorder",
+        "tileheight",
+        "tilesets",
+        "tilewidth",
+        "type",
+        "version"
+    ],
+    "properties": {
+        "compressionlevel": {
+            "type": "integer"
+        },
+        "height": {
+            "type": "integer",
+            "minimum": 5,
+            "maximum": 100
+        },
+        "width": {
+            "type": "integer",
+            "minimum": 5,
+            "maximum": 100
+        },
+        "infinite": {
+            "type": "boolean",
+            "const": false
+        },
+        "layers": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "width": {
+                        "type": "integer"
+                    },
+                    "height": {
+                        "type": "integer"
+                    }
+                },
+                "additionalProperties": true
+            }
+        },
+        "nextlayerid": {
+            "type": "integer"
+        },
+        "nextobjectid": {
+            "type": "integer"
+        },
+        "orientation": {
+            "type": "string",
+            "enum": [
+                "orthogonal"
+            ]
+        },
+        "renderorder": {
+            "type": "string",
+            "enum": [
+                "right-down"
+            ]
+        },
+        "tiledversion": {
+            "type": "string"
+        },
+        "tileheight": {
+            "type": "integer",
+            "const": 32
+        },
+        "tilewidth": {
+            "type": "integer",
+            "const": 32
+        },
+        "tilesets": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "required": [
+                    "firstgid",
+                    "source"
+                ],
+                "properties": {
+                    "firstgid": {
+                        "type": "integer",
+                        "minimum": 1
+                    },
+                    "source": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": true
+            }
+        },
+        "type": {
+            "type": "string",
+            "enum": [
+                "map"
+            ]
+        },
+        "version": {
+            "type": [
+                "string",
+                "number"
+            ]
+        }
+    },
+    "additionalProperties": true
+}
