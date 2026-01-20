@@ -39,13 +39,16 @@ TypeScript + Phaser 3 + Vite game for bar exam prep.
 | Ink dialogue | `content/ink/*.ink` | `generated/ink/*.json` |
 | Flashcards | `public/content/cards/*.json` | — |
 | Sprites | character specs | `generated/sprites/*.png` |
+| Tiled rooms | `public/content/tiled/rooms/*.tmx` | — |
+| Tilesets (static) | `assets/tilesets/` | — |
 
 ## Key Documentation
 
 - `.roo/rules/00_READ_FIRST.md` — sacred invariants and preflight protocol
 - `NEXT_SESSION.md` — current session handoff
+- `docs/MIGRATION_GUIDE.md` — **comprehensive asset placement guide**
+- `docs/ASSET_PIPELINE.md` — pipeline overview
 - `schemas/*.schema.json` — JSON schemas for validation
-- `docs/TILED_PIPELINE.md` — map authoring contract
 
 ## 2-Stage Agent Workflow
 

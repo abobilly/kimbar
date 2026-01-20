@@ -8,6 +8,71 @@
 
 ---
 
+## Major Repository Cleanup (January 18, 2026)
+
+### What Changed
+
+**Comprehensive cleanup saving ~415MB:**
+
+1. **Deleted unused UI bundles** (4.3MB):
+   - `assets/ui/golden/` — unused theme
+   - `assets/ui/lpc_pennomi/` — unused theme  
+   - `assets/ui/rpg_gui_kit/` — unused theme
+
+2. **Consolidated tileset duplicates** (~5MB):
+   - Removed `assets/tilesets/lpc-floors/` (duplicate of lpc/)
+   - Removed `assets/tilesets/lpc-walls/` (duplicate of lpc/)
+   - Removed `assets/tilesets/lpc-windows-doors-v2/` (duplicate of lpc/)
+   - Removed 15 duplicate prop files (_02, _03 variants)
+
+3. **Cleaned caches and temps** (~410MB):
+   - Deleted `tmp/` (301 files)
+   - Deleted `.cache/` (68MB)
+   - Deleted `.wrangler/`
+   - Deleted `workers/gfx-mcp/` (342MB with node_modules)
+
+4. **Documentation cleanup**:
+   - Created `docs/MIGRATION_GUIDE.md` — **comprehensive asset placement guide**
+   - Updated `docs/ASSET_PIPELINE.md` — removed outdated UI references
+   - Updated `AGENTS.md` — added migration guide reference, Tiled pipeline
+
+5. **Commit**: `966123c` (795 files changed)
+
+### Asset Architecture (Post-Cleanup)
+
+| Folder | Purpose | Size |
+|--------|---------|------|
+| `assets/` | Committed static art (props, tilesets) | 31.6MB |
+| `content/` | Authored specs (characters, ink, rooms) | 0.5MB |
+| `generated/` | Build outputs (gitignored) | 3.7MB |
+| `vendor/lpc/` | ULPC generator (gitignored) | 915MB |
+| `public/content/` | Direct-serve (Tiled maps, cards) | ~10MB |
+
+### Where New Assets Go
+
+| Asset Type | Location | Then Run |
+|------------|----------|----------|
+| Props (PNG) | `assets/props/<category>/` | `npm run sync:public` |
+| Tilesets | `assets/tilesets/<pack>/` | `npm run sync:public` |
+| Characters | `content/characters/*.json` | `npm run build:chars && npm run gen:sprites` |
+| Ink dialogue | `content/ink/*.ink` | `npm run compile:ink` |
+| Tiled rooms | `public/content/tiled/rooms/*.tmx` | `npm run validate:tiled` |
+| Flashcards | `public/content/cards/*.json` | — (direct serve) |
+
+### Key Documentation
+
+- `docs/MIGRATION_GUIDE.md` — Full asset placement guide
+- `docs/ASSET_PIPELINE.md` — Pipeline overview
+- `public/content/tiled/README.md` — Tiled authoring contract
+
+### What's Next
+
+1. **Run `npm run check`** to validate cleanup didn't break anything
+2. **Create remaining SCOTUS rooms** (hallway, courtroom, library) in Tiled
+3. **Runtime test** world graph + door transitions
+
+---
+
 ## World Topology & Content Fixes (January 18, 2026)
 
 ### What Changed
