@@ -42,9 +42,10 @@ TypeScript + Phaser 3 + Vite game for bar exam prep.
 
 ## Key Documentation
 
-- `docs/INVARIANTS.md` — full invariant documentation
+- `.roo/rules/00_READ_FIRST.md` — sacred invariants and preflight protocol
 - `NEXT_SESSION.md` — current session handoff
 - `schemas/*.schema.json` — JSON schemas for validation
+- `docs/TILED_PIPELINE.md` — map authoring contract
 
 ## 2-Stage Agent Workflow
 
@@ -96,3 +97,42 @@ Use the **Reviewer** agent (`.github/agents/reviewer.agent.md`) to validate:
 | Reviewer | `.github/agents/reviewer.agent.md` | Validates implementation |
 | Sentinel | `.github/agents/sentinel.agent.md` | QA and gate enforcement |
 | Content Intake | `.github/agents/content-intake.agent.md` | Content pipeline ops |
+
+---
+
+## Model-Specific Extensions
+
+### Gemini CLI (Data Access)
+
+When using Gemini CLI with MCP Toolbox:
+- **Source**: `kimbar-content` (SQLite)
+- **Tools**: `query-content`, `search-characters`
+- **Sync**: Run `npm run db:sync` to refresh the database from JSON files.
+
+### Codex (SQL Queries)
+
+When using Codex with database access:
+- **Database**: `generated/content.db` (SQLite)
+- **Sync**: `npm run db:sync` (run first to ensure DB is fresh)
+
+**Schema:**
+- `characters`: `id`, `name`, `description`, `body`, `skin`, `hair`, `json`
+- `assets`: `id`, `kind`, `label`, `path`, `tags`, `data`
+
+**Query examples:**
+```bash
+npm run db:query "SELECT id, name FROM characters WHERE hair_color = 'black'"
+npm run db:query "SELECT path FROM assets WHERE tags LIKE '%prop%'"
+```
+
+### Screenshot Agent
+
+The screenshot agent (`scripts/screenshot-agent.mjs`) automates visual verification:
+```bash
+npm run screenshot
+```
+
+**Workflow:**
+1. Invalidates cache (deletes `test-results/*.png`)
+2. Runs headless E2E tests (`npm run test:e2e`)
+3. Verifies new screenshots were generated atomically

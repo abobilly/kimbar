@@ -62,6 +62,13 @@ nul
 __pycache__/
 *.pyc
 
+# Build caches
+.cache/
+.wrangler/
+
+# Screenshots (test artifacts)
+screenshots/
+
 # Local scratch / agent tooling
 .qwen/
 Qwen-Agent/
