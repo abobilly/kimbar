@@ -783,7 +783,7 @@ async function main() {
   try {
     mapTemplate = JSON.parse(await readFile(TEMPLATE_PATH, 'utf-8'));
     const schema = JSON.parse(await readFile(MAP_SCHEMA_PATH, 'utf-8'));
-    const ajv = new Ajv({ allErrors: true });
+    const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
     validateMapSchema = ajv.compile(schema);
   } catch (err) {
     logFatal(`Failed to load Tiled template/schema: ${err.message}`);

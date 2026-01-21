@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Test comment to trigger watcher - modified 6 -->
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="25" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="22">
  <tileset firstgid="1" source="../tilesets/scotus_floors.tsx"/>
  <tileset firstgid="1001" source="../tilesets/scotus_structures.tsx"/>
