@@ -1,10 +1,64 @@
 # Kim Bar - Agent Handoff Document
-**Last Update**: January 18, 2026
+**Last Update**: January 21, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
 >
 > **Roo Update Format:** append entries with `What changed` (files list), `What's next`, and `Gates run / not run (with reasons)` after every subtask.
+
+---
+
+## Placeholder Tiles Implementation (January 21, 2026)
+
+### What Changed
+
+**Implemented deterministic procedural placeholder tiles to eliminate ALL "missing tile(s)" warnings:**
+
+1. **Created placeholder generator** (`scripts/generate-placeholder-tiles.mjs`):
+   - Generates 32×32 transparent PNG placeholders for all tiles in manifest
+   - Deterministic: uses tile ID as seed for seeded PRNG (mulberry32 variant)
+   - Procedural patterns: checkerboard, diagonal lines, grid, dots
+   - Orange border (1px) to clearly identify as placeholder
+   - Uses sharp library for PNG generation with max compression
+   - File size: ~150-200 bytes per tile
+
+2. **Generated all 230 placeholder tiles**:
+   - Output: `public/generated/tiles/{tile-id}.png`
+   - Result: 100% tile coverage (230/230 tiles)
+   - Validated: All 18 rooms now have required tiles
+   - **Zero "missing tile(s)" warnings** ✅
+
+3. **Updated build system**:
+   - Added npm script: `npm run gen:tiles:placeholders`
+   - Updated `.gitignore` to exclude generated tiles but commit README
+   - Created `public/generated/tiles/README.md` documenting system
+
+### How to Use
+
+**Generate all placeholders:**
+```bash
+npm run gen:tiles:placeholders
+```
+
+**Replace a placeholder with real art:**
+1. Create real 32×32 PNG following tileset manifest spec
+2. Name it exactly as tile ID: `{tile-id}.png`
+3. Overwrite placeholder in `public/generated/tiles/`
+4. Run `npm run validate` to confirm
+
+**Identify placeholders:** Look for orange border in-game during development.
+
+### What's Next
+
+1. Replace P0 (highest priority) placeholders with real art first
+2. Use existing AI generation workflow (`npm run gen:tiles`) for real tiles
+3. Placeholders can stay for low-priority tiles until real art is ready
+
+### Gates Run / Not Run
+
+- ✅ Validation run: `npm run validate` → Zero missing tile warnings
+- ❌ Full test suite not run (not needed for this change)
+- ❌ Build not run (not needed for this change)
 
 ---
 
