@@ -1,0 +1,3 @@
+# Python dependencies for kimbar build pipeline
+# Image processing for sprite generation, tileset assembly, and asset import
+Pillow>=10.0.0
