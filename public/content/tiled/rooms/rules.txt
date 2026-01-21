@@ -1,0 +1,4 @@
+# Tiled Automapping Rules
+# This file lists automapping rule files to apply when editing maps.
+# Currently no automapping rules are configured.
+# Add rule file paths (relative to this file) one per line to enable automapping.
