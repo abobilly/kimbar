@@ -16,7 +16,11 @@ This template has been updated for:
 
 ## Requirements
 
-[Node.js](https://nodejs.org) is required to install dependencies and run scripts via `npm`.
+- [Node.js](https://nodejs.org) is required to install dependencies and run scripts via `npm`.
+- [Python 3.11+](https://www.python.org/) is required for content pipeline tools (sprite generation, asset import). Install Python dependencies with:
+  ```bash
+  pip install -r requirements.txt
+  ```
 
 ## Available Commands
 
@@ -31,7 +35,11 @@ This template has been updated for:
 
 ## Writing Code
 
-After cloning the repo, run `npm install` from your project directory. Then, you can start the local development server by running `npm run dev`.
+After cloning the repo:
+
+1. Install Node.js dependencies: `npm install`
+2. Install Python dependencies: `pip install -r requirements.txt`
+3. Start the development server: `npm run dev`
 
 The local development server runs on `http://localhost:8080` by default. Please see the Vite documentation if you wish to change this, or add SSL support.
 
