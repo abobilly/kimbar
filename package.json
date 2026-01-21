@@ -35,6 +35,8 @@
         "assets:used": "node scripts/list-used-assets.mjs --format md --output artifacts/used_assets.md",
         "compile:ink": "node scripts/compile-ink.mjs",
         "gen:props": "python make_icons.py",
+        "gen:tiles": "node scripts/generate-placeholder-tiles.mjs",
+        "gen:tiles:force": "node scripts/generate-placeholder-tiles.mjs --force",
         "prepare:content": "npm run fetch-vendor && npm run import:scotus && npm run import:lpc && npm run build:chars && npm run gen:sprites && npm run compile:ink && npm run build:tiled && npm run build:levels && npm run build:asset-index && npm run validate",
         "validate": "node scripts/validate.js",
         "validate:flashcards": "node scripts/validate-flashcard-subjects.mjs",
