@@ -145,20 +145,22 @@ vendor/lpc/
 ```
 public/content/
 ├── tiled/
+│   ├── rooms/        # TMX source files (*.tmx) — PRIMARY
 │   ├── templates/    # Room template + schemas
-│   ├── supreme-court/# JSON room pack(s)
 │   ├── tilesets/     # TSX tileset definitions
 │   ├── tiles/        # PNG tile atlases
-│   └── scotus_tileset_contract.json  # Tile ID contract
+│   ├── worlds/       # .world manifest files
+│   └── schemas/      # JSON schemas for validation
 ├── cards/            # Flashcard JSON files
-└── ldtk/             # Legacy LDtk files (deprecated)
+└── ldtk/             # Legacy LDtk files (fallback only)
 ```
 
 **Rules**:
-- ✅ Create new Tiled rooms in pack folders (e.g. `tiled/supreme-court/`)
+- ✅ Create new Tiled rooms in `tiled/rooms/` as `.tmx` files
 - ✅ Add flashcards to `cards/`
 - ❌ Don't add tilesets here; use contract in `tiled/tilesets/`
-- ⚠️ LDtk is deprecated; use Tiled for new rooms
+- ❌ **Never use LDtk for new rooms** — Tiled is authoritative
+- ⚠️ LDtk files are legacy fallback only (see [Content Migration Notes](#content-migration-notes-tiled-first-architecture))
 
 ---
 
@@ -239,27 +241,31 @@ npm run build:asset-index
 
 ### Add a New Tiled Room
 
+> **Full documentation**: See [`docs/TILED_PIPELINE.md`](./TILED_PIPELINE.md) for complete authoring guide.
+
 1. Open Tiled, create new map with:
-   - Tile size: 32×32
-   - Required layers: `Floor`, `Walls`, `Trim`, `Overlays`, `Collision`, `Entities`
+   - Tile size: **32×32 pixels**
+   - Orientation: **Orthogonal**
+   - Required layers (in order): `Floor`, `Walls`, `Trim`, `Overlays`, `Collision`, `Entities`
 
-2. Save to `public/content/tiled/<pack>/<room_name>.json`
+2. Save to `public/content/tiled/rooms/<room_id>.tmx`
 
-3. Add room spec to `specs/rooms/<room_name>.json`:
+3. Add room entry to `specs/room_entries/<room_id>.json`:
 ```json
 {
+  "$schema": "../../schemas/RoomEntry.schema.json",
   "id": "scotus_new_room",
-  "name": "New Room",
-  "width": 20,
-  "height": 15,
-  "tileset": "scotus_floors",
-  "entities": []
+  "displayName": "New Room",
+  "environment": "interior"
 }
 ```
 
-4. Validate:
+4. Validate and build:
 ```bash
-npm run validate:tiled
+npm run validate:tiled     # Validate TMX structure
+npm run build:tiled        # Compile to LevelData JSON
+npm run build:tiled-world  # Update world manifest
+npm run build:levels       # Rebuild level index
 ```
 
 ---
@@ -322,10 +328,11 @@ npm run compile:ink
 | Add a tileset | `public/assets/tilesets/<pack>/` | `npm run build:asset-index` |
 | Add a character | `specs/characters/*.json` | `npm run build:chars && npm run gen:sprites` |
 | Add dialogue | `specs/ink/*.ink` | `npm run compile:ink` |
-| Add a Tiled room | `public/content/tiled/**/*.json` | `npm run validate:tiled` |
+| Add a Tiled room | `public/content/tiled/rooms/*.tmx` | `npm run build:tiled && npm run build:levels` |
 | Add flashcards | `public/content/cards/*.json` | — (direct serve) |
 | Regenerate everything | — | `npm run prepare:content` |
 | Validate everything | — | `npm run check` |
+| Validate Tiled strict | — | `TILED_ONLY=1 npm run validate` |
 
 ---
 
@@ -341,4 +348,189 @@ When starting a new session:
 
 ---
 
-*Last updated: Post-cleanup commit 966123c*
+## Content Migration Notes: Tiled-First Architecture
+
+> **Canonical Reference**: See [`docs/TILED_PIPELINE.md`](./TILED_PIPELINE.md) for complete Tiled authoring documentation.
+
+### What Changed
+
+As of January 2026, kimbar has migrated to a **Tiled-first architecture** for all playable rooms:
+
+| Aspect | Before | After |
+|--------|--------|-------|
+| Primary authoring tool | LDtk | **Tiled** |
+| Room format | `.ldtk` / `.json` | **`.tmx`** (XML) |
+| Playable rooms | Mixed sources | **24 TMX files** |
+| World manifest | None | **`scotus.world`** |
+| LDtk status | Primary | **Legacy fallback only** |
+
+**Key changes**:
+- Tiled is now **authoritative** for all playable rooms
+- LDtk files remain in `public/content/ldtk/` as legacy fallback only
+- 24 playable rooms now exist as TMX files in `public/content/tiled/rooms/`
+- World manifest (`scotus.world`) tracks room spatial layout
+- Build system uses **Tiled-first priority** with automatic LDtk fallback
+
+### What Remains Legacy and Why
+
+The following LDtk files still exist in `public/content/ldtk/`:
+
+| File | Status | Notes |
+|------|--------|-------|
+| `cafeteria.ldtk` | ✅ Migrated | TMX exists, LDtk unused |
+| `chambers_*.ldtk` (9 files) | ✅ Migrated | TMX exists for all chambers |
+| `courthouse_exterior.ldtk` | ✅ Migrated | TMX exists |
+| `courtroom_main.ldtk` | ✅ Migrated | TMX exists |
+| `library.ldtk` | ✅ Migrated | TMX exists |
+| `press_room.ldtk` | ✅ Migrated | TMX exists |
+| `records_vault.ldtk` | ✅ Migrated | TMX exists |
+| `robing_room.ldtk` | ✅ Migrated | TMX exists |
+| `room.scotus_hall_01.ldtk` | ✅ Migrated | TMX exists as `room_scotus_hall_01.tmx` |
+| `scotus_lobby.ldtk` | ✅ Migrated | TMX exists |
+| `_template.ldtk` | Template | Internal template, not a room |
+| `test.ldtk` | Test file | Development testing only |
+
+**Why LDtk files remain**:
+- Preserved for reference during migration verification
+- Serve as fallback if TMX files are corrupted
+- Will be removed once migration is fully validated
+
+> ⚠️ **New rooms should NEVER use LDtk.** Always author in Tiled.
+
+### How to Migrate a Remaining LDtk-only Room
+
+If you discover an LDtk room without a corresponding TMX file:
+
+#### Step 1: Create TMX from Template
+
+```bash
+# Copy the room template
+cp public/content/tiled/templates/room-template.json public/content/tiled/rooms/<room_id>.tmx
+```
+
+Or in Tiled:
+1. File → New → New Map
+2. Set tile size: **32×32 pixels**
+3. Set orientation: **Orthogonal**
+4. Set render order: **Right Down**
+5. Set map size to match LDtk room dimensions
+
+#### Step 2: Add Required Layers
+
+Create layers in this exact order:
+
+| # | Layer Name | Type | LDtk Equivalent |
+|---|------------|------|-----------------|
+| 1 | `Floor` | tilelayer | `Floor` IntGrid |
+| 2 | `Walls` | tilelayer | `Walls` IntGrid |
+| 3 | `Trim` | tilelayer | `Trim` / `Decor` |
+| 4 | `Overlays` | tilelayer | `Overlays` / `Above` |
+| 5 | `Collision` | tilelayer | `Collision` IntGrid |
+| 6 | `Entities` | objectgroup | `Entities` layer |
+
+#### Step 3: Add Tilesets
+
+Add external tilesets from `public/content/tiled/tilesets/`:
+
+```xml
+<tileset firstgid="1" source="../tilesets/scotus_floors.tsx"/>
+<tileset firstgid="1001" source="../tilesets/scotus_structures.tsx"/>
+<tileset firstgid="2001" source="../tilesets/scotus_decor.tsx"/>
+<tileset firstgid="3001" source="../tilesets/collision.tsx"/>
+```
+
+#### Step 4: Convert Entities
+
+Map LDtk entities to Tiled objects:
+
+| LDtk Entity | Tiled Type | Required Properties |
+|-------------|------------|---------------------|
+| `PlayerSpawn` | `PlayerSpawn` | `spawnId` (string) |
+| `Door` | `Door` | `toMap`, `toSpawn` (strings) |
+| `NPC` | `NPC` | `characterId` (string) |
+| `EncounterTrigger` | `EncounterTrigger` | `deckTag`, `count`, `once` |
+
+#### Step 5: Validate and Build
+
+```bash
+npm run validate:tiled    # Validate TMX structure
+npm run build:tiled       # Compile to LevelData JSON
+npm run build:tiled-world # Update world manifest
+npm run build:levels      # Rebuild level index
+npm run check             # Full validation gate
+```
+
+### Troubleshooting: Map Looks "Insanely Wide" in Tiled
+
+If your map renders stretched, distorted, or with wrong aspect ratio:
+
+#### Common Causes and Fixes
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Map stretched horizontally | Wrong tile size | Set tile size to **32×32** (not 16×16 or 64×64) |
+| Infinite scrolling canvas | Infinite map mode | Map → Map Properties → Uncheck "Infinite" |
+| Diagonal rendering | Wrong orientation | Set orientation to **Orthogonal** (not Isometric) |
+| Layers misaligned | Layer offsets | Reset layer X/Y offsets to 0 |
+| Tiles don't align | Tileset tile size mismatch | Ensure tileset uses 32×32 tiles |
+
+#### Verification Checklist
+
+```
+Map Properties:
+  ☐ Orientation: Orthogonal
+  ☐ Tile render order: Right Down
+  ☐ Tile width: 32
+  ☐ Tile height: 32
+  ☐ Infinite: No (unchecked)
+
+Layer Properties (each layer):
+  ☐ Offset X: 0
+  ☐ Offset Y: 0
+  ☐ Width matches map width
+  ☐ Height matches map height
+```
+
+#### Quick Fix Script
+
+If multiple layers have wrong dimensions:
+
+```bash
+# Re-validate to identify issues
+npm run validate:tiled
+
+# The validator will report dimension mismatches
+# Fix in Tiled: Map → Resize Map → Apply to all layers
+```
+
+### Cross-References
+
+| Document | Purpose |
+|----------|---------|
+| [`docs/TILED_PIPELINE.md`](./TILED_PIPELINE.md) | **Canonical** Tiled authoring documentation |
+| [`docs/WORLD_CONTRACT.md`](./WORLD_CONTRACT.md) | World manifest and room layout contract |
+| [`docs/DOOR_CONTRACT.md`](./DOOR_CONTRACT.md) | Door entity and room transition contract |
+| [`docs/CONTENT_CONTRACT.md`](./CONTENT_CONTRACT.md) | Content pipeline contracts |
+| [`public/content/tiled/templates/`](../public/content/tiled/templates/) | Room template and schemas |
+
+### Build System: Tiled-First Priority
+
+The build system ([`scripts/build-levels.js`](../scripts/build-levels.js)) implements Tiled-first priority:
+
+```
+For each room ID:
+  1. Check if TMX exists at public/content/tiled/rooms/<room_id>.tmx
+  2. If yes → Use compiled Tiled output from public/generated/levels/tiled/
+  3. If no  → Fall back to LDtk from public/content/ldtk/
+```
+
+**Strict mode** (for CI/CD):
+```bash
+TILED_ONLY=1 npm run validate
+```
+
+In strict mode, any room without a Tiled source fails validation.
+
+---
+
+*Last updated: January 2026 (Tiled-first migration)*

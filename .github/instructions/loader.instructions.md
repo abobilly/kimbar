@@ -6,6 +6,11 @@ applyTo: "src/content/**,src/game/**/ContentLoader*.ts,src/game/**/registry*.ts"
 
 You are operating in the **Runtime Loader / Integration** area.
 
+> **Canonical Documentation**:
+> - [`docs/TILED_PIPELINE.md`](../../docs/TILED_PIPELINE.md) — Tiled is authoritative for playable rooms
+> - [`docs/WORLD_CONTRACT.md`](../../docs/WORLD_CONTRACT.md) — World manifest and room connectivity
+> - See also: "Content + Levels Rules" in [`AGENTS.md`](../../AGENTS.md)
+
 ## Mission
 
 Provide a single typed API that loads registries and content via fetchable URLs, caches results, and eliminates hardcoded paths in gameplay/UI systems.
@@ -46,11 +51,14 @@ export function clearContentCache(): void;
 ```typescript
 // ✅ CORRECT - Use registry accessor
 const room = content.getRoom("scotus_lobby");
-const levelData = await fetch(room.ldtkUrl);
+const levelData = await content.loadRoomData(room.id);
 
 // ❌ WRONG - Hardcoded path
 const levelData = await fetch("/content/ldtk/scotus_lobby.json");
+const levelData = await fetch("/content/tiled/rooms/scotus_lobby.json");
 ```
+
+> **Note**: Tiled is authoritative for playable rooms. The loader abstracts the source (Tiled vs LDtk fallback) — runtime code should not care which format is used.
 
 ## Forbidden
 

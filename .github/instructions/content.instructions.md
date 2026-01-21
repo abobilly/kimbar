@@ -6,6 +6,12 @@ applyTo: "public/content/**,specs/**,schemas/**,scripts/**,tools/**"
 
 You are operating in the **Content Intake / Registry** area.
 
+> **Canonical Documentation**:
+> - [`docs/TILED_PIPELINE.md`](../../docs/TILED_PIPELINE.md) — Authoritative Tiled pipeline documentation
+> - [`docs/WORLD_CONTRACT.md`](../../docs/WORLD_CONTRACT.md) — World manifest and room connectivity
+> - [`docs/MIGRATION_GUIDE.md`](../../docs/MIGRATION_GUIDE.md) — Migration guidance for legacy content
+> - See also: "Content + Levels Rules" in [`AGENTS.md`](../../AGENTS.md)
+
 ## Your mission
 
 Streamline asset/content integration so it's:
@@ -45,20 +51,23 @@ Separately, invariants run via:
 
 ## Room Authoring Flow
 
-### Today (Bridge Period)
+### Current: Tiled-First (Authoritative)
 
-1. Create/modify `specs/room_entries/{room-id}.json` (RoomEntry schema)
-2. Entry points to existing LDtk file via `ldtkUrl: "/content/ldtk/{room-id}.json"`
-3. Run `npm run prepare:content` → registry.rooms is populated
-4. Run `npm run validate` → RoomEntry schema + LDtk file existence verified
+**Tiled is now authoritative for all playable rooms.** See [`docs/TILED_PIPELINE.md`](../../docs/TILED_PIPELINE.md) for complete details.
 
-### Future (Tiled-First)
+1. Create TMX file in `public/content/tiled/rooms/{room-id}.tmx` from canonical template
+2. Add room to world manifest: `public/content/tiled/worlds/scotus.world`
+3. Create room entry in `specs/room_entries/{room-id}.json` (RoomEntry schema)
+4. Run `npm run build:tiled` → validates + compiles to LevelData
+5. Run `npm run validate` → validates RoomEntry schema + Tiled map
+6. Use `TILED_ONLY=1 npm run validate` for strict mode (fails if LDtk fallback used)
 
-1. Create `specs/rooms/{room-id}.json` (RoomSpec schema)
-2. Create Tiled map in `public/content/tiled/` matching the spec
-3. Run `npm run build:tiled` → compiles to `public/generated/levels/tiled/{room-id}.json`
-4. RoomSpec points to compiled LevelData, not raw LDtk
-5. Run `npm run validate` → validates RoomSpec + Tiled map + compiled output
+### Legacy: LDtk Fallback (Deprecated)
+
+LDtk rooms in `public/content/ldtk/` are legacy fallback only:
+- When both Tiled and LDtk exist for a room ID, **Tiled always wins**
+- New rooms MUST NOT be created in LDtk
+- Existing LDtk rooms should be migrated to Tiled (see [`docs/MIGRATION_GUIDE.md`](../../docs/MIGRATION_GUIDE.md))
 
 ### Validation Pipeline
 

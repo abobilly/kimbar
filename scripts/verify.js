@@ -15,12 +15,12 @@ function runCommand(command, args) {
   return new Promise((resolve, reject) => {
     console.log(`\n🔄 Running: ${command} ${args.join(' ')}\n`);
     console.log('-'.repeat(50));
-    
+
     const proc = spawn(command, args, {
       stdio: 'inherit',
       shell: true
     });
-    
+
     proc.on('close', (code) => {
       if (code === 0) {
         resolve();
@@ -28,7 +28,7 @@ function runCommand(command, args) {
         reject(new Error(`${command} ${args.join(' ')} failed with code ${code}`));
       }
     });
-    
+
     proc.on('error', (err) => {
       reject(err);
     });
@@ -37,33 +37,38 @@ function runCommand(command, args) {
 
 async function main() {
   console.log('🔒 Kim Bar Verification Suite');
-  console.log('=' .repeat(50));
+  console.log('='.repeat(50));
 
   try {
     // Check Phaser types are correctly configured
     await runCommand('node', ['scripts/check-phaser-types.mjs']);
 
-    console.log('\n' + '=' .repeat(50));
+    console.log('\n' + '='.repeat(50));
 
     // Run validate
     await runCommand('npm', ['run', 'validate']);
 
-    console.log('\n' + '=' .repeat(50));
+    console.log('\n' + '='.repeat(50));
 
     // Run tiled validation
     await runCommand('node', ['scripts/validate-tiled-maps.mjs']);
-    
-    console.log('\n' + '=' .repeat(50));
-    
+
+    console.log('\n' + '='.repeat(50));
+
     // Run check-boundaries
     await runCommand('npm', ['run', 'check-boundaries']);
-    
-    console.log('\n' + '=' .repeat(50));
+
+    console.log('\n' + '='.repeat(50));
+
+    // Run documentation gate
+    await runCommand('node', ['scripts/verify-docs.mjs']);
+
+    console.log('\n' + '='.repeat(50));
     console.log('\n✅ All verifications passed!');
     console.log('   Safe to commit.\n');
-    
+
   } catch (e) {
-    console.log('\n' + '=' .repeat(50));
+    console.log('\n' + '='.repeat(50));
     console.log(`\n❌ Verification failed: ${e.message}`);
     console.log('   Fix errors before committing.\n');
     process.exit(1);

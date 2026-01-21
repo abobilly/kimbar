@@ -1,5 +1,7 @@
 # World Door Contract — Validation First
 
+> **Canonical Documentation**: See [`docs/TILED_PIPELINE.md`](../../docs/TILED_PIPELINE.md) for Tiled authoring and [`docs/WORLD_CONTRACT.md`](../../docs/WORLD_CONTRACT.md) for world connectivity.
+
 ## Door entity contract
 Every door entry must include the following fields:
 - `doorId` — stable, unique identifier within the world.

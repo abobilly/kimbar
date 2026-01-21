@@ -452,14 +452,24 @@ async function validateRoomEntries(schemas, registry) {
       }
     }
 
-    // Check file exists
-    const filePath = join('public', room.ldtkUrl);
-    if (!existsSync(filePath)) {
-      error(`Room ${room.id}: LDtk file not found at ${filePath}`);
+    // Check level source exists (Tiled-first policy)
+    // Skip LDtk check if Tiled source exists
+    if (hasTiledSource(room.id)) {
+      ok(`${room.id}: Tiled source exists (LDtk check skipped)`);
       continue;
     }
 
-    ok(`${room.id}: LDtk file exists at ${room.ldtkUrl}`);
+    // No Tiled source - check LDtk file exists
+    if (room.ldtkUrl) {
+      const filePath = join('public', room.ldtkUrl);
+      if (!existsSync(filePath)) {
+        error(`Room ${room.id}: LDtk file not found at ${filePath}`);
+        continue;
+      }
+      ok(`${room.id}: LDtk file exists at ${room.ldtkUrl}`);
+    } else {
+      warn(`Room ${room.id}: No level source (no Tiled TMX and no ldtkUrl)`);
+    }
   }
 }
 
@@ -989,8 +999,14 @@ async function validateRoomEntrySpecs(schemas) {
         }
       }
 
-      // Cross-reference: check LDtk file exists
-      if (spec.ldtkUrl) {
+      // Cross-reference: check level source exists
+      // Skip LDtk check if Tiled source exists (Tiled-first policy)
+      const roomId = spec.id;
+      if (roomId && hasTiledSource(roomId)) {
+        // Tiled source exists - don't require LDtk
+        // (LDtk check is skipped because Tiled takes priority)
+      } else if (spec.ldtkUrl) {
+        // No Tiled source - check LDtk file exists
         const ldtkPath = join('public', spec.ldtkUrl);
         if (!existsSync(ldtkPath)) {
           error(`${file}: LDtk file not found at ${ldtkPath}`);

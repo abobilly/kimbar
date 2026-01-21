@@ -29,6 +29,16 @@ const REQUIRED_LAYERS = ['Floor', 'Walls', 'Trim', 'Overlays', 'Collision', 'Ent
 const MIN_DIMENSION = 5;
 const MAX_DIMENSION = 100;
 
+// Bounds validation configuration
+// Detects maps with excessive content extent (e.g., stray tiles/objects far from main content)
+const BOUNDS_CONFIG = {
+  maxWidthTiles: parseInt(process.env.MAX_MAP_WIDTH) || 100,
+  maxHeightTiles: parseInt(process.env.MAX_MAP_HEIGHT) || 100,
+  allowLargeMapProperty: 'allowLargeMap',
+  // Known large maps that are allowed (e.g., exteriors)
+  allowlist: ['courthouse_exterior', 'scotus_exterior']
+};
+
 // Valid entity types and their required properties + types
 const ENTITY_SCHEMA = {
   PlayerSpawn: {
@@ -58,6 +68,236 @@ const ENTITY_SCHEMA = {
     optional: { once: 'bool' }
   }
 };
+
+/**
+ * Compute actual content bounds by scanning tile layers and object layers
+ * Returns { minX, minY, maxX, maxY } in tile coordinates
+ */
+function computeContentBoundsJSON(map) {
+  let minX = Infinity, minY = Infinity;
+  let maxX = -Infinity, maxY = -Infinity;
+  let hasContent = false;
+
+  const mapWidth = map.width || 0;
+  const mapHeight = map.height || 0;
+  const tileWidth = map.tilewidth || 32;
+  const tileHeight = map.tileheight || 32;
+
+  // Scan tile layers for non-empty tiles
+  if (Array.isArray(map.layers)) {
+    for (const layer of map.layers) {
+      if (layer.type === 'tilelayer' && Array.isArray(layer.data)) {
+        const layerWidth = layer.width || mapWidth;
+        for (let i = 0; i < layer.data.length; i++) {
+          if (layer.data[i] !== 0) {
+            const tileX = i % layerWidth;
+            const tileY = Math.floor(i / layerWidth);
+            minX = Math.min(minX, tileX);
+            minY = Math.min(minY, tileY);
+            maxX = Math.max(maxX, tileX);
+            maxY = Math.max(maxY, tileY);
+            hasContent = true;
+          }
+        }
+      } else if (layer.type === 'objectgroup' && Array.isArray(layer.objects)) {
+        // Scan objects for their positions
+        for (const obj of layer.objects) {
+          if (typeof obj.x === 'number' && typeof obj.y === 'number') {
+            const tileX = Math.floor(obj.x / tileWidth);
+            const tileY = Math.floor(obj.y / tileHeight);
+            const objWidthTiles = Math.ceil((obj.width || tileWidth) / tileWidth);
+            const objHeightTiles = Math.ceil((obj.height || tileHeight) / tileHeight);
+            minX = Math.min(minX, tileX);
+            minY = Math.min(minY, tileY);
+            maxX = Math.max(maxX, tileX + objWidthTiles - 1);
+            maxY = Math.max(maxY, tileY + objHeightTiles - 1);
+            hasContent = true;
+          }
+        }
+      }
+    }
+  }
+
+  if (!hasContent) {
+    return { minX: 0, minY: 0, maxX: 0, maxY: 0, width: 0, height: 0 };
+  }
+
+  return {
+    minX,
+    minY,
+    maxX,
+    maxY,
+    width: maxX - minX + 1,
+    height: maxY - minY + 1
+  };
+}
+
+/**
+ * Check if a map has the allowLargeMap custom property set to true
+ */
+function hasAllowLargeMapProperty(properties) {
+  if (!Array.isArray(properties)) return false;
+  const prop = properties.find(p => p.name === BOUNDS_CONFIG.allowLargeMapProperty);
+  return prop && prop.value === true;
+}
+
+/**
+ * Check if a map filename is in the allowlist
+ */
+function isInAllowlist(filename) {
+  const baseName = path.basename(filename, path.extname(filename));
+  return BOUNDS_CONFIG.allowlist.some(allowed =>
+    baseName === allowed || baseName.startsWith(allowed + '_')
+  );
+}
+
+/**
+ * Validate content bounds for JSON maps
+ */
+function validateContentBoundsJSON(map, relativePath, mapErrors) {
+  // Check if this map is allowed to be large
+  if (hasAllowLargeMapProperty(map.properties)) {
+    return;
+  }
+  if (isInAllowlist(relativePath)) {
+    return;
+  }
+
+  const bounds = computeContentBoundsJSON(map);
+
+  if (bounds.width > BOUNDS_CONFIG.maxWidthTiles || bounds.height > BOUNDS_CONFIG.maxHeightTiles) {
+    mapErrors.push(
+      `Map content bounds exceed maximum\n` +
+      `    Computed bounds: ${bounds.width}x${bounds.height} tiles (content extent from tile ${bounds.minX},${bounds.minY} to ${bounds.maxX},${bounds.maxY})\n` +
+      `    Maximum allowed: ${BOUNDS_CONFIG.maxWidthTiles}x${BOUNDS_CONFIG.maxHeightTiles} tiles\n` +
+      `    Hint: Check for stray tiles/objects far from main content\n` +
+      `    To allow large maps, add custom property: ${BOUNDS_CONFIG.allowLargeMapProperty}=true`
+    );
+  }
+}
+
+/**
+ * Compute actual content bounds for TMX maps by scanning tile layers and object layers
+ * Returns { minX, minY, maxX, maxY, width, height } in tile coordinates
+ */
+function computeContentBoundsTMX(map, layers, objectgroups) {
+  let minX = Infinity, minY = Infinity;
+  let maxX = -Infinity, maxY = -Infinity;
+  let hasContent = false;
+
+  const mapWidth = parseInt(map.$.width, 10) || 0;
+  const tileWidth = parseInt(map.$.tilewidth, 10) || 32;
+  const tileHeight = parseInt(map.$.tileheight, 10) || 32;
+
+  // Scan tile layers for non-empty tiles
+  for (const layer of layers) {
+    const layerWidth = parseInt(layer.$.width, 10) || mapWidth;
+
+    // Handle CSV-encoded data
+    if (layer.data && layer.data._) {
+      const csvData = layer.data._.trim();
+      const tiles = csvData.split(',').map(t => parseInt(t.trim(), 10));
+      for (let i = 0; i < tiles.length; i++) {
+        if (tiles[i] !== 0 && !isNaN(tiles[i])) {
+          const tileX = i % layerWidth;
+          const tileY = Math.floor(i / layerWidth);
+          minX = Math.min(minX, tileX);
+          minY = Math.min(minY, tileY);
+          maxX = Math.max(maxX, tileX);
+          maxY = Math.max(maxY, tileY);
+          hasContent = true;
+        }
+      }
+    } else if (typeof layer.data === 'string') {
+      // Handle inline CSV data
+      const csvData = layer.data.trim();
+      const tiles = csvData.split(',').map(t => parseInt(t.trim(), 10));
+      for (let i = 0; i < tiles.length; i++) {
+        if (tiles[i] !== 0 && !isNaN(tiles[i])) {
+          const tileX = i % layerWidth;
+          const tileY = Math.floor(i / layerWidth);
+          minX = Math.min(minX, tileX);
+          minY = Math.min(minY, tileY);
+          maxX = Math.max(maxX, tileX);
+          maxY = Math.max(maxY, tileY);
+          hasContent = true;
+        }
+      }
+    }
+  }
+
+  // Scan object groups for object positions
+  for (const objectgroup of objectgroups) {
+    const objects = Array.isArray(objectgroup.object) ? objectgroup.object : (objectgroup.object ? [objectgroup.object] : []);
+    for (const obj of objects) {
+      const objX = parseFloat(obj.$.x);
+      const objY = parseFloat(obj.$.y);
+      const objWidth = parseFloat(obj.$.width) || tileWidth;
+      const objHeight = parseFloat(obj.$.height) || tileHeight;
+
+      if (!isNaN(objX) && !isNaN(objY)) {
+        const tileX = Math.floor(objX / tileWidth);
+        const tileY = Math.floor(objY / tileHeight);
+        const objWidthTiles = Math.ceil(objWidth / tileWidth);
+        const objHeightTiles = Math.ceil(objHeight / tileHeight);
+
+        minX = Math.min(minX, tileX);
+        minY = Math.min(minY, tileY);
+        maxX = Math.max(maxX, tileX + objWidthTiles - 1);
+        maxY = Math.max(maxY, tileY + objHeightTiles - 1);
+        hasContent = true;
+      }
+    }
+  }
+
+  if (!hasContent) {
+    return { minX: 0, minY: 0, maxX: 0, maxY: 0, width: 0, height: 0 };
+  }
+
+  return {
+    minX,
+    minY,
+    maxX,
+    maxY,
+    width: maxX - minX + 1,
+    height: maxY - minY + 1
+  };
+}
+
+/**
+ * Check if a TMX map has the allowLargeMap custom property set to true
+ */
+function hasAllowLargeMapPropertyTMX(map) {
+  if (!map.properties || !map.properties.property) return false;
+  const props = Array.isArray(map.properties.property) ? map.properties.property : [map.properties.property];
+  const prop = props.find(p => p.$.name === BOUNDS_CONFIG.allowLargeMapProperty);
+  return prop && (prop.$.value === 'true' || prop.$.value === true);
+}
+
+/**
+ * Validate content bounds for TMX maps
+ */
+function validateContentBoundsTMX(map, layers, objectgroups, relativePath, mapErrors) {
+  // Check if this map is allowed to be large
+  if (hasAllowLargeMapPropertyTMX(map)) {
+    return;
+  }
+  if (isInAllowlist(relativePath)) {
+    return;
+  }
+
+  const bounds = computeContentBoundsTMX(map, layers, objectgroups);
+
+  if (bounds.width > BOUNDS_CONFIG.maxWidthTiles || bounds.height > BOUNDS_CONFIG.maxHeightTiles) {
+    mapErrors.push(
+      `Map content bounds exceed maximum\n` +
+      `    Computed bounds: ${bounds.width}x${bounds.height} tiles (content extent from tile ${bounds.minX},${bounds.minY} to ${bounds.maxX},${bounds.maxY})\n` +
+      `    Maximum allowed: ${BOUNDS_CONFIG.maxWidthTiles}x${BOUNDS_CONFIG.maxHeightTiles} tiles\n` +
+      `    Hint: Check for stray tiles/objects far from main content\n` +
+      `    To allow large maps, add custom property: ${BOUNDS_CONFIG.allowLargeMapProperty}=true`
+    );
+  }
+}
 
 let mapTemplate = null;
 let validateMapSchema = null;
@@ -324,6 +564,9 @@ async function validateMap(filePath, relativePath) {
     }
   }
 
+  // Validate content bounds (detect stray tiles/objects)
+  validateContentBoundsJSON(map, relativePath, mapErrors);
+
   if (mapErrors.length > 0) {
     console.log(`✗ ${relativePath}`);
     for (const err of mapErrors) {
@@ -507,6 +750,9 @@ async function validateTmxMap(filePath, relativePath) {
       }
     }
   }
+
+  // Validate content bounds (detect stray tiles/objects)
+  validateContentBoundsTMX(map, layers, objectgroups, relativePath, mapErrors);
 
   if (mapErrors.length > 0) {
     console.log(`✗ ${relativePath}`);

@@ -7,6 +7,9 @@
  * - If Tiled source exists, use compiled Tiled output from public/generated/levels/tiled/<room_id>.json
  * - Only fall back to LDtk when no Tiled source is present
  *
+ * Environment Variables:
+ *   - TILED_ONLY=1: Strict mode - fail if any playable room lacks a Tiled .tmx source
+ *
  * Outputs:
  * - public/generated/levels/ldtk/*.json (normalized LevelData)
  * - public/generated/levels/index.json (roomId -> { source, url, meta })
@@ -18,6 +21,9 @@
 import { readdir, readFile, writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
+
+// TILED_ONLY strict mode - fail if any room lacks Tiled source
+const TILED_ONLY = (process.env.TILED_ONLY || '').trim() === '1';
 
 // Tiled source and compiled directories
 const TILED_SOURCE_DIR = path.join(process.cwd(), 'public', 'content', 'tiled', 'rooms');
@@ -152,10 +158,14 @@ function buildIndexEntry({ source, url, meta }) {
 }
 
 async function main() {
-  console.log('🧭 Building Level Index (Tiled-first)\n');
+  if (TILED_ONLY) {
+    console.log('🧭 Building Level Index (TILED_ONLY mode)\n');
+  } else {
+    console.log('🧭 Building Level Index (Tiled-first)\n');
+  }
 
   const indexEntries = {};
-  const sourceLog = { tiled: [], ldtk: [], missing: [] };
+  const sourceLog = { tiled: [], ldtk: [], missing: [], ldtkFallbackBlocked: [] };
 
   // Step 1: Scan room_entries to get the list of rooms we need to process
   const roomEntries = [];
@@ -206,8 +216,12 @@ async function main() {
   }
 
   // Step 3: Process LDtk files (fallback for rooms without Tiled)
+  // In TILED_ONLY mode, we skip LDtk processing entirely and track rooms that would need it
   const ldtkFiles = await listFilesRecursive(LDTK_SOURCE_DIR, ['.json', '.ldtk'], new Set(), '_');
-  if (ldtkFiles.length > 0) {
+
+  if (TILED_ONLY) {
+    console.log('\n  ⚠️ TILED_ONLY mode: LDtk fallback disabled');
+  } else if (ldtkFiles.length > 0) {
     await mkdir(LDTK_OUTPUT_DIR, { recursive: true });
   }
 
@@ -219,6 +233,19 @@ async function main() {
     // Check if Tiled source exists - if so, skip LDtk
     if (hasTiledSource(fallbackId)) {
       console.log(`  ⏭️ ${fallbackId}: Skipping LDtk (Tiled source exists)`);
+      continue;
+    }
+
+    // In TILED_ONLY mode, don't process LDtk - just track that it would be needed
+    if (TILED_ONLY) {
+      // Check if this room is in room_entries (i.e., a playable room)
+      const roomEntryPath = path.join(ROOM_ENTRIES_DIR, `${fallbackId}.json`);
+      if (existsSync(roomEntryPath)) {
+        sourceLog.ldtkFallbackBlocked.push(fallbackId);
+        console.log(`  ✗ ${fallbackId}: MISSING TMX (LDtk fallback not allowed in strict mode)`);
+      } else {
+        console.log(`  ⏭️ ${fallbackId}: Skipping LDtk (not a playable room)`);
+      }
       continue;
     }
 
@@ -254,8 +281,23 @@ async function main() {
   // Step 4: Check for rooms in room_entries that have no level data
   for (const entry of roomEntries) {
     if (!indexEntries[entry.id]) {
-      sourceLog.missing.push(entry.id);
-      console.log(`  ⚠️ ${entry.id}: No level data (neither Tiled nor LDtk)`);
+      // In TILED_ONLY mode, check if this room has a TMX file
+      if (TILED_ONLY) {
+        if (!hasTiledSource(entry.id)) {
+          // Only add to ldtkFallbackBlocked if not already there
+          if (!sourceLog.ldtkFallbackBlocked.includes(entry.id)) {
+            sourceLog.ldtkFallbackBlocked.push(entry.id);
+            console.log(`  ✗ ${entry.id}: MISSING TMX (no Tiled source)`);
+          }
+        } else {
+          // Has TMX but no compiled output - different issue
+          sourceLog.missing.push(entry.id);
+          console.log(`  ⚠️ ${entry.id}: TMX exists but no compiled output (run compile:tiled)`);
+        }
+      } else {
+        sourceLog.missing.push(entry.id);
+        console.log(`  ⚠️ ${entry.id}: No level data (neither Tiled nor LDtk)`);
+      }
     }
   }
 
@@ -269,11 +311,33 @@ async function main() {
 
   // Summary
   console.log('\n' + '─'.repeat(50));
-  console.log(`✅ Wrote level index: ${INDEX_PATH}`);
-  console.log(`   Tiled: ${sourceLog.tiled.length}`);
-  console.log(`   LDtk:  ${sourceLog.ldtk.length}`);
-  if (sourceLog.missing.length > 0) {
-    console.log(`   ⚠️ Missing: ${sourceLog.missing.length} (${sourceLog.missing.join(', ')})`);
+
+  if (TILED_ONLY) {
+    // TILED_ONLY mode summary
+    if (sourceLog.ldtkFallbackBlocked.length > 0) {
+      console.log(`❌ TILED_ONLY mode: ${sourceLog.ldtkFallbackBlocked.length} room(s) missing TMX files:`);
+      for (const roomId of sourceLog.ldtkFallbackBlocked) {
+        console.log(`   - ${roomId} (expected: public/content/tiled/rooms/${roomId}.tmx)`);
+      }
+      console.log('');
+      console.log('Error: Create TMX files for these rooms or disable TILED_ONLY mode.');
+      process.exit(1);
+    } else {
+      console.log(`✅ Wrote level index: ${INDEX_PATH}`);
+      console.log(`   Tiled: ${sourceLog.tiled.length}`);
+      console.log('   LDtk:  0 (TILED_ONLY mode)');
+      if (sourceLog.missing.length > 0) {
+        console.log(`   ⚠️ Compile needed: ${sourceLog.missing.length} (${sourceLog.missing.join(', ')})`);
+      }
+    }
+  } else {
+    // Normal mode summary
+    console.log(`✅ Wrote level index: ${INDEX_PATH}`);
+    console.log(`   Tiled: ${sourceLog.tiled.length}`);
+    console.log(`   LDtk:  ${sourceLog.ldtk.length}`);
+    if (sourceLog.missing.length > 0) {
+      console.log(`   ⚠️ Missing: ${sourceLog.missing.length} (${sourceLog.missing.join(', ')})`);
+    }
   }
 }
 
@@ -281,3 +345,5 @@ main().catch((err) => {
   console.error(`❌ ${err.message}`);
   process.exit(1);
 });
+
+

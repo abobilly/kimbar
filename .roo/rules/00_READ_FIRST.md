@@ -18,11 +18,15 @@
 3. Deterministic pipelines — generated artifacts must be stable and reproducible.
 4. Agent-friendly workflow — every operation is an npm script; validators block regressions.
 5. MCP controlled — use only allowlisted read-only tools; all edits validated via local gates.
-6. **Room registry source-of-truth** — Room registry is populated from explicit specs only:
-   - `content/room_entries/*.json` (RoomEntry schema) — bridge entries pointing to existing LDtk rooms
-   - `content/rooms/*.json` (RoomSpec schema) — future Tiled-authored rooms (may be empty now)
+6. **Tiled-first for playable rooms** — All new playable rooms MUST be authored in Tiled:
+   - Canonical documentation: [`docs/TILED_PIPELINE.md`](../../docs/TILED_PIPELINE.md)
+   - World connectivity: [`docs/WORLD_CONTRACT.md`](../../docs/WORLD_CONTRACT.md)
+   - Migration guidance: [`docs/MIGRATION_GUIDE.md`](../../docs/MIGRATION_GUIDE.md)
+   - See also: "Content + Levels Rules" in [`AGENTS.md`](../../AGENTS.md)
+   - TMX files in `public/content/tiled/rooms/` are authoritative
+   - LDtk (`public/content/ldtk/`) is legacy fallback only — Tiled always wins when both exist
+   - Use `TILED_ONLY=1 npm run validate` to enforce strict Tiled-only mode
    - **FORBIDDEN**: scanning LDtk directories (`public/content/ldtk/**`) to auto-discover rooms
-   - If `content/rooms/` is empty, that's acceptable (Tiled authoring not yet started).
 
 ## MCP Policy (KIMBAR)
 - **Allowed**: `repo.search`, `repo.lookup`, `repo.status`, `repo.reindex` (scope=changed only by default).
