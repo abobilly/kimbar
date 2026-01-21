@@ -76,3 +76,6 @@ Qwen-Agent/
 code-assistant-manager/
 tmp/
 workers/
+
+# Visual Studio
+.vs/
