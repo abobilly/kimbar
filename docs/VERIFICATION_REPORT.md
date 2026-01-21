@@ -1,216 +1,475 @@
-# Tiled Pipeline Verification Report
 
-**Generated:** 2026-01-20T23:50:33Z  
-**Purpose:** Document the current state of the Tiled pipeline migration and provide auditable evidence that all playable rooms have been migrated to Tiled-first.
+> kimbar@0.1.0 validate:tiled
+> node scripts/validate-tiled-maps.mjs
 
----
+🗺️  Tiled Map Validation
+========================
 
-## 1. Playable Rooms Truth Table
+Checking for __MACOSX directories...
+✓ No __MACOSX directories found
 
-This table verifies that all rooms defined in `specs/room_entries/` have corresponding TMX files and are included in the world manifest.
+Validating TMX maps in rooms/...
 
-| Room ID | TMX Exists | In World Manifest | In Room Entries |
-|---------|------------|-------------------|-----------------|
-| cafeteria | ✓ | ✓ | ✓ |
-| chambers_alito | ✓ | ✓ | ✓ |
-| chambers_barrett | ✓ | ✓ | ✓ |
-| chambers_gorsuch | ✓ | ✓ | ✓ |
-| chambers_jackson | ✓ | ✓ | ✓ |
-| chambers_kagan | ✓ | ✓ | ✓ |
-| chambers_kavanaugh | ✓ | ✓ | ✓ |
-| chambers_roberts | ✓ | ✓ | ✓ |
-| chambers_sotomayor | ✓ | ✓ | ✓ |
-| chambers_thomas | ✓ | ✓ | ✓ |
-| courthouse_exterior | ✓ | ✓ | ✓ |
-| courtroom_main | ✓ | ✓ | ✓ |
-| library | ✓ | ✓ | ✓ |
-| press_room | ✓ | ✓ | ✓ |
-| records_vault | ✓ | ✓ | ✓ |
-| robing_room | ✓ | ✓ | ✓ |
-| room_scotus_hall_01 | ✓ | ✓ | ✓ |
-| scotus_lobby | ✓ | ✓ | ✓ |
+✓ rooms\cafeteria.tmx
+✓ rooms\chambers_alito.tmx
+✓ rooms\chambers_barrett.tmx
+✓ rooms\chambers_gorsuch.tmx
+✓ rooms\chambers_jackson.tmx
+✓ rooms\chambers_kagan.tmx
+✓ rooms\chambers_kavanaugh.tmx
+✓ rooms\chambers_roberts.tmx
+✓ rooms\chambers_sotomayor.tmx
+✓ rooms\chambers_thomas.tmx
+✓ rooms\courthouse_exterior.tmx
+✓ rooms\courtroom_main.tmx
+✓ rooms\library.tmx
+✓ rooms\press_room.tmx
+✓ rooms\records_vault.tmx
+✓ rooms\robing_room.tmx
+✓ rooms\room_scotus_hall_01.tmx
+✓ rooms\scotus_chambers_shell.tmx
+✓ rooms\scotus_courtroom_shell.tmx
+✓ rooms\scotus_hallway_01.tmx
+✓ rooms\scotus_library_shell.tmx
+✓ rooms\scotus_lobby_small.tmx
+✓ rooms\scotus_lobby.tmx
+✓ rooms\scotus_office_shell.tmx
 
-### Summary
+Validating Tiled JSON maps...
 
-- **Room Entries:** 18
-- **TMX Files (matching room entries):** 18/18 ✓
-- **In World Manifest:** 18/18 ✓
-- **Coverage:** 100%
+✓ supreme-court\chambers_roberts.json
+✓ supreme-court\courthouse_exterior.json
+✓ supreme-court\courtroom_main.json
+✓ supreme-court\hallway.json
+✓ supreme-court\lobby.json
+✓ supreme-court\scotus_lobby.json
 
-### Additional TMX Files (Shell Templates)
+Validation: 30 passed, 0 failed (30 total maps)
 
-The following TMX files exist but are not in room_entries (they are shell templates for development):
+✅ All Tiled maps valid
 
-| TMX File | Purpose |
-|----------|---------|
-| scotus_chambers_shell.tmx | Template for chambers rooms |
-| scotus_courtroom_shell.tmx | Template for courtroom |
-| scotus_hallway_01.tmx | Hallway template |
-| scotus_library_shell.tmx | Library template |
-| scotus_lobby_small.tmx | Small lobby variant |
-| scotus_office_shell.tmx | Office template |
+> kimbar@0.1.0 compile:tiled
+> node scripts/compile-tiled-maps.mjs
 
----
+🔨 Tiled Map Compilation
+========================
 
-## 2. World Manifest Summary
+Found 6 JSON files and 24 TMX files
 
-**Path:** `public/content/tiled/worlds/scotus.world`  
-**Total Maps:** 18
+✓ cafeteria (tmx)
+✓ chambers_alito (tmx)
+✓ chambers_barrett (tmx)
+✓ chambers_gorsuch (tmx)
+✓ chambers_jackson (tmx)
+✓ chambers_kagan (tmx)
+✓ chambers_kavanaugh (tmx)
+✓ chambers_roberts (tmx)
+✓ chambers_sotomayor (tmx)
+✓ chambers_thomas (tmx)
+✓ courthouse_exterior (tmx)
+✓ courtroom_main (tmx)
+✓ library (tmx)
+✓ press_room (tmx)
+✓ records_vault (tmx)
+✓ robing_room (tmx)
+✓ room_scotus_hall_01 (tmx)
+✓ scotus_chambers_shell (tmx)
+✓ scotus_courtroom_shell (tmx)
+✓ scotus_hallway_01 (tmx)
+✓ scotus_library_shell (tmx)
+✓ scotus_lobby_small (tmx)
+✓ scotus_lobby (tmx)
+✓ scotus_office_shell (tmx)
+✓ supreme-court/chambers_roberts (json)
+✓ supreme-court/courthouse_exterior (json)
+✓ supreme-court/courtroom_main (json)
+✓ supreme-court/hallway (json)
+✓ supreme-court/lobby (json)
+✓ supreme-court/scotus_lobby (json)
 
-### Maps Included
+Compilation: 30 succeeded, 0 failed
 
-| Map | Position | Dimensions |
-|-----|----------|------------|
-| cafeteria.tmx | (0, 0) | 640×480px |
-| chambers_alito.tmx | (704, 0) | 480×384px |
-| chambers_barrett.tmx | (1248, 0) | 480×384px |
-| chambers_gorsuch.tmx | (1792, 0) | 480×384px |
-| chambers_jackson.tmx | (0, 544) | 480×384px |
-| chambers_kagan.tmx | (544, 544) | 480×384px |
-| chambers_kavanaugh.tmx | (1088, 544) | 480×384px |
-| chambers_roberts.tmx | (1632, 544) | 480×384px |
-| chambers_sotomayor.tmx | (0, 992) | 480×384px |
-| chambers_thomas.tmx | (544, 992) | 480×384px |
-| courthouse_exterior.tmx | (1088, 992) | 800×640px |
-| courtroom_main.tmx | (1952, 992) | 960×640px |
-| library.tmx | (0, 1696) | 640×480px |
-| press_room.tmx | (704, 1696) | 480×384px |
-| records_vault.tmx | (1248, 1696) | 480×384px |
-| robing_room.tmx | (1792, 1696) | 480×384px |
-| room_scotus_hall_01.tmx | (0, 2240) | 640×480px |
-| scotus_lobby.tmx | (704, 2240) | 640×480px |
+✅ Compiled to c:\Users\andre\lawchuck\badgey.org\kimbar\public\generated\levels\tiled
 
----
+> kimbar@0.1.0 build:tiled-world
+> node scripts/build-tiled-world.mjs
 
-## 3. Validation Command Results
+Tiled World Generation Script
+==============================
 
-**Commands Run:** 2026-01-20T23:49:49Z - 2026-01-20T23:50:27Z
+Found 18 room entries
 
-### 3.1 `npm run validate:tiled`
+Processing: cafeteria
+  ✓ Dimensions: 640x480px
+Processing: chambers_alito
+  ✓ Dimensions: 480x384px
+Processing: chambers_barrett
+  ✓ Dimensions: 480x384px
+Processing: chambers_gorsuch
+  ✓ Dimensions: 480x384px
+Processing: chambers_jackson
+  ✓ Dimensions: 480x384px
+Processing: chambers_kagan
+  ✓ Dimensions: 480x384px
+Processing: chambers_kavanaugh
+  ✓ Dimensions: 480x384px
+Processing: chambers_roberts
+  ✓ Dimensions: 480x384px
+Processing: chambers_sotomayor
+  ✓ Dimensions: 480x384px
+Processing: chambers_thomas
+  ✓ Dimensions: 480x384px
+Processing: courthouse_exterior
+  ✓ Dimensions: 800x640px
+  ✓ Found world graph bounds: 60x80 tiles
+Processing: courtroom_main
+  ✓ Dimensions: 960x640px
+  ✓ Found world graph bounds: 20x15 tiles
+Processing: library
+  ✓ Dimensions: 640x480px
+Processing: press_room
+  ✓ Dimensions: 480x384px
+Processing: records_vault
+  ✓ Dimensions: 480x384px
+Processing: robing_room
+  ✓ Dimensions: 480x384px
+Processing: room_scotus_hall_01
+  ✓ Dimensions: 640x480px
+Processing: scotus_lobby
+  ✓ Dimensions: 640x480px
+  ✓ Found world graph bounds: 20x15 tiles
 
-| Status | Result |
-|--------|--------|
-| **PASS** | ✅ All Tiled maps valid |
+Collected 18 maps for world file
 
-**Summary:**
-- 24 TMX files validated
-- 6 JSON files validated
-- Total: 30 maps passed, 0 failed
+==================================================
+Summary
+==================================================
+✓ Generated: c:\Users\andre\lawchuck\badgey.org\kimbar\public\content\tiled\worlds\scotus.world
+✓ Maps included: 18
 
-### 3.2 `npm run compile:tiled`
+Maps in world:
+  - cafeteria: (0, 0) 640x480px
+  - chambers_alito: (704, 0) 480x384px
+  - chambers_barrett: (1248, 0) 480x384px
+  - chambers_gorsuch: (1792, 0) 480x384px
+  - chambers_jackson: (0, 544) 480x384px
+  - chambers_kagan: (544, 544) 480x384px
+  - chambers_kavanaugh: (1088, 544) 480x384px
+  - chambers_roberts: (1632, 544) 480x384px
+  - chambers_sotomayor: (0, 992) 480x384px
+  - chambers_thomas: (544, 992) 480x384px
+  - courthouse_exterior: (1088, 992) 800x640px
+  - courtroom_main: (1952, 992) 960x640px
+  - library: (0, 1696) 640x480px
+  - press_room: (704, 1696) 480x384px
+  - records_vault: (1248, 1696) 480x384px
+  - robing_room: (1792, 1696) 480x384px
+  - room_scotus_hall_01: (0, 2240) 640x480px
+  - scotus_lobby: (704, 2240) 640x480px
 
-| Status | Result |
-|--------|--------|
-| **PASS** | ✅ Compiled to public/generated/levels/tiled |
+> kimbar@0.1.0 build:levels
+> node scripts/build-levels.js
 
-**Summary:**
-- 24 TMX files compiled
-- 6 JSON files compiled
-- Total: 30 succeeded, 0 failed
+🧭 Building Level Index (Tiled-first)
 
-### 3.3 `npm run build:tiled-world`
+  📦 cafeteria: Tiled
+  📦 chambers_alito: Tiled
+  📦 chambers_barrett: Tiled
+  📦 chambers_gorsuch: Tiled
+  📦 chambers_jackson: Tiled
+  📦 chambers_kagan: Tiled
+  📦 chambers_kavanaugh: Tiled
+  📦 chambers_roberts: Tiled
+  📦 chambers_sotomayor: Tiled
+  📦 chambers_thomas: Tiled
+  📦 courthouse_exterior: Tiled
+  📦 courtroom_main: Tiled
+  📦 library: Tiled
+  📦 press_room: Tiled
+  📦 records_vault: Tiled
+  📦 robing_room: Tiled
+  📦 room_scotus_hall_01: Tiled
+  📦 scotus_chambers_shell: Tiled
+  📦 scotus_courtroom_shell: Tiled
+  📦 scotus_hallway_01: Tiled
+  📦 scotus_library_shell: Tiled
+  📦 scotus_lobby: Tiled
+  📦 scotus_lobby_small: Tiled
+  📦 scotus_office_shell: Tiled
+  📦 supreme-court/chambers_roberts: Tiled (compiled only, no .tmx source)
+  📦 supreme-court/courthouse_exterior: Tiled (compiled only, no .tmx source)
+  📦 supreme-court/courtroom_main: Tiled (compiled only, no .tmx source)
+  📦 supreme-court/hallway: Tiled (compiled only, no .tmx source)
+  📦 supreme-court/lobby: Tiled (compiled only, no .tmx source)
+  📦 supreme-court/scotus_lobby: Tiled (compiled only, no .tmx source)
+  ⏭️ cafeteria: Skipping LDtk (Tiled source exists)
+  ⏭️ cafeteria: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_alito: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_alito: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_barrett: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_barrett: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_gorsuch: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_gorsuch: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_jackson: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_jackson: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_kagan: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_kagan: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_kavanaugh: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_kavanaugh: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_roberts: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_roberts: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_sotomayor: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_sotomayor: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_thomas: Skipping LDtk (Tiled source exists)
+  ⏭️ chambers_thomas: Skipping LDtk (Tiled source exists)
+  ⏭️ courthouse_exterior: Skipping LDtk (Tiled source exists)
+  ⏭️ courthouse_exterior: Skipping LDtk (Tiled source exists)
+  ⏭️ courtroom_main: Skipping LDtk (Tiled source exists)
+  ⏭️ courtroom_main: Skipping LDtk (Tiled source exists)
+  ⏭️ library: Skipping LDtk (Tiled source exists)
+  ⏭️ library: Skipping LDtk (Tiled source exists)
+  ⏭️ press_room: Skipping LDtk (Tiled source exists)
+  ⏭️ press_room: Skipping LDtk (Tiled source exists)
+  ⏭️ records_vault: Skipping LDtk (Tiled source exists)
+  ⏭️ records_vault: Skipping LDtk (Tiled source exists)
+  ⏭️ robing_room: Skipping LDtk (Tiled source exists)
+  ⏭️ robing_room: Skipping LDtk (Tiled source exists)
+  📦 room.scotus_hall_01: LDtk (fallback)
+  ⏭️ room.scotus_hall_01: Skipping LDtk (Tiled compiled exists)
+  ⏭️ scotus_lobby: Skipping LDtk (Tiled source exists)
+  ⏭️ scotus_lobby: Skipping LDtk (Tiled source exists)
+  📦 Level_0: LDtk (fallback)
+  ⏭️ Level_0: Skipping LDtk (Tiled compiled exists)
 
-| Status | Result |
-|--------|--------|
-| **PASS** | ✅ Generated scotus.world |
+──────────────────────────────────────────────────
+✅ Wrote level index: c:\Users\andre\lawchuck\badgey.org\kimbar\public\generated\levels\index.json
+   Tiled: 30
+   LDtk:  2
 
-**Summary:**
-- 18 room entries processed
-- 18 maps included in world file
-- World graph bounds detected for: courthouse_exterior, courtroom_main, scotus_lobby
+> kimbar@0.1.0 validate
+> node scripts/validate.js
 
-### 3.4 `npm run build:levels`
+🔍 Kim Bar Content Validator
 
-| Status | Result |
-|--------|--------|
-| **PASS** | ✅ Level index generated |
+==================================================
 
-**Summary:**
-- Tiled levels: 30
-- LDtk fallback levels: 2 (legacy, not used when Tiled exists)
-- All room entries have Tiled sources
+📜 Loading Content Contract...
+  ✅ Loaded contract v1.1.0
 
-### 3.5 `npm run validate`
+📋 Loading Schemas...
+  📋 Loaded schema: AiJobSpec
+  📋 Loaded schema: AssetRegistry
+  📋 Loaded schema: AssetSpec
+  📋 Loaded schema: CharacterSpec
+  📋 Loaded schema: content_contract
+  📋 Loaded schema: FlashcardPack
+  📋 Loaded schema: FlashcardsFile
+  📋 Loaded schema: PlacementDraft
+  📋 Loaded schema: RoomEntry
+  📋 Loaded schema: RoomSpec
+  📋 Loaded schema: TilesetParts
+  📋 Loaded schema: TilesetRegistry
+  📋 Loaded schema: UlpcManifest
+  📋 Loaded schema: WorldGraph
 
-| Status | Result |
-|--------|--------|
-| **PASS** | ✅ All validations passed |
+📜 Validating Content Contract...
+  ✅ Contract schema valid
 
-**Tiled-First Summary:**
-- Tiled: 18 rooms
-- LDtk fallback: 0 rooms
+📚 Validating Registry...
+  ✅ Schema valid
+  ✅ 13 outfits defined
+  ✅ 16 subjects defined
+  ✅ 18 rooms registered
+  ✅ 1 flashcard packs registered
+  ✅ 4 ink stories registered
 
-**Warnings (non-blocking):**
-- World graph node 'hallway' not found in registry
-- Door position mismatches in scotus_lobby.json
-- ULPC manifest is empty
-- Missing tile definitions for various rooms (art assets pending)
+🧱 Validating Tilesets...
+  ✅ Tileset registry schema valid
+  ✅ 197 tileset(s) indexed
+  ✅ windows-doors.parts.json: schema valid
 
-### 3.6 `TILED_ONLY=1 npm run validate` (Strict Mode)
+📇 Validating Flashcard Packs...
+  Validating pack: cloze
+  ✅ cloze: 1154 cloze cards (NDJSON format)
 
-| Status | Result |
-|--------|--------|
-| **PASS** | ✅ All validations passed in strict mode |
+🏛️ Validating Room Entries...
+  Validating room: cafeteria
+  ✅ cafeteria: Tiled source exists (LDtk check skipped)
+  Validating room: chambers_alito
+  ✅ chambers_alito: Tiled source exists (LDtk check skipped)
+  Validating room: chambers_barrett
+  ✅ chambers_barrett: Tiled source exists (LDtk check skipped)
+  Validating room: chambers_gorsuch
+  ✅ chambers_gorsuch: Tiled source exists (LDtk check skipped)
+  Validating room: chambers_jackson
+  ✅ chambers_jackson: Tiled source exists (LDtk check skipped)
+  Validating room: chambers_kagan
+  ✅ chambers_kagan: Tiled source exists (LDtk check skipped)
+  Validating room: chambers_kavanaugh
+  ✅ chambers_kavanaugh: Tiled source exists (LDtk check skipped)
+  Validating room: chambers_roberts
+  ✅ chambers_roberts: Tiled source exists (LDtk check skipped)
+  Validating room: chambers_sotomayor
+  ✅ chambers_sotomayor: Tiled source exists (LDtk check skipped)
+  Validating room: chambers_thomas
+  ✅ chambers_thomas: Tiled source exists (LDtk check skipped)
+  Validating room: courthouse_exterior
+  ✅ courthouse_exterior: Tiled source exists (LDtk check skipped)
+  Validating room: courtroom_main
+  ✅ courtroom_main: Tiled source exists (LDtk check skipped)
+  Validating room: library
+  ✅ library: Tiled source exists (LDtk check skipped)
+  Validating room: press_room
+  ✅ press_room: Tiled source exists (LDtk check skipped)
+  Validating room: records_vault
+  ✅ records_vault: Tiled source exists (LDtk check skipped)
+  Validating room: robing_room
+  ✅ robing_room: Tiled source exists (LDtk check skipped)
+  Validating room: room_scotus_hall_01
+  ✅ room_scotus_hall_01: Tiled source exists (LDtk check skipped)
+  Validating room: scotus_lobby
+  ✅ scotus_lobby: Tiled source exists (LDtk check skipped)
 
-**Summary:**
-- Strict mode enabled: No LDtk fallback allowed
-- All 18 rooms have Tiled source + compiled output
-- Same warnings as standard validation
+📜 Validating Ink Entries...
+  Validating ink story: justices
+  ✅ justices: 0 knots found
+  Validating ink story: rewards
+  ✅ rewards: 0 knots found
+  Validating ink story: story
+  ✅ story: 0 knots found
+  Validating ink story: tutorial
+  ✅ tutorial: 0 knots found
 
----
+🖼️ Validating Portrait Assets...
+  ✅ 34 portrait(s) checked
 
-## 4. Documentation Gate Results
+🗺️ Validating World Graph...
+  ✅ World graph schema valid
+  ✅ 5 nodes, 8 edges
 
-**Command:** `npm run verify:docs`
+🎭 Validating Character Specs...
+  ✅ char.kim.json: schema valid
+  ✅ npc.bailiff.json: schema valid
+  ✅ npc.clerk.json: schema valid
+  ✅ npc.clerk_01.json: schema valid
+  ✅ npc.juror_01.json: schema valid
+  ✅ npc.juror_02.json: schema valid
+  ✅ npc.justice_alito.json: schema valid
+  ✅ npc.justice_barrett.json: schema valid
+  ✅ npc.justice_gorsuch.json: schema valid
+  ✅ npc.justice_jackson.json: schema valid
+  ✅ npc.justice_kagan.json: schema valid
+  ✅ npc.justice_kavanaugh.json: schema valid
+  ✅ npc.justice_roberts.json: schema valid
+  ✅ npc.justice_sotomayor.json: schema valid
+  ✅ npc.justice_thomas.json: schema valid
+  ✅ npc.lawyer_defense.json: schema valid
+  ✅ npc.lawyer_prosecution.json: schema valid
+  ✅ npc.librarian.json: schema valid
+  ✅ npc.reporter.json: schema valid
+  ✅ npc.tourist.json: schema valid
+  ✅ npc.visitor_female.json: schema valid
+  ✅ npc.visitor_male.json: schema valid
 
-| Check | Status |
-|-------|--------|
-| TILED_PIPELINE.md exists | ✅ PASS |
-| Contains specs/** folder invariant | ✅ PASS |
-| Contains public/content/** folder invariant | ✅ PASS |
-| Contains public/generated/** folder invariant | ✅ PASS |
-| Contains TILED_ONLY strict mode reference | ✅ PASS |
-| .gitignore exists | ✅ PASS |
-| public/generated is in .gitignore | ✅ PASS |
-| No tracked files in public/generated/ | ✅ PASS |
-| World manifest exists | ✅ PASS |
-| World manifest has 18 maps | ✅ PASS |
+🏗️ Validating Room Specs (specs/rooms)...
+  ✅ courthouse_exterior.json: RoomSpec schema valid
+  ✅ scotus_lobby.json: RoomSpec schema valid
 
-**Warning:** 6 TMX files not in world manifest (shell templates, expected)
+🌍 Validating Room Specs Against World Graph...
+  ✅ courthouse_exterior.json: matches world graph
+  ✅ scotus_lobby.json: matches world graph
 
-**Overall:** ✅ Documentation gate PASSED with warnings
+🏛️ Validating Room Entry Specs (specs/room_entries)...
+  ✅ cafeteria.json: RoomEntry schema valid
+  ✅ chambers_alito.json: RoomEntry schema valid
+  ✅ chambers_barrett.json: RoomEntry schema valid
+  ✅ chambers_gorsuch.json: RoomEntry schema valid
+  ✅ chambers_jackson.json: RoomEntry schema valid
+  ✅ chambers_kagan.json: RoomEntry schema valid
+  ✅ chambers_kavanaugh.json: RoomEntry schema valid
+  ✅ chambers_roberts.json: RoomEntry schema valid
+  ✅ chambers_sotomayor.json: RoomEntry schema valid
+  ✅ chambers_thomas.json: RoomEntry schema valid
+  ✅ courthouse_exterior.json: RoomEntry schema valid
+  ✅ courtroom_main.json: RoomEntry schema valid
+  ✅ library.json: RoomEntry schema valid
+  ✅ press_room.json: RoomEntry schema valid
+  ✅ records_vault.json: RoomEntry schema valid
+  ✅ robing_room.json: RoomEntry schema valid
+  ✅ room_scotus_hall_01.json: RoomEntry schema valid
+  ✅ scotus_lobby.json: RoomEntry schema valid
 
----
+🗺️ Validating Tiled-First Room Sources...
+  ✅ cafeteria: Tiled source + compiled ✓
+  ✅ chambers_alito: Tiled source + compiled ✓
+  ✅ chambers_barrett: Tiled source + compiled ✓
+  ✅ chambers_gorsuch: Tiled source + compiled ✓
+  ✅ chambers_jackson: Tiled source + compiled ✓
+  ✅ chambers_kagan: Tiled source + compiled ✓
+  ✅ chambers_kavanaugh: Tiled source + compiled ✓
+  ✅ chambers_roberts: Tiled source + compiled ✓
+  ✅ chambers_sotomayor: Tiled source + compiled ✓
+  ✅ chambers_thomas: Tiled source + compiled ✓
+  ✅ courthouse_exterior: Tiled source + compiled ✓
+  ✅ courtroom_main: Tiled source + compiled ✓
+  ✅ library: Tiled source + compiled ✓
+  ✅ press_room: Tiled source + compiled ✓
+  ✅ records_vault: Tiled source + compiled ✓
+  ✅ robing_room: Tiled source + compiled ✓
+  ✅ room_scotus_hall_01: Tiled source + compiled ✓
+  ✅ scotus_lobby: Tiled source + compiled ✓
 
-## 5. Conclusion
+  📊 Tiled-First Summary:
+     Tiled: 18
+     LDtk fallback: 0
 
-### Overall Status: ✅ PASS
+🎨 Checking LPC Style Guide...
+  ✅ LPC v1.1.0 style loaded
+    📐 Grid: 32×32 tiles, 16×16 subtiles
+    📐 Frame size: 64×64 (enforced)
+    📐 Perspective: 60° orthographic
+    📐 Drop shadow: #322125 @ 60%
+    📐 Dithering: disallow
+    📐 Outlines: tiles/props=no_pure_black, chars=near_black_no_selective
+    📐 Char bounding: base 32×48, clothing 48×64
+    📐 Row order: back → left → front → right
 
-The Tiled pipeline migration is **complete** for all playable rooms.
+🧾 Validating ULPC Manifest...
+  ✅ ULPC manifest loaded (0 file(s), 0 glob(s))
 
-### Key Findings
+🧭 Validating Placement Drafts...
+  ✅ prop_placements.json: schema valid
 
-1. **100% Coverage:** All 18 room entries have corresponding TMX files
-2. **World Manifest Complete:** All 18 playable rooms are in the world manifest
-3. **Strict Mode Passes:** `TILED_ONLY=1` validation succeeds with no LDtk fallbacks
-4. **Pipeline Functional:** All build and validation commands pass
-5. **Documentation Current:** All documentation gates pass
+🧱 Validating Tile Completeness...
+  ✅ Tile manifest: 230 defined, 0 generated (0%)
+  📋 18 rooms checked, 18 have missing tiles
 
-### Warnings (Non-Blocking)
+==================================================
 
-| Category | Count | Notes |
-|----------|-------|-------|
-| Missing tile assets | 18 rooms | Art assets pending generation |
-| Door position mismatches | 2 | scotus_lobby.json needs portal sync |
-| World graph orphan | 1 | 'hallway' node not in registry |
-| Shell templates | 6 | TMX files not in world manifest (expected) |
+📊 Validation Summary:
 
-### References
+Warnings:
+  ⚠️ World graph: node 'hallway' not found in registry (room may not exist yet)
+  ⚠️ scotus_lobby.json: door 'scotus_lobby_to_courtroom_main' position (0,7) differs from portal (19,6.5)
+  ⚠️ scotus_lobby.json: door 'scotus_lobby_to_library' position (19,7) differs from portal (0,6.5)
+  ⚠️ ULPC manifest is empty (no files/globs listed)
+  ⚠️ Room 'scotus_lobby' missing 14 tile(s): tile.floor.marble.white_*, tile.floor.marble.black_inset_*, tile.trim.stone_*...
+  ⚠️ Room 'room.scotus_hall_01' missing 9 tile(s): tile.floor.marble.white_*, tile.trim.stone_*, tile.wall.interior_stone_*...
+  ⚠️ Room 'courtroom_main' missing 17 tile(s): tile.trim.stone_*, tile.wall.interior_stone_*, tile.door.double_wood_*...
+  ⚠️ Room 'robing_room' missing 9 tile(s): tile.floor.court_wood_*, tile.wall.interior_woodpanel_*, tile.door.single_wood_*...
+  ⚠️ Room 'press_room' missing 8 tile(s): tile.wall.interior_stone_*, tile.door.double_wood_*, tile.floor.press_carpet_*...
+  ⚠️ Room 'records_vault' missing 6 tile(s): tile.floor.vault_stone_*, tile.wall.vault_reinforced_*, tile.door.vault_round_*...
+  ⚠️ Room 'library' missing 8 tile(s): tile.wall.interior_woodpanel_*, tile.door.single_wood_*, tile.floor.library_wood_*...
+  ⚠️ Room 'cafeteria' missing 10 tile(s): tile.wall.interior_stone_*, tile.door.double_wood_*, tile.floor.cafeteria_tile_*...
+  ⚠️ Room 'courthouse_exterior' missing 10 tile(s): tile.ground.grass_*, tile.ground.sidewalk_*, tile.steps.granite_*...
+  ⚠️ Room 'chambers_roberts' missing 16 tile(s): tile.floor.chambers_carpet_*, tile.wall.interior_woodpanel_*, tile.door.single_wood_*...
+  ⚠️ Room 'chambers_thomas' missing 16 tile(s): tile.floor.chambers_carpet_*, tile.wall.interior_woodpanel_*, tile.door.single_wood_*...
+  ⚠️ Room 'chambers_alito' missing 17 tile(s): tile.floor.chambers_carpet_*, tile.wall.interior_woodpanel_*, tile.door.single_wood_*...
+  ⚠️ Room 'chambers_sotomayor' missing 17 tile(s): tile.floor.chambers_carpet_*, tile.wall.interior_woodpanel_*, tile.door.single_wood_*...
+  ⚠️ Room 'chambers_kagan' missing 15 tile(s): tile.floor.chambers_carpet_*, tile.wall.interior_woodpanel_*, tile.door.single_wood_*...
+  ⚠️ Room 'chambers_gorsuch' missing 15 tile(s): tile.floor.chambers_carpet_*, tile.wall.interior_woodpanel_*, tile.door.single_wood_*...
+  ⚠️ Room 'chambers_kavanaugh' missing 15 tile(s): tile.floor.chambers_carpet_*, tile.wall.interior_woodpanel_*, tile.door.single_wood_*...
+  ⚠️ Room 'chambers_barrett' missing 16 tile(s): tile.floor.chambers_carpet_*, tile.wall.interior_woodpanel_*, tile.door.single_wood_*...
+  ⚠️ Room 'chambers_jackson' missing 17 tile(s): tile.floor.chambers_carpet_*, tile.wall.interior_woodpanel_*, tile.door.single_wood_*...
 
-- [TILED_PIPELINE.md](./TILED_PIPELINE.md) — Authoritative Tiled pipeline documentation
-- [WORLD_CONTRACT.md](./WORLD_CONTRACT.md) — World manifest and room connectivity
-- [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md) — Migration guidance for legacy content
-
----
-
-*Report generated automatically. Re-run validation commands to verify current state.*
+✅ All validations passed!
