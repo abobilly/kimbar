@@ -4,19 +4,12 @@
  <tileset firstgid="33" source="../tilesets/scotus_structures.tsx"/>
  <tileset firstgid="81" source="../tilesets/scotus_decor.tsx"/>
  <tileset firstgid="97" source="../tilesets/collision.tsx"/>
- <tileset firstgid="129" source="../../../../vendor/tilesets/lpc/terrains/terrain-map-v7-repacked.tsx"/>
- <tileset firstgid="16513" source="../../../../private/assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/scotus_exterior_building.tsx"/>
- <tileset firstgid="16618" source="../../../../dist/content/tiled/tilesets/scotus_structures.tsx"/>
- <tileset firstgid="16666" source="../../../assets/tilesets/scotus_exterior_building_pack_v2/scotus_exterior_building_v2/scotus_exterior_building.tsx"/>
- <tileset firstgid="16771" source="../../../../dist/content/tiled/tilesets/collision.tsx"/>
- <tileset firstgid="16803" source="../../../../dist/assets/tilesets/lpc/victorian/roofs.tsx"/>
+ <tileset firstgid="129" source="../tilesets/terrain.tsx"/>
  <tileset firstgid="20899" source="../tilesets/castle.tsx"/>
  <tileset firstgid="21051" source="../tilesets/ProjectUtumno_full.tsx"/>
- <tileset firstgid="27131" source="../tilesets/ProjectUtumno_full.tsx"/>
- <tileset firstgid="33211" source="../../../../dist/assets/tilesets/lpc/victorian/bricks.tsx"/>
- <tileset firstgid="35259" source="tile2map32.tsx"/>
+ <tileset firstgid="35259" source="../tilesets/tile2map32.tsx"/>
  <tileset firstgid="36579" source="../tilesets/scomp.tsx"/>
- <tileset firstgid="37359" source="../../tilesets/Sky.tsx"/>
+ <tileset firstgid="37359" source="../tilesets/scotus_exterior.tsx"/>
  <layer id="7" name="Floor" width="80" height="60">
   <data encoding="csv">
 37359,37360,37361,37362,37363,37364,37365,37359,37360,37361,37362,37363,37364,37365,37366,37367,37368,37369,37370,37371,37372,37373,37374,37373,37374,37359,37360,37361,37362,37363,37364,37365,37366,37367,37368,37369,37370,37371,37372,37373,37374,37362,37363,37364,37365,37366,37367,37368,37369,37370,37371,37372,37373,37374,37375,37376,37377,37378,37379,37380,37381,37382,37383,37384,37385,37386,37360,37361,37362,37363,37364,37365,37366,37367,37368,37369,37370,37371,37372,37373,

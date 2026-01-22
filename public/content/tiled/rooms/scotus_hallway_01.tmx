@@ -4,7 +4,6 @@
  <tileset firstgid="33" source="../tilesets/scotus_structures.tsx"/>
  <tileset firstgid="81" source="../tilesets/scotus_decor.tsx"/>
  <tileset firstgid="97" source="../tilesets/collision.tsx"/>
- <tileset firstgid="129" source="../../../../dist/content/tiled/tilesets/scotus_structures.tsx"/>
  <layer id="7083" name="Floor" width="8" height="32">
   <data encoding="csv">
 6,2,11,4,2,6,4,11,

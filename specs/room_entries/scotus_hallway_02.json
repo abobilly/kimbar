@@ -1,0 +1,7 @@
+{
+    "$schema": "../../schemas/RoomEntry.schema.json",
+    "id": "scotus_hallway_02",
+    "displayName": "SCOTUS Hallway 02",
+    "environment": "interior",
+    "ldtkUrl": "/content/ldtk/scotus_hallway_02.json"
+}
