@@ -177,6 +177,18 @@ export class WorldScene extends Scene {
     // We'll update this dynamically as objects are created
     // For now, set up the layer reference for later use
 
+    // Mobile zoom: increase zoom on mobile devices for better visibility
+    const isMobile = this.sys.game.device.os.android || 
+                     this.sys.game.device.os.iOS || 
+                     this.sys.game.device.os.iPad || 
+                     this.sys.game.device.os.iPhone ||
+                     width < 768; // Fallback: narrow screens
+    
+    if (isMobile) {
+      this.worldCam.setZoom(2);
+      console.log('[WorldScene] Mobile device detected, setting zoom to 2x');
+    }
+
     // Log camera setup in dev mode
     if (import.meta.env?.DEV) {
       console.log('[WorldScene] Camera setup complete:', {
