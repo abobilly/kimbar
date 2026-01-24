@@ -1,5 +1,5 @@
 # Kim Bar - Agent Handoff Document
-**Last Update**: January 23, 2026
+**Last Update**: January 24, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
@@ -67,6 +67,17 @@
 - **How to use**: Open the TMX in Tiled; all NPCs sit on `Entities` with `characterId` + `storyKnot=<justice>_intro`. Move them as desired; keep properties and bump `nextobjectid` if adding more entities or behaviors. Encounter triggers remain separate (add near them if desired).
 - **Gates run**: ✅ `npm run validate:tiled` (6/6 SCOTUS maps passing after justice placements).
 - **Gates not run**: ⏭️ `npm run compile:tiled`, `npm run build:levels`, `npm run check` (not requested this session).
+
+#### Update — Jan 24, 2026 (RoomEntry levelUrl support + SCOTUS mask generator)
+
+- **What changed**:
+   - `scripts/build-characters.js`: `scanRooms()` now accepts RoomEntry specs with `levelUrl` or `ldtkUrl`, and emits `levelUrl` in the registry when present (fixes missing `scotus_1_lobby` in registry-driven loads).
+   - `scripts/generate-scotus-mask-layers.mjs`: new deterministic generator that adds `FloorMask` and `WallMask` layers to `public/content/tiled/rooms/scotus_zones/*.tmx`, using the first tile from `megabob.tsx` as the mask token derived from existing `Floor`/`Walls` layers.
+   - `package.json`: added `gen:masks:scotus` and `gen:masks:scotus:dry` npm scripts.
+- **How to use**:
+   - Run the SCOTUS mask generator (dry-run first if desired), then open the TMX in Tiled and apply the automap rules (`scotus_zones/automap/*`) to regenerate Floor/Walls from masks if needed.
+   - Regenerate the registry after RoomEntry updates via the standard content pipeline.
+- **Gates run**: ⏭️ Not run in this subtask (content edits pending).
 
 ## Placeholder Tile Generator (January 21, 2026)
 

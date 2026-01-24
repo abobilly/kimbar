@@ -70,6 +70,8 @@
         "gen:tiles:dry": "python scripts/generate-tiles-batch.py --dry-run",
         "gen:tiles:rotate": "python scripts/rotate-directional-tiles.py",
         "gen:tiles:assemble": "python scripts/assemble-tileset.py",
+        "gen:masks:scotus": "node scripts/generate-scotus-mask-layers.mjs",
+        "gen:masks:scotus:dry": "node scripts/generate-scotus-mask-layers.mjs --dry-run",
         "gen:tiles:full": "npm run gen:tiles && npm run gen:tiles:rotate && npm run gen:tiles:assemble",
         "gen:tiles:placeholders": "node scripts/generate-placeholder-tiles.mjs",
         "import:lpc": "python scripts/import-lpc-assets.py",

@@ -185,7 +185,8 @@ function buildCharacterEntry(charId) {
  * Each RoomEntry file defines:
  * - id: unique room identifier
  * - displayName: human-readable name
- * - ldtkUrl: path to LDtk JSON (bridge period only)
+ * - levelUrl: path to compiled Tiled LevelData JSON (preferred)
+ * - ldtkUrl: path to LDtk JSON (legacy bridge only)
  * - environment: 'interior' | 'exterior'
  */
 async function scanRooms() {
@@ -211,8 +212,8 @@ async function scanRooms() {
         console.error(`❌ Room entry ${file} missing required 'id' field`);
         continue;
       }
-      if (!spec.ldtkUrl) {
-        console.error(`❌ Room entry ${file} missing required 'ldtkUrl' field`);
+      if (!spec.ldtkUrl && !spec.levelUrl) {
+        console.error(`❌ Room entry ${file} missing required 'levelUrl' or 'ldtkUrl' field`);
         continue;
       }
 
@@ -220,11 +221,13 @@ async function scanRooms() {
         id: spec.id,
         displayName: spec.displayName || spec.name || spec.id,
         environment: spec.environment || 'interior',
-        ldtkUrl: spec.ldtkUrl
+        ...(spec.levelUrl ? { levelUrl: spec.levelUrl } : {}),
+        ...(spec.ldtkUrl ? { ldtkUrl: spec.ldtkUrl } : {})
       };
 
       rooms.push(roomEntry);
-      console.log(`  🏛️ Found room: ${roomEntry.id} (${roomEntry.displayName}) - ${roomEntry.environment}`);
+      const source = roomEntry.levelUrl ? 'tiled' : 'ldtk';
+      console.log(`  🏛️ Found room: ${roomEntry.id} (${roomEntry.displayName}) - ${roomEntry.environment} [${source}]`);
     } catch (e) {
       console.error(`❌ Failed to parse room entry ${file}:`, e.message);
     }
