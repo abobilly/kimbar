@@ -637,13 +637,14 @@ async function findTmxFiles(dir, { includeLegacy = false } = {}) {
       if (entry.isDirectory()) {
         // Skip legacy unless explicitly included
         if (!includeLegacy && entry.name === '_legacy') continue;
-        // Skip templates/tilesets/tiles/schemas/worlds
-        if (['templates', 'tilesets', 'tiles', 'schemas', 'worlds'].includes(entry.name)) continue;
+        // Skip templates/tilesets/tiles/schemas/worlds/automap (automapping rule folders)
+        if (['templates', 'tilesets', 'tiles', 'schemas', 'worlds', 'automap'].includes(entry.name)) continue;
         await scan(fullPath);
         continue;
       }
 
-      if (entry.isFile() && entry.name.endsWith('.tmx') && !entry.name.startsWith('_')) {
+      // Skip sample.tmx (template files), files starting with _ (hidden), and automap rule files
+      if (entry.isFile() && entry.name.endsWith('.tmx') && !entry.name.startsWith('_') && entry.name !== 'sample.tmx') {
         const relativePath = path.relative(BASE_DIR, fullPath);
         files.push({ path: fullPath, relativePath });
       }
