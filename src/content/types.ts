@@ -104,7 +104,7 @@ export interface LevelData {
 }
 
 export const DEFAULT_GAME_STATE: GameState = {
-  currentLevel: 'scotus_lobby',
+  currentLevel: 'scotus_1_lobby',
   playerPosition: { x: 400, y: 500 },
   equippedOutfit: 'default',
   unlockedOutfits: ['default'],

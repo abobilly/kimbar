@@ -20,7 +20,10 @@ import { parseStringPromise } from 'xml2js';
 
 const BASE_DIR = path.join(process.cwd(), 'public', 'content', 'tiled');
 const ROOMS_DIR = path.join(BASE_DIR, 'rooms');
+const ZONE_DIR = path.join(ROOMS_DIR, 'scotus_zones');
 const OUTPUT_DIR = path.join(process.cwd(), 'public', 'generated', 'levels', 'tiled');
+
+const INCLUDE_LEGACY = process.argv.includes('--include-legacy');
 
 /**
  * Recursively find all JSON map files (excluding templates, tilesets, etc.)
@@ -60,21 +63,31 @@ async function findJsonMapFiles(dir, baseDir = dir, depth = 0) {
 /**
  * Find all TMX files in the rooms directory
  */
-async function findTmxFiles(dir) {
+async function findTmxFiles(dir, { includeLegacy = false } = {}) {
   const files = [];
 
-  if (!existsSync(dir)) return files;
+  async function scan(currentDir) {
+    if (!existsSync(currentDir)) return;
 
-  const entries = await readdir(dir, { withFileTypes: true });
+    const entries = await readdir(currentDir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(currentDir, entry.name);
 
-  for (const entry of entries) {
-    if (entry.isFile() && entry.name.endsWith('.tmx') && !entry.name.startsWith('_')) {
-      const fullPath = path.join(dir, entry.name);
-      const relativePath = path.relative(BASE_DIR, fullPath);
-      files.push({ path: fullPath, relativePath, format: 'tmx' });
+      if (entry.isDirectory()) {
+        if (!includeLegacy && entry.name === '_legacy') continue;
+        if (['templates', 'tiles', 'tilesets', 'schemas', 'worlds'].includes(entry.name)) continue;
+        await scan(fullPath);
+        continue;
+      }
+
+      if (entry.isFile() && entry.name.endsWith('.tmx') && !entry.name.startsWith('_')) {
+        const relativePath = path.relative(BASE_DIR, fullPath);
+        files.push({ path: fullPath, relativePath, format: 'tmx' });
+      }
     }
   }
 
+  await scan(dir);
   return files;
 }
 
@@ -247,6 +260,73 @@ function extractTmxEntities(objectgroup) {
   return entities;
 }
 
+function extractTmxSpawns(objectgroup) {
+  if (!objectgroup) return [];
+
+  const objects = Array.isArray(objectgroup.object)
+    ? objectgroup.object
+    : (objectgroup.object ? [objectgroup.object] : []);
+
+  const entities = objects.map(obj => {
+    const props = extractTmxProperties(obj.properties);
+    return {
+      type: 'PlayerSpawn',
+      x: parseFloat(obj.$.x) || 0,
+      y: parseFloat(obj.$.y) || 0,
+      width: parseFloat(obj.$.width) || 0,
+      height: parseFloat(obj.$.height) || 0,
+      properties: {
+        spawnId: props.spawnId || 'default',
+        facing: props.facing || 'down'
+      }
+    };
+  });
+
+  entities.sort((a, b) => {
+    if (a.type !== b.type) return a.type.localeCompare(b.type);
+    if (a.x !== b.x) return a.x - b.x;
+    return a.y - b.y;
+  });
+
+  return entities;
+}
+
+function extractTmxPortals(objectgroup) {
+  if (!objectgroup) return [];
+
+  const objects = Array.isArray(objectgroup.object)
+    ? objectgroup.object
+    : (objectgroup.object ? [objectgroup.object] : []);
+
+  const entities = objects.map(obj => {
+    const props = extractTmxProperties(obj.properties);
+    const targetMap = props.targetMap || props.toMap || '';
+    const targetSpawnId = props.targetSpawnId || props.toSpawn || '';
+    return {
+      type: 'Door',
+      x: parseFloat(obj.$.x) || 0,
+      y: parseFloat(obj.$.y) || 0,
+      width: parseFloat(obj.$.width) || 0,
+      height: parseFloat(obj.$.height) || 0,
+      properties: {
+        toMap: targetMap,
+        toSpawn: targetSpawnId,
+        transition: props.transition,
+        locked: props.locked === true,
+        lockKeyId: props.lockKeyId
+      }
+    };
+  });
+
+  entities.sort((a, b) => {
+    if (a.type !== b.type) return a.type.localeCompare(b.type);
+    if (a.x !== b.x) return a.x - b.x;
+    return a.y - b.y;
+  });
+
+  return entities;
+}
+
 /**
  * Extract tileset references (JSON format)
  * Sorts by firstGid for deterministic output
@@ -357,7 +437,21 @@ function compileTmxMap(map, levelId) {
       overlays: extractTmxTileLayer(layersByName.get('Overlays'), width, height),
       collision: extractTmxTileLayer(layersByName.get('Collision'), width, height)
     },
-    entities: extractTmxEntities(layersByName.get('Entities')),
+    entities: (() => {
+      const merged = [
+        ...extractTmxSpawns(layersByName.get('Spawns')),
+        ...extractTmxPortals(layersByName.get('Portals')),
+        ...extractTmxEntities(layersByName.get('Entities'))
+      ];
+
+      merged.sort((a, b) => {
+        if (a.type !== b.type) return a.type.localeCompare(b.type);
+        if (a.x !== b.x) return a.x - b.x;
+        return a.y - b.y;
+      });
+
+      return merged;
+    })(),
     tilesets: extractTmxTilesets(map.tileset)
   };
 
@@ -377,11 +471,11 @@ async function main() {
   console.log('🔨 Tiled Map Compilation');
   console.log('========================\n');
 
-  // Find all map files (both JSON and TMX)
-  const jsonFiles = await findJsonMapFiles(BASE_DIR, BASE_DIR);
-  const tmxFiles = await findTmxFiles(ROOMS_DIR);
+  // Find all map files (zones by default; legacy/json only when requested)
+  const jsonFiles = INCLUDE_LEGACY ? await findJsonMapFiles(BASE_DIR, BASE_DIR) : [];
+  const tmxFiles = await findTmxFiles(INCLUDE_LEGACY ? ROOMS_DIR : ZONE_DIR, { includeLegacy: INCLUDE_LEGACY });
 
-  const allFiles = [...jsonFiles, ...tmxFiles];
+  const allFiles = [...tmxFiles, ...jsonFiles];
 
   if (allFiles.length === 0) {
     console.log('No map files found to compile.');

@@ -20,7 +20,7 @@ const PROJECT_ROOT = join(__dirname, '..');
 // Paths
 const ROOM_ENTRIES_DIR = join(PROJECT_ROOT, 'specs/room_entries');
 const WORLD_GRAPH_PATH = join(PROJECT_ROOT, 'specs/world_graph.json');
-const TMX_DIR = join(PROJECT_ROOT, 'public/content/tiled/rooms');
+const TMX_DIR = join(PROJECT_ROOT, 'public/content/tiled/rooms/scotus_zones');
 const OUTPUT_DIR = join(PROJECT_ROOT, 'public/content/tiled/worlds');
 const OUTPUT_FILE = join(OUTPUT_DIR, 'scotus.world');
 

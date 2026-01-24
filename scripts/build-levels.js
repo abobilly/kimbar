@@ -27,6 +27,7 @@ const TILED_ONLY = (process.env.TILED_ONLY || '').trim() === '1';
 
 // Tiled source and compiled directories
 const TILED_SOURCE_DIR = path.join(process.cwd(), 'public', 'content', 'tiled', 'rooms');
+const TILED_ZONE_DIR = path.join(TILED_SOURCE_DIR, 'scotus_zones');
 const TILED_COMPILED_DIR = path.join(process.cwd(), 'public', 'generated', 'levels', 'tiled');
 
 // LDtk source and output directories
@@ -42,8 +43,12 @@ const INDEX_PATH = path.join(process.cwd(), 'public', 'generated', 'levels', 'in
  * Check if a Tiled TMX source exists for a given room ID
  */
 function hasTiledSource(roomId) {
-  const tmxPath = path.join(TILED_SOURCE_DIR, `${roomId}.tmx`);
-  return existsSync(tmxPath);
+  const candidates = [
+    path.join(TILED_ZONE_DIR, `${roomId}.tmx`),
+    path.join(TILED_SOURCE_DIR, `${roomId}.tmx`)
+  ];
+
+  return candidates.some((p) => existsSync(p));
 }
 
 /**

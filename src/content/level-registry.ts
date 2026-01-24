@@ -49,9 +49,16 @@ let levelIndex: Map<string, LevelIndexEntry> | null = null;
  * This serves as a fallback when no manifest is available.
  * In production, this should be populated by the build pipeline.
  */
-const KNOWN_ROOM_PACKS: Record<string, string[]> = {
-  'supreme-court': ['lobby', 'courtroom_main', 'hallway', 'chambers_roberts']
-};
+const KNOWN_LEVEL_IDS: string[] = [
+  'scotus_exterior',
+  'scotus_0_basement',
+  'scotus_1_lobby',
+  'scotus_2_second',
+  'scotus_3_third',
+  'scotus_4_roof'
+];
+
+const FALLBACK_PACK_ID = 'scotus_zones';
 
 // ============================================================
 // Public API
@@ -96,16 +103,8 @@ export function getAllLevelIds(): string[] {
     return Array.from(levelIndex.keys()).sort();
   }
 
-  // Fall back to known room packs
-  const levelIds: string[] = [];
-
-  for (const [pack, rooms] of Object.entries(KNOWN_ROOM_PACKS)) {
-    for (const room of rooms) {
-      levelIds.push(`${pack}/${room}`);
-    }
-  }
-
-  return levelIds.sort();
+  // Fallback to known zones
+  return [...KNOWN_LEVEL_IDS].sort();
 }
 
 /**
@@ -117,17 +116,12 @@ export function getAllLevelIds(): string[] {
 export function getLevelEntry(levelId: string): LevelEntry | undefined {
   // No LevelEntry metadata in index yet; fallback below.
 
-  // Generate entry from known packs
-  const parts = levelId.split('/');
-  if (parts.length === 2) {
-    const [pack, room] = parts;
-    if (KNOWN_ROOM_PACKS[pack]?.includes(room)) {
-      return {
-        id: levelId,
-        displayName: formatDisplayName(room),
-        pack
-      };
-    }
+  if (KNOWN_LEVEL_IDS.includes(levelId)) {
+    return {
+      id: levelId,
+      displayName: formatDisplayName(levelId),
+      pack: FALLBACK_PACK_ID
+    };
   }
 
   return undefined;
@@ -145,13 +139,7 @@ export function hasLevel(levelId: string): boolean {
   }
 
   // Check known packs
-  const parts = levelId.split('/');
-  if (parts.length === 2) {
-    const [pack, room] = parts;
-    return KNOWN_ROOM_PACKS[pack]?.includes(room) ?? false;
-  }
-
-  return false;
+  return KNOWN_LEVEL_IDS.includes(levelId);
 }
 
 /**
@@ -167,9 +155,8 @@ export function getLevelsInPack(packId: string): string[] {
       .sort();
   }
 
-  const rooms = KNOWN_ROOM_PACKS[packId];
-  if (rooms) {
-    return rooms.map(room => `${packId}/${room}`).sort();
+  if (packId === FALLBACK_PACK_ID) {
+    return [...KNOWN_LEVEL_IDS].sort();
   }
 
   return [];
@@ -190,7 +177,7 @@ export function getAllPackIds(): string[] {
     return Array.from(packs).sort();
   }
 
-  return Object.keys(KNOWN_ROOM_PACKS).sort();
+  return [FALLBACK_PACK_ID];
 }
 
 /**
@@ -261,14 +248,11 @@ export function clearLevelManifest(): void {
 function initializeFallbackManifest(): void {
   levelIndex = new Map();
 
-  for (const [pack, rooms] of Object.entries(KNOWN_ROOM_PACKS)) {
-    for (const room of rooms) {
-      const id = `${pack}/${room}`;
-      levelIndex.set(id, {
-        source: 'tiled',
-        url: `${LEVELS_BASE_PATH}/tiled/${id}${LEVEL_EXTENSION}`
-      });
-    }
+  for (const id of KNOWN_LEVEL_IDS) {
+    levelIndex.set(id, {
+      source: 'tiled',
+      url: `${LEVELS_BASE_PATH}/tiled/${id}${LEVEL_EXTENSION}`
+    });
   }
 
   console.log(`[LevelRegistry] Initialized fallback index with ${levelIndex.size} levels`);
