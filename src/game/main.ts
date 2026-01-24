@@ -1,8 +1,6 @@
 import { Boot } from './scenes/Boot';
 import { GameOver } from './scenes/GameOver';
-import { Game as MainGame } from './scenes/Game';
 import { MainMenu } from './scenes/MainMenu';
-import { WorldScene } from './scenes/WorldScene';
 import { SubjectSelectScene } from './scenes/SubjectSelectScene';
 import { DungeonScene } from './scenes/DungeonScene';
 import { RunEndScene } from './scenes/RunEndScene';
@@ -40,12 +38,10 @@ const config: Phaser.Types.Core.GameConfig = {
     scene: [
         Boot,
         Preloader,
-        MainMenu,
-        SubjectSelectScene,  // Roguelite: subject selection
-        DungeonScene,        // Roguelite: dungeon hub + rooms
-        RunEndScene,         // Roguelite: run results
-        WorldScene,          // Legacy: main gameplay scene
-        MainGame,
+        MainMenu,           // Title screen → NEW RUN
+        SubjectSelectScene, // Pick subjects for run
+        DungeonScene,       // Main gameplay: dungeon hub + flashcard encounters
+        RunEndScene,        // Run results + stats
         GameOver
     ]
 };

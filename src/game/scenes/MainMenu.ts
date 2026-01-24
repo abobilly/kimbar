@@ -1,10 +1,11 @@
 import { Scene, GameObjects } from 'phaser';
-import { loadGameState, getAllFlashcardPacks } from '@content/registry';
+import { getAllFlashcardPacks } from '@content/registry';
 import { loadFlashcardDeck, isDeckLoaded } from '@content/flashcard-loader';
 
 export class MainMenu extends Scene {
     background: GameObjects.Image;
     title: GameObjects.Text;
+    private loadingText: GameObjects.Text | null = null;
 
     constructor() {
         super('MainMenu');
@@ -17,114 +18,48 @@ export class MainMenu extends Scene {
         this.add.rectangle(width / 2, height / 2, width, height, 0x1a1a2e);
 
         // Decorative courtroom elements
-        this.add.text(width / 2, 100, '🏛️ 🏛️ 🏛️', { fontSize: '48px' }).setOrigin(0.5);
+        this.add.text(width / 2, 80, '🏛️ ⚖️ 🏛️', { fontSize: '48px' }).setOrigin(0.5);
 
         // Title
-        this.title = this.add.text(width / 2, 200, '⚖️ KIM BAR ⚖️', {
+        this.title = this.add.text(width / 2, 180, 'KIM BAR', {
             fontFamily: 'Georgia, serif',
-            fontSize: 64,
+            fontSize: 72,
             color: '#FFD700',
             stroke: '#000000',
-            strokeThickness: 4,
+            strokeThickness: 6,
             align: 'center'
         }).setOrigin(0.5);
 
         // Subtitle
-        this.add.text(width / 2, 280, 'Kim Goes to the Supreme Court', {
+        this.add.text(width / 2, 260, 'Master the Bar. Conquer the Court.', {
             fontFamily: 'Georgia, serif',
-            fontSize: 24,
-            color: '#CCCCCC',
+            fontSize: 20,
+            color: '#AAAAAA',
             fontStyle: 'italic'
         }).setOrigin(0.5);
 
-        // Roguelite Mode button (NEW - primary CTA)
-        const rogueliteBtn = this.add.text(width / 2, 380, '⚔️ ROGUELITE MODE', {
+        // Loading indicator
+        this.loadingText = this.add.text(width / 2, 380, '⏳ Loading flashcards...', {
             fontFamily: 'Arial',
-            fontSize: 32,
-            color: '#FFFFFF',
-            backgroundColor: '#8B4513',
-            padding: { x: 40, y: 15 }
-        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
-
-        rogueliteBtn.on('pointerover', () => rogueliteBtn.setColor('#FFD700'));
-        rogueliteBtn.on('pointerout', () => rogueliteBtn.setColor('#FFFFFF'));
-        rogueliteBtn.on('pointerdown', () => {
-            this.startRogueliteMode();
-        });
-
-        // Classic Mode button (legacy WorldScene)
-        const classicBtn = this.add.text(width / 2, 460, '🏛️ CLASSIC MODE', {
-            fontFamily: 'Arial',
-            fontSize: 28,
-            color: '#CCCCCC',
-            backgroundColor: '#2a4858',
-            padding: { x: 35, y: 12 }
-        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
-
-        classicBtn.on('pointerover', () => classicBtn.setColor('#FFD700'));
-        classicBtn.on('pointerout', () => classicBtn.setColor('#CCCCCC'));
-        classicBtn.on('pointerdown', () => {
-            this.scene.start('WorldScene');
-        });
-
-        // Continue button (if save exists)
-        const continueBtn = this.add.text(width / 2, 530, '📂 CONTINUE', {
-            fontFamily: 'Arial',
-            fontSize: 24,
-            color: '#666666',
-            backgroundColor: '#1a2838',
-            padding: { x: 30, y: 10 }
-        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
-
-        continueBtn.on('pointerover', () => continueBtn.setColor('#FFD700'));
-        continueBtn.on('pointerout', () => continueBtn.setColor('#666666'));
-        continueBtn.on('pointerdown', () => {
-            loadGameState();
-            this.scene.start('WorldScene');
-        });
-
-        // Instructions
-        this.add.text(width / 2, height - 100,
-            '⚔️ Roguelite: HP + Streaks + Boons | 🏛️ Classic: Explore the courthouse', {
-            fontSize: 16,
-            color: '#666666'
+            fontSize: 18,
+            color: '#888888',
         }).setOrigin(0.5);
 
-        // Version
-        this.add.text(width - 20, height - 20, 'v0.2.0-spark', {
-            fontSize: 14,
-            color: '#444444'
-        }).setOrigin(1, 1);
-
-        // Pre-load flashcard deck in background
-        this.preloadFlashcards();
+        // Load flashcards then show play button
+        await this.loadFlashcardsAndShowMenu();
     }
 
-    private async preloadFlashcards(): Promise<void> {
-        if (isDeckLoaded()) return;
+    private async loadFlashcardsAndShowMenu(): Promise<void> {
+        const { width, height } = this.scale;
 
-        // Load from registry flashcard packs
-        const packs = getAllFlashcardPacks();
-        for (const pack of packs) {
-            try {
-                await loadFlashcardDeck(pack.url);
-                console.log(`Flashcards pre-loaded from ${pack.id}`);
-                return; // Loaded successfully, done
-            } catch (err) {
-                console.warn(`Failed to load pack ${pack.id}:`, err);
-            }
-        }
-        console.warn('Could not pre-load any flashcards');
-    }
-
-    private async startRogueliteMode(): Promise<void> {
-        // Ensure flashcards are loaded
+        // Load flashcards
         if (!isDeckLoaded()) {
             const packs = getAllFlashcardPacks();
             let loaded = false;
             for (const pack of packs) {
                 try {
                     await loadFlashcardDeck(pack.url);
+                    console.log(`✅ Loaded ${pack.id} flashcards`);
                     loaded = true;
                     break;
                 } catch (err) {
@@ -132,17 +67,68 @@ export class MainMenu extends Scene {
                 }
             }
             if (!loaded) {
-                console.error('Failed to load any flashcards');
-                const errorText = this.add.text(this.scale.width / 2, this.scale.height - 150,
-                    '❌ Could not load flashcards. Check console.', {
-                    fontSize: '16px',
-                    color: '#F44336',
-                }).setOrigin(0.5);
-                this.time.delayedCall(3000, () => errorText.destroy());
+                if (this.loadingText) {
+                    this.loadingText.setText('❌ No flashcards found. Add packs to registry.');
+                    this.loadingText.setColor('#F44336');
+                }
                 return;
             }
         }
 
-        this.scene.start('SubjectSelectScene');
+        // Remove loading text
+        if (this.loadingText) {
+            this.loadingText.destroy();
+            this.loadingText = null;
+        }
+
+        // NEW GAME button - THE main action
+        const playBtn = this.add.text(width / 2, 380, '▶  NEW RUN', {
+            fontFamily: 'Arial',
+            fontSize: 36,
+            color: '#FFFFFF',
+            backgroundColor: '#2E7D32',
+            padding: { x: 50, y: 18 }
+        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+
+        playBtn.on('pointerover', () => {
+            playBtn.setColor('#FFD700');
+            playBtn.setScale(1.05);
+        });
+        playBtn.on('pointerout', () => {
+            playBtn.setColor('#FFFFFF');
+            playBtn.setScale(1);
+        });
+        playBtn.on('pointerdown', () => {
+            this.scene.start('SubjectSelectScene');
+        });
+
+        // Quick instructions
+        this.add.text(width / 2, 480,
+            '🎯 Answer flashcards • 💪 Build streaks • 🏆 Clear all subjects', {
+            fontSize: 16,
+            color: '#666666'
+        }).setOrigin(0.5);
+
+        // Stats preview (if mastery data exists)
+        const masteryKey = localStorage.getItem('kimbar_mastery');
+        if (masteryKey) {
+            try {
+                const mastery = JSON.parse(masteryKey);
+                const cardsSeen = Object.keys(mastery).length;
+                if (cardsSeen > 0) {
+                    this.add.text(width / 2, 540,
+                        `📊 ${cardsSeen} cards studied`, {
+                        fontSize: 14,
+                        color: '#555555'
+                    }).setOrigin(0.5);
+                }
+            } catch { /* ignore */ }
+        }
+
+        // Version
+        this.add.text(width - 20, height - 20, 'v1.0.0', {
+            fontSize: 14,
+            color: '#444444'
+        }).setOrigin(1, 1);
     }
 }
