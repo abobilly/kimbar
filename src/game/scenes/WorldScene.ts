@@ -11,10 +11,13 @@ import { layoutHUD } from '@game/ui/layout';
 import { loadRegistryAssets } from '@game/services/asset-loader';
 import { DEPTH_POPUP } from '@game/constants/depth';
 import { loadRegistry, loadFlashcards, getGameState, saveGameState, getRoom, getInkStory, getRegistry } from '@content/registry';
+import { loadLevelData } from '@content/level-loader';
 import { getTilesetKey } from '@content/tilesets';
 import { EntityData, LevelData, EncounterConfig } from '@content/types';
 import { isLdtkLevel, normalizeLdtkLevel } from '@content/ldtk-normalizer';
 import { validateLdtkLevel, formatValidationErrors } from '@content/ldtk-validator';
+import type { TiledLevelData, TiledEntityData } from '@/types/level-data';
+import { isDoor, isPlayerSpawn } from '@/types/level-data';
 
 type DoorSide = 'north' | 'south' | 'east' | 'west';
 
@@ -51,6 +54,8 @@ export class WorldScene extends Scene {
   private loadingStartTime: number | null = null;
   private loadingTimer: Phaser.Time.TimerEvent | null = null;
   private pendingEntrySide: DoorSide | null = null;
+  private pendingSpawnId: string | null = null;
+  private spawnPoints: Map<string, { x: number; y: number; facing?: string }> = new Map();
 
   // Keyboard controls
   private wasdKeys!: { W: Phaser.Input.Keyboard.Key; A: Phaser.Input.Keyboard.Key; S: Phaser.Input.Keyboard.Key; D: Phaser.Input.Keyboard.Key };
@@ -84,8 +89,9 @@ export class WorldScene extends Scene {
 
     // Load level (this also creates the player at spawn point)
     // Use passed level ID or default to lobby
-    const levelId = data?.level || 'scotus_lobby';
+    const levelId = data?.level || 'scotus_1_lobby';
     this.pendingEntrySide = data?.entrySide ?? null;
+    this.pendingSpawnId = data && 'entrySpawnId' in data ? (data as any).entrySpawnId ?? null : null;
     await this.loadLevel(levelId);
 
     // Create UI (on uiLayer)
@@ -219,6 +225,9 @@ export class WorldScene extends Scene {
 
   private async loadLevel(levelId: string): Promise<void> {
     try {
+      // Reset spawn index for the incoming level
+      this.spawnPoints.clear();
+
       // Get room URL from registry (registry-driven routing)
       const room = getRoom(levelId);
       if (!room) {
@@ -226,6 +235,16 @@ export class WorldScene extends Scene {
         console.error(`[WorldScene] FATAL: Room '${levelId}' not found in registry.`);
         console.error(`[WorldScene] Ensure room spec exists in content/rooms/${levelId}.json`);
         this.showMissingRoomError(levelId);
+        return;
+      }
+
+      // Prefer compiled Tiled level when available
+      if (room.levelUrl) {
+        const tiledLevel = await loadLevelData(levelId);
+        const adapted = this.adaptTiledLevelForWorld(tiledLevel);
+        await this.preloadLevelAssets(adapted);
+        this.levelData = adapted;
+        this.renderLevel();
         return;
       }
 
@@ -1179,14 +1198,88 @@ export class WorldScene extends Scene {
         break;
 
       case 'Door':
-        const targetLevel = entity.properties?.targetLevel;
+        const targetLevel = (entity.properties?.targetLevel as string) || (entity.properties?.toMap as string);
+        const targetSpawnId = (entity.properties?.targetSpawnId as string) || (entity.properties?.toSpawn as string);
         if (targetLevel) {
           const exitSide = this.levelData ? this.getDoorSide(entity, this.levelData) : null;
           const entrySide = exitSide ? this.getOppositeDoorSide(exitSide) : null;
-          this.scene.restart({ level: targetLevel, entrySide: entrySide ?? undefined });
+          this.scene.restart({ level: targetLevel, entrySide: entrySide ?? undefined, entrySpawnId: targetSpawnId ?? undefined });
         }
         break;
     }
+  }
+
+  /**
+   * Adapt compiled Tiled level data to the WorldScene-friendly LevelData shape.
+   * - Converts tile dimensions to pixel dimensions for width/height
+   * - Extracts PlayerSpawn entities into playerSpawn + spawn index
+   * - Normalizes Door properties to legacy targetLevel/targetSpawnId keys for transitions
+   * - Generates stable entity IDs for placeholder rendering
+   */
+  private adaptTiledLevelForWorld(tiled: TiledLevelData): LevelData {
+    const tileSize = tiled.tileSize ?? 32;
+    const entities: EntityData[] = [];
+    let primarySpawn: { x: number; y: number } | undefined;
+
+    this.spawnPoints.clear();
+
+    tiled.entities.forEach((entity, index) => {
+      // Player spawns are kept in the spawn index, not rendered as entities
+      if (isPlayerSpawn(entity)) {
+        const spawnId = (entity.properties?.spawnId as string) || 'default';
+        const facing = (entity.properties?.facing as string) || 'down';
+        const sx = entity.x + entity.width / 2;
+        const sy = entity.y + entity.height / 2;
+        this.spawnPoints.set(spawnId, { x: sx, y: sy, facing });
+        if (!primarySpawn) {
+          primarySpawn = { x: sx, y: sy };
+        }
+        return;
+      }
+
+      const id = this.buildEntityId(entity, index);
+      const baseX = entity.x + entity.width / 2;
+      const baseY = entity.y + entity.height / 2;
+      const props: Record<string, unknown> = { ...entity.properties };
+
+      if (isDoor(entity)) {
+        const targetLevel = (props.toMap as string) || (props.targetMap as string) || '';
+        const targetSpawnId = (props.toSpawn as string) || (props.targetSpawnId as string) || '';
+        if (targetLevel) props.targetLevel = targetLevel;
+        if (targetSpawnId) props.targetSpawnId = targetSpawnId;
+      }
+
+      entities.push({
+        id,
+        type: entity.type,
+        x: baseX,
+        y: baseY,
+        properties: props
+      });
+    });
+
+    return {
+      id: tiled.id,
+      width: tiled.width * tileSize,
+      height: tiled.height * tileSize,
+      tileSize,
+      entities,
+      playerSpawn: primarySpawn,
+      environment: tiled.environment as LevelData['environment']
+    };
+  }
+
+  private buildEntityId(entity: TiledEntityData, index: number): string {
+    if (typeof (entity.properties as any)?.id === 'string') {
+      return String((entity.properties as any).id);
+    }
+    if (isDoor(entity)) {
+      const target = (entity.properties as any)?.toMap || (entity.properties as any)?.targetMap;
+      if (typeof target === 'string' && target.length > 0) {
+        return `door_${target}_${index}`;
+      }
+    }
+    return `${entity.type || 'entity'}_${index}`;
   }
 
   private handleDialogueTag(tag: string): void {
@@ -1546,6 +1639,12 @@ export class WorldScene extends Scene {
   }
 
   private getEntrySpawnPoint(level: LevelData): { x: number; y: number } | null {
+    const entrySpawnId = this.pendingSpawnId;
+    if (entrySpawnId) {
+      const spawn = this.findSpawnById(level, entrySpawnId);
+      if (spawn) return spawn;
+    }
+
     const entrySide = this.pendingEntrySide;
     if (!entrySide) return null;
 
@@ -1578,6 +1677,14 @@ export class WorldScene extends Scene {
       x: clamp(x, padding, level.width - padding),
       y: clamp(y, padding, level.height - padding)
     };
+  }
+
+  private findSpawnById(_level: LevelData, spawnId: string): { x: number; y: number } | null {
+    const spawn = this.spawnPoints.get(spawnId);
+    if (spawn) {
+      return { x: spawn.x, y: spawn.y };
+    }
+    return null;
   }
 
   private findDoorForSide(level: LevelData, side: DoorSide): EntityData | null {

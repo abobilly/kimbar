@@ -1,131 +1,48 @@
 {
-  "maps": [
-    {
-      "fileName": "../rooms/cafeteria.tmx",
-      "x": 0,
-      "y": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "fileName": "../rooms/chambers_alito.tmx",
-      "x": 704,
-      "y": 0,
-      "width": 480,
-      "height": 384
-    },
-    {
-      "fileName": "../rooms/chambers_barrett.tmx",
-      "x": 1248,
-      "y": 0,
-      "width": 480,
-      "height": 384
-    },
-    {
-      "fileName": "../rooms/chambers_gorsuch.tmx",
-      "x": 1792,
-      "y": 0,
-      "width": 480,
-      "height": 384
-    },
-    {
-      "fileName": "../rooms/chambers_jackson.tmx",
-      "x": 0,
-      "y": 544,
-      "width": 480,
-      "height": 384
-    },
-    {
-      "fileName": "../rooms/chambers_kagan.tmx",
-      "x": 544,
-      "y": 544,
-      "width": 480,
-      "height": 384
-    },
-    {
-      "fileName": "../rooms/chambers_kavanaugh.tmx",
-      "x": 1088,
-      "y": 544,
-      "width": 480,
-      "height": 384
-    },
-    {
-      "fileName": "../rooms/chambers_roberts.tmx",
-      "x": 1632,
-      "y": 544,
-      "width": 480,
-      "height": 384
-    },
-    {
-      "fileName": "../rooms/chambers_sotomayor.tmx",
-      "x": 0,
-      "y": 992,
-      "width": 480,
-      "height": 384
-    },
-    {
-      "fileName": "../rooms/chambers_thomas.tmx",
-      "x": 544,
-      "y": 992,
-      "width": 480,
-      "height": 384
-    },
-    {
-      "fileName": "../rooms/courthouse_exterior.tmx",
-      "x": 1088,
-      "y": 992,
-      "width": 800,
-      "height": 640
-    },
-    {
-      "fileName": "../rooms/courtroom_main.tmx",
-      "x": 1952,
-      "y": 992,
-      "width": 960,
-      "height": 640
-    },
-    {
-      "fileName": "../rooms/library.tmx",
-      "x": 0,
-      "y": 1696,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "fileName": "../rooms/press_room.tmx",
-      "x": 704,
-      "y": 1696,
-      "width": 480,
-      "height": 384
-    },
-    {
-      "fileName": "../rooms/records_vault.tmx",
-      "x": 1248,
-      "y": 1696,
-      "width": 480,
-      "height": 384
-    },
-    {
-      "fileName": "../rooms/robing_room.tmx",
-      "x": 1792,
-      "y": 1696,
-      "width": 480,
-      "height": 384
-    },
-    {
-      "fileName": "../rooms/room_scotus_hall_01.tmx",
-      "x": 0,
-      "y": 2240,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "fileName": "../rooms/scotus_lobby.tmx",
-      "x": 704,
-      "y": 2240,
-      "width": 640,
-      "height": 480
-    }
-  ],
-  "type": "world"
+    "maps": [
+        {
+            "fileName": "../rooms/scotus_zones/scotus_exterior.tmx",
+            "height": 256,
+            "width": 256,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "fileName": "../rooms/scotus_zones/scotus_1_lobby.tmx",
+            "height": 1024,
+            "width": 1024,
+            "x": 0,
+            "y": 272
+        },
+        {
+            "fileName": "../rooms/scotus_zones/scotus_0_basement.tmx",
+            "height": 256,
+            "width": 256,
+            "x": -272,
+            "y": 272
+        },
+        {
+            "fileName": "../rooms/scotus_zones/scotus_2_second.tmx",
+            "height": 256,
+            "width": 256,
+            "x": 272,
+            "y": 272
+        },
+        {
+            "fileName": "../rooms/scotus_zones/scotus_3_third.tmx",
+            "height": 256,
+            "width": 256,
+            "x": 544,
+            "y": 272
+        },
+        {
+            "fileName": "../rooms/scotus_zones/scotus_4_roof.tmx",
+            "height": 256,
+            "width": 256,
+            "x": 816,
+            "y": 272
+        }
+    ],
+    "onlyShowAdjacentMaps": false,
+    "type": "world"
 }

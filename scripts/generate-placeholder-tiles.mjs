@@ -1,310 +1,292 @@
 #!/usr/bin/env node
+
 /**
- * Generate Placeholder Tiles
+ * Deterministic Placeholder Tile Generator
  * 
- * Creates deterministic 32×32 PNG placeholders for all tiles defined in the tileset manifest.
- * Each placeholder is a transparent PNG with a subtle procedural pattern generated from
- * the tile ID as a seed, making it easy to identify as a placeholder while being
- * deterministically reproducible.
+ * Generates 32x32 PNG placeholder tiles for all tiles defined in the tileset manifest.
+ * Uses stable hashing to create visually distinct patterns for easy identification.
  * 
  * Usage:
- *   node scripts/generate-placeholder-tiles.mjs
+ *   node scripts/generate-placeholder-tiles.mjs [--force]
  * 
- * Output:
- *   public/generated/tiles/{tile-id}.png (one per tile in manifest)
+ * Options:
+ *   --force   Regenerate all tiles even if they already exist
  */
 
-import { readFileSync, mkdirSync, writeFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
+import { createHash } from 'crypto';
 import sharp from 'sharp';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-// ============================================================================
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 // Configuration
-// ============================================================================
-
 const MANIFEST_PATH = './specs/ai_jobs/tileset_manifest.json';
 const OUTPUT_DIR = './public/generated/tiles';
+const INDEX_PATH = './public/generated/tiles/placeholders.index.json';
 const TILE_SIZE = 32;
 
-// ============================================================================
-// Deterministic Random Number Generator
-// ============================================================================
+// Parse arguments
+const args = process.argv.slice(2);
+const FORCE_REGENERATE = args.includes('--force');
 
 /**
- * Simple seeded PRNG for deterministic output.
- * Uses a variant of the mulberry32 algorithm.
+ * Generate a deterministic color from a string using hash
  */
-class SeededRandom {
-  constructor(seed) {
-    this.state = seed;
-  }
-
-  /**
-   * Generate next random number [0, 1)
-   */
-  next() {
-    let t = (this.state += 0x6D2B79F5);
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  }
-
-  /**
-   * Generate random integer [min, max]
-   */
-  nextInt(min, max) {
-    return Math.floor(this.next() * (max - min + 1)) + min;
-  }
+function hashToColor(str, index = 0) {
+  const hash = createHash('md5').update(str + index).digest('hex');
+  const r = parseInt(hash.substring(0, 2), 16);
+  const g = parseInt(hash.substring(2, 4), 16);
+  const b = parseInt(hash.substring(4, 6), 16);
+  return { r, g, b };
 }
 
 /**
- * Generate a deterministic seed from a string
+ * Generate SVG pattern for a tile based on category
  */
-function hashString(str) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32bit integer
-  }
-  return Math.abs(hash);
-}
-
-// ============================================================================
-// Placeholder Generation
-// ============================================================================
-
-/**
- * Generate a deterministic procedural pattern for a placeholder tile.
- * Pattern is based on tile ID to ensure consistent output.
- * 
- * @param {string} tileId - Tile identifier (e.g., "tile.floor.marble.white_base")
- * @returns {Buffer} - Raw RGBA pixel data (32×32×4 bytes)
- */
-function generatePlaceholderPattern(tileId) {
-  const seed = hashString(tileId);
-  const rng = new SeededRandom(seed);
+function generateTileSVG(tileId, category, subcategory) {
+  // Get deterministic colors based on tile ID
+  const baseColor = hashToColor(tileId, 0);
+  const accentColor = hashToColor(tileId, 1);
+  const borderColor = hashToColor(tileId, 2);
   
-  const width = TILE_SIZE;
-  const height = TILE_SIZE;
-  const pixels = Buffer.alloc(width * height * 4); // RGBA
+  const baseColorStr = `rgb(${baseColor.r},${baseColor.g},${baseColor.b})`;
+  const accentColorStr = `rgb(${accentColor.r},${accentColor.g},${accentColor.b})`;
+  const borderColorStr = `rgb(${borderColor.r},${borderColor.g},${borderColor.b})`;
   
-  // Base: semi-transparent gray (almost transparent)
-  const baseAlpha = 30; // Very subtle
+  let pattern = '';
   
-  // Fill with transparent base
-  for (let i = 0; i < pixels.length; i += 4) {
-    pixels[i] = 200;     // R
-    pixels[i + 1] = 200; // G
-    pixels[i + 2] = 200; // B
-    pixels[i + 3] = baseAlpha; // A
-  }
-  
-  // Generate deterministic pattern based on tile ID
-  // Use a simple checkerboard/grid pattern that varies by tile
-  const patternType = rng.nextInt(0, 3);
-  const patternAlpha = 60; // Slightly more visible for pattern
-  
-  switch (patternType) {
-    case 0: // Checkerboard
-      {
-        const gridSize = rng.nextInt(4, 8);
-        for (let y = 0; y < height; y++) {
-          for (let x = 0; x < width; x++) {
-            const checker = ((Math.floor(x / gridSize) + Math.floor(y / gridSize)) % 2) === 0;
-            if (checker) {
-              const idx = (y * width + x) * 4;
-              pixels[idx + 3] = patternAlpha;
-            }
-          }
-        }
-      }
+  // Category-specific patterns
+  switch (category) {
+    case 'floor':
+      // Grid pattern for floors
+      pattern = `
+        <rect width="${TILE_SIZE}" height="${TILE_SIZE}" fill="${baseColorStr}" opacity="0.2"/>
+        ${Array.from({ length: 5 }, (_, i) => {
+          const pos = i * 8;
+          return `
+            <line x1="${pos}" y1="0" x2="${pos}" y2="${TILE_SIZE}" stroke="${accentColorStr}" stroke-width="1" opacity="0.4"/>
+            <line x1="0" y1="${pos}" x2="${TILE_SIZE}" y2="${pos}" stroke="${accentColorStr}" stroke-width="1" opacity="0.4"/>
+          `;
+        }).join('')}
+      `;
       break;
       
-    case 1: // Diagonal lines
-      {
-        const spacing = rng.nextInt(3, 6);
-        for (let y = 0; y < height; y++) {
-          for (let x = 0; x < width; x++) {
-            if ((x + y) % spacing === 0) {
-              const idx = (y * width + x) * 4;
-              pixels[idx + 3] = patternAlpha;
-            }
-          }
-        }
-      }
+    case 'wall':
+      // Vertical lines for walls
+      pattern = `
+        <rect width="${TILE_SIZE}" height="${TILE_SIZE}" fill="${baseColorStr}" opacity="0.2"/>
+        ${Array.from({ length: 8 }, (_, i) => 
+          `<rect x="${i * 4}" y="0" width="2" height="${TILE_SIZE}" fill="${accentColorStr}" opacity="0.4"/>`
+        ).join('')}
+      `;
       break;
       
-    case 2: // Grid
-      {
-        const spacing = rng.nextInt(6, 12);
-        for (let y = 0; y < height; y++) {
-          for (let x = 0; x < width; x++) {
-            if (x % spacing === 0 || y % spacing === 0) {
-              const idx = (y * width + x) * 4;
-              pixels[idx + 3] = patternAlpha;
-            }
-          }
-        }
-      }
+    case 'trim':
+      // Border pattern for trim
+      pattern = `
+        <rect width="${TILE_SIZE}" height="${TILE_SIZE}" fill="${baseColorStr}" opacity="0.2"/>
+        <rect x="0" y="0" width="${TILE_SIZE}" height="2" fill="${accentColorStr}" opacity="0.4"/>
+        <rect x="0" y="${TILE_SIZE - 2}" width="${TILE_SIZE}" height="2" fill="${accentColorStr}" opacity="0.4"/>
+      `;
       break;
       
-    case 3: // Dots
-      {
-        const spacing = rng.nextInt(4, 8);
-        for (let y = 0; y < height; y++) {
-          for (let x = 0; x < width; x++) {
-            if (x % spacing === spacing / 2 && y % spacing === spacing / 2) {
-              const idx = (y * width + x) * 4;
-              pixels[idx + 3] = patternAlpha;
-            }
-          }
-        }
-      }
+    case 'door':
+      // Centered rectangle for doors
+      pattern = `
+        <rect width="${TILE_SIZE}" height="${TILE_SIZE}" fill="${baseColorStr}" opacity="0.2"/>
+        <rect x="8" y="4" width="16" height="24" fill="${accentColorStr}" opacity="0.4"/>
+      `;
       break;
+      
+    case 'column':
+      // Circular pattern for columns
+      pattern = `
+        <rect width="${TILE_SIZE}" height="${TILE_SIZE}" fill="${baseColorStr}" opacity="0.2"/>
+        <circle cx="${TILE_SIZE / 2}" cy="${TILE_SIZE / 2}" r="12" fill="${accentColorStr}" opacity="0.4"/>
+      `;
+      break;
+      
+    case 'steps':
+      // Horizontal lines for steps
+      pattern = `
+        <rect width="${TILE_SIZE}" height="${TILE_SIZE}" fill="${baseColorStr}" opacity="0.2"/>
+        ${Array.from({ length: 5 }, (_, i) => 
+          `<rect x="0" y="${4 + i * 6}" width="${TILE_SIZE}" height="2" fill="${accentColorStr}" opacity="0.4"/>`
+        ).join('')}
+      `;
+      break;
+      
+    case 'rug':
+      // Diamond pattern for rugs
+      pattern = `
+        <rect width="${TILE_SIZE}" height="${TILE_SIZE}" fill="${baseColorStr}" opacity="0.2"/>
+        <polygon points="${TILE_SIZE / 2},2 ${TILE_SIZE - 2},${TILE_SIZE / 2} ${TILE_SIZE / 2},${TILE_SIZE - 2} 2,${TILE_SIZE / 2}" 
+                 fill="${accentColorStr}" opacity="0.4"/>
+      `;
+      break;
+      
+    case 'decal':
+    case 'object':
+      // Centered square for objects/decals
+      pattern = `
+        <rect width="${TILE_SIZE}" height="${TILE_SIZE}" fill="${baseColorStr}" opacity="0.2"/>
+        <rect x="8" y="8" width="16" height="16" fill="${accentColorStr}" opacity="0.4"/>
+      `;
+      break;
+      
+    case 'ground':
+      // Scattered dots for ground
+      const dots = Array.from({ length: 20 }, (_, i) => {
+        const hash = createHash('md5').update(tileId + i).digest('hex');
+        const x = parseInt(hash.substring(0, 2), 16) % TILE_SIZE;
+        const y = parseInt(hash.substring(2, 4), 16) % TILE_SIZE;
+        return `<rect x="${x}" y="${y}" width="2" height="2" fill="${accentColorStr}" opacity="0.4"/>`;
+      }).join('');
+      pattern = `
+        <rect width="${TILE_SIZE}" height="${TILE_SIZE}" fill="${baseColorStr}" opacity="0.2"/>
+        ${dots}
+      `;
+      break;
+      
+    default:
+      // Default crosshatch pattern
+      const crosshatch = Array.from({ length: 8 }, (_, i) => 
+        `<rect x="${i * 4}" y="${i * 4}" width="2" height="2" fill="${accentColorStr}" opacity="0.4"/>
+         <rect x="${TILE_SIZE - i * 4}" y="${i * 4}" width="2" height="2" fill="${accentColorStr}" opacity="0.4"/>`
+      ).join('');
+      pattern = `
+        <rect width="${TILE_SIZE}" height="${TILE_SIZE}" fill="${baseColorStr}" opacity="0.2"/>
+        ${crosshatch}
+      `;
   }
   
-  // Add a subtle border marker (1px on edges) to clearly identify as placeholder
-  for (let x = 0; x < width; x++) {
-    // Top edge
-    const topIdx = x * 4;
-    pixels[topIdx] = 255;
-    pixels[topIdx + 1] = 200;
-    pixels[topIdx + 2] = 0;
-    pixels[topIdx + 3] = 120; // Orange tint, semi-transparent
-    
-    // Bottom edge
-    const bottomIdx = ((height - 1) * width + x) * 4;
-    pixels[bottomIdx] = 255;
-    pixels[bottomIdx + 1] = 200;
-    pixels[bottomIdx + 2] = 0;
-    pixels[bottomIdx + 3] = 120;
-  }
+  // Add border
+  const idHash = createHash('md5').update(tileId).digest('hex').substring(0, 2).toUpperCase();
   
-  for (let y = 1; y < height - 1; y++) {
-    // Left edge
-    const leftIdx = (y * width) * 4;
-    pixels[leftIdx] = 255;
-    pixels[leftIdx + 1] = 200;
-    pixels[leftIdx + 2] = 0;
-    pixels[leftIdx + 3] = 120;
-    
-    // Right edge
-    const rightIdx = (y * width + width - 1) * 4;
-    pixels[rightIdx] = 255;
-    pixels[rightIdx + 1] = 200;
-    pixels[rightIdx + 2] = 0;
-    pixels[rightIdx + 3] = 120;
-  }
-  
-  return pixels;
+  return `
+    <svg width="${TILE_SIZE}" height="${TILE_SIZE}" xmlns="http://www.w3.org/2000/svg">
+      ${pattern}
+      <rect x="0.5" y="0.5" width="${TILE_SIZE - 1}" height="${TILE_SIZE - 1}" 
+            fill="none" stroke="${borderColorStr}" stroke-width="1" opacity="0.8"/>
+      <text x="2" y="8" font-family="monospace" font-size="6" fill="${borderColorStr}" opacity="0.9">${idHash}</text>
+    </svg>
+  `;
 }
 
 /**
- * Generate and save a placeholder tile PNG.
- * 
- * @param {string} tileId - Tile identifier
- * @param {string} outputDir - Output directory path
- * @returns {Promise<void>}
+ * Generate a single placeholder tile
  */
-async function generatePlaceholderTile(tileId, outputDir) {
-  const pattern = generatePlaceholderPattern(tileId);
-  const outputPath = join(outputDir, `${tileId}.png`);
+async function generatePlaceholderTile(tileSpec) {
+  const { id, category = 'unknown', subcategory = '' } = tileSpec;
   
-  try {
-    await sharp(pattern, {
-      raw: {
-        width: TILE_SIZE,
-        height: TILE_SIZE,
-        channels: 4
-      }
-    })
-    .png({ compressionLevel: 9 }) // Maximum compression for small file size
-    .toFile(outputPath);
-    
-    return outputPath;
-  } catch (error) {
-    throw new Error(`Failed to save ${tileId}: ${error.message}`);
-  }
+  // Generate SVG
+  const svg = generateTileSVG(id, category, subcategory);
+  
+  // Convert SVG to PNG using sharp
+  const buffer = await sharp(Buffer.from(svg))
+    .png()
+    .toBuffer();
+  
+  return buffer;
 }
 
-// ============================================================================
-// Main Script
-// ============================================================================
-
+/**
+ * Main function
+ */
 async function main() {
-  console.log('🎨 Placeholder Tile Generator\n');
+  console.log('🎨 Deterministic Placeholder Tile Generator\n');
   console.log('='.repeat(60));
   
   // Load manifest
-  console.log('\n📋 Loading tileset manifest...');
   if (!existsSync(MANIFEST_PATH)) {
-    console.error(`❌ Manifest not found: ${MANIFEST_PATH}`);
+    console.error(`❌ Tileset manifest not found: ${MANIFEST_PATH}`);
     process.exit(1);
   }
   
-  const manifestData = readFileSync(MANIFEST_PATH, 'utf-8');
-  const manifest = JSON.parse(manifestData);
+  const manifest = JSON.parse(readFileSync(MANIFEST_PATH, 'utf8'));
+  const tiles = manifest.tiles || [];
   
-  if (!manifest.tiles || !Array.isArray(manifest.tiles)) {
-    console.error('❌ Manifest does not contain tiles array');
-    process.exit(1);
+  console.log(`📋 Loaded ${tiles.length} tile(s) from manifest`);
+  
+  if (tiles.length === 0) {
+    console.log('⚠️  No tiles to generate');
+    return;
   }
   
-  console.log(`   Found ${manifest.tiles.length} tile definition(s)`);
+  // Create output directory
+  if (!existsSync(OUTPUT_DIR)) {
+    mkdirSync(OUTPUT_DIR, { recursive: true });
+    console.log(`📁 Created output directory: ${OUTPUT_DIR}`);
+  }
   
-  // Ensure output directory exists
-  console.log(`\n📁 Creating output directory: ${OUTPUT_DIR}`);
-  mkdirSync(OUTPUT_DIR, { recursive: true });
-  
-  // Generate placeholders
-  console.log('\n🎨 Generating placeholder tiles...\n');
+  // Generate tiles
+  const index = {
+    version: '1.0',
+    generatedAt: new Date().toISOString(),
+    tileSize: TILE_SIZE,
+    tiles: []
+  };
   
   let generated = 0;
   let skipped = 0;
-  let errors = 0;
   
-  for (const tile of manifest.tiles) {
-    const tileId = tile.id;
-    const outputPath = join(OUTPUT_DIR, `${tileId}.png`);
+  for (const tile of tiles) {
+    const outputPath = join(OUTPUT_DIR, `${tile.id}.png`);
     
-    if (existsSync(outputPath)) {
-      console.log(`   ⏭️  ${tileId} (already exists)`);
+    // Skip if exists and not forcing
+    if (!FORCE_REGENERATE && existsSync(outputPath)) {
       skipped++;
+      index.tiles.push({
+        id: tile.id,
+        path: outputPath,
+        category: tile.category,
+        subcategory: tile.subcategory,
+        placeholder: true
+      });
       continue;
     }
     
     try {
-      await generatePlaceholderTile(tileId, OUTPUT_DIR);
-      console.log(`   ✅ ${tileId}`);
+      const buffer = await generatePlaceholderTile(tile);
+      writeFileSync(outputPath, buffer);
+      
+      index.tiles.push({
+        id: tile.id,
+        path: outputPath,
+        category: tile.category,
+        subcategory: tile.subcategory,
+        placeholder: true
+      });
+      
       generated++;
+      
+      if (generated % 50 === 0) {
+        console.log(`  ✅ Generated ${generated} tiles...`);
+      }
     } catch (error) {
-      console.error(`   ❌ ${tileId}: ${error.message}`);
-      errors++;
+      console.error(`  ❌ Failed to generate ${tile.id}: ${error.message}`);
     }
   }
   
-  // Summary
+  // Write index file
+  writeFileSync(INDEX_PATH, JSON.stringify(index, null, 2));
+  
   console.log('\n' + '='.repeat(60));
-  console.log('\n📊 Generation Summary:');
-  console.log(`   ✅ Generated: ${generated}`);
-  console.log(`   ⏭️  Skipped:   ${skipped}`);
-  if (errors > 0) {
-    console.log(`   ❌ Errors:    ${errors}`);
+  console.log(`✅ Generated ${generated} tile(s)`);
+  if (skipped > 0) {
+    console.log(`⏭️  Skipped ${skipped} existing tile(s) (use --force to regenerate)`);
   }
-  console.log(`   📦 Total:     ${manifest.tiles.length}`);
-  
-  if (errors > 0) {
-    console.error('\n❌ Generation completed with errors');
-    process.exit(1);
-  }
-  
-  console.log('\n✅ All placeholder tiles generated successfully!');
-  console.log(`\n💡 Tip: Run 'npm run validate' to verify zero missing tiles`);
+  console.log(`📝 Index written to: ${INDEX_PATH}`);
+  console.log('\n💡 These are placeholder tiles with deterministic patterns.');
+  console.log('   Replace them with final artwork when ready.');
+  console.log('   Tile IDs are encoded in the pattern for easy identification.');
 }
 
-// Run main
+// Run
 main().catch(error => {
-  console.error(`\n❌ Fatal error: ${error.message}`);
+  console.error('❌ Fatal error:', error);
   process.exit(1);
 });

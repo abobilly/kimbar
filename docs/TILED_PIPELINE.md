@@ -8,7 +8,7 @@
 
 Kimbar uses **Tiled** as the primary authoring tool for all playable rooms. The Tiled pipeline validates, compiles, and indexes room maps from TMX source files into runtime-ready LevelData JSON.
 
-**Current Status**: 18+ playable rooms authored in Tiled, with a `.world` manifest for spatial organization.
+**Current Status**: Six authoritative SCOTUS zones (`scotus_exterior`, `scotus_0_basement`, `scotus_1_lobby`, `scotus_2_second`, `scotus_3_third`, `scotus_4_roof`) authored in Tiled with legacy rooms quarantined under `rooms/_legacy`. The `.world` manifest tracks only the six zones.
 
 ---
 
@@ -93,7 +93,7 @@ Use the canonical template at [`public/content/tiled/templates/room-template.jso
 
 ### Required Layers (In Order)
 
-Every room map **MUST** include these 6 layers in this exact order:
+Every zone map **MUST** include these 8 layers in this exact order:
 
 | # | Layer Name | Type | Purpose |
 |---|------------|------|---------|
@@ -101,21 +101,24 @@ Every room map **MUST** include these 6 layers in this exact order:
 | 2 | `Walls` | tilelayer | Wall tiles |
 | 3 | `Trim` | tilelayer | Decorative borders/molding |
 | 4 | `Overlays` | tilelayer | Objects that render above floor |
-| 5 | `Collision` | tilelayer | Collision shapes (uses collision.tsx) |
-| 6 | `Entities` | objectgroup | NPCs, doors, triggers, spawns |
+| 5 | `Collision` | tilelayer | Collision shapes (uses collision.tsx, must have property `isCollision=true`) |
+| 6 | `Entities` | objectgroup | NPCs, props, encounter triggers |
+| 7 | `Portals` | objectgroup | Door transitions (`targetMap`, `targetSpawnId`, `transition`, `locked`, `lockKeyId`) |
+| 8 | `Spawns` | objectgroup | Player spawns (`spawnId`, optional `facing`) |
 
 **Validation enforces**:
-- All 6 layers must exist
+- All 8 layers must exist
 - Layer order must match exactly
 - Tile layers must have correct dimensions
-- Entities layer must be an objectgroup
+- Collision layer must be marked `isCollision=true`
+- Entities/Portals/Spawns layers must be objectgroups
 
 ### Map Dimension Constraints
 
 | Constraint | Value |
 |------------|-------|
 | Minimum | 5×5 tiles |
-| Maximum | 100×100 tiles |
+| Maximum | 320×320 tiles (zones target 256×256) |
 | Tile size | 32×32 pixels (fixed) |
 
 ### Tileset Reference Conventions
@@ -157,6 +160,12 @@ Defines where the player can spawn in the room.
   </properties>
 </object>
 ```
+
+> **Portals + Spawns dedicated layers**
+>
+> - Place **all** player spawns in the `Spawns` object layer with `spawnId` (optional `facing`).
+> - Place **all** door transitions in the `Portals` object layer. Each portal must have `targetMap` and `targetSpawnId` (plus optional `transition` = `fade|stairs|door`, and `locked` + `lockKeyId`).
+> - The compiler lifts `Spawns` → `PlayerSpawn` entities and `Portals` → `Door` entities; runtime transitions use `targetMap/targetSpawnId`.
 
 #### Door
 
@@ -250,7 +259,7 @@ npm run validate:tiled
 ```
 
 **What it does**:
-- Parses all TMX files in `public/content/tiled/rooms/`
+- Parses TMX files in `public/content/tiled/rooms/scotus_zones/` (use `--include-legacy` to validate `_legacy` + JSON packs)
 - Validates against schema in `public/content/tiled/schemas/tiled_room.schema.json`
 - Checks required layers exist and are in correct order
 - Validates entity types and required properties
@@ -267,7 +276,7 @@ npm run compile:tiled
 ```
 
 **What it does**:
-- Reads validated TMX files from `public/content/tiled/rooms/`
+- Reads validated TMX files from `public/content/tiled/rooms/scotus_zones/` (use `--include-legacy` for `_legacy`/JSON)
 - Converts to LevelData JSON format
 - Outputs to `public/generated/levels/tiled/<room_id>.json`
 - Extracts entities, layers, and tileset references
@@ -293,9 +302,9 @@ npm run build:tiled-world
 
 **What it does**:
 - Reads room entries from `specs/room_entries/*.json`
-- Parses TMX dimensions from `public/content/tiled/rooms/*.tmx`
+- Parses TMX dimensions from `public/content/tiled/rooms/scotus_zones/*.tmx`
 - Generates `.world` manifest at `public/content/tiled/worlds/scotus.world`
-- Arranges rooms in a grid layout (4 per row, 64px padding)
+- Arranges the six SCOTUS zones in a simple strip layout (exterior then floors 1→4)
 
 **When to use**: After adding new rooms to update the world manifest.
 
@@ -388,16 +397,27 @@ npm run prepare:content
 
 ---
 
-## 7. How to Add a New Playable Room
+## 7. How to Edit the SCOTUS Zones
 
 ### Step-by-Step Checklist
 
-- [ ] **1. Create TMX file**
-  - Open Tiled
-  - File → New → New Map
-  - Set tile size to 32×32
-  - Set dimensions (min 5×5, max 100×100)
-  - Save as `public/content/tiled/rooms/<room_id>.tmx`
+- [ ] **1. Open the existing zone TMX**
+  - Files live in `public/content/tiled/rooms/scotus_zones/`
+  - Six authoritative IDs: `scotus_exterior`, `scotus_0_basement`, `scotus_1_lobby`, `scotus_2_second`, `scotus_3_third`, `scotus_4_roof`
+  - Target size: 256×256 tiles (max 320×320)
+- [ ] **2. Ensure required layers**
+  - Keep the 8-layer stack: Floor, Walls, Trim, Overlays, Collision (`isCollision=true`), Entities, Portals, Spawns
+- [ ] **3. Wire spawns and portals**
+  - Spawns: objects in `Spawns` with `spawnId`, optional `facing`
+  - Portals: objects in `Portals` with `targetMap`, `targetSpawnId`, optional `transition` (fade|stairs|door), `locked` + `lockKeyId`
+- [ ] **4. Use standard tilesets**
+  - `../tilesets/scotus_floors.tsx`, `../tilesets/scotus_structures.tsx`, `../tilesets/scotus_decor.tsx`, `../tilesets/collision.tsx`
+- [ ] **5. Validate + compile**
+  - `npm run validate:tiled` (zones only) or `npm run validate:tiled -- --include-legacy`
+  - `npm run compile:tiled`
+- [ ] **6. Update world + registry**
+  - `npm run build:tiled-world`
+  - `npm run build:levels`
 
 - [ ] **2. Add required layers**
   - Create layers in order: `Floor`, `Walls`, `Trim`, `Overlays`, `Collision`, `Entities`

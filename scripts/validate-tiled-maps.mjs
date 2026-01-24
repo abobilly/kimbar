@@ -20,24 +20,42 @@ import { parseStringPromise } from 'xml2js';
 
 const BASE_DIR = path.join(process.cwd(), 'public', 'content', 'tiled');
 const ROOMS_DIR = path.join(BASE_DIR, 'rooms');
+const ZONE_DIR = path.join(ROOMS_DIR, 'scotus_zones');
+const LEGACY_ROOMS_DIR = path.join(ROOMS_DIR, '_legacy');
 const TILESETS_DIR = path.join(process.cwd(), 'public', 'assets', 'tilesets');
 const TEMPLATE_PATH = path.join(BASE_DIR, 'templates', 'room-template.json');
 const MAP_SCHEMA_PATH = path.join(BASE_DIR, 'schemas', 'tiled_room.schema.json');
 
+// Authoritative SCOTUS zone IDs
+const AUTHORITATIVE_ZONE_IDS = [
+  'scotus_exterior',
+  'scotus_0_basement',
+  'scotus_1_lobby',
+  'scotus_2_second',
+  'scotus_3_third',
+  'scotus_4_roof'
+];
+
 // Required layers in order
-const REQUIRED_LAYERS = ['Floor', 'Walls', 'Trim', 'Overlays', 'Collision', 'Entities'];
+const REQUIRED_TILE_LAYERS = ['Floor', 'Walls', 'Trim', 'Overlays', 'Collision'];
+const REQUIRED_OBJECT_LAYERS = ['Entities', 'Portals', 'Spawns'];
+const REQUIRED_LAYERS = [...REQUIRED_TILE_LAYERS, ...REQUIRED_OBJECT_LAYERS];
+
 const MIN_DIMENSION = 5;
-const MAX_DIMENSION = 100;
+const MAX_DIMENSION = 320; // allow large zone maps (target 256x256)
 
 // Bounds validation configuration
 // Detects maps with excessive content extent (e.g., stray tiles/objects far from main content)
 const BOUNDS_CONFIG = {
-  maxWidthTiles: parseInt(process.env.MAX_MAP_WIDTH) || 100,
-  maxHeightTiles: parseInt(process.env.MAX_MAP_HEIGHT) || 100,
+  maxWidthTiles: parseInt(process.env.MAX_MAP_WIDTH) || 320,
+  maxHeightTiles: parseInt(process.env.MAX_MAP_HEIGHT) || 320,
   allowLargeMapProperty: 'allowLargeMap',
   // Known large maps that are allowed (e.g., exteriors)
-  allowlist: ['courthouse_exterior', 'scotus_exterior']
+  allowlist: ['courthouse_exterior', 'scotus_exterior', ...AUTHORITATIVE_ZONE_IDS]
 };
+
+// CLI flags
+const INCLUDE_LEGACY = process.argv.includes('--include-legacy');
 
 // Valid entity types and their required properties + types
 const ENTITY_SCHEMA = {
@@ -396,6 +414,25 @@ function getPropertyEntry(properties, name) {
   return properties.find(p => p.name === name);
 }
 
+function collectSpawnsFromMap(map) {
+  const objectgroups = Array.isArray(map.objectgroup) ? map.objectgroup : (map.objectgroup ? [map.objectgroup] : []);
+  const spawnsLayer = objectgroups.find(l => l.$.name === 'Spawns');
+  const spawns = new Set();
+
+  if (!spawnsLayer) return spawns;
+
+  const objects = Array.isArray(spawnsLayer.object) ? spawnsLayer.object : (spawnsLayer.object ? [spawnsLayer.object] : []);
+  for (const obj of objects) {
+    const props = Array.isArray(obj.properties?.property) ? obj.properties.property : (obj.properties?.property ? [obj.properties.property] : []);
+    const spawnIdProp = props.find(p => p.$.name === 'spawnId');
+    if (spawnIdProp && spawnIdProp.$?.value) {
+      spawns.add(spawnIdProp.$.value);
+    }
+  }
+
+  return spawns;
+}
+
 function validateFixedFields(map, template, mapErrors) {
   if (!template) return;
   const fixedKeys = ['compressionlevel', 'infinite', 'orientation', 'renderorder', 'tilewidth', 'tileheight', 'type'];
@@ -426,8 +463,10 @@ function validateTilesets(map, mapErrors) {
       mapErrors.push('Tileset source must be a string');
       continue;
     }
-    if (!tileset.source.startsWith('../tilesets/') || !tileset.source.endsWith('.tsx')) {
-      mapErrors.push(`Tileset source "${tileset.source}" must point to ../tilesets/*.tsx`);
+    const tilesetSource = tileset.source;
+    const tilesetPattern = /^(\.\.\/)+tilesets\/.*\.tsx$/;
+    if (!tilesetPattern.test(tilesetSource)) {
+      mapErrors.push(`Tileset source "${tilesetSource}" must point to ../tilesets/*.tsx (allowing nested room folders)`);
     }
   }
 }
@@ -584,43 +623,43 @@ async function validateMap(filePath, relativePath) {
 /**
  * Find all TMX files in the rooms directory
  */
-async function findTmxFiles(dir) {
+async function findTmxFiles(dir, { includeLegacy = false } = {}) {
   const files = [];
 
-  if (!existsSync(dir)) return files;
+  async function scan(currentDir) {
+    if (!existsSync(currentDir)) return;
 
-  const entries = await readdir(dir, { withFileTypes: true });
+    const entries = await readdir(currentDir, { withFileTypes: true });
 
-  for (const entry of entries) {
-    if (entry.isFile() && entry.name.endsWith('.tmx') && !entry.name.startsWith('_')) {
-      const fullPath = path.join(dir, entry.name);
-      const relativePath = path.relative(BASE_DIR, fullPath);
-      files.push({ path: fullPath, relativePath });
+    for (const entry of entries) {
+      const fullPath = path.join(currentDir, entry.name);
+
+      if (entry.isDirectory()) {
+        // Skip legacy unless explicitly included
+        if (!includeLegacy && entry.name === '_legacy') continue;
+        // Skip templates/tilesets/tiles/schemas/worlds
+        if (['templates', 'tilesets', 'tiles', 'schemas', 'worlds'].includes(entry.name)) continue;
+        await scan(fullPath);
+        continue;
+      }
+
+      if (entry.isFile() && entry.name.endsWith('.tmx') && !entry.name.startsWith('_')) {
+        const relativePath = path.relative(BASE_DIR, fullPath);
+        files.push({ path: fullPath, relativePath });
+      }
     }
   }
 
+  await scan(dir);
   return files;
 }
 
 /**
  * Validate a TMX (XML) map file
  */
-async function validateTmxMap(filePath, relativePath) {
-  let tmxContent;
-  let map;
-
-  try {
-    tmxContent = await readFile(filePath, 'utf-8');
-    const parsed = await parseStringPromise(tmxContent, { explicitArray: false });
-    map = parsed.map;
-  } catch (err) {
-    logError(relativePath, `Failed to parse TMX: ${err.message}`);
-    return false;
-  }
-
+function validateTmxMap(map, relativePath, spawnIndex) {
   const mapErrors = [];
 
-  // Check map attributes
   const width = parseInt(map.$.width, 10);
   const height = parseInt(map.$.height, 10);
   const tilewidth = parseInt(map.$.tilewidth, 10);
@@ -637,7 +676,6 @@ async function validateTmxMap(filePath, relativePath) {
     }
   }
 
-  // Check orientation and renderorder
   if (map.$.orientation !== 'orthogonal') {
     mapErrors.push(`Invalid orientation: "${map.$.orientation}" (must be "orthogonal")`);
   }
@@ -645,7 +683,7 @@ async function validateTmxMap(filePath, relativePath) {
     mapErrors.push(`Invalid renderorder: "${map.$.renderorder}" (must be "right-down")`);
   }
 
-  // Check tilesets
+  // Tileset checks
   const tilesets = Array.isArray(map.tileset) ? map.tileset : (map.tileset ? [map.tileset] : []);
   if (tilesets.length === 0) {
     mapErrors.push('Map must declare at least one tileset');
@@ -657,29 +695,26 @@ async function validateTmxMap(filePath, relativePath) {
       mapErrors.push('Tileset source must be a string');
       continue;
     }
-    if (!source.startsWith('../tilesets/') || !source.endsWith('.tsx')) {
-      mapErrors.push(`Tileset source "${source}" must point to ../tilesets/*.tsx`);
+    const tilesetPattern = /^(\.\.\/)+tilesets\/.*\.tsx$/;
+    if (!tilesetPattern.test(source)) {
+      mapErrors.push(`Tileset source "${source}" must point to ../tilesets/*.tsx (allowing nested room folders)`);
     }
   }
 
-  // Check layers
   const layers = Array.isArray(map.layer) ? map.layer : (map.layer ? [map.layer] : []);
   const objectgroups = Array.isArray(map.objectgroup) ? map.objectgroup : (map.objectgroup ? [map.objectgroup] : []);
   const allLayers = [...layers, ...objectgroups];
-
   const layerNames = allLayers.map(l => l.$.name);
 
-  // Check for required layers
+  // Required layers
   for (const required of REQUIRED_LAYERS) {
     if (!layerNames.includes(required)) {
       mapErrors.push(`Missing required layer "${required}"`);
     }
   }
 
-  // Check layer order
   const expectedOrder = REQUIRED_LAYERS.filter(name => layerNames.includes(name));
   const actualOrder = layerNames.filter(name => REQUIRED_LAYERS.includes(name));
-
   for (let i = 0; i < expectedOrder.length; i++) {
     if (actualOrder[i] !== expectedOrder[i]) {
       mapErrors.push(`Layer order mismatch: expected "${expectedOrder[i]}" at position ${i}, got "${actualOrder[i] || 'undefined'}"`);
@@ -687,28 +722,46 @@ async function validateTmxMap(filePath, relativePath) {
     }
   }
 
-  // Check Entities layer is objectgroup
-  const entitiesLayer = objectgroups.find(l => l.$.name === 'Entities');
-  if (!entitiesLayer && layerNames.includes('Entities')) {
-    mapErrors.push('"Entities" layer must be an objectgroup, not a tile layer');
-  }
-
-  // Check tile layers are tilelayer
-  for (const name of ['Floor', 'Walls', 'Trim', 'Overlays', 'Collision']) {
+  // Layer type checks
+  for (const name of REQUIRED_TILE_LAYERS) {
     const tileLayer = layers.find(l => l.$.name === name);
     if (layerNames.includes(name) && !tileLayer) {
       mapErrors.push(`"${name}" layer must be a tile layer, not an objectgroup`);
     }
   }
 
-  // Validate entities in Entities layer
+  for (const name of REQUIRED_OBJECT_LAYERS) {
+    const objLayer = objectgroups.find(l => l.$.name === name);
+    if (layerNames.includes(name) && !objLayer) {
+      mapErrors.push(`"${name}" layer must be an objectgroup, not a tile layer`);
+    }
+  }
+
+  const entitiesLayer = objectgroups.find(l => l.$.name === 'Entities');
+  const portalsLayer = objectgroups.find(l => l.$.name === 'Portals');
+  const spawnsLayer = objectgroups.find(l => l.$.name === 'Spawns');
+
+  const maxX = width * tilewidth;
+  const maxY = height * tileheight;
+
+  // Collision layer must be marked as collision
+  const collisionLayer = layers.find(l => l.$.name === 'Collision');
+  if (collisionLayer) {
+    const props = Array.isArray(collisionLayer.properties?.property)
+      ? collisionLayer.properties.property
+      : (collisionLayer.properties?.property ? [collisionLayer.properties.property] : []);
+    const collidesProp = props.find(p => p.$.name === 'isCollision');
+    if (!collidesProp || !(collidesProp.$?.value === 'true' || collidesProp.$?.value === true)) {
+      mapErrors.push('"Collision" layer must have property isCollision=true');
+    }
+  }
+
+  // Validate entities
   if (entitiesLayer) {
     const objects = Array.isArray(entitiesLayer.object) ? entitiesLayer.object : (entitiesLayer.object ? [entitiesLayer.object] : []);
-    const maxX = width * tilewidth;
-    const maxY = height * tileheight;
 
     for (const obj of objects) {
-      const objType = obj.$.type || obj.$.class; // Tiled uses 'class' in newer versions
+      const objType = obj.$.type || obj.$.class;
       const objName = obj.$.name || obj.$.id;
 
       if (!objType) {
@@ -722,7 +775,6 @@ async function validateTmxMap(filePath, relativePath) {
         continue;
       }
 
-      // Parse properties
       const properties = {};
       if (obj.properties && obj.properties.property) {
         const props = Array.isArray(obj.properties.property) ? obj.properties.property : [obj.properties.property];
@@ -731,15 +783,13 @@ async function validateTmxMap(filePath, relativePath) {
         }
       }
 
-      // Check required properties
-      for (const [reqProp, reqType] of Object.entries(schema.required)) {
+      for (const [reqProp] of Object.entries(schema.required)) {
         const prop = properties[reqProp];
         if (!prop || prop.value === undefined || prop.value === null || prop.value === '') {
           mapErrors.push(`${objType} "${objName}" missing required property "${reqProp}"`);
         }
       }
 
-      // Check bounds
       const objX = parseFloat(obj.$.x);
       const objY = parseFloat(obj.$.y);
       if (!isNaN(objX) && (objX < 0 || objX > maxX)) {
@@ -751,7 +801,82 @@ async function validateTmxMap(filePath, relativePath) {
     }
   }
 
-  // Validate content bounds (detect stray tiles/objects)
+  // Validate spawns
+  const spawnSet = new Set();
+  if (spawnsLayer) {
+    const objects = Array.isArray(spawnsLayer.object) ? spawnsLayer.object : (spawnsLayer.object ? [spawnsLayer.object] : []);
+    for (const obj of objects) {
+      const props = Array.isArray(obj.properties?.property) ? obj.properties.property : (obj.properties?.property ? [obj.properties.property] : []);
+      const spawnIdProp = props.find(p => p.$.name === 'spawnId');
+      if (!spawnIdProp || !spawnIdProp.$.value) {
+        mapErrors.push(`Spawn "${obj.$.name || obj.$.id}" missing required property "spawnId"`);
+      } else {
+        const sid = spawnIdProp.$.value;
+        if (spawnSet.has(sid)) {
+          mapErrors.push(`Duplicate spawnId "${sid}" in map`);
+        }
+        spawnSet.add(sid);
+      }
+      const objX = parseFloat(obj.$.x);
+      const objY = parseFloat(obj.$.y);
+      if (!isNaN(objX) && (objX < 0 || objX > maxX)) {
+        mapErrors.push(`Spawn "${obj.$.name || obj.$.id}" x=${objX} out of bounds (0-${maxX})`);
+      }
+      if (!isNaN(objY) && (objY < 0 || objY > maxY)) {
+        mapErrors.push(`Spawn "${obj.$.name || obj.$.id}" y=${objY} out of bounds (0-${maxY})`);
+      }
+    }
+  }
+
+  // Validate portals
+  if (portalsLayer) {
+    const objects = Array.isArray(portalsLayer.object) ? portalsLayer.object : (portalsLayer.object ? [portalsLayer.object] : []);
+    for (const obj of objects) {
+      const props = Array.isArray(obj.properties?.property) ? obj.properties.property : (obj.properties?.property ? [obj.properties.property] : []);
+      const targetMap = (props.find(p => p.$.name === 'targetMap')?.$.value || '').trim();
+      const targetSpawnId = (props.find(p => p.$.name === 'targetSpawnId')?.$.value || '').trim();
+      const transition = props.find(p => p.$.name === 'transition')?.$.value;
+      const lockedProp = props.find(p => p.$.name === 'locked');
+      const locked = lockedProp ? (lockedProp.$.value === 'true' || lockedProp.$.value === true) : false;
+
+      if (!targetMap) {
+        mapErrors.push(`Portal "${obj.$.name || obj.$.id}" missing required property "targetMap"`);
+      } else if (!AUTHORITATIVE_ZONE_IDS.includes(targetMap) && !INCLUDE_LEGACY) {
+        mapErrors.push(`Portal "${obj.$.name || obj.$.id}" targetMap "${targetMap}" is not an allowed zone`);
+      }
+
+      if (!targetSpawnId) {
+        mapErrors.push(`Portal "${obj.$.name || obj.$.id}" missing required property "targetSpawnId"`);
+      } else if (targetMap) {
+        const spawns = spawnIndex.get(targetMap);
+        if (!spawns || !spawns.has(targetSpawnId)) {
+          mapErrors.push(`Portal "${obj.$.name || obj.$.id}" targetSpawnId "${targetSpawnId}" not found in ${targetMap}`);
+        }
+      }
+
+      if (transition && !['fade', 'stairs', 'door'].includes(transition)) {
+        mapErrors.push(`Portal "${obj.$.name || obj.$.id}" transition "${transition}" must be one of fade|stairs|door`);
+      }
+
+      const objX = parseFloat(obj.$.x);
+      const objY = parseFloat(obj.$.y);
+      const objWidth = parseFloat(obj.$.width) || tilewidth;
+      const objHeight = parseFloat(obj.$.height) || tileheight;
+      if (!isNaN(objX) && (objX < 0 || objX > maxX)) {
+        mapErrors.push(`Portal "${obj.$.name || obj.$.id}" x=${objX} out of bounds (0-${maxX})`);
+      }
+      if (!isNaN(objY) && (objY < 0 || objY > maxY)) {
+        mapErrors.push(`Portal "${obj.$.name || obj.$.id}" y=${objY} out of bounds (0-${maxY})`);
+      }
+      if (objWidth <= 0 || objHeight <= 0) {
+        mapErrors.push(`Portal "${obj.$.name || obj.$.id}" must have positive width/height`);
+      }
+      if (locked && !props.find(p => p.$.name === 'lockKeyId')) {
+        mapErrors.push(`Portal "${obj.$.name || obj.$.id}" is locked but missing lockKeyId`);
+      }
+    }
+  }
+
   validateContentBoundsTMX(map, layers, objectgroups, relativePath, mapErrors);
 
   if (mapErrors.length > 0) {
@@ -808,45 +933,42 @@ async function main() {
   }
   console.log('✓ No __MACOSX directories found\n');
 
-  // Find and validate TMX files in rooms directory
-  console.log('Validating TMX maps in rooms/...\n');
+  // Find and validate TMX files (zones by default)
+  const scanRoot = INCLUDE_LEGACY ? ROOMS_DIR : ZONE_DIR;
+  console.log(`Validating TMX maps in ${path.relative(process.cwd(), scanRoot)}${INCLUDE_LEGACY ? ' (legacy included)' : ''}\n`);
 
-  const tmxFiles = await findTmxFiles(ROOMS_DIR);
-
-  if (tmxFiles.length > 0) {
-    // Sort files for deterministic output
-    tmxFiles.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
-
-    for (const { path: filePath, relativePath } of tmxFiles) {
-      await validateTmxMap(filePath, relativePath);
-    }
-  } else {
-    console.log('No TMX files found in rooms/');
+  const tmxFiles = await findTmxFiles(scanRoot, { includeLegacy: INCLUDE_LEGACY });
+  if (tmxFiles.length === 0) {
+    console.log('No TMX files found');
+    console.log(`\nValidation: ${passed} passed, ${failed} failed (0 total maps)`);
+    process.exit(0);
   }
 
-  // Find and validate JSON map files in room pack subdirectories
-  console.log('\nValidating Tiled JSON maps...\n');
+  // Sort for deterministic processing
+  tmxFiles.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
 
-  if (!existsSync(BASE_DIR)) {
-    console.error(`Base directory not found: ${BASE_DIR}`);
-    process.exit(1);
+  const spawnIndex = new Map();
+  const parsedMaps = [];
+
+  for (const { path: filePath, relativePath } of tmxFiles) {
+    try {
+      const content = await readFile(filePath, 'utf-8');
+      const parsed = await parseStringPromise(content, { explicitArray: false });
+      const map = parsed.map;
+      const mapId = path.basename(filePath, '.tmx');
+      spawnIndex.set(mapId, collectSpawnsFromMap(map));
+      parsedMaps.push({ relativePath, map });
+    } catch (err) {
+      logError(relativePath, `Failed to parse TMX: ${err.message}`);
+    }
   }
 
-  const mapFiles = await findMapFiles(BASE_DIR, BASE_DIR);
-
-  if (mapFiles.length > 0) {
-    // Sort files for deterministic output
-    mapFiles.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
-
-    for (const { path: filePath, relativePath } of mapFiles) {
-      await validateMap(filePath, relativePath);
-    }
-  } else {
-    console.log('No JSON map files found in room packs.');
+  for (const { relativePath, map } of parsedMaps) {
+    validateTmxMap(map, relativePath, spawnIndex);
   }
 
   // Summary
-  const totalMaps = tmxFiles.length + mapFiles.length;
+  const totalMaps = parsedMaps.length;
   console.log(`\nValidation: ${passed} passed, ${failed} failed (${totalMaps} total maps)`);
 
   if (failed > 0) {

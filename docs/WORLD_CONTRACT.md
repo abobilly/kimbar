@@ -37,7 +37,7 @@ The `.world` file is a JSON document with the following structure:
 {
   "maps": [
     {
-      "fileName": "../rooms/<room_id>.tmx",
+      "fileName": "../rooms/scotus_zones/<room_id>.tmx",
       "x": 0,
       "y": 0,
       "width": 640,
@@ -60,28 +60,16 @@ The `.world` file is a JSON document with the following structure:
 
 ### Current World Contents
 
-The `scotus.world` manifest contains **18 playable rooms**:
+The `scotus.world` manifest contains the six authoritative SCOTUS zones (legacy rooms are quarantined in `rooms/_legacy` and excluded):
 
 | Room ID | Dimensions | Description |
 |---------|------------|-------------|
-| `cafeteria` | 640×480 | Staff cafeteria |
-| `chambers_alito` | 480×384 | Justice Alito's chambers |
-| `chambers_barrett` | 480×384 | Justice Barrett's chambers |
-| `chambers_gorsuch` | 480×384 | Justice Gorsuch's chambers |
-| `chambers_jackson` | 480×384 | Justice Jackson's chambers |
-| `chambers_kagan` | 480×384 | Justice Kagan's chambers |
-| `chambers_kavanaugh` | 480×384 | Justice Kavanaugh's chambers |
-| `chambers_roberts` | 480×384 | Chief Justice Roberts' chambers |
-| `chambers_sotomayor` | 480×384 | Justice Sotomayor's chambers |
-| `chambers_thomas` | 480×384 | Justice Thomas's chambers |
-| `courthouse_exterior` | 800×640 | Exterior courtyard |
-| `courtroom_main` | 960×640 | Main courtroom |
-| `library` | 640×480 | Law library |
-| `press_room` | 480×384 | Press briefing room |
-| `records_vault` | 480×384 | Records storage |
-| `robing_room` | 480×384 | Justices' robing room |
-| `room_scotus_hall_01` | 640×480 | Main hallway |
-| `scotus_lobby` | 640×480 | Main lobby |
+| `scotus_exterior` | 256×256 | Exterior courtyard/front steps |
+| `scotus_1_lobby` | 256×256 | Main lobby (1F) |
+| `scotus_0_basement` | 256×256 | Basement/services |
+| `scotus_2_second` | 256×256 | Second floor |
+| `scotus_3_third` | 256×256 | Third floor |
+| `scotus_4_roof` | 256×256 | Roof/observatory |
 
 ### Runtime vs Authoring Usage
 
@@ -104,26 +92,26 @@ The world manifest enables designers to:
 
 ### TMX Filename Convention
 
-Room IDs map directly to TMX filenames:
+Room IDs map directly to TMX filenames inside `rooms/scotus_zones/`:
 
 ```
-Room ID: scotus_lobby
-TMX File: public/content/tiled/rooms/scotus_lobby.tmx
-World Entry: ../rooms/scotus_lobby.tmx
+Room ID: scotus_1_lobby
+TMX File: public/content/tiled/rooms/scotus_zones/scotus_1_lobby.tmx
+World Entry: ../rooms/scotus_zones/scotus_1_lobby.tmx
 ```
 
-**Pattern**: `{room_id}` → `{room_id}.tmx`
+**Pattern**: `{room_id}` → `rooms/scotus_zones/{room_id}.tmx`
 
 ### Room Entry Alignment
 
 Each room in the world manifest must have a corresponding entry in `specs/room_entries/`:
 
 ```
-specs/room_entries/scotus_lobby.json
-├── id: "scotus_lobby"           ← Must match TMX filename (without .tmx)
-├── displayName: "SCOTUS Lobby"  ← Human-readable name
-├── environment: "interior"      ← Environment type
-└── ldtkUrl: (legacy)            ← Optional LDtk fallback
+specs/room_entries/scotus_1_lobby.json
+├── id: "scotus_1_lobby"           ← Must match TMX filename (without .tmx)
+├── displayName: "SCOTUS Lobby"    ← Human-readable name
+├── environment: "interior"        ← Environment type
+└── levelUrl: /generated/levels/tiled/scotus_1_lobby.json
 ```
 
 ### World Graph Alignment
@@ -131,13 +119,13 @@ specs/room_entries/scotus_lobby.json
 The world graph (`specs/world_graph.json`) defines room connectivity:
 
 ```
-world_graph.json node.id: "scotus_lobby"
+world_graph.json node.id: "scotus_1_lobby"
                     ↓
-room_entries/scotus_lobby.json id: "scotus_lobby"
+room_entries/scotus_1_lobby.json id: "scotus_1_lobby"
                     ↓
-tiled/rooms/scotus_lobby.tmx
+tiled/rooms/scotus_zones/scotus_1_lobby.tmx
                     ↓
-scotus.world fileName: "../rooms/scotus_lobby.tmx"
+scotus.world fileName: "../rooms/scotus_zones/scotus_1_lobby.tmx"
 ```
 
 **Alignment Rules**:
@@ -187,17 +175,10 @@ npm run build:tiled-world
 
 **What it does**:
 1. Reads room entries from `specs/room_entries/*.json`
-2. For each room entry, checks for corresponding TMX in `public/content/tiled/rooms/`
+2. For each room entry, checks for corresponding TMX in `public/content/tiled/rooms/scotus_zones/`
 3. Parses TMX dimensions (width × tilewidth, height × tileheight)
-4. Sorts rooms alphabetically for deterministic output
-5. Arranges rooms in a grid layout (4 per row, 64px padding)
-6. Writes `public/content/tiled/worlds/scotus.world`
-
-**Layout Configuration**:
-| Setting | Value |
-|---------|-------|
-| Maps per row | 4 |
-| Padding between maps | 64 pixels |
+4. Arranges the six zones deterministically (exterior then ascending floors)
+5. Writes `public/content/tiled/worlds/scotus.world`
 | Default dimensions | 640×480 pixels (20×15 tiles) |
 
 **Determinism Guarantees**:

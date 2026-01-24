@@ -1,5 +1,5 @@
 # Kim Bar - Agent Handoff Document
-**Last Update**: January 21, 2026
+**Last Update**: January 23, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
@@ -8,57 +8,116 @@
 
 ---
 
-## Placeholder Tiles Implementation (January 21, 2026)
+## SCOTUS Six-Zone Migration (Current Session)
 
 ### What Changed
 
-**Implemented deterministic procedural placeholder tiles to eliminate ALL "missing tile(s)" warnings:**
-
-1. **Created placeholder generator** (`scripts/generate-placeholder-tiles.mjs`):
-   - Generates 32×32 transparent PNG placeholders for all tiles in manifest
-   - Deterministic: uses tile ID as seed for seeded PRNG (mulberry32 variant)
-   - Procedural patterns: checkerboard, diagonal lines, grid, dots
-   - Orange border (1px) to clearly identify as placeholder
-   - Uses sharp library for PNG generation with max compression
-   - File size: ~150-200 bytes per tile
-
-2. **Generated all 230 placeholder tiles**:
-   - Output: `public/generated/tiles/{tile-id}.png`
-   - Result: 100% tile coverage (230/230 tiles)
-   - Validated: All 18 rooms now have required tiles
-   - **Zero "missing tile(s)" warnings** ✅
-
-3. **Updated build system**:
-   - Added npm script: `npm run gen:tiles:placeholders`
-   - Updated `.gitignore` to exclude generated tiles but commit README
-   - Created `public/generated/tiles/README.md` documenting system
+- World graph rebuilt for six authoritative SCOTUS zones (`scotus_exterior`, `scotus_0_basement`, `scotus_1_lobby`, `scotus_2_second`, `scotus_3_third`, `scotus_4_roof`); legacy nodes quarantined.
+- Tiled world manifest (`public/content/tiled/worlds/scotus.world`) now references `rooms/scotus_zones/*.tmx` only.
+- Runtime: `WorldScene` now prefers `levelUrl`/Tiled pipeline, adapts compiled Tiled levels for gameplay (spawns indexed, door transitions use `targetLevel`/`targetSpawnId`), and defaults to `scotus_1_lobby`.
+- Default game state `currentLevel` set to `scotus_1_lobby`.
+- Docs updated (`docs/TILED_PIPELINE.md`, `docs/WORLD_CONTRACT.md`) for zone-only workflow, 8-layer stack (Portals/Spawns), max 320×320 maps, and world manifest/graph alignment.
+- Tiled validator fixed: spawn duplicate check no longer pre-seeds current map, so unique `spawnId`s per map validate correctly; `npm run validate:tiled` now passes for `scotus_zones` placeholders.
 
 ### How to Use
 
-**Generate all placeholders:**
-```bash
-npm run gen:tiles:placeholders
-```
-
-**Replace a placeholder with real art:**
-1. Create real 32×32 PNG following tileset manifest spec
-2. Name it exactly as tile ID: `{tile-id}.png`
-3. Overwrite placeholder in `public/generated/tiles/`
-4. Run `npm run validate` to confirm
-
-**Identify placeholders:** Look for orange border in-game during development.
+1. Edit TMX under `public/content/tiled/rooms/scotus_zones/` (target 256×256 tiles, keep 8-layer stack).
+2. Spawns → `Spawns` layer with unique `spawnId` per map; portals → `Portals` layer with `targetMap` + `targetSpawnId` (optional `transition`, `locked`, `lockKeyId`).
+3. Run: `npm run validate:tiled` (add `-- --include-legacy` only if you need `_legacy`), then `npm run compile:tiled`, `npm run build:tiled-world`, `npm run build:levels`.
+4. Launch game; doors now use `targetLevel/targetSpawnId` from portals when restarting the scene.
 
 ### What's Next
 
-1. Replace P0 (highest priority) placeholders with real art first
-2. Use existing AI generation workflow (`npm run gen:tiles`) for real tiles
-3. Placeholders can stay for low-priority tiles until real art is ready
+- Populate actual portals/spawns inside each zone TMX to match `specs/world_graph.json`.
+- Build out collision + art for zones; consider adding a 256×256 zone template for new layers.
+- Run `npm run validate:tiled && npm run compile:tiled && npm run build:levels` after edits; run `npm run check` before PR.
 
 ### Gates Run / Not Run
 
-- ✅ Validation run: `npm run validate` → Zero missing tile warnings
-- ❌ Full test suite not run (not needed for this change)
-- ❌ Build not run (not needed for this change)
+- ✅ `npm run validate:tiled` (6/6 `scotus_zones` maps passing after spawn validator fix)
+- ⏭️ Other gates not run yet this session (content edits still pending).
+
+#### Update — Jan 23, 2026 (SCOTUS portals/spawns wired)
+
+- **What changed**: Wired portals + arrival spawns in SCOTUS TMX maps per `specs/world_graph.json`. Updated `nextobjectid` and added `Door` + `Spawn` objects in:
+   - `public/content/tiled/rooms/scotus_zones/scotus_0_basement.tmx`
+   - `public/content/tiled/rooms/scotus_zones/scotus_1_lobby.tmx`
+   - `public/content/tiled/rooms/scotus_zones/scotus_2_second.tmx`
+   - `public/content/tiled/rooms/scotus_zones/scotus_3_third.tmx`
+   - `public/content/tiled/rooms/scotus_zones/scotus_4_roof.tmx`
+   (Portals use 2×2 tiles at graph coords; spawns named `from_*` per inbound edge with matching facing.)
+- **How to use**: Open TMX files in Tiled; portals are on `Portals` layer with `targetMap` + `targetSpawnId` + `facing`; arrivals on `Spawns` layer (`spawnId`=`from_*`). If adjusting coordinates, keep 32px tiles, 64×64 portals, 32×32 spawns, and bump `nextobjectid`.
+- **Gates run**: ✅ `npm run validate:tiled` (6/6 SCOTUS maps passing after portal additions).
+- **Gates not run**: ⏭️ `npm run compile:tiled`, `npm run build:levels`, `npm run check` (not requested this session).
+
+#### Update — Jan 23, 2026 (Lobby placeholders for clerk + civpro encounter)
+
+- **What changed**: Added placeholder NPC `npc.clerk_01` and civil procedure encounter trigger to `public/content/tiled/rooms/scotus_zones/scotus_1_lobby.tmx`; bumped `nextobjectid` to 10. Encounter uses `deckTag=civil_procedure`, `count=5`, `rewardId=civpro_suit`, `once=true`, `encounterId=scotus_lobby_civpro_placeholder`.
+- **How to use**: In Tiled, the `Entities` layer now has `npc_court_clerk` (with `storyKnot=court_clerk_intro`) and `encounter_civpro_placeholder`. Feel free to reposition them; keep the properties and bump `nextobjectid` if you add more entities. Trigger is 32×32 at ~x=4128,y=704; clerk at ~x=4096,y=640.
+- **Gates run**: ✅ `npm run validate:tiled` (6/6 SCOTUS maps passing after placeholder additions).
+- **Gates not run**: ⏭️ `npm run compile:tiled`, `npm run build:levels`, `npm run check` (not requested this session).
+
+#### Update — Jan 24, 2026 (Justice NPC placements in SCOTUS zones)
+
+- **What changed**: Placed all nine justices as NPCs on the `Entities` layer of SCOTUS zone TMXs (placeholders using full spritesheets + story knots), bumping `nextobjectid` where needed:
+   - `scotus_0_basement`: `justice_thomas` (npc.justice_thomas, facing down) at ~x=4096,y=2048; `justice_alito` (npc.justice_alito, facing left) at ~x=4608,y=2304.
+   - `scotus_2_second`: `justice_roberts` (npc.justice_roberts, facing down) at ~x=2048,y=2048; `justice_kagan` (npc.justice_kagan, facing left) at ~x=2304,y=2304.
+   - `scotus_3_third`: `justice_gorsuch` (npc.justice_gorsuch, facing down) at ~x=2048,y=1536; `justice_kavanaugh` (npc.justice_kavanaugh, facing left) at ~x=2560,y=1792; `justice_sotomayor` (npc.justice_sotomayor, facing right) at ~x=3072,y=1536.
+   - `scotus_4_roof`: `justice_barrett` (npc.justice_barrett, facing down) at ~x=2048,y=1024; `justice_jackson` (npc.justice_jackson, facing left) at ~x=3072,y=1024.
+- **How to use**: Open the TMX in Tiled; all NPCs sit on `Entities` with `characterId` + `storyKnot=<justice>_intro`. Move them as desired; keep properties and bump `nextobjectid` if adding more entities or behaviors. Encounter triggers remain separate (add near them if desired).
+- **Gates run**: ✅ `npm run validate:tiled` (6/6 SCOTUS maps passing after justice placements).
+- **Gates not run**: ⏭️ `npm run compile:tiled`, `npm run build:levels`, `npm run check` (not requested this session).
+
+## Placeholder Tile Generator (January 21, 2026)
+
+### What Changed
+
+**Implemented deterministic placeholder tile generator to eliminate all "missing tile" warnings:**
+
+- Created `scripts/generate-placeholder-tiles.mjs` - generates 32×32 PNG placeholders for all 230 tiles
+- Uses deterministic patterns based on MD5 hashing for consistent appearance
+- Category-specific visual patterns (grid for floors, vertical lines for walls, etc.)
+- Generates to `public/generated/tiles/` (gitignored)
+- Creates `placeholders.index.json` with tile metadata
+- Added `README.md` in tiles directory with usage guide
+
+**Files added/modified:**
+- `scripts/generate-placeholder-tiles.mjs` (new)
+- `public/generated/tiles/README.md` (new)
+- `package.json` (added `gen:tiles` and `gen:tiles:force` scripts)
+
+**Result:** 
+- Before: 230 defined, 0 generated (0%), 18 rooms with missing tiles
+- After: 230 defined, 230 generated (100%), all rooms have required tiles ✅
+
+### How to Use
+
+Generate all placeholder tiles:
+```bash
+npm run gen:tiles
+```
+
+Force regenerate (overwrite existing):
+```bash
+npm run gen:tiles:force
+```
+
+The tiles are automatically created in `public/generated/tiles/` and are gitignored. Each tile has:
+- Deterministic color scheme from tile ID hash
+- Category-specific pattern for visual identification
+- 2-character hash in corner for debugging
+- Consistent appearance across regenerations
+
+### What's Next
+
+1. Tiles are ready for game testing
+2. Replace with final artwork when available (keep same filenames)
+3. The placeholder infrastructure is now complete
+
+### Gates Run / Not Run
+
+- ✅ Validation run: All tile warnings eliminated (100% completion)
+- ⏭️ Build/tests not run (not required for this change)
 
 ---
 

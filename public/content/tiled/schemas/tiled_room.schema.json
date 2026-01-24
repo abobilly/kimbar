@@ -26,12 +26,12 @@
         "height": {
             "type": "integer",
             "minimum": 5,
-            "maximum": 100
+            "maximum": 320
         },
         "width": {
             "type": "integer",
             "minimum": 5,
-            "maximum": 100
+            "maximum": 320
         },
         "infinite": {
             "type": "boolean",
