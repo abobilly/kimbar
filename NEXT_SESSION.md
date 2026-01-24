@@ -8,7 +8,62 @@
 
 ---
 
-## SCOTUS Six-Zone Migration (Current Session)
+## Spark Roguelite Integration (Current Session)
+
+### What Changed
+
+Integrated GitHub Spark's roguelite flashcard MVP into kimbar, creating a new "Roguelite Mode" parallel to the existing "Classic Mode" (WorldScene).
+
+**New Files Created:**
+- `src/game/systems/RunState.ts` — Roguelite run state management (HP, streak, boons, mastery tracking, localStorage persistence)
+- `src/content/flashcard-loader.ts` — Handles Spark's master-bar-flashcards.json + kimbar's cloze.ndjson formats
+- `src/game/scenes/SubjectSelectScene.ts` — 7 canonical subject toggles + Start Run button
+- `src/game/scenes/DungeonScene.ts` — Code-first dungeon hub with subject rooms, HUD, boon selection
+- `src/game/scenes/RunEndScene.ts` — Results screen with accuracy by subject, missed cards review
+
+**Modified Files:**
+- `src/content/types.ts` — Extended `Flashcard` interface with `subject`, `topic`, `backPlain`, `game` (MCQ support)
+- `src/game/systems/EncounterSystem.ts` — MCQ mode (game.choices), "Got it/Still shaky" mastery buttons, RunState integration
+- `src/game/scenes/MainMenu.ts` — Added "Roguelite Mode" and "Classic Mode" buttons, flashcard preloading
+- `src/game/main.ts` — Registered new scenes (SubjectSelectScene, DungeonScene, RunEndScene)
+
+**Key Features:**
+- 7 canonical subjects (excl. MPT): Civil Procedure, Constitutional Law, Contracts, Criminal Law, Evidence, Property, Torts
+- HP/Max HP system with damage on wrong answers (unless streak-shield boon active)
+- Streak counter with gold rewards
+- Boon system: Cheat Sheet (free-reveal), Energy Drink (max-hp), Second Chance (reroll), Streak Shield
+- "Got it" / "Still shaky" mastery buttons for spaced repetition targeting
+- Weighted card selection prioritizing shaky/weak cards
+- Run persistence via localStorage
+
+### How to Use
+
+1. **Start Roguelite Mode**: Main Menu → "⚔️ ROGUELITE MODE" button
+2. **Select Subjects**: Toggle which bar exam subjects to include in the run
+3. **Play**: Navigate dungeon hub, click subject rooms to start flashcard encounters
+4. **Answer**: MCQ questions or cloze-deletion format; "Got it" or "Still shaky" after feedback
+5. **Survive**: HP depletes on wrong answers; clear all rooms to win
+
+**Adding Spark Flashcards**: Place `master-bar-flashcards.json` at `/public/assets/spark/master-bar-flashcards.json`. The loader auto-detects JSON vs NDJSON format.
+
+### What's Next
+
+- [ ] Add actual Spark flashcards file (currently falls back to kimbar's cloze.ndjson)
+- [ ] Wire outfit unlocks per subject victory (hooks exist, need OutfitSystem integration)
+- [ ] Add visual Kim sprite to DungeonScene (placeholder "K" circle currently used)
+- [ ] Style HUD to match Spark's visual design
+- [ ] E2E tests for roguelite flow
+
+### Gates Run / Not Run
+
+- ✅ `npx tsc --noEmit` — Only pre-existing WorldScene error (line 658)
+- ✅ `npm run test:unit` — All 53 tests pass
+- ✅ `npm run build-nolog` — Production build succeeds
+- ⏭️ `npm run check` — Not fully run (would fail on WorldScene type error)
+
+---
+
+## SCOTUS Six-Zone Migration (Previous Session)
 
 ### What Changed
 

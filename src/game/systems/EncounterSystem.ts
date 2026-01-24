@@ -10,6 +10,17 @@ import { FONT_LG, FONT_TITLE } from '@game/constants';
 import { UIPanel } from '@game/ui/primitives/UIPanel';
 import { UIButton } from '@game/ui/primitives/UIButton';
 import { uiTheme } from '@game/ui/uiTheme';
+import {
+  recordCardResult,
+  incrementStreak,
+  resetStreak,
+  addGold,
+  takeDamage,
+  hasBoon,
+  consumeBoon,
+  getRunState,
+  incrementEncountersCompleted
+} from '@game/systems/RunState';
 
 export interface EncounterResult {
   won: boolean;
@@ -17,7 +28,12 @@ export interface EncounterResult {
   totalCount: number;
   reward?: string;
   aborted?: boolean;  // True if user cancelled via ESC/X
+  runEnded?: boolean; // True if run ended (HP depleted or all rooms cleared)
+  runWon?: boolean;   // True if run was won (all rooms cleared)
 }
+
+// Callback for mastery recording (Got it/Still shaky)
+type MasteryCallback = (cardId: string, correct: boolean, shaky: boolean) => void;
 
 export class EncounterSystem {
   private scene: Scene;
@@ -28,20 +44,53 @@ export class EncounterSystem {
   private config: EncounterConfig | null = null;
   private onComplete: ((result: EncounterResult) => void) | null = null;
   private isEvaluating: boolean = false;  // True while showing feedback, blocks cancel
+  private onMastery: MasteryCallback | null = null;  // Callback for Got it/Still shaky
 
   constructor(scene: Scene) {
     this.scene = scene;
   }
 
-  start(config: EncounterConfig, onComplete: (result: EncounterResult) => void): void {
+  /**
+   * Start an encounter with optional mastery callback.
+   */
+  start(
+    config: EncounterConfig,
+    onComplete: (result: EncounterResult) => void,
+    onMastery?: MasteryCallback
+  ): void {
     this.config = config;
     this.onComplete = onComplete;
+    this.onMastery = onMastery || null;
     this.currentCards = getRandomCards(config.deckTag, config.count);
     this.currentIndex = 0;
     this.correctCount = 0;
 
     if (this.currentCards.length === 0) {
       console.warn('No cards found for tag:', config.deckTag);
+      onComplete({ won: true, correctCount: 0, totalCount: 0 });
+      return;
+    }
+
+    this.showEncounterUI();
+    this.showQuestion();
+  }
+
+  /**
+   * Start an encounter with pre-selected cards (for roguelite mode).
+   */
+  startWithCards(
+    cards: Flashcard[],
+    onComplete: (result: EncounterResult) => void,
+    onMastery?: MasteryCallback
+  ): void {
+    this.config = { deckTag: 'custom', count: cards.length };
+    this.onComplete = onComplete;
+    this.onMastery = onMastery || null;
+    this.currentCards = cards;
+    this.currentIndex = 0;
+    this.correctCount = 0;
+
+    if (this.currentCards.length === 0) {
       onComplete({ won: true, correctCount: 0, totalCount: 0 });
       return;
     }
@@ -131,10 +180,102 @@ export class EncounterSystem {
       }
     });
 
+    // Check if card has MCQ data (Spark format)
+    const hasMCQ = card.game?.choices &&
+      Array.isArray(card.game.choices) &&
+      card.game.choices.length > 0 &&
+      typeof card.game.answerIndex === 'number';
+
+    if (hasMCQ) {
+      this.showMCQQuestion(card, layout);
+    } else {
+      this.showClozeQuestion(card, layout);
+    }
+
+    // Hint button - check for game.hint or mnemonic
+    const hintText = card.game?.hint || card.mnemonic;
+    const state = getGameState();
+    const registry = getRegistry();
+    const outfit = registry.outfits[state.equippedOutfit];
+    const hasHintBuff = outfit?.buffs?.hints && outfit.buffs.hints > 0;
+    const hasFreeBoon = hasBoon('free-reveal');
+
+    if (hintText && (hasHintBuff || hasFreeBoon)) {
+      const hintBtn = this.createHintButton(layout.hintX, layout.hintY, hintText);
+      hintBtn.setName('q_hint');
+      this.container.add(hintBtn);
+    }
+  }
+
+  /**
+   * Show MCQ question (Spark format with game.choices).
+   */
+  private showMCQQuestion(card: Flashcard, layout: ReturnType<typeof layoutEncounter>): void {
+    // Use game.stem or frontPrompt
+    const questionStr = card.game?.stem || card.frontPrompt || 'No question text';
+    const choices = card.game!.choices!;
+    const correctIndex = card.game!.answerIndex!;
+
+    // Subject/topic header
+    if (card.subject) {
+      const subjectText = this.scene.add.text(layout.centerX, layout.questionY - 30,
+        `${card.subject}${card.topic ? ' – ' + card.topic : ''}`, {
+        fontSize: '14px',
+        color: '#888888',
+      }).setOrigin(0.5);
+      subjectText.setName('q_subject');
+      this.container!.add(subjectText);
+    }
+
+    // Question text
+    const questionText = this.scene.add.text(layout.centerX, layout.questionY, questionStr, {
+      fontSize: '20px',
+      color: '#FFFFFF',
+      wordWrap: { width: layout.questionWrapWidth },
+      align: 'center',
+      fontFamily: 'Arial'
+    }).setOrigin(0.5, 0);
+    questionText.setName('q_text');
+    this.container!.add(questionText);
+
+    // Create answer buttons for each choice
+    const questionHeight = questionText.height;
+    const buttonStartY = layout.questionY + questionHeight + 40;
+
+    choices.forEach((choice, index) => {
+      const isCorrect = index === correctIndex;
+      const button = this.createMCQButton(
+        layout.centerX,
+        buttonStartY + index * layout.buttonSpacing,
+        `${index + 1}. ${choice}`,
+        isCorrect,
+        card,
+        layout
+      );
+      button.setName('q_button_' + index);
+      this.container!.add(button);
+    });
+  }
+
+  /**
+   * Show cloze question (original kimbar format).
+   */
+  private showClozeQuestion(card: Flashcard, layout: ReturnType<typeof layoutEncounter>): void {
     // Use cloze format: show text with blanks
     const { questionText: displayText, answers } = this.parseCloze(card);
 
-    // Question text - use layout for positioning and width
+    // Subject/topic header
+    if (card.subject) {
+      const subjectText = this.scene.add.text(layout.centerX, layout.questionY - 30,
+        `${card.subject}${card.topic ? ' – ' + card.topic : ''}`, {
+        fontSize: '14px',
+        color: '#888888',
+      }).setOrigin(0.5);
+      subjectText.setName('q_subject');
+      this.container!.add(subjectText);
+    }
+
+    // Question text
     const questionText = this.scene.add.text(layout.centerX, layout.questionY, displayText, {
       fontSize: '20px',
       color: '#FFFFFF',
@@ -143,7 +284,7 @@ export class EncounterSystem {
       fontFamily: 'Arial'
     }).setOrigin(0.5, 0);
     questionText.setName('q_text');
-    this.container.add(questionText);
+    this.container!.add(questionText);
 
     // Generate answer choices from cloze deletions
     const choices = this.generateChoicesFromCloze(card, answers);
@@ -162,15 +303,78 @@ export class EncounterSystem {
       button.setName('q_button_' + index);
       this.container!.add(button);
     });
+  }
 
-    // Hint button (if player has hints)
-    const state = getGameState();
-    const registry = getRegistry();
-    const outfit = registry.outfits[state.equippedOutfit];
-    if (outfit?.buffs?.hints && outfit.buffs.hints > 0 && card.mnemonic) {
-      const hintBtn = this.createHintButton(layout.hintX, layout.hintY, card.mnemonic);
-      hintBtn.setName('q_hint');
-      this.container.add(hintBtn);
+  /**
+   * Create MCQ answer button.
+   */
+  private createMCQButton(
+    x: number,
+    y: number,
+    text: string,
+    correct: boolean,
+    card: Flashcard,
+    layout: ReturnType<typeof layoutEncounter>
+  ): UIButton {
+    const button = new UIButton(this.scene, {
+      x,
+      y,
+      width: layout.buttonWidth,
+      height: layout.buttonHeight,
+      text,
+      fontSize: 'md',
+      onClick: () => {
+        this.handleAnswer(correct, card, button);
+      }
+    });
+    return button;
+  }
+
+  /**
+   * Handle answer selection - unified for MCQ and cloze modes.
+   * Integrates with RunState for roguelite mechanics.
+   */
+  private handleAnswer(correct: boolean, card: Flashcard, button: UIButton): void {
+    // Disable all buttons and mark as evaluating (blocks cancel)
+    this.isEvaluating = true;
+    this.container?.each((child: Phaser.GameObjects.GameObject) => {
+      if (child.name?.startsWith('q_button_')) {
+        const btn = child as UIButton;
+        if (btn.setDisabled) {
+          btn.setDisabled(true);
+        } else {
+          (child as Phaser.GameObjects.Container).disableInteractive();
+        }
+      }
+    });
+
+    if (correct) {
+      // Visual feedback for correct answer
+      button.setFeedback('correct');
+      this.correctCount++;
+
+      // Roguelite: increment streak, award gold
+      incrementStreak();
+      addGold(5);
+
+      this.showFeedback(card, true);
+    } else {
+      // Visual feedback for incorrect answer
+      button.setFeedback('wrong');
+
+      // Roguelite: reset streak, take damage (unless streak-shield boon active)
+      if (hasBoon('streak-shield')) {
+        consumeBoon('streak-shield');
+      } else {
+        resetStreak();
+        takeDamage(1);
+      }
+
+      // Update sanction meter (legacy kimbar mechanic)
+      const state = getGameState();
+      updateGameState({ sanctionMeter: state.sanctionMeter + 10 });
+
+      this.showFeedback(card, false);
     }
   }
 
@@ -262,32 +466,7 @@ export class EncounterSystem {
       text,
       fontSize: 'md',
       onClick: () => {
-        // Disable all buttons and mark as evaluating (blocks cancel)
-        this.isEvaluating = true;
-        this.container?.each((child: Phaser.GameObjects.GameObject) => {
-          if (child.name?.startsWith('q_button_')) {
-            const btn = child as UIButton;
-            if (btn.setDisabled) {
-              btn.setDisabled(true);
-            } else {
-              (child as Phaser.GameObjects.Container).disableInteractive();
-            }
-          }
-        });
-
-        if (correct) {
-          // Visual feedback for correct answer
-          button.setFeedback('correct');
-          this.correctCount++;
-          this.showFeedback(card, true);
-        } else {
-          // Visual feedback for incorrect answer
-          button.setFeedback('wrong');
-          // Update sanction meter
-          const state = getGameState();
-          updateGameState({ sanctionMeter: state.sanctionMeter + 10 });
-          this.showFeedback(card, false);
-        }
+        this.handleAnswer(correct, card, button);
       }
     });
 
@@ -344,14 +523,15 @@ export class EncounterSystem {
     const layout = this.container.getData('layout') as ReturnType<typeof layoutEncounter>;
     if (!layout) return;
 
-    const explanation = card.easyContent || card.mediumContent || 'No explanation available.';
+    // Use game.explain (Spark format) or easyContent (kimbar format)
+    const explanation = card.game?.explain || card.easyContent || card.mediumContent || 'No explanation available.';
 
     // Use UIPanel primitive (code-first, no image assets)
     const feedbackPanel = new UIPanel(this.scene, {
       x: layout.centerX,
       y: layout.feedbackY,
       width: layout.feedbackWidth,
-      height: layout.feedbackHeight,
+      height: layout.feedbackHeight + 60, // Extra height for mastery buttons
       fillColor: uiTheme.colors.panelBg,
       fillAlpha: 0.95,
       strokeColor: correct ? 0x4CAF50 : 0xF44336,
@@ -359,7 +539,7 @@ export class EncounterSystem {
     });
     feedbackPanel.setName('q_feedback_bg');
 
-    const feedbackTitle = this.scene.add.text(layout.centerX, layout.feedbackY - 30,
+    const feedbackTitle = this.scene.add.text(layout.centerX, layout.feedbackY - 50,
       correct ? '✅ CORRECT!' : '❌ INCORRECT', {
       fontSize: '18px',
       color: correct ? '#4CAF50' : '#F44336',
@@ -367,7 +547,7 @@ export class EncounterSystem {
     }).setOrigin(0.5);
     feedbackTitle.setName('q_feedback_title');
 
-    const feedbackText = this.scene.add.text(layout.centerX, layout.feedbackY + 5, explanation, {
+    const feedbackText = this.scene.add.text(layout.centerX, layout.feedbackY - 15, explanation, {
       fontSize: '12px',
       color: '#CCCCCC',
       wordWrap: { width: layout.feedbackWidth - 40 },
@@ -381,33 +561,74 @@ export class EncounterSystem {
       feedbackText
     ]);
 
-    // Continue button - always visible at bottom
-    const continueBtn = this.scene.add.text(layout.centerX, layout.continueY, 'TAP TO CONTINUE', {
-      fontSize: '16px',
-      color: '#FFD700',
-      backgroundColor: '#2a4858',
-      padding: { x: 16, y: 8 }
+    // "Got it" / "Still shaky" mastery buttons
+    const masteryY = layout.feedbackY + 50;
+    const buttonSpacing = 140;
+
+    const gotItBtn = new UIButton(this.scene, {
+      x: layout.centerX - buttonSpacing / 2,
+      y: masteryY,
+      width: 120,
+      height: 36,
+      text: '✓ Got it',
+      fontSize: 'sm',
+      onClick: () => this.handleMastery(card, correct, false)
+    });
+    gotItBtn.setName('q_gotit');
+    this.container.add(gotItBtn);
+
+    const shakyBtn = new UIButton(this.scene, {
+      x: layout.centerX + buttonSpacing / 2,
+      y: masteryY,
+      width: 120,
+      height: 36,
+      text: '? Still shaky',
+      fontSize: 'sm',
+      onClick: () => this.handleMastery(card, correct, true)
+    });
+    shakyBtn.setName('q_shaky');
+    this.container.add(shakyBtn);
+
+    // Continue button (alternative - skip mastery selection)
+    const continueBtn = this.scene.add.text(layout.centerX, layout.continueY + 20, 'Skip →', {
+      fontSize: '14px',
+      color: '#888888',
     }).setOrigin(0.5).setInteractive({ useHandCursor: true });
     continueBtn.setName('q_continue');
     this.container.add(continueBtn);
 
     continueBtn.on('pointerdown', () => {
-      // Clear any transient button feedback visuals before continuing
-      this.container?.each((child: Phaser.GameObjects.GameObject) => {
-        if (child.name?.startsWith('q_button_')) {
-          const btn = child as UIButton;
-          if (btn.setFeedback) btn.setFeedback('none');
-        }
-      });
+      this.handleMastery(card, correct, !correct); // Default: shaky if wrong, got it if correct
+    });
+  }
 
-      this.isEvaluating = false;  // Allow cancel again
-      this.currentIndex++;
-      if (this.currentIndex < this.currentCards.length) {
-        this.showQuestion();
-      } else {
-        this.endEncounter();
+  /**
+   * Handle mastery button selection - records mastery and advances.
+   */
+  private handleMastery(card: Flashcard, correct: boolean, shaky: boolean): void {
+    // Record card result with mastery data
+    recordCardResult(card.id, correct, shaky);
+
+    // Notify callback if provided
+    if (this.onMastery) {
+      this.onMastery(card.id, correct, shaky);
+    }
+
+    // Clear any transient button feedback visuals before continuing
+    this.container?.each((child: Phaser.GameObjects.GameObject) => {
+      if (child.name?.startsWith('q_button_')) {
+        const btn = child as UIButton;
+        if (btn.setFeedback) btn.setFeedback('none');
       }
     });
+
+    this.isEvaluating = false;  // Allow cancel again
+    this.currentIndex++;
+    if (this.currentIndex < this.currentCards.length) {
+      this.showQuestion();
+    } else {
+      this.endEncounter();
+    }
   }
 
   private endEncounter(): void {
@@ -421,7 +642,10 @@ export class EncounterSystem {
       reward: won ? this.config.rewardId : undefined
     };
 
-    // Update game state
+    // Roguelite: increment encounters completed
+    incrementEncountersCompleted();
+
+    // Update game state (legacy kimbar rewards)
     const state = getGameState();
     if (won) {
       updateGameState({
@@ -434,6 +658,14 @@ export class EncounterSystem {
           unlockedOutfits: [...state.unlockedOutfits, this.config.rewardId]
         });
       }
+    }
+
+    // Check for run end (HP depleted)
+    const runState = getRunState();
+    if (runState && runState.hp <= 0) {
+      // Run is over - show will handle transition
+      this.showResultScreen({ ...result, runEnded: true, runWon: false });
+      return;
     }
 
     // Show result screen

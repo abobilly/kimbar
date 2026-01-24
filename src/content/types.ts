@@ -16,9 +16,26 @@ export interface Outfit {
   buffs: OutfitBuffs;
 }
 
+/** Game-specific flashcard data for MCQ/cloze modes */
+export interface FlashcardGame {
+  schemaVersion?: number;
+  mode?: 'mcq' | 'cloze';
+  stem?: string;           // Alternative prompt text
+  choices?: string[];      // MCQ answer choices
+  answerIndex?: number;    // Correct choice index (0-based)
+  clozeLite?: string;      // Cloze text for game mode
+  hint?: string;           // Optional hint
+  explain?: string;        // Explanation after answer
+  confusables?: string[];  // Wrong answer distractors
+  remediationTargets?: string[];
+}
+
 export interface Flashcard {
   id: string;
   frontPrompt: string;
+  subject?: string;        // "Civil Procedure", "Con Law", etc.
+  topic?: string;          // Specific topic within subject
+  backPlain?: string;      // Plain text answer/explanation
   cloze?: string;
   clozeLite?: string;
   easyContent?: string;
@@ -29,6 +46,7 @@ export interface Flashcard {
   priority?: number;
   mnemonic?: string;
   confusableWith?: string[];
+  game?: FlashcardGame;    // Spark MCQ/cloze game data
 }
 
 export interface GameState {
