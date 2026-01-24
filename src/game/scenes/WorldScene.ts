@@ -9,7 +9,7 @@ import { isModalOpen, openModal, closeModal, clearAllModals } from '@game/ui/mod
 import { initExitManager, registerExit, unregisterExit, clearExitManager } from '@game/ui/exitManager';
 import { layoutHUD } from '@game/ui/layout';
 import { loadRegistryAssets } from '@game/services/asset-loader';
-import { DEPTH_POPUP } from '@game/constants/depth';
+import { DEPTH_POPUP, DEPTH_WORLD } from '@game/constants/depth';
 import { loadRegistry, loadFlashcards, getGameState, saveGameState, getRoom, getInkStory, getRegistry } from '@content/registry';
 import { loadLevelData } from '@content/level-loader';
 import { getTilesetKey } from '@content/tilesets';
@@ -38,7 +38,10 @@ export class WorldScene extends Scene {
 
   // Level data
   private levelData: LevelData | null = null;
+  private tiledLevel: TiledLevelData | null = null;
   private entities: Map<string, EntityData & { sprite?: Phaser.GameObjects.Sprite }> = new Map();
+  private tilemaps: Phaser.Tilemaps.Tilemap[] = [];
+  private tilemapLayers: Phaser.Tilemaps.TilemapLayer[] = [];
 
   // UI
   private statsPanel!: Phaser.GameObjects.Rectangle;
@@ -184,12 +187,12 @@ export class WorldScene extends Scene {
     // For now, set up the layer reference for later use
 
     // Mobile zoom: increase zoom on mobile devices for better visibility
-    const isMobile = this.sys.game.device.os.android || 
-                     this.sys.game.device.os.iOS || 
-                     this.sys.game.device.os.iPad || 
-                     this.sys.game.device.os.iPhone ||
-                     width < 768; // Fallback: narrow screens
-    
+    const isMobile = this.sys.game.device.os.android ||
+      this.sys.game.device.os.iOS ||
+      this.sys.game.device.os.iPad ||
+      this.sys.game.device.os.iPhone ||
+      width < 768; // Fallback: narrow screens
+
     if (isMobile) {
       this.worldCam.setZoom(2);
       console.log('[WorldScene] Mobile device detected, setting zoom to 2x');
@@ -227,6 +230,7 @@ export class WorldScene extends Scene {
     try {
       // Reset spawn index for the incoming level
       this.spawnPoints.clear();
+      this.tiledLevel = null;
 
       // Get room URL from registry (registry-driven routing)
       const room = getRoom(levelId);
@@ -241,6 +245,7 @@ export class WorldScene extends Scene {
       // Prefer compiled Tiled level when available
       if (room.levelUrl) {
         const tiledLevel = await loadLevelData(levelId);
+        this.tiledLevel = tiledLevel;
         const adapted = this.adaptTiledLevelForWorld(tiledLevel);
         await this.preloadLevelAssets(adapted);
         this.levelData = adapted;
@@ -406,6 +411,12 @@ export class WorldScene extends Scene {
     'prop.railing': 'prop.courtroom_railing'
   };
 
+  private static readonly TILED_TILESET_ALIAS: Record<string, string> = {
+    scotus_structures: 'tileset.scotus_architecture'
+  };
+
+  private static readonly TILED_TILESET_SKIP = new Set(['collision', 'megabob']);
+
   private resolvePropSpriteKey(rawKey: string | undefined): string | null {
     if (!rawKey) return null;
 
@@ -554,6 +565,8 @@ export class WorldScene extends Scene {
     const level = this.levelData;
     console.log('[WorldScene] Loaded level', level.id, 'entities:', level.entities.length, 'playerSpawn:', level.playerSpawn);
 
+    this.clearTilemaps();
+
     // Collect encounter triggers for physics zone creation
     const triggersToCreate: Array<{ entity: EntityData; tileSize: number }> = [];
     for (const entity of level.entities) {
@@ -568,8 +581,10 @@ export class WorldScene extends Scene {
     });
     this.entities.clear();
 
-    // Render floor tilemap if floor data exists
-    if (level.floorGrid && level.gridWidth && level.gridHeight) {
+    // Render tilemap (Tiled levels prefer compiled layers; LDtk uses intGrid)
+    if (this.tiledLevel) {
+      this.renderTiledTilemap(this.tiledLevel);
+    } else if (level.floorGrid && level.gridWidth && level.gridHeight) {
       this.renderFloorTilemap(level);
     }
 
@@ -615,6 +630,101 @@ export class WorldScene extends Scene {
         const once = e.properties.once === true || e.properties.once === 'true';
         if (once) zone.destroy();
       }, undefined, this);
+    }
+  }
+
+  private clearTilemaps(): void {
+    for (const layer of this.tilemapLayers) {
+      layer.destroy();
+    }
+    for (const map of this.tilemaps) {
+      map.destroy();
+    }
+    this.tilemapLayers = [];
+    this.tilemaps = [];
+  }
+
+  private resolveTiledTilesetId(key: string): string | null {
+    if (!key || WorldScene.TILED_TILESET_SKIP.has(key)) return null;
+
+    const registry = getRegistry();
+    const tilesets = registry.tilesets ?? {};
+    const alias = WorldScene.TILED_TILESET_ALIAS[key];
+    const candidate = alias ?? `tileset.${key}`;
+
+    if (tilesets[candidate]) return candidate;
+
+    for (const entry of Object.values(tilesets)) {
+      if (entry.key === key || entry.id === key) return entry.id;
+    }
+
+    return null;
+  }
+
+  private resolveTiledTilesetIds(tiled: TiledLevelData): string[] {
+    const ids: string[] = [];
+    const seen = new Set<string>();
+
+    for (const tileset of tiled.tilesets) {
+      const id = this.resolveTiledTilesetId(tileset.key);
+      if (!id || seen.has(id)) continue;
+      seen.add(id);
+      ids.push(id);
+    }
+
+    return ids;
+  }
+
+  private renderTiledTilemap(tiled: TiledLevelData): void {
+    const tileSize = tiled.tileSize ?? 32;
+    const layersToRender = [
+      { name: 'floor', data: tiled.layers.floor, depth: DEPTH_WORLD },
+      { name: 'walls', data: tiled.layers.walls, depth: DEPTH_WORLD + 1 },
+      { name: 'trim', data: tiled.layers.trim, depth: DEPTH_WORLD + 2 },
+      { name: 'overlays', data: tiled.layers.overlays, depth: DEPTH_WORLD + 3 }
+    ];
+
+    const tilesetDefs = tiled.tilesets
+      .map((tileset) => {
+        const registryId = this.resolveTiledTilesetId(tileset.key);
+        if (!registryId) return null;
+        const textureKey = getTilesetKey(registryId) ?? registryId;
+        return { textureKey, firstGid: tileset.firstGid, sourceKey: tileset.key };
+      })
+      .filter((entry): entry is { textureKey: string; firstGid: number; sourceKey: string } => Boolean(entry));
+
+    for (const layerDef of layersToRender) {
+      if (!layerDef.data || layerDef.data.length === 0) continue;
+
+      const map = this.make.tilemap({
+        data: layerDef.data,
+        tileWidth: tileSize,
+        tileHeight: tileSize
+      });
+
+      const tilesets: Phaser.Tilemaps.Tileset[] = [];
+      for (const def of tilesetDefs) {
+        if (!this.textures.exists(def.textureKey)) {
+          if (import.meta.env?.DEV) {
+            console.warn(`[WorldScene] Missing tileset texture '${def.textureKey}' for ${layerDef.name}`);
+          }
+          continue;
+        }
+        const tileset = map.addTilesetImage(def.textureKey, def.textureKey, tileSize, tileSize, 0, 0, def.firstGid);
+        if (tileset) tilesets.push(tileset);
+      }
+
+      if (tilesets.length === 0) {
+        console.warn(`[WorldScene] No tilesets available for Tiled layer '${layerDef.name}'`);
+        continue;
+      }
+
+      const layer = map.createLayer(0, tilesets, 0, 0);
+      if (layer) {
+        layer.setDepth(layerDef.depth);
+        this.tilemapLayers.push(layer);
+      }
+      this.tilemaps.push(map);
     }
   }
 
@@ -765,7 +875,9 @@ export class WorldScene extends Scene {
     if (floorLayer) {
       floorLayer.setDepth(-10);
       console.log('[WorldScene] Rendered floor tilemap:', level.gridWidth, 'x', level.gridHeight, '(SCOTUS tiles with walls/trim)');
+      this.tilemapLayers.push(floorLayer);
     }
+    this.tilemaps.push(map);
   }
 
   public updatePlayerAppearance(): void {
@@ -805,6 +917,7 @@ export class WorldScene extends Scene {
     const spriteIds = new Set<string>();
     const propIds = new Set<string>();
     const registry = getRegistry();
+    const tilesetIds = this.tiledLevel ? this.resolveTiledTilesetIds(this.tiledLevel) : [];
 
     spriteIds.add(this.getDesiredPlayerSpriteKey());
 
@@ -847,9 +960,19 @@ export class WorldScene extends Scene {
       }
     }
 
+    if (!needsLoad) {
+      for (const tilesetId of tilesetIds) {
+        const key = getTilesetKey(tilesetId) ?? tilesetId;
+        if (key && !this.textures.exists(key)) {
+          needsLoad = true;
+          break;
+        }
+      }
+    }
+
     if (needsLoad) {
       this.showLoadingOverlay('Loading room assets...');
-      await loadRegistryAssets(this, { sprites: spriteIds, props: propIds });
+      await loadRegistryAssets(this, { sprites: spriteIds, props: propIds, tilesets: tilesetIds });
       this.hideLoadingOverlay();
     }
   }

@@ -79,6 +79,8 @@ export interface TiledLevelData {
   height: number;
   /** Tile size in pixels (always 32) */
   tileSize: 32;
+  /** Environment hint (interior/exterior) */
+  environment?: 'interior' | 'exterior';
   /** Tile layers */
   layers: TiledLevelLayers;
   /** Entities parsed from object layer */

@@ -79,6 +79,15 @@
    - Regenerate the registry after RoomEntry updates via the standard content pipeline.
 - **Gates run**: ⏭️ Not run in this subtask (content edits pending).
 
+#### Update — Jan 24, 2026 (Tiled layer rendering + tileset mapping)
+
+- **What changed**:
+   - `src/content/level-loader.ts`: normalize compiled Tiled layer objects (`{ data, width, height }`) into 2D arrays; pass through `environment`.
+   - `src/types/level-data.ts`: add optional `environment` on `TiledLevelData`.
+   - `src/game/scenes/WorldScene.ts`: track current Tiled level, load required tilesets, render `floor/walls/trim/overlays` from compiled layers, map `scotus_structures → tileset.scotus_architecture`, and clear tilemaps on level reload.
+- **What's next**: Verify `scotus_1_lobby` renders tiles; add tileset aliases if new TSX names appear.
+- **Gates run / not run**: ⏭️ Not run (runtime fix only; no gates requested).
+
 ## Placeholder Tile Generator (January 21, 2026)
 
 ### What Changed

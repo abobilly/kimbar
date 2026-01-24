@@ -38,43 +38,43 @@ const levelCache: Map<string, TiledLevelData> = new Map();
  */
 export async function loadLevelData(levelId: string): Promise<TiledLevelData> {
   console.log(`[LevelLoader] Loading level: ${levelId}`);
-  
+
   // Check cache first
   const cached = levelCache.get(levelId);
   if (cached) {
     console.log(`[LevelLoader] Using cached level: ${levelId}`);
     return cached;
   }
-  
+
   // Resolve path via registry
   const levelPath = getLevelPath(levelId);
-  
+
   // Fetch the level data
   const response = await fetch(levelPath);
-  
+
   if (!response.ok) {
     throw new Error(`[LevelLoader] Failed to load level ${levelId}: ${response.status} ${response.statusText}`);
   }
-  
+
   const rawData = await response.json();
-  
+
   // Validate and normalize the data
   const levelData = validateAndNormalize(rawData, levelId);
-  
+
   // Log instrumentation
   console.log(`[LevelLoader] Level loaded: ${levelData.id} (${levelData.width}x${levelData.height} tiles)`);
   console.log(`[LevelLoader] Tilesets: ${levelData.tilesets.map(t => t.key).join(', ')}`);
   console.log(`[LevelLoader] Entities: ${levelData.entities.length} total`);
-  
+
   // Log entity breakdown
   const entityCounts = countEntitiesByType(levelData.entities);
   for (const [type, count] of Object.entries(entityCounts)) {
     console.log(`[LevelLoader]   - ${type}: ${count}`);
   }
-  
+
   // Cache the result
   levelCache.set(levelId, levelData);
-  
+
   return levelData;
 }
 
@@ -115,13 +115,13 @@ export function clearAllLevelCache(): void {
  */
 export async function preloadLevels(levelIds: string[]): Promise<void> {
   console.log(`[LevelLoader] Preloading ${levelIds.length} levels...`);
-  
+
   await Promise.all(
     levelIds.map(id => loadLevelData(id).catch(err => {
       console.warn(`[LevelLoader] Failed to preload ${id}:`, err);
     }))
   );
-  
+
   console.log(`[LevelLoader] Preload complete`);
 }
 
@@ -134,7 +134,7 @@ export async function preloadLevels(levelIds: string[]): Promise<void> {
 export function getLevelStats(levelId: string): Record<string, number> | null {
   const level = levelCache.get(levelId);
   if (!level) return null;
-  
+
   return countEntitiesByType(level.entities);
 }
 
@@ -154,81 +154,98 @@ function validateAndNormalize(rawData: unknown, levelId: string): TiledLevelData
   if (!rawData || typeof rawData !== 'object') {
     throw new Error(`[LevelLoader] Invalid level data for ${levelId}: not an object`);
   }
-  
+
   const data = rawData as Record<string, unknown>;
-  
+
   // Required fields
   if (typeof data.width !== 'number' || data.width <= 0) {
     throw new Error(`[LevelLoader] Invalid level ${levelId}: missing or invalid width`);
   }
-  
+
   if (typeof data.height !== 'number' || data.height <= 0) {
     throw new Error(`[LevelLoader] Invalid level ${levelId}: missing or invalid height`);
   }
-  
+
   // Normalize tileSize (default to 32 if not specified)
   const tileSize = data.tileSize === 32 ? 32 : 32;
-  
+
+  const environment = typeof data.environment === 'string' ? data.environment : undefined;
+
   // Validate layers
   const layers = data.layers as Record<string, unknown> | undefined;
   if (!layers || typeof layers !== 'object') {
     throw new Error(`[LevelLoader] Invalid level ${levelId}: missing layers`);
   }
-  
+
   // Validate entities array
   const entities = data.entities as unknown[] | undefined;
   if (!Array.isArray(entities)) {
     throw new Error(`[LevelLoader] Invalid level ${levelId}: entities must be an array`);
   }
-  
+
   // Validate tilesets array
   const tilesets = data.tilesets as unknown[] | undefined;
   if (!Array.isArray(tilesets)) {
     throw new Error(`[LevelLoader] Invalid level ${levelId}: tilesets must be an array`);
   }
-  
+
   // Normalize ID
   const id = typeof data.id === 'string' ? data.id : levelId;
-  
+
   // Build the validated object
   const levelData: TiledLevelData = {
     id,
     width: data.width as number,
     height: data.height as number,
     tileSize,
+    environment: environment as TiledLevelData['environment'],
     layers: {
-      floor: ensureLayer(layers.floor, 'floor', levelId),
-      walls: ensureLayer(layers.walls, 'walls', levelId),
-      trim: ensureLayer(layers.trim, 'trim', levelId),
-      overlays: ensureLayer(layers.overlays, 'overlays', levelId),
+      floor: ensureLayer(layers.floor, 'floor', levelId, data.width as number, data.height as number),
+      walls: ensureLayer(layers.walls, 'walls', levelId, data.width as number, data.height as number),
+      trim: ensureLayer(layers.trim, 'trim', levelId, data.width as number, data.height as number),
+      overlays: ensureLayer(layers.overlays, 'overlays', levelId, data.width as number, data.height as number),
       collision: normalizeCollision(layers.collision, levelId)
     },
     entities: entities.map((e, i) => normalizeEntity(e, i, levelId)),
     tilesets: tilesets.map((t, i) => normalizeTileset(t, i, levelId))
   };
-  
+
   return levelData;
 }
 
 /**
  * Ensure a layer is a valid 2D number array.
  */
-function ensureLayer(layer: unknown, layerName: string, levelId: string): number[][] {
-  if (!Array.isArray(layer)) {
-    // Return empty layer if not present (some layers are optional)
-    console.warn(`[LevelLoader] Level ${levelId}: missing ${layerName} layer, using empty`);
-    return [];
+function ensureLayer(layer: unknown, layerName: string, levelId: string, mapWidth: number, mapHeight: number): number[][] {
+  if (Array.isArray(layer)) {
+    // Validate it's a 2D array of numbers
+    for (let y = 0; y < layer.length; y++) {
+      const row = layer[y];
+      if (!Array.isArray(row)) {
+        throw new Error(`[LevelLoader] Invalid ${layerName} layer in ${levelId}: row ${y} is not an array`);
+      }
+    }
+    return layer as number[][];
   }
-  
-  // Validate it's a 2D array of numbers
-  for (let y = 0; y < layer.length; y++) {
-    const row = layer[y];
-    if (!Array.isArray(row)) {
-      throw new Error(`[LevelLoader] Invalid ${layerName} layer in ${levelId}: row ${y} is not an array`);
+
+  if (layer && typeof layer === 'object') {
+    const record = layer as Record<string, unknown>;
+    const data = Array.isArray(record.data) ? record.data as number[] : null;
+    const width = typeof record.width === 'number' ? record.width : mapWidth;
+    const height = typeof record.height === 'number' ? record.height : mapHeight;
+
+    if (data && width > 0 && height > 0) {
+      const rows: number[][] = [];
+      for (let y = 0; y < height; y++) {
+        rows.push(data.slice(y * width, (y + 1) * width));
+      }
+      return rows;
     }
   }
-  
-  return layer as number[][];
+
+  // Return empty layer if not present (some layers are optional)
+  console.warn(`[LevelLoader] Level ${levelId}: missing ${layerName} layer, using empty`);
+  return [];
 }
 
 /**
@@ -239,9 +256,9 @@ function normalizeCollision(collision: unknown, levelId: string): { grid?: boole
     console.warn(`[LevelLoader] Level ${levelId}: no collision data`);
     return {};
   }
-  
+
   const data = collision as Record<string, unknown>;
-  
+
   return {
     grid: Array.isArray(data.grid) ? data.grid as boolean[][] : undefined,
     rects: Array.isArray(data.rects) ? data.rects as Array<{ x: number; y: number; width: number; height: number }> : undefined
@@ -255,16 +272,16 @@ function normalizeEntity(entity: unknown, index: number, levelId: string): Tiled
   if (!entity || typeof entity !== 'object') {
     throw new Error(`[LevelLoader] Invalid entity ${index} in ${levelId}: not an object`);
   }
-  
+
   const e = entity as Record<string, unknown>;
-  
+
   return {
     type: typeof e.type === 'string' ? e.type : 'Unknown',
     x: typeof e.x === 'number' ? e.x : 0,
     y: typeof e.y === 'number' ? e.y : 0,
     width: typeof e.width === 'number' ? e.width : 32,
     height: typeof e.height === 'number' ? e.height : 32,
-    properties: (e.properties && typeof e.properties === 'object') 
+    properties: (e.properties && typeof e.properties === 'object')
       ? e.properties as Record<string, unknown>
       : {}
   };
@@ -277,9 +294,9 @@ function normalizeTileset(tileset: unknown, index: number, levelId: string): { k
   if (!tileset || typeof tileset !== 'object') {
     throw new Error(`[LevelLoader] Invalid tileset ${index} in ${levelId}: not an object`);
   }
-  
+
   const t = tileset as Record<string, unknown>;
-  
+
   return {
     key: typeof t.key === 'string' ? t.key : `tileset_${index}`,
     firstGid: typeof t.firstGid === 'number' ? t.firstGid : 1
@@ -295,10 +312,10 @@ function normalizeTileset(tileset: unknown, index: number, levelId: string): { k
  */
 function countEntitiesByType(entities: TiledEntityData[]): Record<string, number> {
   const counts: Record<string, number> = {};
-  
+
   for (const entity of entities) {
     counts[entity.type] = (counts[entity.type] || 0) + 1;
   }
-  
+
   return counts;
 }
