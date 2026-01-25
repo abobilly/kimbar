@@ -6,6 +6,7 @@ import { DungeonScene } from './scenes/DungeonScene';
 import { RunEndScene } from './scenes/RunEndScene';
 import { AUTO, Game, Scale } from 'phaser';
 import { Preloader } from './scenes/Preloader';
+import { WorldScene } from './scenes/WorldScene';
 
 // Physics debug mode - enable via .env.local with VITE_PHYS_DEBUG=1
 const PHYS_DEBUG = import.meta.env.DEV && import.meta.env.VITE_PHYS_DEBUG === "1";
@@ -38,6 +39,7 @@ const config: Phaser.Types.Core.GameConfig = {
     scene: [
         Boot,
         Preloader,
+        WorldScene,
         MainMenu,           // Title screen → NEW RUN
         SubjectSelectScene, // Pick subjects for run
         DungeonScene,       // Main gameplay: dungeon hub + flashcard encounters

@@ -51,6 +51,19 @@ Integrated GitHub Spark's roguelite flashcard MVP into kimbar, creating a new "R
 - ✅ `npm run build`
 - ✅ `npm run check:fast`
 
+#### Update — Jan 25, 2026 (live blank screen fix)
+
+**What changed**
+- `src/game/main.ts` — Register `WorldScene` so Preloader can start it directly.
+- `tests/unit/game-config.test.ts` — Added coverage to ensure WorldScene is included in game config.
+- `vitest.config.ts` — Added `@` alias for tests to match app imports.
+
+**Why**
+- Live blank screen traced to Preloader starting `WorldScene` without it being registered in the Phaser scene list.
+
+**Gates run / not run (with reasons)**
+- ✅ `npm run test:unit -- tests/unit/game-config.test.ts`
+
 **New Files Created:**
 - `src/game/systems/RunState.ts` — Roguelite run state management (HP, streak, boons, mastery tracking, localStorage persistence)
 - `src/content/flashcard-loader.ts` — Handles Spark's master-bar-flashcards.json + kimbar's cloze.ndjson formats
