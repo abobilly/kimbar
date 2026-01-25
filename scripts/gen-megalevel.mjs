@@ -1,0 +1,228 @@
+import { writeFileSync } from 'fs';
+
+// Generate floor data for 48x48 map - use tile 1 from scotus_floors
+const floorRow = '1,'.repeat(48).slice(0,-1);
+const floorData = (floorRow + ',\n').repeat(47) + floorRow;
+
+// Generate collision data - use tile 97 (first collision tile)
+function genCollisionRow(y) {
+  const row = [];
+  for (let x = 0; x < 48; x++) {
+    if (y === 0 || y === 47 || x === 0 || x === 47) {
+      row.push('97');
+    } else {
+      row.push('0');
+    }
+  }
+  return row.join(',');
+}
+
+let collisionData = '';
+for (let y = 0; y < 48; y++) {
+  collisionData += genCollisionRow(y) + (y < 47 ? ',\n' : '');
+}
+
+// Generate wall data - use tile 33 from scotus_structures
+function genWallRow(y) {
+  const row = [];
+  for (let x = 0; x < 48; x++) {
+    if (y === 0 || y === 47 || x === 0 || x === 47) {
+      row.push('33');
+    } else {
+      row.push('0');
+    }
+  }
+  return row.join(',');
+}
+
+let wallData = '';
+for (let y = 0; y < 48; y++) {
+  wallData += genWallRow(y) + (y < 47 ? ',\n' : '');
+}
+
+// Generate empty layer
+const emptyRow = '0,'.repeat(48).slice(0,-1);
+const emptyData = (emptyRow + ',\n').repeat(47) + emptyRow;
+
+const tmx = `<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="32" tileheight="32" infinite="0" nextlayerid="20" nextobjectid="100">
+ <properties>
+  <property name="allowLargeMap" type="bool" value="true"/>
+  <property name="zoneId" value="megalevel"/>
+ </properties>
+ <tileset firstgid="1" source="../../tilesets/scotus_floors.tsx"/>
+ <tileset firstgid="33" source="../../tilesets/scotus_structures.tsx"/>
+ <tileset firstgid="81" source="../../tilesets/scotus_decor.tsx"/>
+ <tileset firstgid="97" source="../../tilesets/collision.tsx"/>
+ <tileset firstgid="129" source="../../tilesets/megabob.tsx"/>
+ <layer id="1" name="Floor" width="48" height="48">
+  <data encoding="csv">
+${floorData}
+</data>
+ </layer>
+ <layer id="2" name="Walls" width="48" height="48">
+  <data encoding="csv">
+${wallData}
+</data>
+ </layer>
+ <layer id="3" name="Trim" width="48" height="48">
+  <data encoding="csv">
+${emptyData}
+</data>
+ </layer>
+ <layer id="4" name="Overlays" width="48" height="48">
+  <data encoding="csv">
+${emptyData}
+</data>
+ </layer>
+ <layer id="5" name="Collision" width="48" height="48">
+  <properties>
+   <property name="isCollision" type="bool" value="true"/>
+  </properties>
+  <data encoding="csv">
+${collisionData}
+</data>
+ </layer>
+ <objectgroup id="6" name="Entities">
+  <object id="10" name="justice_roberts" type="NPC" x="480" y="640" width="32" height="32">
+   <properties>
+    <property name="characterId" value="npc.justice_roberts"/>
+    <property name="facing" value="down"/>
+    <property name="name" value="Chief Justice Roberts"/>
+    <property name="storyKnot" value="justice_roberts"/>
+   </properties>
+  </object>
+  <object id="11" name="justice_thomas" type="NPC" x="560" y="640" width="32" height="32">
+   <properties>
+    <property name="characterId" value="npc.justice_thomas"/>
+    <property name="facing" value="down"/>
+    <property name="name" value="Justice Thomas"/>
+    <property name="storyKnot" value="justice_thomas"/>
+   </properties>
+  </object>
+  <object id="12" name="justice_alito" type="NPC" x="640" y="640" width="32" height="32">
+   <properties>
+    <property name="characterId" value="npc.justice_alito"/>
+    <property name="facing" value="down"/>
+    <property name="name" value="Justice Alito"/>
+    <property name="storyKnot" value="justice_alito"/>
+   </properties>
+  </object>
+  <object id="13" name="justice_sotomayor" type="NPC" x="720" y="640" width="32" height="32">
+   <properties>
+    <property name="characterId" value="npc.justice_sotomayor"/>
+    <property name="facing" value="down"/>
+    <property name="name" value="Justice Sotomayor"/>
+    <property name="storyKnot" value="justice_sotomayor"/>
+   </properties>
+  </object>
+  <object id="14" name="justice_kagan" type="NPC" x="800" y="640" width="32" height="32">
+   <properties>
+    <property name="characterId" value="npc.justice_kagan"/>
+    <property name="facing" value="down"/>
+    <property name="name" value="Justice Kagan"/>
+    <property name="storyKnot" value="justice_kagan"/>
+   </properties>
+  </object>
+  <object id="15" name="justice_gorsuch" type="NPC" x="880" y="640" width="32" height="32">
+   <properties>
+    <property name="characterId" value="npc.justice_gorsuch"/>
+    <property name="facing" value="down"/>
+    <property name="name" value="Justice Gorsuch"/>
+    <property name="storyKnot" value="justice_gorsuch"/>
+   </properties>
+  </object>
+  <object id="16" name="justice_kavanaugh" type="NPC" x="960" y="640" width="32" height="32">
+   <properties>
+    <property name="characterId" value="npc.justice_kavanaugh"/>
+    <property name="facing" value="down"/>
+    <property name="name" value="Justice Kavanaugh"/>
+    <property name="storyKnot" value="justice_kavanaugh"/>
+   </properties>
+  </object>
+  <object id="17" name="justice_barrett" type="NPC" x="1040" y="640" width="32" height="32">
+   <properties>
+    <property name="characterId" value="npc.justice_barrett"/>
+    <property name="facing" value="down"/>
+    <property name="name" value="Justice Barrett"/>
+    <property name="storyKnot" value="justice_barrett"/>
+   </properties>
+  </object>
+  <object id="18" name="justice_jackson" type="NPC" x="1120" y="640" width="32" height="32">
+   <properties>
+    <property name="characterId" value="npc.justice_jackson"/>
+    <property name="facing" value="down"/>
+    <property name="name" value="Justice Jackson"/>
+    <property name="storyKnot" value="justice_jackson"/>
+   </properties>
+  </object>
+  <object id="20" name="clerk" type="NPC" x="480" y="720" width="32" height="32">
+   <properties>
+    <property name="characterId" value="npc.clerk_01"/>
+    <property name="facing" value="down"/>
+    <property name="name" value="Court Clerk"/>
+    <property name="storyKnot" value="clerk"/>
+   </properties>
+  </object>
+  <object id="21" name="bailiff" type="NPC" x="560" y="720" width="32" height="32">
+   <properties>
+    <property name="characterId" value="npc.bailiff"/>
+    <property name="facing" value="down"/>
+    <property name="name" value="Bailiff"/>
+    <property name="storyKnot" value="bailiff"/>
+   </properties>
+  </object>
+  <object id="22" name="librarian" type="NPC" x="640" y="720" width="32" height="32">
+   <properties>
+    <property name="characterId" value="npc.librarian"/>
+    <property name="facing" value="down"/>
+    <property name="name" value="Librarian"/>
+    <property name="storyKnot" value="librarian"/>
+   </properties>
+  </object>
+  <object id="30" name="encounter_conlaw" type="EncounterTrigger" x="256" y="768" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="5"/>
+    <property name="deckTag" value="conlaw"/>
+    <property name="encounterId" value="conlaw_main"/>
+    <property name="once" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="31" name="encounter_civpro" type="EncounterTrigger" x="384" y="768" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="5"/>
+    <property name="deckTag" value="civpro"/>
+    <property name="encounterId" value="civpro_main"/>
+    <property name="once" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="40" name="chest_conlaw" type="OutfitChest" x="256" y="1024" width="32" height="32">
+   <properties>
+    <property name="outfitId" value="conlaw_robe"/>
+   </properties>
+  </object>
+  <object id="41" name="chest_civpro" type="OutfitChest" x="384" y="1024" width="32" height="32">
+   <properties>
+    <property name="outfitId" value="civpro_suit"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="7" name="Portals">
+  <object id="50" name="door_loop" type="Door" x="768" y="1408" width="32" height="64">
+   <properties>
+    <property name="targetMap" value="megalevel"/>
+    <property name="targetSpawnId" value="default"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="Spawns">
+  <object id="60" name="default" type="PlayerSpawn" x="768" y="768" width="32" height="32">
+   <properties>
+    <property name="spawnId" value="default"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>`;
+
+writeFileSync('public/content/tiled/rooms/scotus_zones/megalevel.tmx', tmx);
+console.log('Created megalevel.tmx with', tmx.length, 'bytes');

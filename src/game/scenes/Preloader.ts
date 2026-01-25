@@ -101,7 +101,7 @@ export class Preloader extends Scene {
 
         // Brief delay before starting main world
         this.time.delayedCall(500, () => {
-            this.scene.start('WorldScene', { level: 'scotus_wall_lab' });
+            this.scene.start('WorldScene', { level: 'megalevel' });
         });
     }
 

@@ -1,0 +1,8 @@
+{
+    "$schema": "../../schemas/RoomEntry.schema.json",
+    "id": "megalevel",
+    "displayName": "Supreme Court Megalevel",
+    "environment": "interior",
+    "levelUrl": "/generated/levels/tiled/megalevel.json",
+    "spawns": ["default"]
+}
