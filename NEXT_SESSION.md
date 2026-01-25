@@ -10,9 +10,46 @@
 
 ## Spark Roguelite Integration (Current Session)
 
+#### Update — Jan 24, 2026 (PASS 0 stabilization)
+
+**What changed**
+- `scripts/validate.js` — Tiled source detection now includes `rooms/scotus_zones`, fixes missing-level errors in validate.
+- `specs/world_graph.json` — Portal/edge IDs now follow `fromRoom_to_toRoom` naming; aligned facing mismatch.
+- `src/content/registry.ts`, `src/game/scenes/Boot.ts` — Boot preloads registry into module state to avoid "Registry not loaded".
+- `scripts/verify-docs.mjs` — World manifest gate now scans nested TMX files (scotus_zones).
+- `package.json` — `dev`/`build` no longer call missing `log.js`.
+- Tests added in `tests/unit/registry.test.ts`: new `setRegistry` coverage + script helper checks.
+- `docs/SMOKE.md` — Manual smoke checklist for PASS 0.
+
+**What's next**
+- Continue PASS 0 smoke path to verify RunEndScene manually (encounter requires multiple questions).
+
+**Gates run / not run (with reasons)**
+- ✅ `npm run build`
+- ✅ `npm run check:fast`
+- ✅ Smoke click path via Playwright (no console errors; RunEndScene not verified)
+
 ### What Changed
 
 Integrated GitHub Spark's roguelite flashcard MVP into kimbar, creating a new "Roguelite Mode" parallel to the existing "Classic Mode" (WorldScene).
+
+#### Update — Jan 24, 2026 (SCOTUS wall lab main room)
+
+**What changed**
+- `public/content/tiled/rooms/scotus_zones/scotus_wall_lab.tmx` — New wall lab map showing interior/exterior 3x3 wall grids, floor centers, and a two-layer megabob door.
+- `specs/room_entries/scotus_wall_lab.json` — Room entry for compiled Tiled level.
+- `specs/world_graph.json` — Added `scotus_wall_lab` node + self-loop door.
+- `public/content/tiled/worlds/scotus.world` — World manifest now points to `scotus_wall_lab` only.
+- `src/game/scenes/Preloader.ts`, `src/game/scenes/WorldScene.ts` — Game starts directly in `scotus_wall_lab`.
+- `docs/SMOKE.md` — Updated smoke steps for direct WorldScene launch.
+
+**What's next**
+- Verify in-editor tile IDs for wall orientations if visuals look off.
+
+**Gates run / not run (with reasons)**
+- ✅ `npm run validate:tiled`
+- ✅ `npm run build`
+- ✅ `npm run check:fast`
 
 **New Files Created:**
 - `src/game/systems/RunState.ts` — Roguelite run state management (HP, streak, boons, mastery tracking, localStorage persistence)

@@ -92,7 +92,7 @@ export class WorldScene extends Scene {
 
     // Load level (this also creates the player at spawn point)
     // Use passed level ID or default to lobby
-    const levelId = data?.level || 'scotus_1_lobby';
+    const levelId = data?.level || 'scotus_wall_lab';
     this.pendingEntrySide = data?.entrySide ?? null;
     this.pendingSpawnId = data && 'entrySpawnId' in data ? (data as any).entrySpawnId ?? null : null;
     await this.loadLevel(levelId);

@@ -1,0 +1,10 @@
+{
+    "$schema": "../../schemas/RoomEntry.schema.json",
+    "id": "scotus_wall_lab",
+    "displayName": "SCOTUS Wall Lab",
+    "environment": "interior",
+    "levelUrl": "/generated/levels/tiled/scotus_wall_lab.json",
+    "spawns": [
+        "default"
+    ]
+}

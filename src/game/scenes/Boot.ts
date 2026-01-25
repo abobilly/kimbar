@@ -1,4 +1,5 @@
 import { Scene } from 'phaser';
+import { setRegistry } from '@content/registry';
 
 export class Boot extends Scene {
     constructor() {
@@ -14,6 +15,9 @@ export class Boot extends Scene {
 
     create() {
         const registry = this.cache.json.get('registry');
+        if (registry) {
+            setRegistry(registry);
+        }
         this.scene.start('Preloader', { registry });
     }
 }

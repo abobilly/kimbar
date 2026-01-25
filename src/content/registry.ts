@@ -86,6 +86,15 @@ export async function loadRegistry(): Promise<ContentRegistry> {
   return registry!;
 }
 
+export function setRegistry(data: ContentRegistry): void {
+  registry = data;
+
+  // Backwards compat: populate deckTags from tags.subjects if missing
+  if (!registry.deckTags && registry.tags?.subjects) {
+    registry.deckTags = registry.tags.subjects;
+  }
+}
+
 export async function loadFlashcards(): Promise<Flashcard[]> {
   if (flashcards.length > 0) return flashcards;
 

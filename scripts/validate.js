@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * Validate - Checks all content files against schemas, contract, and cross-references
  *
@@ -16,6 +15,7 @@ import { readdir, readFile } from 'fs/promises';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import Ajv from 'ajv';
+import { fileURLToPath } from 'url';
 
 // TILED_ONLY strict mode - fail if any room lacks Tiled source
 const TILED_ONLY = (process.env.TILED_ONLY || '').trim() === '1';
@@ -45,6 +45,7 @@ const ULPC_MANIFEST_PATH = './specs/ulpc_manifest.json';
 
 // Tiled source and compiled directories
 const TILED_SOURCE_DIR = './public/content/tiled/rooms';
+const TILED_ZONE_DIR = join(TILED_SOURCE_DIR, 'scotus_zones');
 const TILED_COMPILED_DIR = './public/generated/levels/tiled';
 const LDTK_SOURCE_DIR = './public/content/ldtk';
 
@@ -52,7 +53,9 @@ const LDTK_SOURCE_DIR = './public/content/ldtk';
  * Check if a Tiled TMX source exists for a given room ID
  */
 function hasTiledSource(roomId) {
-  return existsSync(join(TILED_SOURCE_DIR, `${roomId}.tmx`));
+  const directPath = join(TILED_SOURCE_DIR, `${roomId}.tmx`);
+  const zonePath = join(TILED_ZONE_DIR, `${roomId}.tmx`);
+  return existsSync(directPath) || existsSync(zonePath);
 }
 
 /**
@@ -1108,7 +1111,7 @@ async function validateTiledFirstRooms() {
     console.log('');
     error(`TILED_ONLY mode: ${roomsMissingTiled.length} room(s) missing Tiled .tmx source:`);
     for (const roomId of roomsMissingTiled) {
-      error(`  - ${roomId} (expected: ${TILED_SOURCE_DIR}/${roomId}.tmx)`);
+      error(`  - ${roomId} (expected: ${TILED_SOURCE_DIR}/${roomId}.tmx or ${TILED_ZONE_DIR}/${roomId}.tmx)`);
     }
   }
 }
@@ -1442,8 +1445,14 @@ async function main() {
   }
 }
 
-main().catch(e => {
-  console.error('Fatal error:', e);
-  process.exit(1);
-});
+const isDirectRun = process.argv[1] === fileURLToPath(import.meta.url);
+
+if (isDirectRun) {
+  main().catch(e => {
+    console.error('Fatal error:', e);
+    process.exit(1);
+  });
+}
+
+export { hasTiledSource };
 

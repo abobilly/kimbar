@@ -99,9 +99,9 @@ export class Preloader extends Scene {
             ensureCharacterAnims(this, spriteKey);
         }
 
-        // Brief delay before starting main menu
+        // Brief delay before starting main world
         this.time.delayedCall(500, () => {
-            this.scene.start('MainMenu');
+            this.scene.start('WorldScene', { level: 'scotus_wall_lab' });
         });
     }
 

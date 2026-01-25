@@ -8,6 +8,7 @@
  */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { join } from 'path';
 
 // Mock fetch for testing
 const mockRegistry = {
@@ -108,6 +109,15 @@ describe('Registry Accessors', () => {
     expect(registry.deckTags).toEqual(['evidence', 'torts', 'contracts']);
     expect(registry.tags.subjects).toEqual(['evidence', 'torts', 'contracts']);
   });
+
+  it('should allow setting registry without fetch', async () => {
+    const { setRegistry, getRegistry } = await import('../../src/content/registry');
+
+    setRegistry(mockRegistry);
+
+    const registry = getRegistry();
+    expect(registry.buildId).toBe('test-123');
+  });
 });
 
 describe('Content Cache', () => {
@@ -147,5 +157,21 @@ describe('Registry Determinism', () => {
     ];
 
     expect(keys).toEqual(expectedOrder);
+  });
+});
+
+describe('Script Helpers', () => {
+  it('detects scotus zone TMX sources', async () => {
+    const { hasTiledSource } = await import('../../scripts/validate.js');
+    expect(hasTiledSource('scotus_1_lobby')).toBe(true);
+  });
+
+  it('lists room TMX files from nested packs', async () => {
+    const { listRoomTmxFiles } = await import('../../scripts/verify-docs.mjs');
+    const roomsDir = join(process.cwd(), 'public', 'content', 'tiled', 'rooms');
+    const tmxFiles = listRoomTmxFiles(roomsDir);
+
+    expect(tmxFiles).toContain('scotus_1_lobby.tmx');
+    expect(tmxFiles).toContain('scotus_hallway_02.tmx');
   });
 });

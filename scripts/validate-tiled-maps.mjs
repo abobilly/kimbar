@@ -33,7 +33,8 @@ const AUTHORITATIVE_ZONE_IDS = [
   'scotus_1_lobby',
   'scotus_2_second',
   'scotus_3_third',
-  'scotus_4_roof'
+  'scotus_4_roof',
+  'scotus_wall_lab'
 ];
 
 // Required layers in order

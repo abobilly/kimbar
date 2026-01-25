@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * verify-docs.mjs - Documentation gate script
  * 
@@ -54,6 +53,35 @@ function readFile(path) {
     }
     return readFileSync(fullPath, 'utf-8');
 }
+
+const SKIP_DIRS = new Set(['_legacy', 'templates', 'tiles', 'tilesets', 'schemas', 'worlds']);
+
+function listRoomTmxFiles(roomsDir) {
+    const files = new Set();
+
+    function scan(dir) {
+        if (!existsSync(dir)) return;
+        const entries = readdirSync(dir, { withFileTypes: true });
+        for (const entry of entries) {
+            const fullPath = join(dir, entry.name);
+            if (entry.isDirectory()) {
+                if (SKIP_DIRS.has(entry.name)) continue;
+                scan(fullPath);
+                continue;
+            }
+            if (entry.isFile() && entry.name.endsWith('.tmx')) {
+                files.add(basename(entry.name));
+            }
+        }
+    }
+
+    scan(roomsDir);
+    return Array.from(files).sort((a, b) => a.localeCompare(b));
+}
+
+function runChecks() {
+    hasErrors = false;
+    hasWarnings = false;
 
 // ============================================================================
 // Check 1: docs/TILED_PIPELINE.md exists and contains required content
@@ -142,14 +170,9 @@ if (check(worldContent !== null, `${worldPath} exists`)) {
             world.maps.map(m => basename(m.fileName))
         );
 
-        // Get TMX files from rooms directory
+        // Get TMX files from rooms directory (including nested packs)
         const roomsDir = join(ROOT, 'public/content/tiled/rooms');
-        let tmxFiles = [];
-
-        if (existsSync(roomsDir)) {
-            tmxFiles = readdirSync(roomsDir)
-                .filter(f => f.endsWith('.tmx'));
-        }
+        const tmxFiles = listRoomTmxFiles(roomsDir);
 
         check(
             tmxFiles.length > 0,
@@ -201,3 +224,12 @@ if (hasErrors) {
     console.log(`${CHECK} Documentation gate PASSED`);
     process.exit(0);
 }
+}
+
+const isDirectRun = process.argv[1] === fileURLToPath(import.meta.url);
+
+if (isDirectRun) {
+    runChecks();
+}
+
+export { listRoomTmxFiles };
