@@ -1,5 +1,5 @@
 # Kim Bar - Agent Handoff Document
-**Last Update**: January 24, 2026
+**Last Update**: January 25, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
@@ -63,6 +63,21 @@ Integrated GitHub Spark's roguelite flashcard MVP into kimbar, creating a new "R
 
 **Gates run / not run (with reasons)**
 - ✅ `npm run test:unit -- tests/unit/game-config.test.ts`
+
+#### Update — Jan 25, 2026 (scotus_hallway_02 CI fix)
+
+**What changed**
+- `public/content/tiled/rooms/scotus_hallway_02.tmx` → moved to `public/content/tiled/rooms/scotus_zones/scotus_hallway_02.tmx` so compile:tiled picks it up.
+- `specs/room_entries/scotus_hallway_02.json` — Switched from `ldtkUrl` to `levelUrl`; added `spawns` array.
+- TMX updated: Added missing `Portals` and `Spawns` object layers, added `isCollision` property to Collision layer, fixed portal property names.
+
+**Why**
+- CI failed because the TMX was in root `rooms/` which compile:tiled doesn't scan by default, leaving the compiled JSON missing.
+
+**Gates run / not run (with reasons)**
+- ✅ `npm run validate:tiled`
+- ✅ `npm run validate`
+- ✅ `npm run check:fast`
 
 **New Files Created:**
 - `src/game/systems/RunState.ts` — Roguelite run state management (HP, streak, boons, mastery tracking, localStorage persistence)
