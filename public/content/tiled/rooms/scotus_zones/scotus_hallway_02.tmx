@@ -149,6 +149,9 @@
 </data>
  </layer>
  <layer id="7173" name="Collision" width="8" height="32">
+  <properties>
+   <property name="isCollision" type="bool" value="true"/>
+  </properties>
   <data encoding="csv">
 163,163,163,163,163,163,163,163,
 163,0,0,0,0,0,0,163,
@@ -184,16 +187,19 @@
 163,163,163,163,163,163,163,163
 </data>
  </layer>
- <objectgroup id="1437" name="Entities">
-  <object id="10" name="PlayerSpawn" type="PlayerSpawn" x="96" y="927.077" width="63" height="31.9231">
-   <properties>
-    <property name="spawnId" value="PlayerSpawn"/>
-   </properties>
-  </object>
+ <objectgroup id="1437" name="Entities"/>
+ <objectgroup id="1438" name="Portals">
   <object id="11" name="DoorNorth" type="Door" x="94" y="65" width="61" height="31.9231">
    <properties>
-    <property name="toMap" value="scotus_lobby"/>
-    <property name="toSpawn" value="default"/>
+    <property name="targetMap" value="scotus_1_lobby"/>
+    <property name="targetSpawnId" value="default"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="1439" name="Spawns">
+  <object id="10" name="default" type="PlayerSpawn" x="96" y="927.077" width="63" height="31.9231">
+   <properties>
+    <property name="spawnId" value="default"/>
    </properties>
   </object>
  </objectgroup>

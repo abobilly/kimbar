@@ -3,5 +3,8 @@
     "id": "scotus_hallway_02",
     "displayName": "SCOTUS Hallway 02",
     "environment": "interior",
-    "ldtkUrl": "/content/ldtk/scotus_hallway_02.json"
+    "levelUrl": "/generated/levels/tiled/scotus_hallway_02.json",
+    "spawns": [
+        "default"
+    ]
 }
