@@ -21,6 +21,18 @@ import { isDoor, isPlayerSpawn } from '@/types/level-data';
 
 type DoorSide = 'north' | 'south' | 'east' | 'west';
 
+type NpcWanderState = {
+  id: string;
+  sprite: Phaser.GameObjects.Sprite;
+  spriteKey: string;
+  origin: { x: number; y: number };
+  radius: number;
+  speed: number;
+  pauseUntil: number;
+  target: { x: number; y: number } | null;
+  lastDirection: string;
+};
+
 export class WorldScene extends Scene {
   // Systems
   private encounterSystem!: EncounterSystem;
@@ -40,6 +52,7 @@ export class WorldScene extends Scene {
   private levelData: LevelData | null = null;
   private tiledLevel: TiledLevelData | null = null;
   private entities: Map<string, EntityData & { sprite?: Phaser.GameObjects.Sprite }> = new Map();
+  private npcWanderers: Map<string, NpcWanderState> = new Map();
   private tilemaps: Phaser.Tilemaps.Tilemap[] = [];
   private tilemapLayers: Phaser.Tilemaps.TilemapLayer[] = [];
 
@@ -461,6 +474,146 @@ export class WorldScene extends Scene {
     return ['NPC', 'EncounterTrigger', 'OutfitChest', 'Door'].includes(entity.type);
   }
 
+  private isJusticeNpc(entity: EntityData): boolean {
+    const storyKnot = String(entity.properties?.storyKnot || '');
+    const characterId = String(entity.properties?.characterId || '');
+    return storyKnot.startsWith('justice_') || characterId.startsWith('npc.justice_');
+  }
+
+  private parseNumericProp(value: unknown, fallback: number): number {
+    if (typeof value === 'number' && Number.isFinite(value)) return value;
+    if (typeof value === 'string') {
+      const parsed = Number(value);
+      if (Number.isFinite(parsed)) return parsed;
+    }
+    return fallback;
+  }
+
+  private shouldWanderEntity(entity: EntityData): boolean {
+    if (entity.type !== 'NPC') return false;
+    const explicit = entity.properties?.wander === true || entity.properties?.wander === 'true';
+    const radius = this.parseNumericProp(entity.properties?.wanderRadius, Number.NaN);
+    if (explicit || Number.isFinite(radius)) return true;
+    return this.isJusticeNpc(entity);
+  }
+
+  private registerNpcWanderer(id: string, entity: EntityData, sprite: Phaser.GameObjects.Sprite, spriteKey: string): void {
+    if (!this.levelData) return;
+    if (this.npcWanderers.has(id)) return;
+
+    const radius = this.parseNumericProp(entity.properties?.wanderRadius, this.NPC_WANDER_RADIUS);
+    const speed = this.parseNumericProp(entity.properties?.wanderSpeed, this.NPC_WANDER_SPEED);
+    const facing = String(entity.properties?.facing || 'down');
+    const pauseSeed = Phaser.Math.Between(this.NPC_WANDER_PAUSE_MIN, this.NPC_WANDER_PAUSE_MAX);
+
+    this.npcWanderers.set(id, {
+      id,
+      sprite,
+      spriteKey,
+      origin: { x: entity.x, y: entity.y },
+      radius,
+      speed,
+      pauseUntil: this.time.now + pauseSeed,
+      target: null,
+      lastDirection: facing
+    });
+  }
+
+  private stopNpcWanderer(id: string): void {
+    const state = this.npcWanderers.get(id);
+    if (!state) return;
+    state.target = null;
+    state.pauseUntil = this.time.now + this.NPC_WANDER_PAUSE_MAX;
+    const idleKey = `${state.spriteKey}.idle_${state.lastDirection}`;
+    if (this.anims.exists(idleKey) && state.sprite.anims?.currentAnim?.key !== idleKey) {
+      state.sprite.play(idleKey);
+    }
+  }
+
+  private updateNpcWanderers(delta: number, freeze: boolean): void {
+    if (this.npcWanderers.size === 0) return;
+    const level = this.levelData;
+    if (!level) return;
+
+    const now = this.time.now;
+    const tileSize = level.tileSize || 32;
+    const minX = tileSize;
+    const minY = tileSize;
+    const maxX = level.width - tileSize;
+    const maxY = level.height - tileSize;
+
+    for (const state of this.npcWanderers.values()) {
+      const sprite = state.sprite;
+      if (!sprite?.scene) continue;
+
+      if (freeze) {
+        const idleKey = `${state.spriteKey}.idle_${state.lastDirection}`;
+        if (this.anims.exists(idleKey) && sprite.anims?.currentAnim?.key !== idleKey) {
+          sprite.play(idleKey);
+        }
+        continue;
+      }
+
+      if (!state.target) {
+        if (now < state.pauseUntil) {
+          const idleKey = `${state.spriteKey}.idle_${state.lastDirection}`;
+          if (this.anims.exists(idleKey) && sprite.anims?.currentAnim?.key !== idleKey) {
+            sprite.play(idleKey);
+          }
+          continue;
+        }
+
+        const angle = Phaser.Math.FloatBetween(0, Math.PI * 2);
+        const distance = Math.sqrt(Math.random()) * state.radius;
+        const rawX = state.origin.x + Math.cos(angle) * distance;
+        const rawY = state.origin.y + Math.sin(angle) * distance;
+        const targetX = Phaser.Math.Clamp(rawX, minX, maxX);
+        const targetY = Phaser.Math.Clamp(rawY, minY, maxY);
+        state.target = { x: targetX, y: targetY };
+      }
+
+      const dx = state.target.x - sprite.x;
+      const dy = state.target.y - sprite.y;
+      const distSq = dx * dx + dy * dy;
+      if (distSq <= this.NPC_ARRIVE_DIST * this.NPC_ARRIVE_DIST) {
+        sprite.setPosition(state.target.x, state.target.y);
+        sprite.setDepth(sprite.y);
+        const nameTag = sprite.getData('nameTag') as Phaser.GameObjects.Text | undefined;
+        if (nameTag?.scene) {
+          nameTag.setPosition(sprite.x, sprite.y - 70);
+          nameTag.setDepth(sprite.y + 1);
+        }
+        state.target = null;
+        state.pauseUntil = now + Phaser.Math.Between(this.NPC_WANDER_PAUSE_MIN, this.NPC_WANDER_PAUSE_MAX);
+        const idleKey = `${state.spriteKey}.idle_${state.lastDirection}`;
+        if (this.anims.exists(idleKey) && sprite.anims?.currentAnim?.key !== idleKey) {
+          sprite.play(idleKey);
+        }
+        continue;
+      }
+
+      const dist = Math.sqrt(distSq);
+      const step = state.speed * (delta / 1000);
+      const ratio = Math.min(step / dist, 1);
+      sprite.x += dx * ratio;
+      sprite.y += dy * ratio;
+      sprite.setDepth(sprite.y);
+
+      const nameTag = sprite.getData('nameTag') as Phaser.GameObjects.Text | undefined;
+      if (nameTag?.scene) {
+        nameTag.setPosition(sprite.x, sprite.y - 70);
+        nameTag.setDepth(sprite.y + 1);
+      }
+
+      const dir = this.getAnimDirection(dx, dy);
+      state.lastDirection = dir;
+      const walkKey = `${state.spriteKey}.walk_${dir}`;
+      if (this.anims.exists(walkKey) && sprite.anims?.currentAnim?.key !== walkKey) {
+        sprite.play(walkKey);
+      }
+    }
+  }
+
   private createEntity(id: string, entity: EntityData): void {
     // Prefer explicit characterId/sprite property to select real sprite
     const spriteKey = this.resolveEntitySpriteKey(entity);
@@ -486,6 +639,7 @@ export class WorldScene extends Scene {
           backgroundColor: '#00000088',
           padding: { x: 6, y: 2 }
         }).setOrigin(0.5).setDepth(entity.y + 1);
+        npc.setData('nameTag', nameTag);
         void nameTag; // Used for display
       }
 
@@ -497,6 +651,10 @@ export class WorldScene extends Scene {
             this.handleEntityInteraction(id, entity);
           }
         });
+      }
+
+      if (this.shouldWanderEntity(entity)) {
+        this.registerNpcWanderer(id, entity, npc, spriteKey);
       }
 
       this.entities.set(id, { ...entity, sprite: npc });
@@ -580,6 +738,7 @@ export class WorldScene extends Scene {
       if (e.sprite) e.sprite.destroy();
     });
     this.entities.clear();
+    this.npcWanderers.clear();
 
     // Render tilemap (Tiled levels prefer compiled layers; LDtk uses intGrid)
     if (this.tiledLevel) {
@@ -1287,6 +1446,7 @@ export class WorldScene extends Scene {
     switch (entity.type) {
       case 'NPC':
         if (entity.properties?.storyKnot) {
+          this.stopNpcWanderer(id);
           // Cancel any queued movement when entering dialogue
           this.playerTarget = null;
           this.dialogueSystem.start(entity.properties.storyKnot, () => {
@@ -1641,6 +1801,11 @@ export class WorldScene extends Scene {
   // Movement constants
   private readonly PLAYER_SPEED = 160;
   private readonly ARRIVE_DIST = 6;
+  private readonly NPC_WANDER_SPEED = 32;
+  private readonly NPC_WANDER_RADIUS = 96;
+  private readonly NPC_WANDER_PAUSE_MIN = 700;
+  private readonly NPC_WANDER_PAUSE_MAX = 1600;
+  private readonly NPC_ARRIVE_DIST = 4;
 
   update(_time: number, _delta: number): void {
     if (!this.player) return;
@@ -1651,6 +1816,7 @@ export class WorldScene extends Scene {
       if (this.player.body) {
         (this.player.body as Phaser.Physics.Arcade.Body).setVelocity(0, 0);
       }
+      this.updateNpcWanderers(_delta, true);
       return;
     }
 
@@ -1705,6 +1871,7 @@ export class WorldScene extends Scene {
         if (hasPhysics && this.anims.exists(idleKey) && this.player.anims?.currentAnim?.key !== idleKey) {
           this.player.play(idleKey);
         }
+        this.updateNpcWanderers(_delta, false);
         return;
       }
     }
@@ -1719,6 +1886,7 @@ export class WorldScene extends Scene {
           this.player.play(idleKey);
         }
       }
+      this.updateNpcWanderers(_delta, false);
       return;
     }
 
@@ -1748,6 +1916,7 @@ export class WorldScene extends Scene {
 
     // Update depth for Y-sorting
     this.player.setDepth(this.player.y);
+    this.updateNpcWanderers(_delta, false);
   }
 
   private resolveSpawnPoint(): { x: number; y: number } {

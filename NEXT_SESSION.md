@@ -1,4 +1,5 @@
 # Kim Bar - Agent Handoff Document
+
 **Last Update**: January 25, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
@@ -10,9 +11,40 @@
 
 ## Spark Roguelite Integration (Current Session)
 
+### Update — Jan 28, 2026 (justice NPC wandering)
+
+#### What changed (justice NPC wandering)
+
+- `src/game/scenes/WorldScene.ts` — Added light wander behavior for justice NPCs (random roam near spawn, uses walk/idle anims), name tags follow movement, and wandering pauses during modal/dialogue.
+
+#### What's next (justice NPC wandering)
+
+- If you want per-NPC tuning, add `wanderRadius` or `wanderSpeed` properties on the NPC entity in TMX.
+- After robe updates, regenerate spritesheets via `npm run gen:sprites` (see guidance below).
+
+#### Gates run / not run (justice NPC wandering)
+
+- ⏭️ Not run (runtime behavior change only; not requested).
+
+### Update — Jan 28, 2026 (SCOTUS robe swap)
+
+#### What changed (SCOTUS robe swap)
+
+- `specs/characters/npc.justice_*.json` — Updated `torsoColor` to `scotus_robe` so justices use the new robe layer.
+- Regenerated spritesheets for all nine justices via `npm run gen:sprites -- npc.justice_*` (outputs in `public/generated/` are gitignored).
+
+#### What's next (SCOTUS robe swap)
+
+- If the robe art changes, re-run `npm run gen:sprites -- npc.justice_roberts` (or all justices) and verify in-game.
+
+#### Gates run / not run (SCOTUS robe swap)
+
+- ✅ `npm run gen:sprites -- npc.justice_*` (manual batch via PowerShell loop)
+
 #### Update — Jan 24, 2026 (PASS 0 stabilization)
 
 **What changed**
+
 - `scripts/validate.js` — Tiled source detection now includes `rooms/scotus_zones`, fixes missing-level errors in validate.
 - `specs/world_graph.json` — Portal/edge IDs now follow `fromRoom_to_toRoom` naming; aligned facing mismatch.
 - `src/content/registry.ts`, `src/game/scenes/Boot.ts` — Boot preloads registry into module state to avoid "Registry not loaded".
@@ -22,9 +54,11 @@
 - `docs/SMOKE.md` — Manual smoke checklist for PASS 0.
 
 **What's next**
+
 - Continue PASS 0 smoke path to verify RunEndScene manually (encounter requires multiple questions).
 
 **Gates run / not run (with reasons)**
+
 - ✅ `npm run build`
 - ✅ `npm run check:fast`
 - ✅ Smoke click path via Playwright (no console errors; RunEndScene not verified)
@@ -36,6 +70,7 @@ Integrated GitHub Spark's roguelite flashcard MVP into kimbar, creating a new "R
 #### Update — Jan 24, 2026 (SCOTUS wall lab main room)
 
 **What changed**
+
 - `public/content/tiled/rooms/scotus_zones/scotus_wall_lab.tmx` — New wall lab map showing interior/exterior 3x3 wall grids, floor centers, and a two-layer megabob door.
 - `specs/room_entries/scotus_wall_lab.json` — Room entry for compiled Tiled level.
 - `specs/world_graph.json` — Added `scotus_wall_lab` node + self-loop door.
@@ -44,9 +79,11 @@ Integrated GitHub Spark's roguelite flashcard MVP into kimbar, creating a new "R
 - `docs/SMOKE.md` — Updated smoke steps for direct WorldScene launch.
 
 **What's next**
+
 - Verify in-editor tile IDs for wall orientations if visuals look off.
 
 **Gates run / not run (with reasons)**
+
 - ✅ `npm run validate:tiled`
 - ✅ `npm run build`
 - ✅ `npm run check:fast`
@@ -54,32 +91,39 @@ Integrated GitHub Spark's roguelite flashcard MVP into kimbar, creating a new "R
 #### Update — Jan 25, 2026 (live blank screen fix)
 
 **What changed**
+
 - `src/game/main.ts` — Register `WorldScene` so Preloader can start it directly.
 - `tests/unit/game-config.test.ts` — Added coverage to ensure WorldScene is included in game config.
 - `vitest.config.ts` — Added `@` alias for tests to match app imports.
 
 **Why**
+
 - Live blank screen traced to Preloader starting `WorldScene` without it being registered in the Phaser scene list.
 
 **Gates run / not run (with reasons)**
+
 - ✅ `npm run test:unit -- tests/unit/game-config.test.ts`
 
 #### Update — Jan 25, 2026 (scotus_hallway_02 CI fix)
 
 **What changed**
+
 - `public/content/tiled/rooms/scotus_hallway_02.tmx` → moved to `public/content/tiled/rooms/scotus_zones/scotus_hallway_02.tmx` so compile:tiled picks it up.
 - `specs/room_entries/scotus_hallway_02.json` — Switched from `ldtkUrl` to `levelUrl`; added `spawns` array.
 - TMX updated: Added missing `Portals` and `Spawns` object layers, added `isCollision` property to Collision layer, fixed portal property names.
 
 **Why**
+
 - CI failed because the TMX was in root `rooms/` which compile:tiled doesn't scan by default, leaving the compiled JSON missing.
 
 **Gates run / not run (with reasons)**
+
 - ✅ `npm run validate:tiled`
 - ✅ `npm run validate`
 - ✅ `npm run check:fast`
 
 **New Files Created:**
+
 - `src/game/systems/RunState.ts` — Roguelite run state management (HP, streak, boons, mastery tracking, localStorage persistence)
 - `src/content/flashcard-loader.ts` — Handles Spark's master-bar-flashcards.json + kimbar's cloze.ndjson formats
 - `src/game/scenes/SubjectSelectScene.ts` — 7 canonical subject toggles + Start Run button
@@ -87,12 +131,14 @@ Integrated GitHub Spark's roguelite flashcard MVP into kimbar, creating a new "R
 - `src/game/scenes/RunEndScene.ts` — Results screen with accuracy by subject, missed cards review
 
 **Modified Files:**
+
 - `src/content/types.ts` — Extended `Flashcard` interface with `subject`, `topic`, `backPlain`, `game` (MCQ support)
 - `src/game/systems/EncounterSystem.ts` — MCQ mode (game.choices), "Got it/Still shaky" mastery buttons, RunState integration
 - `src/game/scenes/MainMenu.ts` — Added "Roguelite Mode" and "Classic Mode" buttons, flashcard preloading
 - `src/game/main.ts` — Registered new scenes (SubjectSelectScene, DungeonScene, RunEndScene)
 
 **Key Features:**
+
 - 7 canonical subjects (excl. MPT): Civil Procedure, Constitutional Law, Contracts, Criminal Law, Evidence, Property, Torts
 - HP/Max HP system with damage on wrong answers (unless streak-shield boon active)
 - Streak counter with gold rewards
@@ -160,11 +206,11 @@ Integrated GitHub Spark's roguelite flashcard MVP into kimbar, creating a new "R
 #### Update — Jan 23, 2026 (SCOTUS portals/spawns wired)
 
 - **What changed**: Wired portals + arrival spawns in SCOTUS TMX maps per `specs/world_graph.json`. Updated `nextobjectid` and added `Door` + `Spawn` objects in:
-   - `public/content/tiled/rooms/scotus_zones/scotus_0_basement.tmx`
-   - `public/content/tiled/rooms/scotus_zones/scotus_1_lobby.tmx`
-   - `public/content/tiled/rooms/scotus_zones/scotus_2_second.tmx`
-   - `public/content/tiled/rooms/scotus_zones/scotus_3_third.tmx`
-   - `public/content/tiled/rooms/scotus_zones/scotus_4_roof.tmx`
+  - `public/content/tiled/rooms/scotus_zones/scotus_0_basement.tmx`
+  - `public/content/tiled/rooms/scotus_zones/scotus_1_lobby.tmx`
+  - `public/content/tiled/rooms/scotus_zones/scotus_2_second.tmx`
+  - `public/content/tiled/rooms/scotus_zones/scotus_3_third.tmx`
+  - `public/content/tiled/rooms/scotus_zones/scotus_4_roof.tmx`
    (Portals use 2×2 tiles at graph coords; spawns named `from_*` per inbound edge with matching facing.)
 - **How to use**: Open TMX files in Tiled; portals are on `Portals` layer with `targetMap` + `targetSpawnId` + `facing`; arrivals on `Spawns` layer (`spawnId`=`from_*`). If adjusting coordinates, keep 32px tiles, 64×64 portals, 32×32 spawns, and bump `nextobjectid`.
 - **Gates run**: ✅ `npm run validate:tiled` (6/6 SCOTUS maps passing after portal additions).
@@ -180,10 +226,10 @@ Integrated GitHub Spark's roguelite flashcard MVP into kimbar, creating a new "R
 #### Update — Jan 24, 2026 (Justice NPC placements in SCOTUS zones)
 
 - **What changed**: Placed all nine justices as NPCs on the `Entities` layer of SCOTUS zone TMXs (placeholders using full spritesheets + story knots), bumping `nextobjectid` where needed:
-   - `scotus_0_basement`: `justice_thomas` (npc.justice_thomas, facing down) at ~x=4096,y=2048; `justice_alito` (npc.justice_alito, facing left) at ~x=4608,y=2304.
-   - `scotus_2_second`: `justice_roberts` (npc.justice_roberts, facing down) at ~x=2048,y=2048; `justice_kagan` (npc.justice_kagan, facing left) at ~x=2304,y=2304.
-   - `scotus_3_third`: `justice_gorsuch` (npc.justice_gorsuch, facing down) at ~x=2048,y=1536; `justice_kavanaugh` (npc.justice_kavanaugh, facing left) at ~x=2560,y=1792; `justice_sotomayor` (npc.justice_sotomayor, facing right) at ~x=3072,y=1536.
-   - `scotus_4_roof`: `justice_barrett` (npc.justice_barrett, facing down) at ~x=2048,y=1024; `justice_jackson` (npc.justice_jackson, facing left) at ~x=3072,y=1024.
+  - `scotus_0_basement`: `justice_thomas` (npc.justice_thomas, facing down) at ~x=4096,y=2048; `justice_alito` (npc.justice_alito, facing left) at ~x=4608,y=2304.
+  - `scotus_2_second`: `justice_roberts` (npc.justice_roberts, facing down) at ~x=2048,y=2048; `justice_kagan` (npc.justice_kagan, facing left) at ~x=2304,y=2304.
+  - `scotus_3_third`: `justice_gorsuch` (npc.justice_gorsuch, facing down) at ~x=2048,y=1536; `justice_kavanaugh` (npc.justice_kavanaugh, facing left) at ~x=2560,y=1792; `justice_sotomayor` (npc.justice_sotomayor, facing right) at ~x=3072,y=1536.
+  - `scotus_4_roof`: `justice_barrett` (npc.justice_barrett, facing down) at ~x=2048,y=1024; `justice_jackson` (npc.justice_jackson, facing left) at ~x=3072,y=1024.
 - **How to use**: Open the TMX in Tiled; all NPCs sit on `Entities` with `characterId` + `storyKnot=<justice>_intro`. Move them as desired; keep properties and bump `nextobjectid` if adding more entities or behaviors. Encounter triggers remain separate (add near them if desired).
 - **Gates run**: ✅ `npm run validate:tiled` (6/6 SCOTUS maps passing after justice placements).
 - **Gates not run**: ⏭️ `npm run compile:tiled`, `npm run build:levels`, `npm run check` (not requested this session).
@@ -191,20 +237,20 @@ Integrated GitHub Spark's roguelite flashcard MVP into kimbar, creating a new "R
 #### Update — Jan 24, 2026 (RoomEntry levelUrl support + SCOTUS mask generator)
 
 - **What changed**:
-   - `scripts/build-characters.js`: `scanRooms()` now accepts RoomEntry specs with `levelUrl` or `ldtkUrl`, and emits `levelUrl` in the registry when present (fixes missing `scotus_1_lobby` in registry-driven loads).
-   - `scripts/generate-scotus-mask-layers.mjs`: new deterministic generator that adds `FloorMask` and `WallMask` layers to `public/content/tiled/rooms/scotus_zones/*.tmx`, using the first tile from `megabob.tsx` as the mask token derived from existing `Floor`/`Walls` layers.
-   - `package.json`: added `gen:masks:scotus` and `gen:masks:scotus:dry` npm scripts.
+  - `scripts/build-characters.js`: `scanRooms()` now accepts RoomEntry specs with `levelUrl` or `ldtkUrl`, and emits `levelUrl` in the registry when present (fixes missing `scotus_1_lobby` in registry-driven loads).
+  - `scripts/generate-scotus-mask-layers.mjs`: new deterministic generator that adds `FloorMask` and `WallMask` layers to `public/content/tiled/rooms/scotus_zones/*.tmx`, using the first tile from `megabob.tsx` as the mask token derived from existing `Floor`/`Walls` layers.
+  - `package.json`: added `gen:masks:scotus` and `gen:masks:scotus:dry` npm scripts.
 - **How to use**:
-   - Run the SCOTUS mask generator (dry-run first if desired), then open the TMX in Tiled and apply the automap rules (`scotus_zones/automap/*`) to regenerate Floor/Walls from masks if needed.
-   - Regenerate the registry after RoomEntry updates via the standard content pipeline.
+  - Run the SCOTUS mask generator (dry-run first if desired), then open the TMX in Tiled and apply the automap rules (`scotus_zones/automap/*`) to regenerate Floor/Walls from masks if needed.
+  - Regenerate the registry after RoomEntry updates via the standard content pipeline.
 - **Gates run**: ⏭️ Not run in this subtask (content edits pending).
 
 #### Update — Jan 24, 2026 (Tiled layer rendering + tileset mapping)
 
 - **What changed**:
-   - `src/content/level-loader.ts`: normalize compiled Tiled layer objects (`{ data, width, height }`) into 2D arrays; pass through `environment`.
-   - `src/types/level-data.ts`: add optional `environment` on `TiledLevelData`.
-   - `src/game/scenes/WorldScene.ts`: track current Tiled level, load required tilesets, render `floor/walls/trim/overlays` from compiled layers, map `scotus_structures → tileset.scotus_architecture`, and clear tilemaps on level reload.
+  - `src/content/level-loader.ts`: normalize compiled Tiled layer objects (`{ data, width, height }`) into 2D arrays; pass through `environment`.
+  - `src/types/level-data.ts`: add optional `environment` on `TiledLevelData`.
+  - `src/game/scenes/WorldScene.ts`: track current Tiled level, load required tilesets, render `floor/walls/trim/overlays` from compiled layers, map `scotus_structures → tileset.scotus_architecture`, and clear tilemaps on level reload.
 - **What's next**: Verify `scotus_1_lobby` renders tiles; add tileset aliases if new TSX names appear.
 - **Gates run / not run**: ⏭️ Not run (runtime fix only; no gates requested).
 
@@ -222,27 +268,32 @@ Integrated GitHub Spark's roguelite flashcard MVP into kimbar, creating a new "R
 - Added `README.md` in tiles directory with usage guide
 
 **Files added/modified:**
+
 - `scripts/generate-placeholder-tiles.mjs` (new)
 - `public/generated/tiles/README.md` (new)
 - `package.json` (added `gen:tiles` and `gen:tiles:force` scripts)
 
-**Result:** 
+**Result:**
+
 - Before: 230 defined, 0 generated (0%), 18 rooms with missing tiles
 - After: 230 defined, 230 generated (100%), all rooms have required tiles ✅
 
 ### How to Use
 
 Generate all placeholder tiles:
+
 ```bash
 npm run gen:tiles
 ```
 
 Force regenerate (overwrite existing):
+
 ```bash
 npm run gen:tiles:force
 ```
 
 The tiles are automatically created in `public/generated/tiles/` and are gitignored. Each tile has:
+
 - Deterministic color scheme from tile ID hash
 - Category-specific pattern for visual identification
 - 2-character hash in corner for debugging
@@ -298,12 +349,13 @@ OLD STRUCTURE              NEW STRUCTURE
                                └── generated/   (synced from private/generated)
 ```
 
-**Why**: Cleaner architecture where `private/` is source, `public/` is what Vite serves. 
+**Why**: Cleaner architecture where `private/` is source, `public/` is what Vite serves.
 The `sync:public` script copies `private/` → `public/`.
 
 ### Scripts Updated
 
 All scripts now reference `./private/assets/` and `./private/generated/`:
+
 - `sync-public.mjs`, `build-asset-index.mjs`, `build-characters.js`
 - `generate-sprites.mjs`, `validate.js`, `search-assets.mjs`
 - `list-used-assets.mjs`, `sync-to-sqlite.py`, `generate-ldtk-tilesets.mjs`
@@ -314,7 +366,7 @@ All scripts now reference `./private/assets/` and `./private/generated/`:
 
 ### Runtime Paths Stay the Same
 
-URLs in source code (`/generated/`, `/assets/`) are **unchanged** since that's how 
+URLs in source code (`/generated/`, `/assets/`) are **unchanged** since that's how
 Vite serves from `public/`. Only filesystem paths in scripts changed.
 
 ---
@@ -334,7 +386,7 @@ Vite serves from `public/`. Only filesystem paths in scripts changed.
    - Removed `assets/tilesets/lpc-floors/` (duplicate of lpc/)
    - Removed `assets/tilesets/lpc-walls/` (duplicate of lpc/)
    - Removed `assets/tilesets/lpc-windows-doors-v2/` (duplicate of lpc/)
-   - Removed 15 duplicate prop files (_02, _03 variants)
+   - Removed 15 duplicate prop files (_02,_03 variants)
 
 3. **Cleaned caches and temps** (~410MB):
    - Deleted `tmp/` (301 files)
@@ -453,20 +505,24 @@ content/world_graph.json:
 **Tiled-first authoring is now available.** You can edit maps in Tiled instead of LDtk.
 
 **Created Tiled Maps:**
+
 - `public/content/tiled/supreme-court/courthouse_exterior.json` — 25×20 tiles, exterior room
 - `public/content/tiled/supreme-court/scotus_lobby.json` — 20×15 tiles, interior lobby
 
 **Created RoomSpecs (future Tiled authoring specs):**
+
 - `content/rooms/courthouse_exterior.json` — RoomSpec for courthouse exterior
 - `content/rooms/scotus_lobby.json` — RoomSpec for SCOTUS lobby
 
 **Updated RoomEntry Bridge (added levelUrl support):**
+
 - `content/room_entries/courthouse_exterior.json` — Now has `levelUrl` pointing to compiled Tiled map
 - `content/room_entries/scotus_lobby.json` — Now has `levelUrl` pointing to compiled Tiled map
 - `schemas/RoomEntry.schema.json` — Added `levelUrl` property for Tiled-compiled LevelData; schema now uses `anyOf` requiring either `ldtkUrl` OR `levelUrl`
 - `src/content/types.ts` — Added optional `levelUrl` field to `RoomEntry` interface
 
 **Directory Structure (Tiled Pipeline):**
+
 ```
 public/content/tiled/
 ├── templates/room-template.json    # Start from this for new maps
@@ -480,6 +536,7 @@ public/content/tiled/
 ```
 
 **Compilation Output:**
+
 ```
 generated/levels/
 ├── supreme-court/
@@ -490,7 +547,7 @@ generated/levels/
 
 ### How to Edit Maps in Tiled
 
-1. **Open Tiled** (https://www.mapeditor.org/)
+1. **Open Tiled** (<https://www.mapeditor.org/>)
 2. **Open a map**: `File > Open > public/content/tiled/supreme-court/{room}.json`
 3. **Edit layers** (Floor, Walls, Trim, Overlays, Collision, Entities)
 4. **Save** (Tiled JSON format is already set)
@@ -511,6 +568,7 @@ generated/levels/
 ### Bridge Strategy: levelUrl vs ldtkUrl
 
 The `RoomEntry` schema now supports both:
+
 - `ldtkUrl`: Legacy LDtk file (still works)
 - `levelUrl`: Compiled Tiled LevelData (preferred when present)
 
@@ -533,12 +591,14 @@ Runtime loader should prefer `levelUrl` when available, fallback to `ldtkUrl`. C
 - **Tilesets**: Uses `terrain.tsx` (2048 tiles from LPC terrain-v7) and `scotus_exterior.tsx` (building facade)
 
 **New Tileset Files Added:**
+
 - `public/content/tiled/tiles/terrain.png` — Copied from `vendor/tilesets/lpc/terrains/terrain-v7.png`
 - `public/content/tiled/tiles/scotus_exterior.png` — Copied from `vendor/tilesets/scotus_exterior_building.png`
 - `public/content/tiled/tilesets/terrain.tsx` — References terrain.png (1024×2048, 2048 tiles)
 - `public/content/tiled/tilesets/scotus_exterior.tsx` — References scotus_exterior.png (480×224, 105 tiles)
 
 **Visual Layout:**
+
 ```
 ┌─────────────────────────────┐
 │      🏛️ Building Facade    │  Rows 0-3: Building wall
@@ -620,6 +680,7 @@ Runtime loader should prefer `levelUrl` when available, fallback to `ldtkUrl`. C
 **Problem:** Previous fix put RoomEntry specs in `content/rooms/` which was supposed to be RoomSpec-only, creating a dual-purpose directory that undermines strict contracts. Also only 1 room was registered, not all 18.
 
 **Solution:**
+
 1. Created `content/room_entries/` directory for bridge RoomEntry files
 2. Created 18 RoomEntry files for all existing LDtk rooms
 3. Updated `scanRooms()` in `scripts/build-characters.js` to scan `content/room_entries/` instead
@@ -628,17 +689,21 @@ Runtime loader should prefer `levelUrl` when available, fallback to `ldtkUrl`. C
 6. Deleted old `content/rooms/scotus_lobby.json` bridge entry
 
 **Directory Structure (Strict Contracts):**
+
 - `content/rooms/` -> RoomSpec schema only (Tiled authoring specs)
 - `content/room_entries/` -> RoomEntry schema only (registry bridge entries)
 
 **Modified Files:**
+
 - `scripts/build-characters.js` - `scanRooms()` now scans `content/room_entries/`
 - `scripts/validate.js` - Reverted dual-schema logic, added `validateRoomEntrySpecs()`, added `CONTENT_DIRS.room_entries`
 
 **Created Files (18 RoomEntry specs):**
+
 - All 18 rooms in `content/room_entries/`
 
 **Deleted Files:**
+
 - `content/rooms/scotus_lobby.json` (moved to room_entries)
 
 ### Invariants Enforced
@@ -665,6 +730,7 @@ Runtime loader should prefer `levelUrl` when available, fallback to `ldtkUrl`. C
 | `npm run check-boundaries` | PASS |
 
 ---
+
 ## REVERT: LDtk Directory Scan + Restore Explicit Room Discovery (January 18, 2026)
 
 ### What Changed
@@ -674,6 +740,7 @@ Runtime loader should prefer `levelUrl` when available, fallback to `ldtkUrl`. C
 **Problem:** Previous changes scanned `public/content/ldtk/**` to auto-populate the `rooms` registry array. This violated the Tiled-first direction where rooms should come from explicit specs or compiled Tiled outputs.
 
 **Solution:**
+
 1. Reverted `scanRooms()` in `scripts/build-characters.js` to only read explicit room specs from `content/rooms/*.json`
 2. Created `content/rooms/scotus_lobby.json` as a minimal bridge entry pointing to the LDtk file
 3. Updated `scripts/validate.js` to recognize bridge entries (RoomEntry schema) vs full room specs (RoomSpec schema)
@@ -681,6 +748,7 @@ Runtime loader should prefer `levelUrl` when available, fallback to `ldtkUrl`. C
 5. Hardened rules/docs with new invariant forbidding LDtk directory scanning
 
 **Modified Files:**
+
 - `scripts/build-characters.js` — Reverted `scanRooms()` to explicit spec discovery only
 - `scripts/validate.js` — Recognize bridge RoomEntry specs vs full RoomSpec
 - `schemas/RoomEntry.schema.json` — Allow `$schema` property, keep `environment` field
@@ -689,6 +757,7 @@ Runtime loader should prefer `levelUrl` when available, fallback to `ldtkUrl`. C
 - `src/game/scenes/WorldScene.ts` — Already had proper loud error handling for missing rooms (no changes needed)
 
 **Created Files:**
+
 - `content/rooms/scotus_lobby.json` — Bridge entry pointing to LDtk file
 
 ### New Invariant (Sacred)
@@ -722,6 +791,7 @@ Runtime loader should prefer `levelUrl` when available, fallback to `ldtkUrl`. C
 **SUBTASK COMPLETE** — Refactored UI components to use centralized theme tokens instead of hardcoded styles, improving maintainability and consistency.
 
 **Modified Files:**
+
 - `src/game/ui/uiTheme.ts` — Added missing color tokens (textGold, buttonBackground, etc.)
 - `src/game/ui/QuestPanel.ts` — Replaced hardcoded colors/fonts with uiTheme references
 - `src/game/ui/WardrobePanel.ts` — Replaced hardcoded colors/fonts with uiTheme references
@@ -751,6 +821,7 @@ No dead code found during review.
 **SUBTASK A3 COMPLETE** — Removed unused golden UI assets after confirming zero runtime references.
 
 **Deleted Files:**
+
 - `public/assets/ui/golden/button_hover.png`
 - `public/assets/ui/golden/button_pressed.png`
 - `public/assets/ui/golden/button_primary.png`
@@ -759,6 +830,7 @@ No dead code found during review.
 - `scripts/extract-ui-golden.py`
 
 **Modified Files:**
+
 - `package.json` — Removed `gen:ui:golden` script
 
 ### Reference Sweep Results
@@ -801,6 +873,7 @@ No dead code found during review.
 **SUBTASK A1 COMPLETE** — Migrated DialogueSystem AND EncounterSystem to code-first Phaser Graphics primitives.
 
 **New Files Created:**
+
 - `src/game/ui/primitives/UIPanel.ts` — Code-first panel using Phaser Graphics (no image assets)
 - `src/game/ui/primitives/UIButton.ts` — Code-first button primitive with hover states
 - `src/game/ui/primitives/UILabel.ts` — Code-first label primitive
@@ -809,6 +882,7 @@ No dead code found during review.
 - `src/game/ui/uiTheme.ts` — Design tokens (colors, fonts, spacing, borders)
 
 **Modified Files:**
+
 - `src/game/systems/DialogueSystem.ts` — Migrated to use UIPanel primitive
 - `src/game/systems/EncounterSystem.ts` — Migrated to UIPanel + UIButton primitives (+57/-113 lines)
 - `src/game/scenes/Preloader.ts` — Removed old UI sprite loading
@@ -817,10 +891,12 @@ No dead code found during review.
 - `docs/MISSING_ASSETS_SPEC.json` — Removed deprecated UI sprites from spec
 
 **Commits (pushed to main):**
+
 - `8a00aea` — refactor(A1): migrate EncounterSystem to UIPanel/UIButton primitives
 - `61708a1` — docs(A1): remove deprecated UI sprite references from asset tracking
 
 **Flashcard Pack Added:**
+
 - `public/content/cards/cloze.ndjson` — 1154 bar exam cloze cards in NDJSON format
 
 ### Verification Gates — ALL PASS ✅
@@ -880,10 +956,11 @@ export const uiTheme = {
 
 **Kim Bar** is a Phaser 3 game for bar exam preparation through flashcard encounters in a SCOTUS-themed courthouse. Player controls Kim, a law student, navigating rooms and answering legal questions.
 
-**Live**: https://kimbar.badgey.org
-**Repo**: https://github.com/abobilly/kimbar
+**Live**: <https://kimbar.badgey.org>
+**Repo**: <https://github.com/abobilly/kimbar>
 
 ### Tech Stack
+
 | Component | Technology | Version |
 |-----------|------------|---------|
 | Engine | Phaser 3 | 3.90.0 |
@@ -904,6 +981,7 @@ export const uiTheme = {
 Implemented a complete Tiled-based room authoring pipeline with validation, compilation, and runtime loading:
 
 **New Files Created:**
+
 - `public/content/tiled/templates/room-template.json` — Canonical room template (20×15 tiles, all 6 layers)
 - `public/content/tiled/supreme-court/` — Room pack with 4 rooms (lobby, courtroom_main, hallway, chambers_roberts)
 - `scripts/compile-tiled-maps.mjs` — Compiles Tiled JSON → LevelData
@@ -914,6 +992,7 @@ Implemented a complete Tiled-based room authoring pipeline with validation, comp
 - `src/debug/level-test.ts` — Debug test module (`window.levelTest`)
 
 **Modified Files:**
+
 - `docs/TILED_PIPELINE.md` — Full contract specification
 - `scripts/validate-tiled-maps.mjs` — Rewrote for JSON validation + `__MACOSX` guard
 - `package.json` — Added `validate:tiled`, `compile:tiled`, `build:tiled` npm scripts
@@ -923,6 +1002,7 @@ Implemented a complete Tiled-based room authoring pipeline with validation, comp
 - `vite/config.dev.mjs`, `vite/config.prod.mjs` — Vite resolve aliases
 
 **Deleted:**
+
 - `public/assets/tilesets/lpc/__MACOSX/**` — Removed macOS artifacts
 
 ### How to Author a New Room
@@ -946,11 +1026,13 @@ Implemented a complete Tiled-based room authoring pipeline with validation, comp
    - `EncounterTrigger`: Set `type="EncounterTrigger"`, add properties `deckTag` (string), `count` (int), `once` (bool)
 
 4. **Validate + Compile**
+
    ```bash
    npm run build:tiled
    ```
 
 5. **Verify in Game**
+
    ```bash
    npm run dev
    # In browser console:
