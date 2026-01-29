@@ -29,42 +29,90 @@
     ],
     "anims": {
         "idle_up": {
-            "frames": [0],
+            "frames": [
+                0
+            ],
             "frameRate": 1,
             "repeat": 0
         },
         "idle_left": {
-            "frames": [13],
+            "frames": [
+                13
+            ],
             "frameRate": 1,
             "repeat": 0
         },
         "idle_down": {
-            "frames": [26],
+            "frames": [
+                26
+            ],
             "frameRate": 1,
             "repeat": 0
         },
         "idle_right": {
-            "frames": [39],
+            "frames": [
+                39
+            ],
             "frameRate": 1,
             "repeat": 0
         },
         "walk_up": {
-            "frames": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+            "frames": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+            ],
             "frameRate": 10,
             "repeat": -1
         },
         "walk_left": {
-            "frames": [13, 14, 15, 16, 17, 18, 19, 20, 21],
+            "frames": [
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21
+            ],
             "frameRate": 10,
             "repeat": -1
         },
         "walk_down": {
-            "frames": [26, 27, 28, 29, 30, 31, 32, 33, 34],
+            "frames": [
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34
+            ],
             "frameRate": 10,
             "repeat": -1
         },
         "walk_right": {
-            "frames": [39, 40, 41, 42, 43, 44, 45, 46, 47],
+            "frames": [
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47
+            ],
             "frameRate": 10,
             "repeat": -1
         }
