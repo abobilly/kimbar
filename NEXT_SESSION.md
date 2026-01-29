@@ -1,6 +1,6 @@
 # Kim Bar - Agent Handoff Document
 
-**Last Update**: January 25, 2026
+**Last Update**: January 29, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
@@ -9,279 +9,76 @@
 
 ---
 
-## Spark Roguelite Integration (Current Session)
+## Current State (January 29, 2026)
 
-### Update — Jan 28, 2026 (justice NPC wandering)
+### Architecture
 
-#### What changed (justice NPC wandering)
+- **One game mode** — No roguelite/classic split. Single unified experience.
+- **Starting level**: `public/content/tiled/rooms/scotus_zones/megalevel.tmx` (and its compiled JSON)
+- **Tile editing**: Transitioning away from Tiled to **PrairieBob** (see below)
 
-- `src/game/scenes/WorldScene.ts` — Added light wander behavior for justice NPCs (random roam near spawn, uses walk/idle anims), name tags follow movement, and wandering pauses during modal/dialogue.
+### Active NPCs
 
-#### What's next (justice NPC wandering)
+- Nine Supreme Court justices placed in `megalevel.tmx` with wandering behavior
+- Additional NPCs: clerk, bailiff, librarian
+- Justices use `scotus_robe` torso layer; regenerate via `npm run gen:sprites -- npc.justice_*`
 
-- If you want per-NPC tuning, add `wanderRadius` or `wanderSpeed` properties on the NPC entity in TMX.
-- After robe updates, regenerate spritesheets via `npm run gen:sprites` (see guidance below).
+### NPC Wandering
 
-#### Gates run / not run (justice NPC wandering)
-
-- ⏭️ Not run (runtime behavior change only; not requested).
-
-### Update — Jan 28, 2026 (SCOTUS robe swap)
-
-#### What changed (SCOTUS robe swap)
-
-- `specs/characters/npc.justice_*.json` — Updated `torsoColor` to `scotus_robe` so justices use the new robe layer.
-- Regenerated spritesheets for all nine justices via `npm run gen:sprites -- npc.justice_*` (outputs in `public/generated/` are gitignored).
-
-#### What's next (SCOTUS robe swap)
-
-- If the robe art changes, re-run `npm run gen:sprites -- npc.justice_roberts` (or all justices) and verify in-game.
-
-#### Gates run / not run (SCOTUS robe swap)
-
-- ✅ `npm run gen:sprites -- npc.justice_*` (manual batch via PowerShell loop)
-
-### Update — Jan 28, 2026 (world bounds + robe regen check)
-
-#### What changed (world bounds + robe regen check)
-
-- `src/game/scenes/WorldScene.ts` — Disabled world-bounds collision so movement relies on tilemap collision layers.
-- Regenerated justice sprites locally to verify `scotus_robe` layers composite correctly (outputs in `public/generated/` are gitignored).
-
-#### What's next (world bounds + robe regen check)
-
-- If any justice still appears shirtless, re-run `npm run gen:sprites -- npc.justice_*` and hard-refresh the browser cache.
-
-#### Gates run / not run (world bounds + robe regen check)
-
-- ✅ `npm run gen:sprites -- npc.justice_*` (manual batch via PowerShell loop)
-
-### Update — Jan 28, 2026 (megalevel NPC positions)
-
-#### What changed (megalevel NPC positions)
-
-- `public/content/tiled/rooms/scotus_zones/megalevel.tmx` — Adjusted NPC placements for the nine justices plus clerk, bailiff, and librarian.
-
-#### What's next (megalevel NPC positions)
-
-- If positions need fine-tuning, adjust in Tiled and re-save the TMX; keep `characterId`/`storyKnot` properties intact.
-
-#### Gates run / not run (megalevel NPC positions)
-
-- ⏭️ Not run (content placement change only; not requested).
-
-#### Update — Jan 24, 2026 (PASS 0 stabilization)
-
-**What changed**
-
-- `scripts/validate.js` — Tiled source detection now includes `rooms/scotus_zones`, fixes missing-level errors in validate.
-- `specs/world_graph.json` — Portal/edge IDs now follow `fromRoom_to_toRoom` naming; aligned facing mismatch.
-- `src/content/registry.ts`, `src/game/scenes/Boot.ts` — Boot preloads registry into module state to avoid "Registry not loaded".
-- `scripts/verify-docs.mjs` — World manifest gate now scans nested TMX files (scotus_zones).
-- `package.json` — `dev`/`build` no longer call missing `log.js`.
-- Tests added in `tests/unit/registry.test.ts`: new `setRegistry` coverage + script helper checks.
-- `docs/SMOKE.md` — Manual smoke checklist for PASS 0.
-
-**What's next**
-
-- Continue PASS 0 smoke path to verify RunEndScene manually (encounter requires multiple questions).
-
-**Gates run / not run (with reasons)**
-
-- ✅ `npm run build`
-- ✅ `npm run check:fast`
-- ✅ Smoke click path via Playwright (no console errors; RunEndScene not verified)
-
-### What Changed
-
-Integrated GitHub Spark's roguelite flashcard MVP into kimbar, creating a new "Roguelite Mode" parallel to the existing "Classic Mode" (WorldScene).
-
-#### Update — Jan 24, 2026 (SCOTUS wall lab main room)
-
-**What changed**
-
-- `public/content/tiled/rooms/scotus_zones/scotus_wall_lab.tmx` — New wall lab map showing interior/exterior 3x3 wall grids, floor centers, and a two-layer megabob door.
-- `specs/room_entries/scotus_wall_lab.json` — Room entry for compiled Tiled level.
-- `specs/world_graph.json` — Added `scotus_wall_lab` node + self-loop door.
-- `public/content/tiled/worlds/scotus.world` — World manifest now points to `scotus_wall_lab` only.
-- `src/game/scenes/Preloader.ts`, `src/game/scenes/WorldScene.ts` — Game starts directly in `scotus_wall_lab`.
-- `docs/SMOKE.md` — Updated smoke steps for direct WorldScene launch.
-
-**What's next**
-
-- Verify in-editor tile IDs for wall orientations if visuals look off.
-
-**Gates run / not run (with reasons)**
-
-- ✅ `npm run validate:tiled`
-- ✅ `npm run build`
-- ✅ `npm run check:fast`
-
-#### Update — Jan 25, 2026 (live blank screen fix)
-
-**What changed**
-
-- `src/game/main.ts` — Register `WorldScene` so Preloader can start it directly.
-- `tests/unit/game-config.test.ts` — Added coverage to ensure WorldScene is included in game config.
-- `vitest.config.ts` — Added `@` alias for tests to match app imports.
-
-**Why**
-
-- Live blank screen traced to Preloader starting `WorldScene` without it being registered in the Phaser scene list.
-
-**Gates run / not run (with reasons)**
-
-- ✅ `npm run test:unit -- tests/unit/game-config.test.ts`
-
-#### Update — Jan 25, 2026 (scotus_hallway_02 CI fix)
-
-**What changed**
-
-- `public/content/tiled/rooms/scotus_hallway_02.tmx` → moved to `public/content/tiled/rooms/scotus_zones/scotus_hallway_02.tmx` so compile:tiled picks it up.
-- `specs/room_entries/scotus_hallway_02.json` — Switched from `ldtkUrl` to `levelUrl`; added `spawns` array.
-- TMX updated: Added missing `Portals` and `Spawns` object layers, added `isCollision` property to Collision layer, fixed portal property names.
-
-**Why**
-
-- CI failed because the TMX was in root `rooms/` which compile:tiled doesn't scan by default, leaving the compiled JSON missing.
-
-**Gates run / not run (with reasons)**
-
-- ✅ `npm run validate:tiled`
-- ✅ `npm run validate`
-- ✅ `npm run check:fast`
-
-**New Files Created:**
-
-- `src/game/systems/RunState.ts` — Roguelite run state management (HP, streak, boons, mastery tracking, localStorage persistence)
-- `src/content/flashcard-loader.ts` — Handles Spark's master-bar-flashcards.json + kimbar's cloze.ndjson formats
-- `src/game/scenes/SubjectSelectScene.ts` — 7 canonical subject toggles + Start Run button
-- `src/game/scenes/DungeonScene.ts` — Code-first dungeon hub with subject rooms, HUD, boon selection
-- `src/game/scenes/RunEndScene.ts` — Results screen with accuracy by subject, missed cards review
-
-**Modified Files:**
-
-- `src/content/types.ts` — Extended `Flashcard` interface with `subject`, `topic`, `backPlain`, `game` (MCQ support)
-- `src/game/systems/EncounterSystem.ts` — MCQ mode (game.choices), "Got it/Still shaky" mastery buttons, RunState integration
-- `src/game/scenes/MainMenu.ts` — Added "Roguelite Mode" and "Classic Mode" buttons, flashcard preloading
-- `src/game/main.ts` — Registered new scenes (SubjectSelectScene, DungeonScene, RunEndScene)
-
-**Key Features:**
-
-- 7 canonical subjects (excl. MPT): Civil Procedure, Constitutional Law, Contracts, Criminal Law, Evidence, Property, Torts
-- HP/Max HP system with damage on wrong answers (unless streak-shield boon active)
-- Streak counter with gold rewards
-- Boon system: Cheat Sheet (free-reveal), Energy Drink (max-hp), Second Chance (reroll), Streak Shield
-- "Got it" / "Still shaky" mastery buttons for spaced repetition targeting
-- Weighted card selection prioritizing shaky/weak cards
-- Run persistence via localStorage
-
-### How to Use
-
-1. **Start Roguelite Mode**: Main Menu → "⚔️ ROGUELITE MODE" button
-2. **Select Subjects**: Toggle which bar exam subjects to include in the run
-3. **Play**: Navigate dungeon hub, click subject rooms to start flashcard encounters
-4. **Answer**: MCQ questions or cloze-deletion format; "Got it" or "Still shaky" after feedback
-5. **Survive**: HP depletes on wrong answers; clear all rooms to win
-
-**Adding Spark Flashcards**: Place `master-bar-flashcards.json` at `/public/assets/spark/master-bar-flashcards.json`. The loader auto-detects JSON vs NDJSON format.
-
-### What's Next
-
-- [ ] Add actual Spark flashcards file (currently falls back to kimbar's cloze.ndjson)
-- [ ] Wire outfit unlocks per subject victory (hooks exist, need OutfitSystem integration)
-- [ ] Add visual Kim sprite to DungeonScene (placeholder "K" circle currently used)
-- [ ] Style HUD to match Spark's visual design
-- [ ] E2E tests for roguelite flow
-
-### Gates Run / Not Run
-
-- ✅ `npx tsc --noEmit` — Only pre-existing WorldScene error (line 658)
-- ✅ `npm run test:unit` — All 53 tests pass
-- ✅ `npm run build-nolog` — Production build succeeds
-- ⏭️ `npm run check` — Not fully run (would fail on WorldScene type error)
+Justice NPCs have light wander behavior (random roam near spawn, walk/idle anims). Wandering pauses during modal/dialogue. For per-NPC tuning, add `wanderRadius` or `wanderSpeed` properties on the NPC entity in TMX.
 
 ---
 
-## SCOTUS Six-Zone Migration (Previous Session)
+## PrairieBob Tile Editor (New Project)
 
-### What Changed
+**Location**: `C:\Users\andre\lawchuck\artbob\PrairieBob` (GitHub: `abobilly/PrairieBob`)
 
-- World graph rebuilt for six authoritative SCOTUS zones (`scotus_exterior`, `scotus_0_basement`, `scotus_1_lobby`, `scotus_2_second`, `scotus_3_third`, `scotus_4_roof`); legacy nodes quarantined.
-- Tiled world manifest (`public/content/tiled/worlds/scotus.world`) now references `rooms/scotus_zones/*.tmx` only.
-- Runtime: `WorldScene` now prefers `levelUrl`/Tiled pipeline, adapts compiled Tiled levels for gameplay (spawns indexed, door transitions use `targetLevel`/`targetSpawnId`), and defaults to `scotus_1_lobby`.
-- Default game state `currentLevel` set to `scotus_1_lobby`.
-- Docs updated (`docs/TILED_PIPELINE.md`, `docs/WORLD_CONTRACT.md`) for zone-only workflow, 8-layer stack (Portals/Spawns), max 320×320 maps, and world manifest/graph alignment.
-- Tiled validator fixed: spawn duplicate check no longer pre-seeds current map, so unique `spawnId`s per map validate correctly; `npm run validate:tiled` now passes for `scotus_zones` placeholders.
+A local Windows tile editor to replace Tiled/Ogmo3/LDtk/YATE for this project. Key features:
 
-### How to Use
+- **Electron-based** desktop app
+- **GitHub Copilot CLI integration** for AI-assisted map editing
+- **Direct project linking** to kimbar's content folders
+- **BobTile integration** for atlas packing (sibling project at `artbob/bobtile`)
 
-1. Edit TMX under `public/content/tiled/rooms/scotus_zones/` (target 256×256 tiles, keep 8-layer stack).
-2. Spawns → `Spawns` layer with unique `spawnId` per map; portals → `Portals` layer with `targetMap` + `targetSpawnId` (optional `transition`, `locked`, `lockKeyId`).
-3. Run: `npm run validate:tiled` (add `-- --include-legacy` only if you need `_legacy`), then `npm run compile:tiled`, `npm run build:tiled-world`, `npm run build:levels`.
-4. Launch game; doors now use `targetLevel/targetSpawnId` from portals when restarting the scene.
+See `PrairieBob/MASTER_PLAN.md` for full roadmap.
 
-### What's Next
+---
 
-- Populate actual portals/spawns inside each zone TMX to match `specs/world_graph.json`.
-- Build out collision + art for zones; consider adding a 256×256 zone template for new layers.
-- Run `npm run validate:tiled && npm run compile:tiled && npm run build:levels` after edits; run `npm run check` before PR.
+## Recent Changes
 
-### Gates Run / Not Run
+### Jan 28, 2026 — Justice NPC Updates
 
-- ✅ `npm run validate:tiled` (6/6 `scotus_zones` maps passing after spawn validator fix)
-- ⏭️ Other gates not run yet this session (content edits still pending).
+- `src/game/scenes/WorldScene.ts` — Added light wander behavior for justice NPCs
+- `specs/characters/npc.justice_*.json` — Updated `torsoColor` to `scotus_robe`
+- `public/content/tiled/rooms/scotus_zones/megalevel.tmx` — Adjusted NPC placements
 
-#### Update — Jan 23, 2026 (SCOTUS portals/spawns wired)
+### Jan 28, 2026 — World Bounds Fix
 
-- **What changed**: Wired portals + arrival spawns in SCOTUS TMX maps per `specs/world_graph.json`. Updated `nextobjectid` and added `Door` + `Spawn` objects in:
-  - `public/content/tiled/rooms/scotus_zones/scotus_0_basement.tmx`
-  - `public/content/tiled/rooms/scotus_zones/scotus_1_lobby.tmx`
-  - `public/content/tiled/rooms/scotus_zones/scotus_2_second.tmx`
-  - `public/content/tiled/rooms/scotus_zones/scotus_3_third.tmx`
-  - `public/content/tiled/rooms/scotus_zones/scotus_4_roof.tmx`
-   (Portals use 2×2 tiles at graph coords; spawns named `from_*` per inbound edge with matching facing.)
-- **How to use**: Open TMX files in Tiled; portals are on `Portals` layer with `targetMap` + `targetSpawnId` + `facing`; arrivals on `Spawns` layer (`spawnId`=`from_*`). If adjusting coordinates, keep 32px tiles, 64×64 portals, 32×32 spawns, and bump `nextobjectid`.
-- **Gates run**: ✅ `npm run validate:tiled` (6/6 SCOTUS maps passing after portal additions).
-- **Gates not run**: ⏭️ `npm run compile:tiled`, `npm run build:levels`, `npm run check` (not requested this session).
+- `src/game/scenes/WorldScene.ts` — Disabled world-bounds collision; movement relies on tilemap collision layers
 
-#### Update — Jan 23, 2026 (Lobby placeholders for clerk + civpro encounter)
+---
 
-- **What changed**: Added placeholder NPC `npc.clerk_01` and civil procedure encounter trigger to `public/content/tiled/rooms/scotus_zones/scotus_1_lobby.tmx`; bumped `nextobjectid` to 10. Encounter uses `deckTag=civil_procedure`, `count=5`, `rewardId=civpro_suit`, `once=true`, `encounterId=scotus_lobby_civpro_placeholder`.
-- **How to use**: In Tiled, the `Entities` layer now has `npc_court_clerk` (with `storyKnot=court_clerk_intro`) and `encounter_civpro_placeholder`. Feel free to reposition them; keep the properties and bump `nextobjectid` if you add more entities. Trigger is 32×32 at ~x=4128,y=704; clerk at ~x=4096,y=640.
-- **Gates run**: ✅ `npm run validate:tiled` (6/6 SCOTUS maps passing after placeholder additions).
-- **Gates not run**: ⏭️ `npm run compile:tiled`, `npm run build:levels`, `npm run check` (not requested this session).
+## What's Next
 
-#### Update — Jan 24, 2026 (Justice NPC placements in SCOTUS zones)
+- [ ] Fine-tune per-NPC wandering (`wanderRadius`/`wanderSpeed` properties in TMX)
+- [ ] Continue PrairieBob development (Tier 1 MVP in `tier_1_draft/`)
+- [ ] Run `npm run check` before PR
 
-- **What changed**: Placed all nine justices as NPCs on the `Entities` layer of SCOTUS zone TMXs (placeholders using full spritesheets + story knots), bumping `nextobjectid` where needed:
-  - `scotus_0_basement`: `justice_thomas` (npc.justice_thomas, facing down) at ~x=4096,y=2048; `justice_alito` (npc.justice_alito, facing left) at ~x=4608,y=2304.
-  - `scotus_2_second`: `justice_roberts` (npc.justice_roberts, facing down) at ~x=2048,y=2048; `justice_kagan` (npc.justice_kagan, facing left) at ~x=2304,y=2304.
-  - `scotus_3_third`: `justice_gorsuch` (npc.justice_gorsuch, facing down) at ~x=2048,y=1536; `justice_kavanaugh` (npc.justice_kavanaugh, facing left) at ~x=2560,y=1792; `justice_sotomayor` (npc.justice_sotomayor, facing right) at ~x=3072,y=1536.
-  - `scotus_4_roof`: `justice_barrett` (npc.justice_barrett, facing down) at ~x=2048,y=1024; `justice_jackson` (npc.justice_jackson, facing left) at ~x=3072,y=1024.
-- **How to use**: Open the TMX in Tiled; all NPCs sit on `Entities` with `characterId` + `storyKnot=<justice>_intro`. Move them as desired; keep properties and bump `nextobjectid` if adding more entities or behaviors. Encounter triggers remain separate (add near them if desired).
-- **Gates run**: ✅ `npm run validate:tiled` (6/6 SCOTUS maps passing after justice placements).
-- **Gates not run**: ⏭️ `npm run compile:tiled`, `npm run build:levels`, `npm run check` (not requested this session).
+---
 
-#### Update — Jan 24, 2026 (RoomEntry levelUrl support + SCOTUS mask generator)
+## Quick Reference
 
-- **What changed**:
-  - `scripts/build-characters.js`: `scanRooms()` now accepts RoomEntry specs with `levelUrl` or `ldtkUrl`, and emits `levelUrl` in the registry when present (fixes missing `scotus_1_lobby` in registry-driven loads).
-  - `scripts/generate-scotus-mask-layers.mjs`: new deterministic generator that adds `FloorMask` and `WallMask` layers to `public/content/tiled/rooms/scotus_zones/*.tmx`, using the first tile from `megabob.tsx` as the mask token derived from existing `Floor`/`Walls` layers.
-  - `package.json`: added `gen:masks:scotus` and `gen:masks:scotus:dry` npm scripts.
-- **How to use**:
-  - Run the SCOTUS mask generator (dry-run first if desired), then open the TMX in Tiled and apply the automap rules (`scotus_zones/automap/*`) to regenerate Floor/Walls from masks if needed.
-  - Regenerate the registry after RoomEntry updates via the standard content pipeline.
-- **Gates run**: ⏭️ Not run in this subtask (content edits pending).
+| Command | Purpose |
+|---------|---------|
+| `npm run check` | Full gate (content + verify + tests + build) |
+| `npm run check:fast` | Quick gate (unit tests only) |
+| `npm run prepare:content` | Rebuild content pipeline |
+| `npm run gen:sprites -- npc.justice_*` | Regenerate justice spritesheets |
+| `npm run validate:tiled` | Validate Tiled maps |
 
-#### Update — Jan 24, 2026 (Tiled layer rendering + tileset mapping)
+---
 
-- **What changed**:
-  - `src/content/level-loader.ts`: normalize compiled Tiled layer objects (`{ data, width, height }`) into 2D arrays; pass through `environment`.
-  - `src/types/level-data.ts`: add optional `environment` on `TiledLevelData`.
-  - `src/game/scenes/WorldScene.ts`: track current Tiled level, load required tilesets, render `floor/walls/trim/overlays` from compiled layers, map `scotus_structures → tileset.scotus_architecture`, and clear tilemaps on level reload.
-- **What's next**: Verify `scotus_1_lobby` renders tiles; add tileset aliases if new TSX names appear.
-- **Gates run / not run**: ⏭️ Not run (runtime fix only; no gates requested).
+## Historical Context (Archived)
 
 ## Placeholder Tile Generator (January 21, 2026)
 
