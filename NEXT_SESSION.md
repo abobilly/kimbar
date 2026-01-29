@@ -41,6 +41,20 @@
 
 - ✅ `npm run gen:sprites -- npc.justice_*` (manual batch via PowerShell loop)
 
+### Update — Jan 28, 2026 (megalevel NPC positions)
+
+#### What changed (megalevel NPC positions)
+
+- `public/content/tiled/rooms/scotus_zones/megalevel.tmx` — Adjusted NPC placements for the nine justices plus clerk, bailiff, and librarian.
+
+#### What's next (megalevel NPC positions)
+
+- If positions need fine-tuning, adjust in Tiled and re-save the TMX; keep `characterId`/`storyKnot` properties intact.
+
+#### Gates run / not run (megalevel NPC positions)
+
+- ⏭️ Not run (content placement change only; not requested).
+
 #### Update — Jan 24, 2026 (PASS 0 stabilization)
 
 **What changed**

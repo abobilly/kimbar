@@ -273,7 +273,7 @@
 </data>
  </layer>
  <objectgroup id="6" name="Entities">
-  <object id="10" name="justice_roberts" type="NPC" x="480" y="640" width="32" height="32">
+  <object id="10" name="justice_roberts" type="NPC" x="224" y="422" width="32" height="32">
    <properties>
     <property name="characterId" value="npc.justice_roberts"/>
     <property name="facing" value="down"/>
@@ -281,7 +281,7 @@
     <property name="storyKnot" value="justice_roberts"/>
    </properties>
   </object>
-  <object id="11" name="justice_thomas" type="NPC" x="560" y="640" width="32" height="32">
+  <object id="11" name="justice_thomas" type="NPC" x="556" y="410" width="32" height="32">
    <properties>
     <property name="characterId" value="npc.justice_thomas"/>
     <property name="facing" value="down"/>
@@ -289,7 +289,7 @@
     <property name="storyKnot" value="justice_thomas"/>
    </properties>
   </object>
-  <object id="12" name="justice_alito" type="NPC" x="640" y="640" width="32" height="32">
+  <object id="12" name="justice_alito" type="NPC" x="870" y="384" width="32" height="32">
    <properties>
     <property name="characterId" value="npc.justice_alito"/>
     <property name="facing" value="down"/>
@@ -297,7 +297,7 @@
     <property name="storyKnot" value="justice_alito"/>
    </properties>
   </object>
-  <object id="13" name="justice_sotomayor" type="NPC" x="720" y="640" width="32" height="32">
+  <object id="13" name="justice_sotomayor" type="NPC" x="420" y="576" width="32" height="32">
    <properties>
     <property name="characterId" value="npc.justice_sotomayor"/>
     <property name="facing" value="down"/>
@@ -305,7 +305,7 @@
     <property name="storyKnot" value="justice_sotomayor"/>
    </properties>
   </object>
-  <object id="14" name="justice_kagan" type="NPC" x="800" y="640" width="32" height="32">
+  <object id="14" name="justice_kagan" type="NPC" x="1138" y="432" width="32" height="32">
    <properties>
     <property name="characterId" value="npc.justice_kagan"/>
     <property name="facing" value="down"/>
@@ -313,7 +313,7 @@
     <property name="storyKnot" value="justice_kagan"/>
    </properties>
   </object>
-  <object id="15" name="justice_gorsuch" type="NPC" x="880" y="640" width="32" height="32">
+  <object id="15" name="justice_gorsuch" type="NPC" x="752" y="544" width="32" height="32">
    <properties>
     <property name="characterId" value="npc.justice_gorsuch"/>
     <property name="facing" value="down"/>
@@ -321,7 +321,7 @@
     <property name="storyKnot" value="justice_gorsuch"/>
    </properties>
   </object>
-  <object id="16" name="justice_kavanaugh" type="NPC" x="960" y="640" width="32" height="32">
+  <object id="16" name="justice_kavanaugh" type="NPC" x="828" y="664" width="32" height="32">
    <properties>
     <property name="characterId" value="npc.justice_kavanaugh"/>
     <property name="facing" value="down"/>
@@ -329,7 +329,7 @@
     <property name="storyKnot" value="justice_kavanaugh"/>
    </properties>
   </object>
-  <object id="17" name="justice_barrett" type="NPC" x="1040" y="640" width="32" height="32">
+  <object id="17" name="justice_barrett" type="NPC" x="1008" y="566" width="32" height="32">
    <properties>
     <property name="characterId" value="npc.justice_barrett"/>
     <property name="facing" value="down"/>
@@ -337,7 +337,7 @@
     <property name="storyKnot" value="justice_barrett"/>
    </properties>
   </object>
-  <object id="18" name="justice_jackson" type="NPC" x="1120" y="640" width="32" height="32">
+  <object id="18" name="justice_jackson" type="NPC" x="1212" y="604" width="32" height="32">
    <properties>
     <property name="characterId" value="npc.justice_jackson"/>
     <property name="facing" value="down"/>
@@ -345,7 +345,7 @@
     <property name="storyKnot" value="justice_jackson"/>
    </properties>
   </object>
-  <object id="20" name="clerk" type="NPC" x="480" y="720" width="32" height="32">
+  <object id="20" name="clerk" type="NPC" x="632" y="780" width="32" height="32">
    <properties>
     <property name="characterId" value="npc.clerk_01"/>
     <property name="facing" value="down"/>
@@ -353,7 +353,7 @@
     <property name="storyKnot" value="clerk"/>
    </properties>
   </object>
-  <object id="21" name="bailiff" type="NPC" x="560" y="720" width="32" height="32">
+  <object id="21" name="bailiff" type="NPC" x="1028" y="1324" width="32" height="32">
    <properties>
     <property name="characterId" value="npc.bailiff"/>
     <property name="facing" value="down"/>
@@ -361,7 +361,7 @@
     <property name="storyKnot" value="bailiff"/>
    </properties>
   </object>
-  <object id="22" name="librarian" type="NPC" x="640" y="720" width="32" height="32">
+  <object id="22" name="librarian" type="NPC" x="1276" y="1324" width="32" height="32">
    <properties>
     <property name="characterId" value="npc.librarian"/>
     <property name="facing" value="down"/>
