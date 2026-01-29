@@ -27,90 +27,42 @@
     ],
     "anims": {
         "idle_up": {
-            "frames": [
-                91
-            ],
+            "frames": [0],
             "frameRate": 1,
             "repeat": 0
         },
         "idle_left": {
-            "frames": [
-                104
-            ],
+            "frames": [13],
             "frameRate": 1,
             "repeat": 0
         },
         "idle_down": {
-            "frames": [
-                117
-            ],
+            "frames": [26],
             "frameRate": 1,
             "repeat": 0
         },
         "idle_right": {
-            "frames": [
-                130
-            ],
+            "frames": [39],
             "frameRate": 1,
             "repeat": 0
         },
         "walk_up": {
-            "frames": [
-                91,
-                92,
-                93,
-                94,
-                95,
-                96,
-                97,
-                98,
-                99
-            ],
+            "frames": [0, 1, 2, 3, 4, 5, 6, 7, 8],
             "frameRate": 10,
             "repeat": -1
         },
         "walk_left": {
-            "frames": [
-                104,
-                105,
-                106,
-                107,
-                108,
-                109,
-                110,
-                111,
-                112
-            ],
+            "frames": [13, 14, 15, 16, 17, 18, 19, 20, 21],
             "frameRate": 10,
             "repeat": -1
         },
         "walk_down": {
-            "frames": [
-                117,
-                118,
-                119,
-                120,
-                121,
-                122,
-                123,
-                124,
-                125
-            ],
+            "frames": [26, 27, 28, 29, 30, 31, 32, 33, 34],
             "frameRate": 10,
             "repeat": -1
         },
         "walk_right": {
-            "frames": [
-                130,
-                131,
-                132,
-                133,
-                134,
-                135,
-                136,
-                137,
-                138
-            ],
+            "frames": [39, 40, 41, 42, 43, 44, 45, 46, 47],
             "frameRate": 10,
             "repeat": -1
         }
