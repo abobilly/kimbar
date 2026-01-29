@@ -41,6 +41,21 @@
 
 - ✅ `npm run gen:sprites -- npc.justice_*` (manual batch via PowerShell loop)
 
+### Update — Jan 28, 2026 (world bounds + robe regen check)
+
+#### What changed (world bounds + robe regen check)
+
+- `src/game/scenes/WorldScene.ts` — Disabled world-bounds collision so movement relies on tilemap collision layers.
+- Regenerated justice sprites locally to verify `scotus_robe` layers composite correctly (outputs in `public/generated/` are gitignored).
+
+#### What's next (world bounds + robe regen check)
+
+- If any justice still appears shirtless, re-run `npm run gen:sprites -- npc.justice_*` and hard-refresh the browser cache.
+
+#### Gates run / not run (world bounds + robe regen check)
+
+- ✅ `npm run gen:sprites -- npc.justice_*` (manual batch via PowerShell loop)
+
 ### Update — Jan 28, 2026 (megalevel NPC positions)
 
 #### What changed (megalevel NPC positions)

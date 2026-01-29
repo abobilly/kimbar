@@ -1250,7 +1250,8 @@ export class WorldScene extends Scene {
       const player = this.physics.add.sprite(spawn.x, spawn.y, spriteKey, 0);
       player.setOrigin(0.5, 1);  // Feet anchored
       player.setDepth(spawn.y);
-      player.setCollideWorldBounds(true);
+      // Collision handled by tilemap layers (no world bounds).
+      player.setCollideWorldBounds(false);
 
       // Tweak hitbox for LPC sprite
       const body = player.body as Phaser.Physics.Arcade.Body;
