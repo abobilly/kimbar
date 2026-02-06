@@ -287,11 +287,14 @@ async function main() {
   }
 
   if (registry?.tilesets) {
-    if (registry.tilesets['tileset.scotus_tiles']) {
-      addUsed(usedTilesets, 'tileset.scotus_tiles', 'worldscene:floor');
+    if (registry.tilesets['tileset.scotus_floors']) {
+      addUsed(usedTilesets, 'tileset.scotus_floors', 'worldscene:floor');
     }
-    if (registry.tilesets['tileset.lpc_floors']) {
-      addUsed(usedTilesets, 'tileset.lpc_floors', 'worldscene:fallback');
+    if (registry.tilesets['tileset.scotus_architecture']) {
+      addUsed(usedTilesets, 'tileset.scotus_architecture', 'worldscene:floor');
+    }
+    if (registry.tilesets['tileset.scotus_decor']) {
+      addUsed(usedTilesets, 'tileset.scotus_decor', 'worldscene:floor');
     }
   }
 

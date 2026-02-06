@@ -1,8 +1,0 @@
-{
-    "$schema": "../../schemas/RoomEntry.schema.json",
-    "id": "scotus_lobby",
-    "displayName": "SCOTUS Lobby",
-    "environment": "interior",
-    "ldtkUrl": "/content/ldtk/scotus_lobby.json",
-    "levelUrl": "/generated/levels/supreme-court/scotus_lobby.json"
-}

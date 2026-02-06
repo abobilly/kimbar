@@ -161,17 +161,17 @@ describe('Registry Determinism', () => {
 });
 
 describe('Script Helpers', () => {
-  it('detects scotus zone TMX sources', async () => {
+  it('detects active TMX sources', async () => {
     const { hasTiledSource } = await import('../../scripts/validate.js');
-    expect(hasTiledSource('scotus_1_lobby')).toBe(true);
+    expect(hasTiledSource('megalevel')).toBe(true);
   });
 
-  it('lists room TMX files from nested packs', async () => {
+  it('lists active room TMX files', async () => {
     const { listRoomTmxFiles } = await import('../../scripts/verify-docs.mjs');
     const roomsDir = join(process.cwd(), 'public', 'content', 'tiled', 'rooms');
     const tmxFiles = listRoomTmxFiles(roomsDir);
 
-    expect(tmxFiles).toContain('scotus_1_lobby.tmx');
-    expect(tmxFiles).toContain('scotus_hallway_02.tmx');
+    expect(tmxFiles).toContain('megalevel.tmx');
+    expect(tmxFiles).toHaveLength(1);
   });
 });

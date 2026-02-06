@@ -50,9 +50,9 @@ export class Preloader extends Scene {
 
         if (this.registryData?.tilesets) {
             const tilesetIds = [
-                'tileset.scotus_tiles',
-                'tileset.lpc_floors',
-                'tileset.lpc_windows_doors'
+                'tileset.scotus_architecture',
+                'tileset.scotus_decor',
+                'tileset.scotus_floors'
             ].filter((id) => Boolean(this.registryData?.tilesets?.[id]));
 
             queueRegistryTilesetLoads(this, tilesetIds, this.registryData);
@@ -62,9 +62,9 @@ export class Preloader extends Scene {
             }
         } else {
             // Fallback: hardcoded tilesets if registry not available
-            this.load.image('floor_tiles', 'assets/tilesets/lpc/floors.png');
-            this.load.image('scotus_tiles', 'assets/tilesets/scotus_tiles.png');
-            this.load.image('lpc_windows_doors', 'assets/tilesets/lpc/windows-doors.png');
+            this.load.image('tileset.scotus_architecture', 'assets/tilesets/scotus_architecture.png');
+            this.load.image('tileset.scotus_decor', 'assets/tilesets/scotus_decor.png');
+            this.load.image('tileset.scotus_floors', 'assets/tilesets/scotus_floors.png');
         }
 
         // NOTE: Old UI sprite loading (ui.panel_frame, ui.button_*) removed.

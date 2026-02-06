@@ -50,15 +50,10 @@ let levelIndex: Map<string, LevelIndexEntry> | null = null;
  * In production, this should be populated by the build pipeline.
  */
 const KNOWN_LEVEL_IDS: string[] = [
-  'scotus_exterior',
-  'scotus_0_basement',
-  'scotus_1_lobby',
-  'scotus_2_second',
-  'scotus_3_third',
-  'scotus_4_roof'
+  'megalevel'
 ];
 
-const FALLBACK_PACK_ID = 'scotus_zones';
+const FALLBACK_PACK_ID = 'core';
 
 // ============================================================
 // Public API

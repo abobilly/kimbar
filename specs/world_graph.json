@@ -1,304 +1,41 @@
 {
-    "$schema": "../schemas/WorldGraph.schema.json",
-    "version": "0.2.0",
-    "tileSize": 32,
-    "nodes": [
+  "$schema": "../schemas/WorldGraph.schema.json",
+  "version": "1.0.0",
+  "tileSize": 32,
+  "nodes": [
+    {
+      "id": "megalevel",
+      "displayName": "Supreme Court Megalevel",
+      "region": "scotus",
+      "spawns": [
+        "default"
+      ],
+      "bounds": {
+        "width": 160,
+        "height": 160
+      },
+      "portals": [
         {
-            "id": "scotus_exterior",
-            "displayName": "SCOTUS Exterior",
-            "region": "scotus",
-            "spawns": [
-                "default",
-                "from_lobby"
-            ],
-            "bounds": {
-                "width": 256,
-                "height": 256
-            },
-            "portals": [
-                {
-                    "id": "scotus_exterior_to_scotus_1_lobby",
-                    "x": 128,
-                    "y": 252,
-                    "width": 2,
-                    "height": 2,
-                    "facing": "up",
-                    "notes": "Main entrance to lobby"
-                }
-            ]
-        },
-        {
-            "id": "scotus_1_lobby",
-            "displayName": "SCOTUS Lobby",
-            "region": "scotus",
-            "spawns": [
-                "default",
-                "from_exterior",
-                "from_0",
-                "from_2"
-            ],
-            "bounds": {
-                "width": 256,
-                "height": 256
-            },
-            "portals": [
-                {
-                    "id": "scotus_1_lobby_to_scotus_exterior",
-                    "x": 128,
-                    "y": 4,
-                    "width": 2,
-                    "height": 2,
-                    "facing": "down",
-                    "notes": "Exit to exterior"
-                },
-                {
-                    "id": "scotus_1_lobby_to_scotus_0_basement",
-                    "x": 240,
-                    "y": 128,
-                    "width": 2,
-                    "height": 2,
-                    "facing": "right",
-                    "notes": "Stairs to basement"
-                },
-                {
-                    "id": "scotus_1_lobby_to_scotus_2_second",
-                    "x": 16,
-                    "y": 128,
-                    "width": 2,
-                    "height": 2,
-                    "facing": "left",
-                    "notes": "Stairs to 2F"
-                }
-            ]
-        },
-        {
-            "id": "scotus_0_basement",
-            "displayName": "SCOTUS Basement",
-            "region": "scotus",
-            "spawns": [
-                "default",
-                "from_1"
-            ],
-            "bounds": {
-                "width": 256,
-                "height": 256
-            },
-            "portals": [
-                {
-                    "id": "scotus_0_basement_to_scotus_1_lobby",
-                    "x": 4,
-                    "y": 128,
-                    "width": 2,
-                    "height": 2,
-                    "facing": "left",
-                    "notes": "Up to lobby"
-                }
-            ]
-        },
-        {
-            "id": "scotus_2_second",
-            "displayName": "SCOTUS Second Floor",
-            "region": "scotus",
-            "spawns": [
-                "default",
-                "from_1",
-                "from_3"
-            ],
-            "bounds": {
-                "width": 256,
-                "height": 256
-            },
-            "portals": [
-                {
-                    "id": "scotus_2_second_to_scotus_1_lobby",
-                    "x": 252,
-                    "y": 128,
-                    "width": 2,
-                    "height": 2,
-                    "facing": "right",
-                    "notes": "Down to lobby"
-                },
-                {
-                    "id": "scotus_2_second_to_scotus_3_third",
-                    "x": 4,
-                    "y": 128,
-                    "width": 2,
-                    "height": 2,
-                    "facing": "left",
-                    "notes": "Up to third"
-                }
-            ]
-        },
-        {
-            "id": "scotus_3_third",
-            "displayName": "SCOTUS Third Floor",
-            "region": "scotus",
-            "spawns": [
-                "default",
-                "from_2",
-                "from_4"
-            ],
-            "bounds": {
-                "width": 256,
-                "height": 256
-            },
-            "portals": [
-                {
-                    "id": "scotus_3_third_to_scotus_2_second",
-                    "x": 252,
-                    "y": 128,
-                    "width": 2,
-                    "height": 2,
-                    "facing": "right",
-                    "notes": "Down to second"
-                },
-                {
-                    "id": "scotus_3_third_to_scotus_4_roof",
-                    "x": 4,
-                    "y": 128,
-                    "width": 2,
-                    "height": 2,
-                    "facing": "left",
-                    "notes": "Up to roof"
-                }
-            ]
-        },
-        {
-            "id": "scotus_4_roof",
-            "displayName": "SCOTUS Roof",
-            "region": "scotus",
-            "spawns": [
-                "default",
-                "from_3"
-            ],
-            "bounds": {
-                "width": 256,
-                "height": 256
-            },
-            "portals": [
-                {
-                    "id": "scotus_4_roof_to_scotus_3_third",
-                    "x": 128,
-                    "y": 252,
-                    "width": 2,
-                    "height": 2,
-                    "facing": "down",
-                    "notes": "Down to third"
-                }
-            ]
-        },
-        {
-            "id": "scotus_wall_lab",
-            "displayName": "SCOTUS Wall Lab",
-            "region": "scotus",
-            "spawns": [
-                "default"
-            ],
-            "bounds": {
-                "width": 32,
-                "height": 32
-            },
-            "portals": [
-                {
-                    "id": "scotus_wall_lab_to_scotus_wall_lab",
-                    "x": 16,
-                    "y": 27,
-                    "width": 1,
-                    "height": 2,
-                    "facing": "down",
-                    "notes": "Loop door for wall lab"
-                }
-            ]
+          "id": "megalevel_to_megalevel",
+          "x": 24,
+          "y": 44,
+          "width": 1,
+          "height": 2,
+          "facing": "down",
+          "notes": "Self-loop portal"
         }
-    ],
-    "edges": [
-        {
-            "doorId": "scotus_exterior_to_scotus_1_lobby",
-            "fromRoomId": "scotus_exterior",
-            "toRoomId": "scotus_1_lobby",
-            "toSpawnTag": "from_exterior",
-            "facing": "up",
-            "notes": "Exterior entrance"
-        },
-        {
-            "doorId": "scotus_1_lobby_to_scotus_exterior",
-            "fromRoomId": "scotus_1_lobby",
-            "toRoomId": "scotus_exterior",
-            "toSpawnTag": "from_lobby",
-            "facing": "down",
-            "notes": "Lobby exit"
-        },
-        {
-            "doorId": "scotus_1_lobby_to_scotus_0_basement",
-            "fromRoomId": "scotus_1_lobby",
-            "toRoomId": "scotus_0_basement",
-            "toSpawnTag": "from_1",
-            "facing": "right",
-            "notes": "Stairs down"
-        },
-        {
-            "doorId": "scotus_0_basement_to_scotus_1_lobby",
-            "fromRoomId": "scotus_0_basement",
-            "toRoomId": "scotus_1_lobby",
-            "toSpawnTag": "from_0",
-            "facing": "left",
-            "notes": "Stairs up"
-        },
-        {
-            "doorId": "scotus_1_lobby_to_scotus_2_second",
-            "fromRoomId": "scotus_1_lobby",
-            "toRoomId": "scotus_2_second",
-            "toSpawnTag": "from_1",
-            "facing": "left",
-            "notes": "Up to 2F"
-        },
-        {
-            "doorId": "scotus_2_second_to_scotus_1_lobby",
-            "fromRoomId": "scotus_2_second",
-            "toRoomId": "scotus_1_lobby",
-            "toSpawnTag": "from_2",
-            "facing": "right",
-            "notes": "Down to lobby"
-        },
-        {
-            "doorId": "scotus_2_second_to_scotus_3_third",
-            "fromRoomId": "scotus_2_second",
-            "toRoomId": "scotus_3_third",
-            "toSpawnTag": "from_2",
-            "facing": "left",
-            "notes": "Up to 3F"
-        },
-        {
-            "doorId": "scotus_3_third_to_scotus_2_second",
-            "fromRoomId": "scotus_3_third",
-            "toRoomId": "scotus_2_second",
-            "toSpawnTag": "from_3",
-            "facing": "right",
-            "notes": "Down to 2F"
-        },
-        {
-            "doorId": "scotus_3_third_to_scotus_4_roof",
-            "fromRoomId": "scotus_3_third",
-            "toRoomId": "scotus_4_roof",
-            "toSpawnTag": "from_3",
-            "facing": "left",
-            "notes": "Up to roof"
-        },
-        {
-            "doorId": "scotus_4_roof_to_scotus_3_third",
-            "fromRoomId": "scotus_4_roof",
-            "toRoomId": "scotus_3_third",
-            "toSpawnTag": "from_4",
-            "facing": "down",
-            "notes": "Down to 3F"
-        },
-        {
-            "doorId": "scotus_wall_lab_to_scotus_wall_lab",
-            "fromRoomId": "scotus_wall_lab",
-            "toRoomId": "scotus_wall_lab",
-            "toSpawnTag": "default",
-            "facing": "down",
-            "notes": "Loop door for wall lab"
-        }
-    ]
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "doorId": "megalevel_to_megalevel",
+      "fromRoomId": "megalevel",
+      "toRoomId": "megalevel",
+      "toSpawnTag": "default",
+      "facing": "down",
+      "oneWay": false,
+      "notes": "Single-room loop"
+    }
+  ]
 }

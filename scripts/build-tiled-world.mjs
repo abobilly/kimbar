@@ -11,7 +11,7 @@
 
 import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -20,7 +20,8 @@ const PROJECT_ROOT = join(__dirname, '..');
 // Paths
 const ROOM_ENTRIES_DIR = join(PROJECT_ROOT, 'specs/room_entries');
 const WORLD_GRAPH_PATH = join(PROJECT_ROOT, 'specs/world_graph.json');
-const TMX_DIR = join(PROJECT_ROOT, 'public/content/tiled/rooms/scotus_zones');
+const ROOMS_DIR = join(PROJECT_ROOT, 'public/content/tiled/rooms');
+const TMX_ZONE_DIR = join(ROOMS_DIR, 'scotus_zones');
 const OUTPUT_DIR = join(PROJECT_ROOT, 'public/content/tiled/worlds');
 const OUTPUT_FILE = join(OUTPUT_DIR, 'scotus.world');
 
@@ -119,6 +120,7 @@ function calculateGridPositions(maps) {
 
         positioned.push({
             id: map.id,
+            fileName: map.fileName,
             x: currentX,
             y: currentY,
             width: map.width,
@@ -134,6 +136,27 @@ function calculateGridPositions(maps) {
 }
 
 /**
+ * Resolve TMX path for a room ID.
+ * Prefers root rooms dir, then scotus_zones fallback.
+ * @param {string} roomId
+ * @returns {string|null}
+ */
+function resolveTmxPath(roomId) {
+    const candidates = [
+        join(ROOMS_DIR, `${roomId}.tmx`),
+        join(TMX_ZONE_DIR, `${roomId}.tmx`)
+    ];
+
+    for (const candidate of candidates) {
+        if (existsSync(candidate)) {
+            return candidate;
+        }
+    }
+
+    return null;
+}
+
+/**
  * Generate the .world JSON structure
  * @param {Array<{id: string, x: number, y: number, width: number, height: number}>} maps
  * @returns {Object}
@@ -141,7 +164,7 @@ function calculateGridPositions(maps) {
 function generateWorldJson(maps) {
     return {
         maps: maps.map(map => ({
-            fileName: `../rooms/${map.id}.tmx`,
+            fileName: map.fileName,
             x: map.x,
             y: map.y,
             width: map.width,
@@ -189,10 +212,10 @@ async function main() {
         }
 
         const roomId = roomEntry.id;
-        const tmxPath = join(TMX_DIR, `${roomId}.tmx`);
+        const tmxPath = resolveTmxPath(roomId);
 
         // Check if TMX file exists
-        if (!existsSync(tmxPath)) {
+        if (!tmxPath) {
             console.log(`⚠ Skipping ${roomId}: TMX file not found`);
             continue;
         }
@@ -212,7 +235,8 @@ async function main() {
         mapData.push({
             id: roomId,
             width: dimensions.width,
-            height: dimensions.height
+            height: dimensions.height,
+            fileName: `../rooms/${relative(ROOMS_DIR, tmxPath).replace(/\\/g, '/')}`
         });
     }
 

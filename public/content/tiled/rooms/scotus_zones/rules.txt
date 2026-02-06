@@ -1,2 +1,0 @@
-automap/walls_rules.tmx
-automap/floor_rules.tmx

@@ -188,6 +188,7 @@ async function main() {
       }
     }
   }
+  const roomEntryIds = new Set(roomEntries.map((entry) => entry.id).filter(Boolean));
 
   // Step 2: Process Tiled compiled LevelData (Tiled-first)
   // First, index all available Tiled compiled files
@@ -195,6 +196,10 @@ async function main() {
   for (const filePath of tiledFiles) {
     const relativePath = path.relative(TILED_COMPILED_DIR, filePath).replace(/\\/g, '/');
     const id = relativePath.replace(/\.json$/, '');
+    if (roomEntryIds.size > 0 && !roomEntryIds.has(id)) {
+      console.log(`  ⏭️ ${id}: Skipping compiled Tiled level (not declared in specs/room_entries)`);
+      continue;
+    }
     const url = `/generated/levels/tiled/${relativePath}`;
 
     // Check if Tiled source exists (TMX file)

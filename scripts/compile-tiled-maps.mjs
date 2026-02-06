@@ -13,7 +13,7 @@
  * See docs/TILED_PIPELINE.md for LevelData schema specification.
  */
 
-import { readFile, writeFile, mkdir, readdir } from 'fs/promises';
+import { readFile, writeFile, mkdir, readdir, rm } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
 import { parseStringPromise } from 'xml2js';
@@ -75,7 +75,7 @@ async function findTmxFiles(dir, { includeLegacy = false } = {}) {
 
       if (entry.isDirectory()) {
         if (!includeLegacy && entry.name === '_legacy') continue;
-        if (['templates', 'tiles', 'tilesets', 'schemas', 'worlds'].includes(entry.name)) continue;
+        if (['templates', 'tiles', 'tilesets', 'schemas', 'worlds', 'automap'].includes(entry.name)) continue;
         await scan(fullPath);
         continue;
       }
@@ -89,6 +89,25 @@ async function findTmxFiles(dir, { includeLegacy = false } = {}) {
 
   await scan(dir);
   return files;
+}
+
+/**
+ * Remove previously compiled JSON outputs so deleted/moved TMX files don't linger.
+ */
+async function cleanOutputDir(dirPath) {
+  if (!existsSync(dirPath)) return;
+
+  const entries = await readdir(dirPath, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dirPath, entry.name);
+    if (entry.isDirectory()) {
+      await rm(fullPath, { recursive: true, force: true });
+      continue;
+    }
+    if (entry.isFile() && entry.name.endsWith('.json')) {
+      await rm(fullPath, { force: true });
+    }
+  }
 }
 
 /**
@@ -487,6 +506,7 @@ async function main() {
 
   // Ensure output directory
   await ensureDir(OUTPUT_DIR);
+  await cleanOutputDir(OUTPUT_DIR);
 
   let compiled = 0;
   let failed = 0;

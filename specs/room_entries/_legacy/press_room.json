@@ -1,7 +1,0 @@
-{
-    "$schema": "../../schemas/RoomEntry.schema.json",
-    "id": "press_room",
-    "displayName": "Press Room",
-    "environment": "interior",
-    "ldtkUrl": "/content/ldtk/press_room.json"
-}

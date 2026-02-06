@@ -1,7 +1,0 @@
-{
-    "$schema": "../../schemas/RoomEntry.schema.json",
-    "id": "library",
-    "displayName": "Library",
-    "environment": "interior",
-    "ldtkUrl": "/content/ldtk/library.json"
-}

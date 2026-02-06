@@ -999,10 +999,14 @@ export class WorldScene extends Scene {
       tileHeight: tileSize
     });
 
-    // Add tileset image - prefer room tileset, then SCOTUS tiles, fall back to LPC floors
-    // For dynamic tilemaps, pass (tilesetName, textureKey) - both must match what Phaser has loaded
-    const candidateIds = [level.tileset, 'tileset.scotus_tiles', 'tileset.lpc_floors'].filter(Boolean);
-    const legacyKeys = ['scotus_tiles', 'floor_tiles'];
+    // Add tileset image - prefer room tileset, then the minimal SCOTUS set.
+    // For dynamic tilemaps, pass (tilesetName, textureKey) - both must match what Phaser has loaded.
+    const candidateIds = [
+      level.tileset,
+      'tileset.scotus_floors',
+      'tileset.scotus_architecture',
+      'tileset.scotus_decor'
+    ].filter((id): id is string => Boolean(id));
     const seen = new Set<string>();
     let tileset: Phaser.Tilemaps.Tileset | null = null;
 
@@ -1013,14 +1017,6 @@ export class WorldScene extends Scene {
       if (!this.textures.exists(key)) continue;
       tileset = map.addTilesetImage(key, key);
       if (tileset) break;
-    }
-
-    if (!tileset) {
-      for (const key of legacyKeys) {
-        if (!this.textures.exists(key)) continue;
-        tileset = map.addTilesetImage(key, key);
-        if (tileset) break;
-      }
     }
 
     if (!tileset) {

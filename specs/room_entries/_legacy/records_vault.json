@@ -1,7 +1,0 @@
-{
-    "$schema": "../../schemas/RoomEntry.schema.json",
-    "id": "records_vault",
-    "displayName": "Records Vault",
-    "environment": "interior",
-    "ldtkUrl": "/content/ldtk/records_vault.json"
-}

@@ -26,17 +26,8 @@ const TILESETS_DIR = path.join(process.cwd(), 'public', 'assets', 'tilesets');
 const TEMPLATE_PATH = path.join(BASE_DIR, 'templates', 'room-template.json');
 const MAP_SCHEMA_PATH = path.join(BASE_DIR, 'schemas', 'tiled_room.schema.json');
 
-// Authoritative SCOTUS zone IDs
-const AUTHORITATIVE_ZONE_IDS = [
-  'scotus_exterior',
-  'scotus_0_basement',
-  'scotus_1_lobby',
-  'scotus_2_second',
-  'scotus_3_third',
-  'scotus_4_roof',
-  'scotus_wall_lab',
-  'megalevel'
-];
+// Authoritative playable zone IDs (minimal single-level setup)
+const AUTHORITATIVE_ZONE_IDS = ['megalevel'];
 
 // Required layers in order
 const REQUIRED_TILE_LAYERS = ['Floor', 'Walls', 'Trim', 'Overlays', 'Collision'];
