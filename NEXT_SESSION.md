@@ -1,6 +1,6 @@
 # Kim Bar - Agent Handoff Document
 
-**Last Update**: January 29, 2026
+**Last Update**: February 6, 2026
 
 > **This is the canonical handoff document.** Update it at the end of each session.
 > Keep it concise but complete. New agents should read this first.
@@ -46,6 +46,21 @@ See `PrairieBob/MASTER_PLAN.md` for full roadmap.
 
 ## Recent Changes
 
+### Feb 6, 2026 — Pipeline Hardening + MCP Prune
+
+- `package.json`
+  - Split pipeline into:
+    - `prepare:content` -> build-only path (`prepare:content:build`)
+    - `prepare:content:full` -> explicit import+build path
+    - `prepare:content:imports` -> `fetch-vendor + import:scotus + import:lpc`
+  - Removed duplicate `gen:tiles` script key warning.
+  - Added `gen:tiles:placeholders:force`.
+- `tests/unit/scripts/content-pipeline.test.ts` (new)
+  - Guards that default `prepare:content` excludes heavyweight import steps.
+  - Guards that `prepare:content:full` still routes through import steps.
+- `.mcp.json` -> set to `"mcpServers": {}`.
+- `.roo/mcp.json` -> set to `"mcpServers": {}` to disable workspace MCP autostarts.
+
 ### Jan 28, 2026 — Justice NPC Updates
 
 - `src/game/scenes/WorldScene.ts` — Added light wander behavior for justice NPCs
@@ -72,7 +87,8 @@ See `PrairieBob/MASTER_PLAN.md` for full roadmap.
 |---------|---------|
 | `npm run check` | Full gate (content + verify + tests + build) |
 | `npm run check:fast` | Quick gate (unit tests only) |
-| `npm run prepare:content` | Rebuild content pipeline |
+| `npm run prepare:content` | Build-only content pipeline (no import refresh) |
+| `npm run prepare:content:full` | Full import + build pipeline |
 | `npm run gen:sprites -- npc.justice_*` | Regenerate justice spritesheets |
 | `npm run validate:tiled` | Validate Tiled maps |
 
