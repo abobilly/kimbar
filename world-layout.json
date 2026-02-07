@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "rooms": [
+    {
+      "roomId": "megalevel",
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "connections": [
+    {
+      "id": "auto:megalevel:50",
+      "sourceRoomId": "megalevel",
+      "sourceEntityId": "50",
+      "targetRoomId": "megalevel",
+      "targetEntityId": "default",
+      "connectionType": "door"
+    }
+  ]
+}

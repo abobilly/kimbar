@@ -1,0 +1,50 @@
+{
+  "name": "Kimbar",
+  "version": "1.0.0",
+  "tileSize": 32,
+  "defaultMapSize": { "width": 160, "height": 160 },
+  "paths": {
+    "maps": "public/content/tiled/rooms/scotus_zones",
+    "tilesets": "public/content/tiled/tilesets",
+    "interactions": "interactions",
+    "entities": "entities",
+    "exports": "exports"
+  },
+  "tilesets": [
+    {
+      "id": "scotus_floors",
+      "file": "public/content/tiled/tiles/scotus_floors.png",
+      "tileSize": 32,
+      "columns": 16,
+      "tileCount": 32
+    },
+    {
+      "id": "scotus_structures",
+      "file": "public/content/tiled/tiles/scotus_structures.png",
+      "tileSize": 32,
+      "columns": 16,
+      "tileCount": 48
+    },
+    {
+      "id": "scotus_decor",
+      "file": "public/content/tiled/tiles/scotus_decor.png",
+      "tileSize": 32,
+      "columns": 16,
+      "tileCount": 16
+    },
+    {
+      "id": "megabob",
+      "file": "public/content/tiled/tilesets/megabob.png",
+      "tileSize": 32,
+      "columns": 8,
+      "tileCount": 659
+    }
+  ],
+  "layerTemplates": {
+    "standard": ["Floor", "Walls", "Trim", "Overlays", "Collision", "Entities"]
+  },
+  "kimbar": {
+    "linkedProject": true,
+    "registryPath": "public/generated/registry.json"
+  }
+}
